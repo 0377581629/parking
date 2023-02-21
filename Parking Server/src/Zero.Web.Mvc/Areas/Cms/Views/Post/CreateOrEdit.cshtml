@@ -1,0 +1,146 @@
+﻿@using Zero.Web.Areas.Cms.Models.Post
+@model Zero.Web.Areas.Cms.Models.Post.CreateOrEditPostViewModel
+
+@{
+    ViewBag.CurrentPageName = AppPageNames.Cms.Post;
+}
+
+@section Scripts
+{
+    <script abp-src="@ZeroConst.ScriptPathApp/Views/Common/_CategoriesTree.js" asp-append-version="true"></script>
+    <script abp-src="@ZeroConst.ScriptPathCms/Post/CreateOrEdit.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("Posts")" description="@(Model.IsEditMode ? L("EditPostHeaderInfo") : L("NewPostsHeaderInfo"))">
+        <button id="backToListingPage" class="btn btn-secondary blue">
+            <i class="la la-arrow-left"></i> @L("BackToListingPage")
+        </button>
+        @if (IsGranted(CmsPermissions.Post_Create) || IsGranted(CmsPermissions.Post_Edit))
+        {
+            <button id="SaveButton" class="btn btn-primary blue">
+                <i class="la la-save"></i> @L("Save")
+            </button>
+        }
+    </abp-page-subheader>
+
+    <!--begin::Entry-->
+    <div class="@(await GetContainerClass())">
+        <!--begin::Container-->
+        <form action="" role="form" novalidate class="form-validation-post" name="PostForm" id="PostForm">
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="id" value="@Model.Post.Id"/>
+            }
+
+            <input type="hidden" name="code" value="@Model.Post.Code"/>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card card-custom overflow-hidden">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <span id="CancelAvatar" class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="kt-tooltip" title="@L("CancelAvatar")">
+                                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                        </span>
+
+                                        <div class="dropzone dropzone-default dz-clickable dropify" id="ChangeAvatar">
+                                            <input id="Avatar" name="image" type="hidden" value="@Model.Post.Image">
+                                            <img alt="Avatar" id="AvatarHolder" onerror="src='@GlobalConfig.DefaultImageUrl'" default-src="@GlobalConfig.DefaultImageUrl" src="@(!string.IsNullOrEmpty(Model.Post.Image) ? Model.Post.Image : GlobalConfig.DefaultImageUrl)" class="kt-avatar__holder mw-100"/>
+                                            <span class="form-text text-muted py-10">@L("AllowedFileTypes"): png, jpg, jpeg.</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="form-group">
+                                        <label>
+                                            @L("Title") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <input class="form-control" id="Title" value="@Model.Post.Title" type="text" name="title" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Summary">
+                                            @L("Summary") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <textarea class="form-control" id="Summary" rows="7" value="@Model.Post.Summary" type="text" name="summary" required>@Model.Post.Summary</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="Description">@L("Content")</label>
+                                        <textarea class="form-control" id="Description" value="@Model.Post.Description" type="text" name="description">@Model.Post.Description</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <label>
+                                            @L("Author")
+                                        </label>
+                                        <input class="form-control" id="Author" value="@Model.Post.Author" type="text" name="author"/>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label>
+                                            @L("Tags")
+                                        </label>
+                                        <select id="TagsSelector" name="TagsId" multiple class="form-control">
+                                            @if (Model.Post != null && Model.Post.ListTags != null && Model.Post.ListTags.Count > 0)
+                                            {
+                                                foreach (var tags in Model.Post.ListTags)
+                                                {
+                                                    <option selected="selected" value="@tags.TagId">@tags.TagName</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-custom overflow-hidden">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>
+                                            @L("CategoryMain") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <select id="CategoryId" name="categoryId" class="form-control requiredSelect2">
+                                            @if (Model.IsEditMode)
+                                            {
+                                                <option value="@Model.Post.CategoryId">@Model.Post.CategoryName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            @L("CategorySub")
+                                        </label>
+                                        <div class="form-control mScrollBar" style="height: 200px !important;">
+                                            <div class="category-tree">
+                                                @await Html.PartialAsync("Components/_CategoryTree", new CategoryTreeItemModel(Model.Categories, null, Model.Post?.ListCategories?.Select(o => o.CategoryId).ToList()))
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>

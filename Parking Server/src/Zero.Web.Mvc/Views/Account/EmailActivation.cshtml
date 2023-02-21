@@ -1,0 +1,40 @@
+﻿@using Abp.Authorization.Users
+@using Zero.Localization
+@using Zero.Url
+@using Abp.Configuration.Startup
+@inject IMultiTenancyConfig MultiTenancyConfig
+@inject IWebUrlService WebUrlService
+@section Scripts
+{
+    <script abp-src="/view-resources/Views/Account/EmailActivation.js" asp-append-version="true"></script>
+}
+
+@section Styles{
+    <link href="/metronic/common/css/login-4@(CultureHelper.IsRtl ? ".rtl" : "").css" rel="stylesheet"/>
+}
+
+<div class="login-form">
+    <div class="py-15">
+        <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">@L("EmailActivation")</h3>
+    </div>
+    <form class="form email-activation-form" asp-action="SendEmailActivationLink" method="post">
+        <p>
+            @L("SendEmailActivationLink_Information")
+        </p>
+        @if (!(ViewBag.DisableTenantChange ?? false) && MultiTenancyConfig.IsEnabled && !WebUrlService.SupportsTenancyNameInUrl)
+        {
+            <vc:tenant-change></vc:tenant-change>
+        }
+        
+        <div class="form-group">
+            <input class="form-control placeholder-no-fix h-auto p-10" type="email" autocomplete="new-password" placeholder="@L("EmailAddress")" name="EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength"/>
+        </div>
+
+        <div class="pb-lg-0 pb-5">
+            <a asp-action="Login">
+                <button type="button" id="back-btn" class="btn btn-light-primary font-weight-bolder font-size-h6 p-10 my-3 w-100px">@L("Back")</button>
+            </a>
+            <button type="submit" class="btn btn-primary font-weight-bolder font-size-h6 p-10 my-3 mr-3 w-100px">@L("Submit")</button>
+        </div>
+    </form>
+</div>

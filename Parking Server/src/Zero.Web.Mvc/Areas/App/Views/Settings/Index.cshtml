@@ -1,0 +1,129 @@
+﻿@using Abp.Application.Services.Dto
+@using Zero
+@using Abp.Timing;
+@using Zero.Web.Areas.App.Models.Settings
+@using Zero.Web.Areas.App.Startup
+@model SettingsViewModel
+@{
+    ViewBag.CurrentPageName = AppPageNames.Tenant.Settings;
+}
+
+@section Styles
+{
+    <link rel="stylesheet" abp-href="/view-resources/Areas/App/Views/Common/_KeyValueListManager.css" asp-append-version="true"/>
+}
+
+@section Scripts
+{
+    <script>
+    var isOpenIdEnabled = @(Model.EnabledSocialLoginSettings.Contains("OpenId") ? "true" : "false");
+    var openIdConnectClaimsMappings = @Html.Raw(Model.Settings.ExternalLoginProviderSettings.OpenIdConnectClaimsMapping == null || Model.Settings.ExternalLoginProviderSettings.OpenIdConnectClaimsMapping.Count == 0 ? "[]" : Newtonsoft.Json.JsonConvert.SerializeObject(Model.Settings.ExternalLoginProviderSettings.OpenIdConnectClaimsMapping));
+
+    var isWsFederationEnabled = @(Model.EnabledSocialLoginSettings.Contains("WsFederation") ? "true" : "false");
+    var wsFederationClaimsMappings = @Html.Raw(Model.Settings.ExternalLoginProviderSettings.WsFederationClaimsMapping == null || Model.Settings.ExternalLoginProviderSettings.WsFederationClaimsMapping.Count == 0 ? "[]" : Newtonsoft.Json.JsonConvert.SerializeObject(Model.Settings.ExternalLoginProviderSettings.WsFederationClaimsMapping));
+
+    </script>
+    <script abp-src="/view-resources/Areas/App/Views/Common/_KeyValueListManager.js" asp-append-version="true"></script>
+    <script abp-src="/view-resources/Areas/App/Views/Settings/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("Settings")" description="@L("SettingsHeaderInfo")">
+        <button id="SaveAllSettingsButton" class="btn btn-primary">
+            <i class="fa fa-save"></i> @L("SaveAll")
+        </button>
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div id="SettingsTabPanel" class="tabbable-line">
+                    <ul class="nav nav-tabs" role="tablist">
+                        @if (Clock.SupportsMultipleTimezone)
+                        {
+                            <li class="nav-item">
+                                <a href="#SettingsGeneralTab" aria-expanded="true" class="nav-link active" data-toggle="tab" role="tab">
+                                    @L("General")
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a href="#SettingsAppearanceTab" aria-expanded="false" class="nav-link @((!Clock.SupportsMultipleTimezone) ? "active" : "")" data-toggle="tab" role="tab">
+                                @L("Appearance")
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#SettingsUserManagementTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                @L("UserManagement")
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="#SecurityManagementTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                @L("Security")
+                            </a>
+                        </li>
+
+                        @if (!ViewBag.IsMultiTenancyEnabled || ZeroConst.AllowTenantsToChangeEmailSettings)
+                        {
+                            <li class="nav-item">
+                                <a href="#SettingsEmailSmtpTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                    @L("EmailSmtp")
+                                </a>
+                            </li>
+                        }
+                        @if (Model.ActivePayment)
+                        {
+                            <li class="nav-item">
+                                <a href="#SettingsPaymentManagementTab" data-toggle="tab" role="tab" class="nav-link">
+                                    @L("PaymentManagement")
+                                </a>
+                            </li>
+                        }
+                        @if (ViewBag.IsMultiTenancyEnabled)
+                        {
+                            <li class="nav-item">
+                                <a href="#BillingTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                    @L("Invoice")
+                                </a>
+                            </li>
+                        }
+
+                        @if (!ViewBag.IsMultiTenancyEnabled)
+                        {
+                            <li class="nav-item">
+                                <a href="#OtherSettingsTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                    @L("OtherSettings")
+                                </a>
+                            </li>
+                        }
+
+                        @if (Model.EnabledSocialLoginSettings.Any())
+                        {
+                            <li class="nav-item">
+                                <a href="#ExternalLoginSettingsTab" aria-expanded="true" class="nav-link" data-toggle="tab" role="tab">
+                                    @L("ExternalLoginSettings")
+                                </a>
+                            </li>
+                        }
+                    </ul>
+
+                    <div class="tab-content p-5">
+
+                        @await Html.PartialAsync("Components/GeneralTab", Model)
+                        @await Html.PartialAsync("Components/AppearanceTab", Model)
+                        @await Html.PartialAsync("Components/UserManagerTab", Model)
+                        @await Html.PartialAsync("Components/SecurityTab", Model)
+                        @await Html.PartialAsync("Components/EmailTab", Model)
+                        @await Html.PartialAsync("Components/PaymentManagerTab", Model)
+                        @await Html.PartialAsync("Components/InvoiceTab", Model)
+                        @await Html.PartialAsync("Components/OtherTab", Model)
+                        @await Html.PartialAsync("Components/SocialTab", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

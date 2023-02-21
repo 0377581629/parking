@@ -1,0 +1,91 @@
+@model Zero.Web.Areas.Park.Models.History.HistoryViewModel
+@{
+    ViewBag.CurrentPageName = AppPageNames.Park.History;
+}
+
+@section Scripts
+{
+    <script abp-src="@ZeroConst.ScriptPathPark/History/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("History")" description="@L("HistoryHeaderInfo")">
+        @if (IsGranted(ParkPermissions.History_Create))
+        {
+            <button id="CreateNewButton" class="btn btn-primary blue">
+                <i class="fa fa-plus"></i> @L("Create")
+            </button>
+        }
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form">
+                    <div id="HistoryFormFilter">
+                        <div class="row mb-15">
+                            <div class="form-group col-3">
+                                <label>
+                                    @L("FilterByInTime_FromDate")
+                                </label>
+                                <div class="form-control no-border p-0">
+                                    <div class="input-group">
+                                        <input type="text" id="FromDateSelector" class="form-control text-center dateTime date-picker" name="FromDateSelector" init-value="@Model.FromDate.ToString("dd/MM/yyyy")">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-3">
+                                <label>
+                                    @L("FilterByInTime_ToDate")
+                                </label>
+                                <div class="form-control no-border p-0">
+                                    <div class="input-group">
+                                        <input type="text" id="ToDateSelector" class="form-control text-center dateTime date-picker" name="ToDateSelector" init-value="@Model.ToDate.ToString("dd/MM/yyyy")">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <i class="la la-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>@L("Search")</label>
+                                    <div class="input-group">
+                                        <input id="HistoryTableFilter" class="form-control" type="text" value="@ViewBag.FilterText" placeholder="@L("SearchWithThreeDot")" aria-describedby="basic-addon2">
+                                        <span class="input-group-btn">
+                                            <button type="button" name="RefreshButton" class="btn btn-primary">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-items-center">
+                    <table id="HistoryTable" class="display table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">@L("Actions")</th>
+                            <th class="text-center">@L("CardCode")</th>
+                            <th class="text-center">@L("LicensePlate")</th>
+                            <th class="text-center">@L("Price")</th>
+                            <th class="text-center">@L("InTime")</th>
+                            <th class="text-center">@L("OutTime")</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿@using Zero
+@using Zero.Web.Areas.App.Models.Common.Modals
+@model Zero.Web.Areas.Park.Models.History.CreateOrEditHistoryViewModel
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit")) : L("Create")))
+
+<div class="modal-body">
+    <div id="HistoryInformationsTab">
+        <form name="HistoryInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="id" value="@Model.History.Id"/>
+            }
+            <input type="hidden" name="language" id="Entity_Language" value=""/>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="History_CardCode">
+                            @L("CardCode")
+                        </label>
+                        <input class="form-control" id="History_CardCode" value="@Model.History.CardCode" type="text" name="cardCode"/>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="History_LicensePlate">
+                            @L("LicensePlate")
+                        </label>
+                        <input class="form-control" id="History_LicensePlate" value="@Model.History.LicensePlate" type="text" name="licensePlate"/>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="History_Price">
+                            @L("Price")
+                        </label>
+                        <input class="form-control number" id="History_Price" value="@Model.History.Price" type="text" name="price"/>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("VehicleType")</label>
+                        <select id="VehicleTypeId" style="width:100%;" name="vehicleTypeId" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.History.VehicleTypeName) && Model.History.VehicleTypeId > 0)
+                            {
+                                <option value="@Model.History.VehicleTypeId" selected="selected">@Model.History.VehicleTypeName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("CardType")</label>
+                        <select id="CardTypeId" style="width:100%;" name="cardTypeId" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.History.CardTypeName) && Model.History.CardTypeId > 0)
+                            {
+                                <option value="@Model.History.CardTypeId" selected="selected">@Model.History.CardTypeName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("InTime")</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control dateTime date-picker text-center" id="InTime" name="InTime" init-value="@Model.History.InTime.ToString("dd/MM/yyyy")">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("OutTime")</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control dateTime date-picker text-center" id="OutTime" name="OutTime" init-value="@Model.History.OutTime.ToString("dd/MM/yyyy")">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="la la-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

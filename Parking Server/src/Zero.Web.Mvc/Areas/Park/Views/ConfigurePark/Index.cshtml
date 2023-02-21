@@ -1,0 +1,63 @@
+﻿@model Zero.Web.Areas.Park.Models.ConfigurePark.ConfigureParkViewModel
+@{
+    ViewBag.CurrentPageName = AppPageNames.Park.ConfigurePark;
+}
+
+@section Scripts
+{
+    <script abp-src="@ZeroConst.ScriptPathPark/ConfigurePark/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("ConfigureParks")">
+        <button id="SaveButton" class="btn btn-primary blue">
+            <i class="fa fa-save"></i> @L("Update")
+        </button>
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form id="ConfigureParkSettingsForm">
+                    <h5>@L("DecreasePercent")</h5>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="ApplyDecreasePercent" class="checkbox checkbox-outline col-lg-12">
+                                    <input id="ApplyDecreasePercent" type="checkbox" name="applyDecreasePercent" value="true" @(Model.ConfigurePark.ApplyDecreasePercent ? "checked=\"checked\"" : "")>
+                                    <span></span>
+                                    @L("ApplyDecreasePercent")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="DecreasePercentConfigurePark" style="display: none;">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="DecreasePercent">
+                                    @L("DecreasePercent")
+                                </label>
+                                <input class="form-control" id="DecreasePercent" value="@Model.ConfigurePark.DecreasePercent" type="number" required name="decreasePercent"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <br/>
+                    <div class="col-12 mb-20 bottom-separate"></div>
+                    
+                    <h5>@L("PhoneToSendMessage")</h5>
+                    <div class="row" id="PhoneToSendMessageConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="PhoneToSendMessage">
+                                    @L("PhoneNumber")
+                                </label>
+                                <input class="form-control" id="PhoneToSendMessage" value="@Model.ConfigurePark.PhoneToSendMessage" type="text" name="phoneToSendMessage"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
