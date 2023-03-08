@@ -221,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Resources\pictureBox1.InitialImage.png" />
     <Content Include="vnua-logo.ico" />
     <None Include="Resources\vnua-logo.png" />
   </ItemGroup>

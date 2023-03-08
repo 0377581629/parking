@@ -114,7 +114,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::ParkingApp.Properties.Resources.vnua_logo;
+            this.pictureBox1.Image = global::ParkingApp.Properties.Resources.pictureBox1_InitialImage;
             this.pictureBox1.Location = new System.Drawing.Point(23, 27);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(80, 80);
