@@ -41,10 +41,10 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <br/>
                     <div class="col-12 mb-20 bottom-separate"></div>
-                    
+
                     <h5>@L("PhoneToSendMessage")</h5>
                     <div class="row" id="PhoneToSendMessageConfigurePark">
                         <div class="col-12">
@@ -53,6 +53,20 @@
                                     @L("PhoneNumber")
                                 </label>
                                 <input class="form-control" id="PhoneToSendMessage" value="@Model.ConfigurePark.PhoneToSendMessage" type="text" name="phoneToSendMessage"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 mb-20 bottom-separate"></div>
+
+                    <h5>@L("TotalSlotCount")</h5>
+                    <div class="row" id="TotalSlotCountConfigurePark" style="display: none;">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="TotalSlotCount">
+                                    @L("TotalSlotCount")
+                                </label>
+                                <input class="form-control" id="TotalSlotCount" value="@Model.ConfigurePark.TotalSlotCount" type="number" required name="totalSlotCount"/>
                             </div>
                         </div>
                     </div>

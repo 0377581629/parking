@@ -22,7 +22,8 @@ namespace Zero.Configuration
         private readonly IConfigurationRoot _appConfiguration;
         private readonly IPaymentGatewayStore _paymentGatewayStore;
 
-        public AppSettingProvider(IAppConfigurationAccessor configurationAccessor, IPaymentGatewayStore paymentGatewayStore)
+        public AppSettingProvider(IAppConfigurationAccessor configurationAccessor,
+            IPaymentGatewayStore paymentGatewayStore)
         {
             _paymentGatewayStore = paymentGatewayStore;
             _appConfiguration = configurationAccessor.Configuration;
@@ -63,13 +64,19 @@ namespace Zero.Configuration
             {
                 context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.Host).Scopes = SettingScopes.Application;
                 context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.Port).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.UserName).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.Password).Scopes = SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.UserName).Scopes =
+                    SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.Password).Scopes =
+                    SettingScopes.Application;
                 context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.Domain).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.EnableSsl).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.UseDefaultCredentials).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.DefaultFromAddress).Scopes = SettingScopes.Application;
-                context.Manager.GetSettingDefinition(EmailSettingNames.DefaultFromDisplayName).Scopes = SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.EnableSsl).Scopes =
+                    SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.Smtp.UseDefaultCredentials).Scopes =
+                    SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.DefaultFromAddress).Scopes =
+                    SettingScopes.Application;
+                context.Manager.GetSettingDefinition(EmailSettingNames.DefaultFromDisplayName).Scopes =
+                    SettingScopes.Application;
             }
         }
 
@@ -187,27 +194,29 @@ namespace Zero.Configuration
                 new(AppSettings.UserManagement.UseCaptchaOnRegistration,
                     GetFromAppSettings(AppSettings.UserManagement.UseCaptchaOnRegistration, "true"),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
-                
+
                 // Park Settings
                 new(AppSettings.ParkSettings.ApplyDecreasePercent,
-                GetFromAppSettings(AppSettings.ParkSettings.ApplyDecreasePercent, "true"),
-                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                    GetFromAppSettings(AppSettings.ParkSettings.ApplyDecreasePercent, "true"),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.DecreasePercent,
-                    GetFromAppSettings(AppSettings.ParkSettings.DecreasePercent, "20"),
+                    GetFromAppSettings(AppSettings.ParkSettings.DecreasePercent, "0"),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.PhoneToSendMessage,
-                GetFromAppSettings(AppSettings.ParkSettings.PhoneToSendMessage, ""),
-                scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true)
+                    GetFromAppSettings(AppSettings.ParkSettings.PhoneToSendMessage, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new(AppSettings.ParkSettings.TotalSlotCount,
+                    GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0"))
             };
 
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.AllowTenantUseCustomConfig,
                 GetFromAppSettings(AppSettings.PaymentManagement.AllowTenantUseCustomConfig, "false"),
                 scopes: SettingScopes.Application, isVisibleToClients: false));
-                
+
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.UseCustomPaymentConfig,
                 GetFromAppSettings(AppSettings.PaymentManagement.UseCustomPaymentConfig, "false"),
                 scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: false));
-            
+
             var activePaymentGateWays = _paymentGatewayStore.GetActiveGateways();
             if (activePaymentGateWays != null && activePaymentGateWays.Any())
             {
@@ -934,7 +943,7 @@ namespace Zero.Configuration
             var isEnabled = GetFromSettings("Authentication:Facebook:IsEnabled") == true.ToString().ToLowerInvariant();
             var appId = GetFromSettings("Authentication:Facebook:AppId");
             var appSecret = GetFromSettings("Authentication:Facebook:AppSecret");
-            
+
             var facebookExternalLoginProviderInfo = new FacebookExternalLoginProviderSettings()
             {
                 IsEnabled = isEnabled,
@@ -1135,7 +1144,8 @@ namespace Zero.Configuration
 
         private SettingDefinition[] GetWsFederationExternalLoginProviderSettings()
         {
-            var isEnabled = GetFromSettings("Authentication:WsFederation:IsEnabled") == true.ToString().ToLowerInvariant();
+            var isEnabled = GetFromSettings("Authentication:WsFederation:IsEnabled") ==
+                            true.ToString().ToLowerInvariant();
             var clientId = GetFromSettings("Authentication:WsFederation:ClientId");
             var wtrealm = GetFromSettings("Authentication:WsFederation:Wtrealm");
             var authority = GetFromSettings("Authentication:WsFederation:Authority");

@@ -27,15 +27,18 @@ namespace Zero.Web.Areas.Park.Controllers
             {
                 ConfigurePark = new ConfigureParkDto
                 {
-                    ApplyDecreasePercent = 
+                    ApplyDecreasePercent =
                         await _settingManager.GetSettingValueAsync<bool>(AppSettings.ParkSettings
                             .ApplyDecreasePercent),
-                    DecreasePercent = 
+                    DecreasePercent =
                         await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
                             .DecreasePercent),
-                    PhoneToSendMessage = 
+                    PhoneToSendMessage =
                         await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                             .PhoneToSendMessage),
+                    TotalSlotCount =
+                        await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
+                            .TotalSlotCount)
                 }
             };
             return View(viewModel);

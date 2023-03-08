@@ -197,7 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ic_repeat_one_white_48pt.png" />
-    <None Include="Resources\Logo.png" />
     <None Include="Resources\ic_vpn_key.png" />
     <None Include="Resources\ic_person.png" />
   </ItemGroup>
@@ -223,7 +222,6 @@
     <Content Include="Icon.ico" />
     <None Include="Resources\pictureBox1.InitialImage.png" />
     <Content Include="vnua-logo.ico" />
-    <None Include="Resources\vnua-logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
