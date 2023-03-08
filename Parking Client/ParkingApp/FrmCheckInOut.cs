@@ -60,11 +60,10 @@ namespace ParkingApp
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.KeyPreview = true;
+            //KeyPreview = true;
             var strTitle = "Đang kết nối thiết bị !";
             _xuLy = enumCheckInOut.ConnectDevice;
-            var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
-            //
+            WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
         }
 
         #region Proccess Camera

@@ -10,13 +10,9 @@ namespace ParkingApp
 {
     public partial class FrmMain : MetroFramework.Forms.MetroForm
     {
-        private int _fingerCount = 2;
-        private double _timeWaiting = 0;
-        private string _rtspCamera = "rtsp://admin:123a123A@192.168.0.100:554/live";
-        //
         private static SyncDataModels.SyncClientDto _educateData;
         readonly Helper _helperDLL = new Helper();
-        //
+        
         private enumMain _xuLy;
         private System.Windows.Forms.Timer aTimer;
 
@@ -112,27 +108,26 @@ namespace ParkingApp
                     strDayOfWeek = "Chủ nhật";
                     break;
                 case DayOfWeek.Monday:
-                    strDayOfWeek = "Thứ 2";
+                    strDayOfWeek = "Thứ hai";
                     break;
                 case DayOfWeek.Tuesday:
-                    strDayOfWeek = "Thứ 3";
+                    strDayOfWeek = "Thứ ba";
                     break;
                 case DayOfWeek.Wednesday:
-                    strDayOfWeek = "Thứ 4";
+                    strDayOfWeek = "Thứ tư";
                     break;
                 case DayOfWeek.Thursday:
-                    strDayOfWeek = "Thứ 5";
+                    strDayOfWeek = "Thứ năm";
                     break;
                 case DayOfWeek.Friday:
-                    strDayOfWeek = "Thứ 6";
+                    strDayOfWeek = "Thứ sáu";
                     break;
                 case DayOfWeek.Saturday:
-                    strDayOfWeek = "Thứ 7";
+                    strDayOfWeek = "Thứ bảy";
                     break;
                 default:
                     break;
             }
-            lbTime.Text = DateTime.Now.ToString("HH:mm:ss");
             lbDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
             lbDayOfWeek.Text = strDayOfWeek;
         }
@@ -190,11 +185,6 @@ namespace ParkingApp
             {
                 frmCheckInOut.Close();
             }
-        }
-
-        private void linkInfo_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void btnCauHinh_Click(object sender, EventArgs e)

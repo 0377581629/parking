@@ -94,12 +94,6 @@
     <Compile Include="FrmHistory.designer.cs">
       <DependentUpon>FrmHistory.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmCheckInOutOld.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmCheckInOutOld.Designer.cs">
-      <DependentUpon>FrmCheckInOutOld.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmCheckInOut.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -147,9 +141,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmHistory.resx">
       <DependentUpon>FrmHistory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmCheckInOutOld.resx">
-      <DependentUpon>FrmCheckInOutOld.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmCheckInOut.resx">
       <DependentUpon>FrmCheckInOut.cs</DependentUpon>
@@ -221,6 +212,7 @@
   <ItemGroup>
     <Content Include="Icon.ico" />
     <None Include="Resources\pictureBox1.InitialImage.png" />
+    <Content Include="Resources\soict_logo.png" />
     <Content Include="vnua-logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
