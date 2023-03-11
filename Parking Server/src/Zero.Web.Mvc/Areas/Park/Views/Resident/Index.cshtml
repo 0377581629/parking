@@ -1,0 +1,59 @@
+@model Zero.Web.Areas.Park.Models.Resident.ResidentViewModel
+@{
+    ViewBag.CurrentPageName = AppPageNames.Park.Resident;
+}
+
+@section Scripts
+{
+    <script abp-src="@ZeroConst.ScriptPathPark/Resident/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("Resident")" description="@L("ResidentHeaderInfo")">
+        @if (IsGranted(ParkPermissions.Resident_Create))
+        {
+            <button id="CreateNewButton" class="btn btn-primary blue">
+                <i class="fa fa-plus"></i> @L("Create")
+            </button>
+        }
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <div class="form">
+                    <div id="ResidentFormFilter">
+                        <div class="row mb-15">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <input id="ResidentTableFilter" class="form-control" type="text" value="@ViewBag.FilterText" placeholder="@L("SearchWithThreeDot")" aria-describedby="basic-addon2">
+                                    <span class="input-group-btn">
+                                        <button type="button" name="RefreshButton" class="btn btn-primary">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="align-items-center">
+                    <table id="ResidentTable" class="display table table-striped table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th class="text-center">@L("Actions")</th>
+                            <th class="text-center">@L("ApartmentNumber")</th>
+                            <th class="text-center">@L("OwnerFullName")</th>
+                            <th class="text-center">@L("OwnerPhone")</th>
+                            <th class="text-center">@L("OwnerEmail")</th>
+                            <th class="text-center">@L("IsPaid")</th>
+                            <th class="text-center">@L("IsActive")</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

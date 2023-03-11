@@ -2,6 +2,17 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name="Resident">Cư dân</text>
+    <text name="ResidentHeaderInfo">Danh mục cư dân</text>
+    <text name="ApartmentNumberExists">Số căn hộ đã tồn tại</text>
+    <text name="ApartmentNumber">Số căn hộ</text>
+    <text name="OwnerFullName">Tên chủ hộ</text>
+    <text name="OwnerEmail">Email chủ hộ</text>
+    <text name="OwnerPhone">Số điện thoại chủ hộ</text>
+    <text name="IsPaid">Đã thanh toán toàn bộ tiền vé xe</text>
+    
+    <text name="TotalSlotCount">Tổng số slot gửi xe</text>
+    
     <text name="PhoneToSendMessage">Số điện thoại nhận tin nhắn thông báo kết quả</text>
     
     <text name="ConfigurePark">Cấu hình bãi gửi xe</text>

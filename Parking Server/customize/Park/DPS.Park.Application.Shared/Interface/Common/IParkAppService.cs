@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
+using DPS.Park.Application.Shared.Dto.Card.Card;
 using DPS.Park.Application.Shared.Dto.Card.CardType;
 using DPS.Park.Application.Shared.Dto.Fare;
 using DPS.Park.Application.Shared.Dto.Vehicle.VehicleType;
@@ -19,5 +20,7 @@ namespace DPS.Park.Application.Shared.Interface.Common
         Task<PagedResultDto<CardTypeDto>> GetPagedCardTypes(GetAllCardTypeInput input);
         
         Task<List<FareDto>> GetAllFares();
+        
+        Task<PagedResultDto<CardDto>> GetPagedCards(GetAllCardInput input);
     }
 }

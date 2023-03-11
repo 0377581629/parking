@@ -4,11 +4,14 @@ using DPS.Park.Application.Shared.Dto.Card.CardType;
 using DPS.Park.Application.Shared.Dto.Fare;
 using DPS.Park.Application.Shared.Dto.History;
 using DPS.Park.Application.Shared.Dto.Message;
+using DPS.Park.Application.Shared.Dto.Resident;
+using DPS.Park.Application.Shared.Dto.Resident.ResidentCard;
 using DPS.Park.Application.Shared.Dto.Vehicle.VehicleType;
 using DPS.Park.Core.Card;
 using DPS.Park.Core.Fare;
 using DPS.Park.Core.History;
 using DPS.Park.Core.Message;
+using DPS.Park.Core.Resident;
 using DPS.Park.Core.Vehicle;
 
 namespace DPS.Park.Application
@@ -38,6 +41,11 @@ namespace DPS.Park.Application
             configuration.CreateMap<CardDto, CreateOrEditCardDto>().ReverseMap();
             
             configuration.CreateMap<CreateOrEditMessageDto, Message>().ReverseMap();
+            
+            configuration.CreateMap<ResidentDto, Resident>().ReverseMap();
+            configuration.CreateMap<CreateOrEditResidentDto, Resident>().ReverseMap();
+            configuration.CreateMap<ResidentDto, CreateOrEditResidentDto>().ReverseMap();
+            configuration.CreateMap<ResidentCard, ResidentCardDto>().ReverseMap();
         }
     }
 }

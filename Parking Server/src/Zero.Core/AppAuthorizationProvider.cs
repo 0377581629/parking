@@ -221,6 +221,11 @@ namespace Zero.Authorization
             card.CreateChildPermission(ParkPermissions.Card_Create, L("Create"));
             card.CreateChildPermission(ParkPermissions.Card_Edit, L("Edit"));
             card.CreateChildPermission(ParkPermissions.Card_Delete, L("Delete"));
+            
+            var resident = pages.CreateChildPermission(ParkPermissions.Resident, L("Resident"));
+            resident.CreateChildPermission(ParkPermissions.Resident_Create, L("Create"));
+            resident.CreateChildPermission(ParkPermissions.Resident_Edit, L("Edit"));
+            resident.CreateChildPermission(ParkPermissions.Resident_Delete, L("Delete"));
 
             #endregion
         }

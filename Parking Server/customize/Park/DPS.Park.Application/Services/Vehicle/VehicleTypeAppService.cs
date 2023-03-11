@@ -94,6 +94,7 @@ namespace DPS.Park.Application.Services.Vehicle
         
         public async Task CreateOrEdit(CreateOrEditVehicleTypeDto input)
         {
+            input.TenantId = AbpSession.TenantId;
             if (input.Id == null)
             {
                 await Create(input);
@@ -108,7 +109,6 @@ namespace DPS.Park.Application.Services.Vehicle
         protected virtual async Task Create(CreateOrEditVehicleTypeDto input)
         {
             var obj = ObjectMapper.Map<VehicleType>(input);
-            obj.TenantId = AbpSession.TenantId;
             await _vehicleTypeRepository.InsertAndGetIdAsync(obj);
         }
 

@@ -104,6 +104,7 @@ namespace DPS.Park.Application.Services.History
         
         public async Task CreateOrEdit(CreateOrEditHistoryDto input)
         {
+            input.TenantId = AbpSession.TenantId;
             if (input.Id == null)
             {
                 await Create(input);
@@ -118,7 +119,6 @@ namespace DPS.Park.Application.Services.History
         protected virtual async Task Create(CreateOrEditHistoryDto input)
         {
             var obj = ObjectMapper.Map<Core.History.History>(input);
-            obj.TenantId = AbpSession.TenantId;
             await _historyRepository.InsertAndGetIdAsync(obj);
         }
 

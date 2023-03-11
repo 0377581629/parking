@@ -208,5 +208,10 @@
         public const string Card_Create = "Park.Card.Create";
         public const string Card_Edit = "Park.Card.Edit";
         public const string Card_Delete = "Park.Card.Delete";
+        
+        public const string Resident = "Park.Resident";
+        public const string Resident_Create = "Park.Resident.Create";
+        public const string Resident_Edit = "Park.Resident.Edit";
+        public const string Resident_Delete = "Park.Resident.Delete";
     }
 }

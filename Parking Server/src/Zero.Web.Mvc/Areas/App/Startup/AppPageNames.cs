@@ -81,6 +81,8 @@
             public const string Fare = "Park.Fare";
             
             public const string Card = "Park.Card";
+            
+            public const string Resident = "Park.Resident";
         }
     }
 }

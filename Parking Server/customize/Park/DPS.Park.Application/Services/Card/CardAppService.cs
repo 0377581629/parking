@@ -111,8 +111,9 @@ namespace DPS.Park.Application.Services.Card
         
         public async Task CreateOrEdit(CreateOrEditCardDto input)
         {
+            input.TenantId = AbpSession.TenantId;
             input.Code = input.Code.Replace(" ", "");
-            
+
             await ValidateDataInput(input);
             
             if (input.Id == null)
@@ -129,7 +130,6 @@ namespace DPS.Park.Application.Services.Card
         protected virtual async Task Create(CreateOrEditCardDto input)
         {
             var obj = ObjectMapper.Map<Core.Card.Card>(input);
-            obj.TenantId = AbpSession.TenantId;
             await _cardRepository.InsertAndGetIdAsync(obj);
         }
 

@@ -152,6 +152,13 @@ namespace Zero.Web.Areas.App.Startup
                         permissionDependency: new SimplePermissionDependency(ParkPermissions.Card)
                     )
                 )
+                .AddItem(new MenuItemDefinition(
+                        AppPageNames.Park.Resident,
+                        L("Resident"),
+                        url: $"{ZeroConst.ParkAreas}/Resident",
+                        permissionDependency: new SimplePermissionDependency(ParkPermissions.Resident)
+                    )
+                )
 
                 #region Administration
 

@@ -101,6 +101,7 @@ namespace DPS.Park.Application.Services.Fare
         
         public async Task CreateOrEdit(CreateOrEditFareDto input)
         {
+            input.TenantId = AbpSession.TenantId;
             if (input.Id == null)
             {
                 await Create(input);
@@ -115,7 +116,6 @@ namespace DPS.Park.Application.Services.Fare
         protected virtual async Task Create(CreateOrEditFareDto input)
         {
             var obj = ObjectMapper.Map<Core.Fare.Fare>(input);
-            obj.TenantId = AbpSession.TenantId;
             await _fareRepository.InsertAndGetIdAsync(obj);
         }
 
