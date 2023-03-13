@@ -2,6 +2,12 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name="EmailTemplateType_ResidentNotPaid">Thông báo chưa đóng vé xe tháng</text>
+    <text name="PriceByThousandDong">Giá ( nghìn đồng )</text>
+    <text name="MonthlyFare">Giá vé theo tháng</text>
+    
+    <text name="CardMenu">Thẻ</text>
+    
     <text name="Resident">Cư dân</text>
     <text name="ResidentHeaderInfo">Danh mục cư dân</text>
     <text name="ApartmentNumberExists">Số căn hộ đã tồn tại</text>

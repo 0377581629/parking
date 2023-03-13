@@ -74,13 +74,15 @@
             
             public const string History = "Park.History";
             
+            public const string CardMenu = "Park.CardMenu";
+            
             public const string CardType = "Park.CardType";
+
+            public const string Card = "Park.Card";
             
             public const string VehicleType = "Park.VehicleType";
             
             public const string Fare = "Park.Fare";
-            
-            public const string Card = "Park.Card";
             
             public const string Resident = "Park.Resident";
         }

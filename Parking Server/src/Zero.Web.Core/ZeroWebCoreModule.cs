@@ -12,7 +12,9 @@ using Abp.Runtime.Caching.Redis;
 using Abp.Zero.Configuration;
 using DPS.Cms.Application;
 using DPS.Park.Application;
+using DPS.Park.Application.Shared.BackgroundJobs;
 using DPS.Reporting.Application;
+using Hangfire;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.Configuration;
@@ -64,27 +66,24 @@ namespace Zero.Web
                 .CreateControllersForAppServices(
                     typeof(ZeroApplicationModule).GetAssembly()
                 );
-            
+
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(CmsApplicationModule).GetAssembly()
                 );
-            
+
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(ParkApplicationModule).GetAssembly()
                 );
-            
+
             Configuration.Modules.AbpAspNetCore()
                 .CreateControllersForAppServices(
                     typeof(ReportingApplicationModule).GetAssembly()
                 );
 
             Configuration.Caching.Configure(TwoFactorCodeCacheItem.CacheName,
-                cache =>
-                {
-                    cache.DefaultSlidingExpireTime = TwoFactorCodeCacheItem.DefaultSlidingExpireTime;
-                });
+                cache => { cache.DefaultSlidingExpireTime = TwoFactorCodeCacheItem.DefaultSlidingExpireTime; });
 
             if (_appConfiguration["Authentication:JwtBearer:IsEnabled"] != null &&
                 bool.Parse(_appConfiguration["Authentication:JwtBearer:IsEnabled"]))
@@ -137,6 +136,11 @@ namespace Zero.Web
 
             IocManager.Resolve<ApplicationPartManager>()
                 .AddApplicationPartsIfNotAddedBefore(typeof(ZeroWebCoreModule).Assembly);
+
+            var emailResidentNotPaidBackGroundJobService = IocManager.Resolve<IEmailResidentNotPaidBackGroundJob>();
+            RecurringJob.RemoveIfExists("Send Email For Resident Did Not Paid");
+            RecurringJob.AddOrUpdate("Send Email For Resident Did Not Paid",
+                () => emailResidentNotPaidBackGroundJobService.SendEmailResidentNotPaid(), Cron.Daily(6));
         }
 
         private void SetAppFolders()

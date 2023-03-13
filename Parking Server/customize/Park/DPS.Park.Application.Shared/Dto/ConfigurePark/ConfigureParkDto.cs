@@ -9,5 +9,7 @@
         public string PhoneToSendMessage { get; set; }
         
         public int TotalSlotCount { get; set; }
+
+        public int MonthlyFare { get; set; }
     }
 }

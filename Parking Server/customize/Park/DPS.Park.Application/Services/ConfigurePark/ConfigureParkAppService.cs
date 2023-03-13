@@ -29,6 +29,8 @@ namespace DPS.Park.Application.Services.ConfigurePark
                 input.PhoneToSendMessage.ToLowerInvariant());
             await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.TotalSlotCount,
                 input.TotalSlotCount.ToString().ToLowerInvariant());
+            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.MonthlyFare,
+                input.MonthlyFare.ToString().ToLowerInvariant());
         }
     }
 }

@@ -694,6 +694,8 @@ function slugify(text) {
                     return app.localize('EmailTemplateType_UserResetPassword');
                 case 4:
                     return app.localize('EmailTemplateType_SecurityCode');
+                case 5:
+                    return app.localize('EmailTemplateType_ResidentNotPaid');
             }
         }
 

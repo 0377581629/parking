@@ -206,7 +206,9 @@ namespace Zero.Configuration
                     GetFromAppSettings(AppSettings.ParkSettings.PhoneToSendMessage, ""),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.TotalSlotCount,
-                    GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0"))
+                    GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0")),
+                new(AppSettings.ParkSettings.MonthlyFare,
+                    GetFromAppSettings(AppSettings.ParkSettings.MonthlyFare, "0"))
             };
 
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.AllowTenantUseCustomConfig,

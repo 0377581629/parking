@@ -70,6 +70,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-12 mb-20 bottom-separate"></div>
+
+                    <h5>@L("MonthlyFare")</h5>
+                    <div class="row" id="MonthlyFareConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="MonthlyFare">
+                                    @L("PriceByThousandDong")
+                                </label>
+                                <input class="form-control" id="MonthlyFare" value="@Model.ConfigurePark.MonthlyFare" type="number" required name="monthlyFare"/>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

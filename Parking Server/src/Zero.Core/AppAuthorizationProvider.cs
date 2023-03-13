@@ -201,11 +201,16 @@ namespace Zero.Authorization
             history.CreateChildPermission(ParkPermissions.History_Create, L("Create"));
             history.CreateChildPermission(ParkPermissions.History_Edit, L("Edit"));
             history.CreateChildPermission(ParkPermissions.History_Delete, L("Delete"));
-            
+
             var cardType = pages.CreateChildPermission(ParkPermissions.CardType, L("CardType"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Create, L("Create"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Edit, L("Edit"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Delete, L("Delete"));
+            
+            var card = pages.CreateChildPermission(ParkPermissions.Card, L("Card"));
+            card.CreateChildPermission(ParkPermissions.Card_Create, L("Create"));
+            card.CreateChildPermission(ParkPermissions.Card_Edit, L("Edit"));
+            card.CreateChildPermission(ParkPermissions.Card_Delete, L("Delete"));
             
             var vehicleType = pages.CreateChildPermission(ParkPermissions.VehicleType, L("VehicleType"));
             vehicleType.CreateChildPermission(ParkPermissions.VehicleType_Create, L("Create"));
@@ -216,12 +221,7 @@ namespace Zero.Authorization
             fare.CreateChildPermission(ParkPermissions.Fare_Create, L("Create"));
             fare.CreateChildPermission(ParkPermissions.Fare_Edit, L("Edit"));
             fare.CreateChildPermission(ParkPermissions.Fare_Delete, L("Delete"));
-            
-            var card = pages.CreateChildPermission(ParkPermissions.Card, L("Card"));
-            card.CreateChildPermission(ParkPermissions.Card_Create, L("Create"));
-            card.CreateChildPermission(ParkPermissions.Card_Edit, L("Edit"));
-            card.CreateChildPermission(ParkPermissions.Card_Delete, L("Delete"));
-            
+
             var resident = pages.CreateChildPermission(ParkPermissions.Resident, L("Resident"));
             resident.CreateChildPermission(ParkPermissions.Resident_Create, L("Create"));
             resident.CreateChildPermission(ParkPermissions.Resident_Edit, L("Edit"));

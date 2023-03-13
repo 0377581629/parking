@@ -38,7 +38,10 @@ namespace Zero.Web.Areas.Park.Controllers
                             .PhoneToSendMessage),
                     TotalSlotCount =
                         await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
-                            .TotalSlotCount)
+                            .TotalSlotCount),
+                    MonthlyFare = 
+                        await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
+                            .MonthlyFare)
                 }
             };
             return View(viewModel);

@@ -172,6 +172,7 @@
             
             public const string PhoneToSendMessage = "App.ParkSettings.PhoneToSendMessage";
             public const string TotalSlotCount = "App.ParkSettings.TotalSlotCount";
+            public const string MonthlyFare = "App.ParkSettings.MonthlyFare";
         }
     }
 }

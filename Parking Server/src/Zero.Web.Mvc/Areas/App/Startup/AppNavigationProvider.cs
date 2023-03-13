@@ -12,7 +12,8 @@ namespace Zero.Web.Areas.App.Startup
 
         public override void SetNavigation(INavigationProviderContext context)
         {
-            var menu = context.Manager.Menus[MenuName] = new MenuDefinition(MenuName, new FixedLocalizableString("Main Menu"));
+            var menu = context.Manager.Menus[MenuName] =
+                new MenuDefinition(MenuName, new FixedLocalizableString("Main Menu"));
 
             menu
                 .AddItem(new MenuItemDefinition(
@@ -93,7 +94,6 @@ namespace Zero.Web.Areas.App.Startup
                                 permissionDependency: new SimplePermissionDependency(CmsPermissions.Menu)
                             )
                         )
-
                         .AddItem(new MenuItemDefinition(
                                 AppPageNames.Cms.Category,
                                 L("Categories"),
@@ -108,7 +108,29 @@ namespace Zero.Web.Areas.App.Startup
                                 permissionDependency: new SimplePermissionDependency(CmsPermissions.Post)
                             )
                         )
+
                     #endregion
+
+                )
+                .AddItem(new MenuItemDefinition(
+                        AppPageNames.Park.CardMenu,
+                        L("CardMenu"),
+                        icon: "la la-credit-card"
+                    )
+                    .AddItem(new MenuItemDefinition(
+                            AppPageNames.Park.CardType,
+                            L("CardType"),
+                            url: $"{ZeroConst.ParkAreas}/CardType",
+                            permissionDependency: new SimplePermissionDependency(ParkPermissions.CardType)
+                        )
+                    )
+                    .AddItem(new MenuItemDefinition(
+                            AppPageNames.Park.Card,
+                            L("Card"),
+                            url: $"{ZeroConst.ParkAreas}/Card",
+                            permissionDependency: new SimplePermissionDependency(ParkPermissions.Card)
+                        )
+                    )
                 )
                 .AddItem(new MenuItemDefinition(
                         AppPageNames.Park.ConfigurePark,
@@ -125,13 +147,6 @@ namespace Zero.Web.Areas.App.Startup
                     )
                 )
                 .AddItem(new MenuItemDefinition(
-                        AppPageNames.Park.CardType,
-                        L("CardType"),
-                        url: $"{ZeroConst.ParkAreas}/CardType",
-                        permissionDependency: new SimplePermissionDependency(ParkPermissions.CardType)
-                    )
-                )
-                .AddItem(new MenuItemDefinition(
                         AppPageNames.Park.VehicleType,
                         L("VehicleType"),
                         url: $"{ZeroConst.ParkAreas}/VehicleType",
@@ -143,13 +158,6 @@ namespace Zero.Web.Areas.App.Startup
                         L("Fare"),
                         url: $"{ZeroConst.ParkAreas}/Fare",
                         permissionDependency: new SimplePermissionDependency(ParkPermissions.Fare)
-                    )
-                )
-                .AddItem(new MenuItemDefinition(
-                        AppPageNames.Park.Card,
-                        L("Card"),
-                        url: $"{ZeroConst.ParkAreas}/Card",
-                        permissionDependency: new SimplePermissionDependency(ParkPermissions.Card)
                     )
                 )
                 .AddItem(new MenuItemDefinition(
@@ -211,42 +219,48 @@ namespace Zero.Web.Areas.App.Startup
                             L("OrganizationUnits"),
                             url: "App/OrganizationUnits",
                             icon: "flaticon-map",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_OrganizationUnits)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_OrganizationUnits)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Common.Roles,
                             L("Roles"),
                             url: "App/Roles",
                             icon: "flaticon-suitcase",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Roles)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Roles)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Common.Users,
                             L("Users"),
                             url: "App/Users",
                             icon: "flaticon-users",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Users)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Users)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Common.Languages,
                             L("Languages"),
                             url: "App/Languages",
                             icon: "flaticon-tabs",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Languages)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Languages)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Common.AuditLogs,
                             L("AuditLogs"),
                             url: "App/AuditLogs",
                             icon: "flaticon-folder-1",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_AuditLogs)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_AuditLogs)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Host.Maintenance,
                             L("Maintenance"),
                             url: "App/Maintenance",
                             icon: "flaticon-lock",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Host_Maintenance)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Host_Maintenance)
                         )
                     )
                     .AddItem(new MenuItemDefinition(
@@ -254,14 +268,16 @@ namespace Zero.Web.Areas.App.Startup
                             L("VisualSettings"),
                             url: "App/UiCustomization",
                             icon: "flaticon-medical",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_UiCustomization)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_UiCustomization)
                         )
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Common.WebhookSubscriptions,
                             L("WebhookSubscriptions"),
                             url: "App/WebhookSubscription",
                             icon: "flaticon2-world",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_WebhookSubscription)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_WebhookSubscription)
                         )
                     )
                     .AddItem(new MenuItemDefinition(
@@ -269,7 +285,8 @@ namespace Zero.Web.Areas.App.Startup
                             L("DynamicProperties"),
                             url: "App/DynamicProperty",
                             icon: "flaticon-interface-8",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_DynamicProperties)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_DynamicProperties)
                         )
                     )
                     .AddItem(new MenuItemDefinition(
@@ -277,7 +294,8 @@ namespace Zero.Web.Areas.App.Startup
                             L("SystemSettings"),
                             url: "App/HostSettings",
                             icon: "flaticon-settings",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Host_Settings)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Host_Settings)
                         )
                     )
                     .AddItem(new MenuItemDefinition(
@@ -285,7 +303,8 @@ namespace Zero.Web.Areas.App.Startup
                             L("TenantSettings"),
                             url: "App/Settings",
                             icon: "flaticon-settings",
-                            permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Tenant_Settings)
+                            permissionDependency: new SimplePermissionDependency(AppPermissions
+                                .Pages_Administration_Tenant_Settings)
                         )
                     )
                 );
@@ -298,7 +317,8 @@ namespace Zero.Web.Areas.App.Startup
                         L("Subscription"),
                         url: "App/SubscriptionManagement",
                         icon: "flaticon-refresh",
-                        permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_Tenant_SubscriptionManagement)
+                        permissionDependency: new SimplePermissionDependency(AppPermissions
+                            .Pages_Administration_Tenant_SubscriptionManagement)
                     )
                 );
 
@@ -308,7 +328,8 @@ namespace Zero.Web.Areas.App.Startup
                         L("HangfireDashboard"),
                         url: WebConsts.HangfireDashboardEndPoint,
                         icon: "flaticon-refresh",
-                        permissionDependency: new SimplePermissionDependency(AppPermissions.Pages_Administration_HangfireDashboard)
+                        permissionDependency: new SimplePermissionDependency(AppPermissions
+                            .Pages_Administration_HangfireDashboard)
                     )
                 );
         }
