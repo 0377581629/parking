@@ -143,5 +143,21 @@ namespace Zero.Notifications
                     { "fileName", fileName }
                 });
         }
+
+        public Task SomeObjectCouldntBeImported(UserIdentifier user, string fileToken, string fileType, string fileName)
+        {
+            return SendNotificationAsync(AppNotificationNames.DownloadInvalidImportObjects, user, 
+                new LocalizableString(
+                    "ClickToSeeInvalidObjects",
+                    ZeroConst.LocalizationSourceName
+                ), 
+                new Dictionary<string, object>
+                {
+                    { "fileToken", fileToken },
+                    { "fileType", fileType },
+                    { "fileName", fileName }
+                },
+                NotificationSeverity.Error);
+        }
     }
 }

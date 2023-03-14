@@ -141,5 +141,24 @@
                 getCard();
             }
         });
+
+        //IMPORT
+        let btnImport = $('#ImportFromExcelButton');
+        if (btnImport) {
+            btnImport.fileupload({
+                url: abp.appPath + 'Park/Card/ImportFromExcel',
+                dataType: 'json',
+                maxFileSize: 1048576 * 100,
+                done: function (e, response) {
+                    let jsonResult = response.result;
+                    if (jsonResult.success) {
+                        abp.notify.info(app.localize('UploadImportFileSuccessful'));
+                    } else {
+                        abp.notify.warn(app.localize('UploadImportFileFailed'));
+                    }
+                }
+            }).prop('disabled', !$.support.fileInput)
+                .parent().addClass($.support.fileInput ? undefined : 'disabled');
+        }
     });
 })();

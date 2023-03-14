@@ -10,9 +10,4 @@
       <ProjectReference Include="..\DPS.Park.Core.Shared\DPS.Park.Core.Shared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Dto\Organization" />
-      <Folder Include="Importing\Organization" />
-    </ItemGroup>
-
 </Project>

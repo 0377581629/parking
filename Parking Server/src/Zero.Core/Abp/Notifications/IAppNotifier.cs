@@ -26,5 +26,7 @@ namespace Zero.Notifications
         Task TenantsMovedToEdition(UserIdentifier user, string sourceEditionName, string targetEditionName);
 
         Task SomeUsersCouldntBeImported(UserIdentifier user, string fileToken, string fileType, string fileName);
+        
+        Task SomeObjectCouldntBeImported(UserIdentifier user, string fileToken, string fileType, string fileName);
     }
 }

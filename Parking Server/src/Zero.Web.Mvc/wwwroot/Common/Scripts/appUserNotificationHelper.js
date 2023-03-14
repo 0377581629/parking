@@ -30,6 +30,8 @@
                     case 'App.DownloadInvalidImportUsers':
                         return '/File/DownloadTempFile?fileToken=' + userNotification.notification.data.properties.fileToken + '&fileType=' + userNotification.notification.data.properties.fileType + '&fileName=' + userNotification.notification.data.properties.fileName;
                         //Add your custom notification names to navigate to a URL when user clicks to a notification.
+                    case 'App.DownloadInvalidImportObjects':
+                        return '/File/DownloadTempFile?fileToken=' + userNotification.notification.data.properties.fileToken + '&fileType=' + userNotification.notification.data.properties.fileType + '&fileName=' + userNotification.notification.data.properties.fileName;    
                 }
 
                 //No url for this notification

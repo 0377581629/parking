@@ -10,6 +10,27 @@
 
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
     <abp-page-subheader title="@L("Card")" description="@L("CardHeaderInfo")">
+        @if (IsGranted(ParkPermissions.Card_Create) && IsGranted(ParkPermissions.Card_Edit))
+        {
+            <div class="btn-group">
+                <button type="button" class="btn btn-outline-success dropdown-toggle mr-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="far fa-file-excel"></i> @L("ExcelOperations")
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">
+                        <span class="fileinput-button">
+                            <span>@L("ImportFromExcel")</span>
+                            <input id="ImportFromExcelButton" type="file" name="files" accept=".xlsx">
+                        </span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <span class="dropdown-item-text text-muted pl-3" href="#">
+                        <small class="pl-2"> @Html.Raw(L("ImportToExcelSampleFileDownloadInfo", "<a href='" + @Url.Action("ExportTemplate", "Card") + "'>" + L("ClickHere") + "</a>"))</small>
+                    </span>
+                </div>
+            </div>
+        }
+
         @if (IsGranted(ParkPermissions.Card_Create))
         {
             <button id="CreateNewButton" class="btn btn-primary blue">

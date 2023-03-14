@@ -92,9 +92,21 @@ namespace DPS.Park.Application.Services.Card
             return output;
         }
         
+        private async Task ValidateDataInput(CreateOrEditCardTypeDto input)
+        {
+            var res = await _cardTypeRepository.GetAll()
+                .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.Name.Equals(input.Name))
+                .WhereIf(input.Id.HasValue, o => o.Id != input.Id)
+                .FirstOrDefaultAsync();
+            if (res != null)
+                throw new UserFriendlyException(L("Error"), L("NameAlreadyExists"));
+        }
+        
         public async Task CreateOrEdit(CreateOrEditCardTypeDto input)
         {
             input.TenantId = AbpSession.TenantId;
+            await ValidateDataInput(input);
+            
             if (input.Id == null)
             {
                 await Create(input);

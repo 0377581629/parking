@@ -62,6 +62,7 @@ namespace Zero
             EndReadFile = 5,
             HasInvalidObjs = 6,
             Empty = 7,
+            ExcelHasDuplicateObjs = 8
         }
     }
 }

@@ -32,7 +32,8 @@
         public static string UploadPath { get; set; } = "uploads";
         public static uint MaxUploadFileSize = 3000145728; // 3000MBS
         public static string ImportTemplatePath = "";
-        public static string ImportSampleFolders = $"wwwroot/SampleFiles/";
+        public static string ImportSampleFolders = $"wwwroot/assets/SampleFiles/";
+        public static string ImportSamplePrefix = "";
         #endregion
         
         #region Others

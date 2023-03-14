@@ -92,9 +92,21 @@ namespace DPS.Park.Application.Services.Vehicle
             return output;
         }
         
+        private async Task ValidateDataInput(CreateOrEditVehicleTypeDto input)
+        {
+            var res = await _vehicleTypeRepository.GetAll()
+                .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.Name.Equals(input.Name))
+                .WhereIf(input.Id.HasValue, o => o.Id != input.Id)
+                .FirstOrDefaultAsync();
+            if (res != null)
+                throw new UserFriendlyException(L("Error"), L("NameAlreadyExists"));
+        }
+        
         public async Task CreateOrEdit(CreateOrEditVehicleTypeDto input)
         {
             input.TenantId = AbpSession.TenantId;
+            await ValidateDataInput(input);
+            
             if (input.Id == null)
             {
                 await Create(input);

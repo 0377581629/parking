@@ -14,5 +14,7 @@ namespace Zero
         public const string Teacher = "TeacherImportTemplate.xlsx";
         
         public const string UserGuide = "UserGuide.pdf";
+        
+        public const string Card = "Import_TheXe.xlsx";
     }
 }

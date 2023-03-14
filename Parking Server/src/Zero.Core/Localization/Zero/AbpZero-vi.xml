@@ -2,7 +2,8 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
-    <text name = "UseHostDefaultEmailSettings">Sử dụng cài đặt email mặc định của host</text>
+    <text name="UseHostDefaultEmailSettings">Sử dụng cài đặt email mặc định của host</text>
+    <text name="ExcelHasDuplicateObjs">Dữ liệu bị trùng trong file excel</text>
     
     <text name="TotalParkingAmountByWeek">Tổng lượt gửi xe trong tuần</text>
     <text name="WeeklyParkingAmount">Lượng gửi xe theo tuần</text>
@@ -444,6 +445,8 @@
     <!--        -->
 
     <!-- EXCEL OPERATION -->
+    <text name="Exception">Chi tiết lỗi</text>
+    <text name="UnExisted">Không tồn tại</text>
     <text name="Excel">Excel</text>
     <text name="ImportExcel">Thêm dạng bảng</text>
     <text name="ImportCode">Mã Import</text>

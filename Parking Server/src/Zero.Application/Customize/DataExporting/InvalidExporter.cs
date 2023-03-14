@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using Abp.Dependency;
+using Abp.Localization;
 using Zero.DataExporting.Excel.NPOI;
 using Zero.Dto;
 using Zero.Extensions;
@@ -13,9 +14,10 @@ namespace Zero.Customize.DataExporting
 {
     public class InvalidExporter<T> : NpoiExcelExporterBase, IInvalidExporter<T>
     {
-        public InvalidExporter(ITempFileCacheManager tempFileCacheManager)
+        public InvalidExporter(ITempFileCacheManager tempFileCacheManager, ILocalizationManager localizationManager)
             : base(tempFileCacheManager)
         {
+            LocalizationManager = localizationManager;
         }
 
         public FileDto ExportToFile(List<T> objs, string fileName)
