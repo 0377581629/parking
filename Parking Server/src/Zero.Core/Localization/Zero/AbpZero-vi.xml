@@ -453,7 +453,7 @@
     <text name="ImportFromExcel">Import từ file.</text>
     <text name="ImportToExcelSampleFileDownloadInfo">{0} để tải file import mẫu.</text>
 
-    <text name="ExcelOperations">Import dữ liệu</text>
+    <text name="ExcelOperations">Import,Export dữ liệu</text>
 
     <text name="SimpleImportFile">File import mẫu</text>
     <text name="UploadImportFile">Tải file import</text>

@@ -142,7 +142,7 @@
             }
         });
 
-        //IMPORT
+        //Import
         let btnImport = $('#ImportFromExcelButton');
         if (btnImport) {
             btnImport.fileupload({
@@ -160,5 +160,32 @@
             }).prop('disabled', !$.support.fileInput)
                 .parent().addClass($.support.fileInput ? undefined : 'disabled');
         }
+        
+        //Export
+        var getSortingFromDatatable = function () {
+            if (dataTable.ajax.params().order.length > 0) {
+                var columnIndex = dataTable.ajax.params().order[0].column;
+                var dir = dataTable.ajax.params().order[0].dir;
+                var columnName = dataTable.ajax.params().columns[columnIndex].data;
+
+                return columnName + ' ' + dir;
+            } else {
+                return '';
+            }
+        };
+
+        $('#ExportCardsToExcelButton').click(function (e) {
+            e.preventDefault();
+            _CardService
+                .getCardsToExcel({
+                    filter: $('#CardTableFilter').val(),
+                    sorting: getSortingFromDatatable(),
+                    // cardId: workGroupSelector.val(),
+                    // vehicleId: workDepartmentSelector.val(),
+                })
+                .done(function (result) {
+                    app.downloadTempFile(result);
+                });
+        });
     });
 })();

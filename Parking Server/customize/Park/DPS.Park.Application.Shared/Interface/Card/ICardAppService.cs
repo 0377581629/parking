@@ -2,6 +2,7 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using DPS.Park.Application.Shared.Dto.Card.Card;
+using Zero.Dto;
 
 namespace DPS.Park.Application.Shared.Interface.Card
 {
@@ -14,5 +15,7 @@ namespace DPS.Park.Application.Shared.Interface.Card
         Task CreateOrEdit(CreateOrEditCardDto input);
 
         Task Delete(EntityDto input);
+        
+        Task<FileDto> GetCardsToExcel(GetAllCardInput input);
     }
 }
