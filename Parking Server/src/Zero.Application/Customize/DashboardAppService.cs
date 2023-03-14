@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Abp;
@@ -6,6 +7,7 @@ using Abp.Authorization;
 using Abp.Configuration;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using DPS.Park.Core.History;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Zero;
@@ -26,14 +28,23 @@ namespace Zero.Customize
         private readonly IRepository<EditionDashboardWidget> _editionDashboardWidgetRepository;
         private readonly IRepository<RoleDashboardWidget> _roleDashboardWidgetRepository;
         private readonly ISettingStore _settingStore;
-        public DashboardAppService(IRepository<DashboardWidget> dashboardWidgetRepository, IRepository<EditionDashboardWidget> editionDashboardWidgetRepository, IRepository<RoleDashboardWidget> roleDashboardWidgetRepository, IZeroAppService zeroAppService, ISettingStore settingStore)
+
+        private readonly IRepository<History> _historyRepository;
+
+        public DashboardAppService(IRepository<DashboardWidget> dashboardWidgetRepository,
+            IRepository<EditionDashboardWidget> editionDashboardWidgetRepository,
+            IRepository<RoleDashboardWidget> roleDashboardWidgetRepository, IZeroAppService zeroAppService,
+            ISettingStore settingStore, IRepository<History> historyRepository)
         {
             _dashboardWidgetRepository = dashboardWidgetRepository;
             _editionDashboardWidgetRepository = editionDashboardWidgetRepository;
             _roleDashboardWidgetRepository = roleDashboardWidgetRepository;
             _zeroAppService = zeroAppService;
             _settingStore = settingStore;
+            _historyRepository = historyRepository;
         }
+
+        #region Default
 
         private IQueryable<DashboardWidgetDto> DashboardWidgetQuery()
         {
@@ -44,7 +55,7 @@ namespace Zero.Customize
                     WidgetId = o.WidgetId,
                     Name = o.Name,
                     Description = o.Description,
-                    
+
                     Width = o.Width,
                     Height = o.Height,
                     PositionX = o.PositionX,
@@ -53,7 +64,7 @@ namespace Zero.Customize
                     ViewName = o.ViewName,
                     JsPath = o.JsPath,
                     CssPath = o.CssPath,
-                    
+
                     Filters = o.Filters,
                     IsDefault = o.IsDefault
                 };
@@ -65,35 +76,37 @@ namespace Zero.Customize
         {
             return await DashboardWidgetQuery().ToListAsync();
         }
-        
+
         public async Task<List<DashboardWidgetDto>> GetAllDashboardWidgetByEdition(int editionId)
         {
-            var grantedByEdition = await _editionDashboardWidgetRepository.GetAllListAsync(o => o.EditionId == editionId);
+            var grantedByEdition =
+                await _editionDashboardWidgetRepository.GetAllListAsync(o => o.EditionId == editionId);
             var allWidgets = await DashboardWidgetQuery().ToListAsync();
-            return allWidgets.Where(o=>grantedByEdition.Any(g=>g.DashboardWidgetId == o.Id)).ToList();
+            return allWidgets.Where(o => grantedByEdition.Any(g => g.DashboardWidgetId == o.Id)).ToList();
         }
-        
+
         public async Task<List<DashboardWidgetDto>> GetAllDashboardWidgetByRole(int roleId)
         {
             var grantedByEdition = await _roleDashboardWidgetRepository.GetAllListAsync(o => o.RoleId == roleId);
             var allWidgets = await DashboardWidgetQuery().ToListAsync();
-            return allWidgets.Where(o=>grantedByEdition.Any(g=>g.DashboardWidgetId == o.Id)).ToList();
+            return allWidgets.Where(o => grantedByEdition.Any(g => g.DashboardWidgetId == o.Id)).ToList();
         }
-        
+
         public async Task<List<DashboardWidgetDto>> GetAllDashboardWidgetByRoles(List<int> roleIds)
         {
-            var grantedByEdition = await _roleDashboardWidgetRepository.GetAllListAsync(o => roleIds.Contains(o.RoleId));
+            var grantedByEdition =
+                await _roleDashboardWidgetRepository.GetAllListAsync(o => roleIds.Contains(o.RoleId));
             var allWidgets = await DashboardWidgetQuery().ToListAsync();
-            return allWidgets.Where(o=>grantedByEdition.Any(g=>g.DashboardWidgetId == o.Id)).ToList();
+            return allWidgets.Where(o => grantedByEdition.Any(g => g.DashboardWidgetId == o.Id)).ToList();
         }
-        
+
         private static string SettingName => "App.DashboardCustomization.Configuration.Mvc";
-        
+
         public async Task<Dto.Dashboard.Config.Dashboard> GetUserDashboard()
         {
             return GetDashboard(await GetDashboardFromSettings());
         }
-        
+
         public async Task SavePage(SavePageInput input)
         {
             var dashboards = await GetDashboardFromSettings();
@@ -115,7 +128,7 @@ namespace Zero.Customize
 
             await SaveSetting(dashboards);
         }
-        
+
         public async Task RenamePage(RenamePageInput input)
         {
             var dashboards = await GetDashboardFromSettings();
@@ -146,9 +159,9 @@ namespace Zero.Customize
             dashboard.Pages.Add(page);
             await SaveSetting(dashboards);
 
-            return new AddNewPageOutput { PageId = page.Id };
+            return new AddNewPageOutput {PageId = page.Id};
         }
-        
+
         public async Task DeletePage(DeletePageInput input)
         {
             var dashboards = await GetDashboardFromSettings();
@@ -178,7 +191,7 @@ namespace Zero.Customize
             await SaveSetting(dashboards);
             return widget;
         }
-        
+
         private Dto.Dashboard.Config.Dashboard GetDashboard(List<Dto.Dashboard.Config.Dashboard> dashboards)
         {
             var dashboard = dashboards.FirstOrDefault();
@@ -189,7 +202,7 @@ namespace Zero.Customize
 
             return dashboard;
         }
-        
+
         private byte CalculatePositionY(List<DashboardWidgetDto> widgets)
         {
             if (widgets == null || !widgets.Any())
@@ -197,16 +210,16 @@ namespace Zero.Customize
                 return 0;
             }
 
-            return (byte)widgets.Max(w => w.PositionY + w.Height);
+            return (byte) widgets.Max(w => w.PositionY + w.Height);
         }
-        
+
         private async Task<List<Dto.Dashboard.Config.Dashboard>> GetDashboardFromSettings()
         {
             var allUserSettings = await _settingStore.GetAllListAsync(AbpSession.TenantId, AbpSession.UserId);
             if (!allUserSettings.Any(o => o.Name.Equals(SettingName)))
             {
                 var rolesIds = await _zeroAppService.GetCurrentRoleIds();
-                var defaultWidgets = (await GetAllDashboardWidgetByRoles(rolesIds)).Where(o=>o.IsDefault).ToList();
+                var defaultWidgets = (await GetAllDashboardWidgetByRoles(rolesIds)).Where(o => o.IsDefault).ToList();
                 return new List<Dto.Dashboard.Config.Dashboard>()
                 {
                     new()
@@ -217,19 +230,21 @@ namespace Zero.Customize
                             new(ZeroDashboardCustomizationConsts.DefaultDashboardPageId)
                             {
                                 Name = ZeroDashboardCustomizationConsts.DefaultPageName,
-                                Widgets = defaultWidgets.Any()? defaultWidgets : new List<DashboardWidgetDto>()
+                                Widgets = defaultWidgets.Any() ? defaultWidgets : new List<DashboardWidgetDto>()
                             }
                         }
                     }
                 };
             }
-            return JsonConvert.DeserializeObject<List<Dto.Dashboard.Config.Dashboard>>(allUserSettings.First(o=>o.Name == SettingName).Value);
+
+            return JsonConvert.DeserializeObject<List<Dto.Dashboard.Config.Dashboard>>(allUserSettings
+                .First(o => o.Name == SettingName).Value);
         }
-        
+
         private async Task SaveSetting(List<Dto.Dashboard.Config.Dashboard> dashboards)
         {
             var value = JsonConvert.SerializeObject(dashboards);
-            
+
             var allUserSettings = await _settingStore.GetAllListAsync(AbpSession.TenantId, AbpSession.UserId);
             var currentSetting = allUserSettings.FirstOrDefault(o => o.Name.Equals(SettingName));
             if (currentSetting == null)
@@ -243,5 +258,34 @@ namespace Zero.Customize
                 await _settingStore.UpdateAsync(currentSetting);
             }
         }
+
+        #endregion
+
+        #region Custom
+
+        public async Task<List<WeeklyParkingAmountOutput>> GetParkingAmountByWeek()
+        {
+            var today = DateTime.Today;
+            var dayOffWeek = (int) today.DayOfWeek;
+            var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
+            var res = new List<WeeklyParkingAmountOutput>();
+
+            for (var day = 1; day <= dayOffWeek; day++)
+            {
+                var parkingAmountOfDay = await _historyRepository.CountAsync(o => !o.IsDeleted &&
+                    o.TenantId == AbpSession.TenantId &&
+                    o.CreationTime.DayOfYear == firstDayOfThisWeekInYear + day - 1);
+
+                res.Add(new WeeklyParkingAmountOutput()
+                {
+                    Day = day != 6 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
+                    ParkingAmount = parkingAmountOfDay
+                });
+            }
+
+            return res;
+        }
+
+        #endregion
     }
 }

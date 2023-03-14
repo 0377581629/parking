@@ -28,5 +28,7 @@ namespace Zero.Customize.Interfaces
         Task<DashboardWidgetDto> AddWidget(AddWidgetInput input);
 
         Task DeletePage(DeletePageInput input);
+
+        Task<List<WeeklyParkingAmountOutput>> GetParkingAmountByWeek();
     }
 }

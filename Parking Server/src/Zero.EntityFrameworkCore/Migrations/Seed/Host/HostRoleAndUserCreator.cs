@@ -50,7 +50,7 @@ namespace Zero.Migrations.Seed.Host
                     UserName = AbpUserBase.AdminUserName,
                     Name = "admin",
                     Surname = "admin",
-                    EmailAddress = "tiendunghuongviet@gmail.com",
+                    EmailAddress = "quanghuy2152@gmail.com",
                     IsEmailConfirmed = true,
                     ShouldChangePasswordOnNextLogin = false,
                     IsActive = true,

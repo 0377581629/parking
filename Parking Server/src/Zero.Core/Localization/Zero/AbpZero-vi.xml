@@ -2,6 +2,14 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name = "UseHostDefaultEmailSettings">Sử dụng cài đặt email mặc định của host</text>
+    
+    <text name="TotalParkingAmountByWeek">Tổng lượt gửi xe trong tuần</text>
+    <text name="WeeklyParkingAmount">Lượng gửi xe theo tuần</text>
+    <text name="TotalParkingAmount">Tổng số xe</text>
+    <text name="DayOfWeek">Thứ</text>
+    <text name="Sunday">Chủ nhật</text>
+    
     <text name="EmailTemplateType_ResidentNotPaid">Thông báo chưa đóng vé xe tháng</text>
     <text name="PriceByThousandDong">Giá ( nghìn đồng )</text>
     <text name="MonthlyFare">Giá vé theo tháng</text>
@@ -43,6 +51,7 @@
 
     <text name="VehicleType">Loại xe</text>
     <text name="VehicleTypeHeaderInfo">Danh mục loại xe</text>
+    <text name="Vehicle">Xe</text>
 
     <text name="Fare">Giá vé</text>
     <text name="FareHeaderInfo">Danh mục giá vé</text>
