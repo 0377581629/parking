@@ -13,7 +13,6 @@ $(function () {
     });
 
     let chartAreaParkingAmount = function (result) {
-        console.log('result = ', result);
         _$chart.kendoChart({
             title: {
                 text: app.localize('WeeklyParkingAmount')

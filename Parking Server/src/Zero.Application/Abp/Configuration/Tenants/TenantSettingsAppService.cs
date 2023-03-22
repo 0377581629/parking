@@ -280,7 +280,9 @@ namespace Zero.Configuration.Tenants
         {
             return new TenantOtherSettingsEditDto()
             {
-                IsQuickThemeSelectEnabled = await SettingManager.GetSettingValueAsync<bool>(AppSettings.UserManagement.IsQuickThemeSelectEnabled)
+                IsQuickThemeSelectEnabled = await SettingManager.GetSettingValueAsync<bool>(AppSettings.UserManagement.IsQuickThemeSelectEnabled),
+                ReportLeftHeader = await SettingManager.GetSettingValueAsync(ZeroConst.LeftReportHeaderConfigKey),
+                ReportRightHeader = await SettingManager.GetSettingValueAsync(ZeroConst.RightReportHeaderConfigKey)
             };
         }
 
@@ -428,6 +430,16 @@ namespace Zero.Configuration.Tenants
                 AbpSession.GetTenantId(),
                 AppSettings.UserManagement.IsQuickThemeSelectEnabled,
                 input.IsQuickThemeSelectEnabled.ToString().ToLowerInvariant()
+            );
+            await SettingManager.ChangeSettingForTenantAsync(
+                AbpSession.GetTenantId(),
+                ZeroConst.LeftReportHeaderConfigKey,
+                input.ReportLeftHeader
+            );
+            await SettingManager.ChangeSettingForTenantAsync(
+                AbpSession.GetTenantId(),
+                ZeroConst.RightReportHeaderConfigKey,
+                input.ReportRightHeader
             );
         }
 

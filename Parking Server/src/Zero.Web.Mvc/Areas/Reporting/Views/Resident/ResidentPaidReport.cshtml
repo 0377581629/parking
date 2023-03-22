@@ -1,0 +1,32 @@
+@using Zero.Web.Areas.App.Startup
+@model Zero.Web.Areas.Reporting.Models.ViewReportModel
+
+@{
+    ViewBag.CurrentPageName = AppPageNames.Reporting.ResidentPaidReports;
+}
+
+@section Scripts
+{
+    <script abp-src="/api/reports/resources/js/telerikReportViewer" asp-append-version="true"></script>
+    <script abp-src="/js/InitReportHelper.js" asp-append-version="true"></script>
+    <script abp-src="@ZeroConst.ScriptPathReporting/Resident/ResidentPaidReport.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("ResidentPaidReport")"></abp-page-subheader>
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <input type="hidden" id="ReportName" value="@Model.ReportName"/>
+                <input type="hidden" id="LeftHeader" value="@Model.ReportLeftHeader"/>
+                <input type="hidden" id="RightHeader" value="@Model.ReportRightHeader"/>
+                <input type="hidden" id="ServiceName" value="@Model.ServiceName"/>
+                <input type="hidden" id="EndPoint" value="@Model.EndPoint"/>
+
+                <div id="reportViewerContent" style="height:700px">
+                    loading...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

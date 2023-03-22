@@ -166,6 +166,12 @@ namespace Zero.Configuration
                 new(AppSettings.UserManagement.UseGravatarProfilePicture,
                     GetFromAppSettings(AppSettings.UserManagement.UseGravatarProfilePicture, "false"),
                     isVisibleToClients: true, scopes: SettingScopes.User),
+                new SettingDefinition(ZeroConst.LeftReportHeaderConfigKey,
+                    GetFromAppSettings(ZeroConst.LeftReportHeaderConfigKey, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new SettingDefinition(ZeroConst.RightReportHeaderConfigKey,
+                    GetFromAppSettings(ZeroConst.RightReportHeaderConfigKey, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
 
                 // User Subscription 
                 new(AppSettings.UserManagement.SubscriptionUser,

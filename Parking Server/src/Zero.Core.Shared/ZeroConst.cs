@@ -82,6 +82,12 @@ namespace Zero
         public static string ReportExtension = ".trdx";
         public const string DefaultAvatarUrl = "../../Common/Images/default-profile-picture.png";
         public const string DefaultImageUrl = "../../Common/Images/default-image.png";
+        
+        public static string ReportingAreas = "Reporting";
+        public static string ScriptPathReporting = $"{ViewResourcesAreas}{ReportingAreas}";
+        public static string LeftReportHeaderConfigKey = "Reporting.Header.Left";
+        public static string RightReportHeaderConfigKey = "Reporting.Header.Right";
+        
         #endregion
     }
 }

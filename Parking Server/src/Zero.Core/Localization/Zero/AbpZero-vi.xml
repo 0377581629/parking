@@ -2,6 +2,14 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name="IsPaid">Đã thanh toán</text>
+    <text name="IsNotPaid">Chưa thanh toán</text>
+    <text name="Reports">Báo cáo</text>
+    <text name="ResidentPaidReport">Báo cáo danh sách thanh toán thẻ xe của dân cư trong tháng</text>
+    <text name="ResidentPaid">Thanh toán thẻ xe</text>
+    
+    <text name="ResidentMenu">Danh mục cư dân</text>
+    
     <text name="UseHostDefaultEmailSettings">Sử dụng cài đặt email mặc định của host</text>
     <text name="ExcelHasDuplicateObjs">Dữ liệu bị trùng trong file excel</text>
     
@@ -15,7 +23,7 @@
     <text name="PriceByThousandDong">Giá ( nghìn đồng )</text>
     <text name="MonthlyFare">Giá vé theo tháng</text>
     
-    <text name="CardMenu">Thẻ</text>
+    <text name="CardMenu">Danh mục thẻ</text>
     
     <text name="Resident">Cư dân</text>
     <text name="ResidentHeaderInfo">Danh mục cư dân</text>
@@ -24,7 +32,7 @@
     <text name="OwnerFullName">Tên chủ hộ</text>
     <text name="OwnerEmail">Email chủ hộ</text>
     <text name="OwnerPhone">Số điện thoại chủ hộ</text>
-    <text name="IsPaid">Đã thanh toán toàn bộ tiền vé xe</text>
+    <text name="IsPaidAllMonthlyFare">Đã thanh toán toàn bộ tiền vé xe trong tháng</text>
     
     <text name="TotalSlotCount">Tổng số slot gửi xe</text>
     

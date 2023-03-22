@@ -202,16 +202,21 @@ namespace Zero.Authorization
             history.CreateChildPermission(ParkPermissions.History_Edit, L("Edit"));
             history.CreateChildPermission(ParkPermissions.History_Delete, L("Delete"));
 
-            var cardType = pages.CreateChildPermission(ParkPermissions.CardType, L("CardType"));
+            #region CardMenu
+            var cardMenu = pages.CreateChildPermission(ParkPermissions.CardMenu, L("CardMenu"));
+
+            var cardType = cardMenu.CreateChildPermission(ParkPermissions.CardType, L("CardType"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Create, L("Create"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Edit, L("Edit"));
             cardType.CreateChildPermission(ParkPermissions.CardType_Delete, L("Delete"));
             
-            var card = pages.CreateChildPermission(ParkPermissions.Card, L("Card"));
+            var card = cardMenu.CreateChildPermission(ParkPermissions.Card, L("Card"));
             card.CreateChildPermission(ParkPermissions.Card_Create, L("Create"));
             card.CreateChildPermission(ParkPermissions.Card_Edit, L("Edit"));
             card.CreateChildPermission(ParkPermissions.Card_Delete, L("Delete"));
-            
+
+            #endregion
+
             var vehicleType = pages.CreateChildPermission(ParkPermissions.VehicleType, L("VehicleType"));
             vehicleType.CreateChildPermission(ParkPermissions.VehicleType_Create, L("Create"));
             vehicleType.CreateChildPermission(ParkPermissions.VehicleType_Edit, L("Edit"));
@@ -222,11 +227,20 @@ namespace Zero.Authorization
             fare.CreateChildPermission(ParkPermissions.Fare_Edit, L("Edit"));
             fare.CreateChildPermission(ParkPermissions.Fare_Delete, L("Delete"));
 
-            var resident = pages.CreateChildPermission(ParkPermissions.Resident, L("Resident"));
+            #region ResidentMenu
+
+            var residentMenu = pages.CreateChildPermission(ParkPermissions.ResidentMenu, L("ResidentMenu"));
+            
+            var resident = residentMenu.CreateChildPermission(ParkPermissions.Resident, L("Resident"));
             resident.CreateChildPermission(ParkPermissions.Resident_Create, L("Create"));
             resident.CreateChildPermission(ParkPermissions.Resident_Edit, L("Edit"));
             resident.CreateChildPermission(ParkPermissions.Resident_Delete, L("Delete"));
+            
+            var residentReport = residentMenu.CreateChildPermission(ReportPermissions.ResidentReports, L("ResidentReports"));
+            residentReport.CreateChildPermission(ReportPermissions.ResidentPaidReport, L("ResidentPaidReport"));
 
+            #endregion
+            
             #endregion
         }
 

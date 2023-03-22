@@ -188,11 +188,21 @@
         public const string History_Create = "Park.History.Create";
         public const string History_Edit = "Park.History.Edit";
         public const string History_Delete = "Park.History.Delete";
-        
+
+        #region CardMenu
+        public const string CardMenu = "Park.CardMenu";
+
         public const string CardType = "Park.CardType";
         public const string CardType_Create = "Park.CardType.Create";
         public const string CardType_Edit = "Park.CardType.Edit";
         public const string CardType_Delete = "Park.CardType.Delete";
+        
+        public const string Card = "Park.Card";
+        public const string Card_Create = "Park.Card.Create";
+        public const string Card_Edit = "Park.Card.Edit";
+        public const string Card_Delete = "Park.Card.Delete";
+
+        #endregion
         
         public const string VehicleType = "Park.VehicleType";
         public const string VehicleType_Create = "Park.VehicleType.Create";
@@ -203,15 +213,31 @@
         public const string Fare_Create = "Park.Fare.Create";
         public const string Fare_Edit = "Park.Fare.Edit";
         public const string Fare_Delete = "Park.Fare.Delete";
-        
-        public const string Card = "Park.Card";
-        public const string Card_Create = "Park.Card.Create";
-        public const string Card_Edit = "Park.Card.Edit";
-        public const string Card_Delete = "Park.Card.Delete";
+
+        #region Resident
+
+        public const string ResidentMenu = "Park.ResidentMenu";
         
         public const string Resident = "Park.Resident";
         public const string Resident_Create = "Park.Resident.Create";
         public const string Resident_Edit = "Park.Resident.Edit";
         public const string Resident_Delete = "Park.Resident.Delete";
+
+        #endregion
+        
+    }
+
+    public static class ReportPermissions
+    {
+        public const string Reports = "Reports";
+
+        #region Resident
+        
+        public const string ResidentReports = "Reports.ResidentReports";
+        public const string ResidentPaidReport = "Reports.ResidentPaidReport";
+
+        #endregion
+        
+        
     }
 }

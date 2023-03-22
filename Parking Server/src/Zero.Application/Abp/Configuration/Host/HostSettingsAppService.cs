@@ -306,7 +306,9 @@ namespace Zero.Configuration.Host
             {
                 IsQuickThemeSelectEnabled =
                     await SettingManager.GetSettingValueAsync<bool>(
-                        AppSettings.UserManagement.IsQuickThemeSelectEnabled)
+                        AppSettings.UserManagement.IsQuickThemeSelectEnabled),
+                ReportLeftHeader = await SettingManager.GetSettingValueAsync(ZeroConst.LeftReportHeaderConfigKey),
+                ReportRightHeader = await SettingManager.GetSettingValueAsync(ZeroConst.RightReportHeaderConfigKey)
             };
         }
 
@@ -433,6 +435,14 @@ namespace Zero.Configuration.Host
             await SettingManager.ChangeSettingForApplicationAsync(
                 AppSettings.UserManagement.IsQuickThemeSelectEnabled,
                 input.IsQuickThemeSelectEnabled.ToString().ToLowerInvariant()
+            );
+            await SettingManager.ChangeSettingForApplicationAsync(
+                ZeroConst.LeftReportHeaderConfigKey,
+                input.ReportLeftHeader
+            );
+            await SettingManager.ChangeSettingForApplicationAsync(
+                ZeroConst.RightReportHeaderConfigKey,
+                input.ReportRightHeader
             );
         }
 

@@ -95,9 +95,8 @@
   <!-- End Report -->
 
   <ItemGroup>
-    <Folder Include="Areas\Reporting\Controllers" />
     <Folder Include="Areas\Reporting\Models" />
-    <Folder Include="Areas\Reporting\Views" />
+    <Folder Include="Reports" />
   </ItemGroup>
 
   <ItemGroup>
