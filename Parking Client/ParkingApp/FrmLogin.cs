@@ -24,6 +24,14 @@ namespace ParkingApp
         {
             InitializeComponent();
 
+            // var testModelAI = new FrmTestModelAI();
+            // var result = testModelAI.ShowDialog();
+            //
+            // if (result == DialogResult.OK)
+            // {
+            //     testModelAI.Close();
+            // }
+
             var connectionString = ConfigurationManager.AppSettings["connectionString"];
             if (connectionString.Equals("Data Source=DataBase/parking.db"))
             {

@@ -202,6 +202,17 @@ namespace ParkingApp
         {
             Application.Exit();
         }
+
+        private void btnTestModelAI_click(object sender, EventArgs e)
+        {
+            var frmTestModelAI = new FrmTestModelAI();
+            var result = frmTestModelAI.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                frmTestModelAI.Close();
+            }
+        }
     }
 
     enum enumMain
