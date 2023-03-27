@@ -43,6 +43,7 @@ namespace DPS.Park.Application.Services.Sync
         
         public async Task SendInfo(SyncDto input)
         {
+            // Client sent to Sv
             if (input is {Details: { }} && input.Details.Any())
             {
                 using (CurrentUnitOfWork.SetTenantId(input.TenantId))
@@ -66,6 +67,7 @@ namespace DPS.Park.Application.Services.Sync
 
         public async Task<BaseInfoDto> GetInfo()
         {
+            // Sv to Client
             return new BaseInfoDto
             {
                 TicketPrices = await _parkAppService.GetAllFares()

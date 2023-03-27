@@ -54,15 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GiaVe.cs" />
-    <Compile Include="LichSuRaVao.cs" />
-    <Compile Include="LoaiThe.cs" />
-    <Compile Include="LoaiXe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityData.cs" />
     <Compile Include="StudentData.cs" />
-    <Compile Include="TheXe.cs" />
-    <Compile Include="TheXeKhachHang.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
