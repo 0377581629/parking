@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using System.Data.SQLite;
-//using Dapper;
-using System.Linq;
 using DataAccess;
 
 namespace ParkingLib
@@ -39,14 +37,6 @@ namespace ParkingLib
             set { _name = value; }
         }
         
-        private String _avatar=String.Empty;
-        [DisplayName("Avatar")]
-        [JsonProperty("Avatar", NullValueHandling = NullValueHandling.Ignore)]
-        public String Avatar
-        {
-            get { return _avatar; }
-            set { _avatar = value; }
-        }
         private String _avatarBase64=String.Empty;
         [DisplayName("AvatarBase64")]
         [JsonProperty("AvatarBase64", NullValueHandling = NullValueHandling.Ignore)]
@@ -93,7 +83,7 @@ namespace ParkingLib
         private SQLiteCommand _cmd = new SQLiteCommand();
         public void Add()
         {
-            var _strStudentData = "INSERT INTO StudentData([Id],[Code],[Name],[Avatar],[AvatarBase64],[Male],[DoBStr],[CardNumber]) Values(@Id,@Code,@Name,@Avatar,@AvatarBase64,@Male,@DoBStr,@CardNumber)";
+            var _strStudentData = "INSERT INTO StudentData([Id],[Code],[Name],[AvatarBase64],[Male],[DoBStr],[CardNumber]) Values(@Id,@Code,@Name,@AvatarBase64,@Male,@DoBStr,@CardNumber)";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             _cmd = new SQLiteCommand();
             _cmd.Connection = _conn;
@@ -101,7 +91,6 @@ namespace ParkingLib
             _cmd.Parameters.Add("@Id",DbType.Int32).Value = _id;
             _cmd.Parameters.Add("@Code",DbType.String).Value = String.IsNullOrEmpty(_code) ? "" : _code;
             _cmd.Parameters.Add("@Name",DbType.String).Value = String.IsNullOrEmpty(_name) ? "" : _name;
-            _cmd.Parameters.Add("@Avatar",DbType.String).Value = String.IsNullOrEmpty(_avatar) ? "" : _avatar;
             _cmd.Parameters.Add("@AvatarBase64",DbType.String).Value = String.IsNullOrEmpty(_avatarBase64) ? "" : _avatarBase64;
             _cmd.Parameters.Add("@Male",DbType.Int32).Value = _male;
             _cmd.Parameters.Add("@DoBStr",DbType.String).Value = String.IsNullOrEmpty(_doBStr) ? "" : _doBStr;
@@ -149,7 +138,6 @@ namespace ParkingLib
                     _StudentData.Id=Convert.ToInt32(dr["Id"]);
                     _StudentData.Code=Convert.ToString(dr["Code"]);
                     _StudentData.Name=Convert.ToString(dr["Name"]);
-                    _StudentData.Avatar=Convert.ToString(dr["Avatar"]);
                     _StudentData.AvatarBase64=Convert.ToString(dr["AvatarBase64"]);
                     _StudentData.Male=Convert.ToInt32(dr["Male"]);
                     _StudentData.DoBStr=Convert.ToString(dr["DoBStr"]);

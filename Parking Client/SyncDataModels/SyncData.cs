@@ -5,21 +5,19 @@ namespace SyncDataModels
 {
     public class SyncClientDto
     {
-        public List<StudentData> ListStudentData { get; set; }
+        public List<StudentDataDto> ListStudentData { get; set; }
 
-        public List<SecurityData> ListSecurityData { get; set; }
+        public List<SecurityDataDto> ListSecurityData { get; set; }
     }
 
-    public class StudentData
+    public class StudentDataDto
     {
         public long Id { get; set; }
 
         public string Code { get; set; }
 
         public string Name { get; set; }
-
-        public string Avatar { get; set; }
-
+        
         public string AvatarBase64 { get; set; }
 
         public bool Male { get; set; }
@@ -27,15 +25,9 @@ namespace SyncDataModels
         public string DoBStr { get; set; }
 
         public string CardNumber { get; set; }
-
-        public string CardDateStr { get; set; }
-
-        public DateTime? CardDate { get; set; }
-
-        public string ClassName { get; set; }
     }
 
-    public class SecurityData
+    public class SecurityDataDto
     {
         public long Id { get; set; }
         public int StudentId { get; set; }

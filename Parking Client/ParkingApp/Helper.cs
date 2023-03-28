@@ -242,7 +242,6 @@ namespace ParkingApp
                             Id = (int)itm.Id,
                             Code = itm.Code,
                             Name = itm.Name,
-                            Avatar = itm.Avatar,
                             AvatarBase64 = itm.AvatarBase64,
                             Male = itm.Male ? 1 : 0,
                             DoBStr = itm.DoBStr,
@@ -304,10 +303,10 @@ namespace ParkingApp
 
                     var lstSecurityDataLocal = lstSecurityData.Where(x => x.Status == 0);
 
-                    syncData.ListSecurityData = new List<SyncDataModels.SecurityData>();
+                    syncData.ListSecurityData = new List<SyncDataModels.SecurityDataDto>();
                     foreach (var itm in lstSecurityDataLocal)
                     {
-                        var securityDataServer = new SyncDataModels.SecurityData()
+                        var securityDataServer = new SyncDataModels.SecurityDataDto()
                         {
                             Id = itm.Id,
                             StudentId = itm.StudentId,
