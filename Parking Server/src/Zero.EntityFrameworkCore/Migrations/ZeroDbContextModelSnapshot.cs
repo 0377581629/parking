@@ -2483,6 +2483,9 @@ namespace Zero.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Balance")
+                        .HasColumnType("int");
+
                     b.Property<string>("CardNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -2731,14 +2734,17 @@ namespace Zero.Migrations
                     b.ToTable("Park_Message");
                 });
 
-            modelBuilder.Entity("DPS.Park.Core.Resident.Resident", b =>
+            modelBuilder.Entity("DPS.Park.Core.Student.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApartmentNumber")
+                    b.Property<string>("Avatar")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreationTime")
@@ -2753,13 +2759,19 @@ namespace Zero.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("DoB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsPaid")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("LastModificationTime")
@@ -2768,13 +2780,10 @@ namespace Zero.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("OwnerEmail")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("OwnerFullName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerPhone")
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TenantId")
@@ -2782,10 +2791,10 @@ namespace Zero.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Parking_Resident_Resident");
+                    b.ToTable("Parking_Student_Student");
                 });
 
-            modelBuilder.Entity("DPS.Park.Core.Resident.ResidentCard", b =>
+            modelBuilder.Entity("DPS.Park.Core.Student.StudentCard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -2798,7 +2807,7 @@ namespace Zero.Migrations
                     b.Property<string>("Note")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ResidentId")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.Property<int?>("TenantId")
@@ -2808,9 +2817,9 @@ namespace Zero.Migrations
 
                     b.HasIndex("CardId");
 
-                    b.HasIndex("ResidentId");
+                    b.HasIndex("StudentId");
 
-                    b.ToTable("Parking_Resident_ResidentCard");
+                    b.ToTable("Parking_Student_StudentCard");
                 });
 
             modelBuilder.Entity("DPS.Park.Core.Vehicle.VehicleType", b =>
@@ -4298,7 +4307,7 @@ namespace Zero.Migrations
                     b.Navigation("VehicleType");
                 });
 
-            modelBuilder.Entity("DPS.Park.Core.Resident.ResidentCard", b =>
+            modelBuilder.Entity("DPS.Park.Core.Student.StudentCard", b =>
                 {
                     b.HasOne("DPS.Park.Core.Card.Card", "Card")
                         .WithMany()
@@ -4306,15 +4315,15 @@ namespace Zero.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DPS.Park.Core.Resident.Resident", "Resident")
+                    b.HasOne("DPS.Park.Core.Student.Student", "Student")
                         .WithMany()
-                        .HasForeignKey("ResidentId")
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Card");
 
-                    b.Navigation("Resident");
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("Zero.Abp.Payments.SubscriptionPayment", b =>

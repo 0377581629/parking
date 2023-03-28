@@ -227,17 +227,17 @@ namespace Zero.Authorization
             fare.CreateChildPermission(ParkPermissions.Fare_Edit, L("Edit"));
             fare.CreateChildPermission(ParkPermissions.Fare_Delete, L("Delete"));
 
-            #region ResidentMenu
+            #region StudentMenu
 
-            var residentMenu = pages.CreateChildPermission(ParkPermissions.ResidentMenu, L("ResidentMenu"));
+            var studentMenu = pages.CreateChildPermission(ParkPermissions.StudentMenu, L("StudentMenu"));
             
-            var resident = residentMenu.CreateChildPermission(ParkPermissions.Resident, L("Resident"));
-            resident.CreateChildPermission(ParkPermissions.Resident_Create, L("Create"));
-            resident.CreateChildPermission(ParkPermissions.Resident_Edit, L("Edit"));
-            resident.CreateChildPermission(ParkPermissions.Resident_Delete, L("Delete"));
+            var student = studentMenu.CreateChildPermission(ParkPermissions.Student, L("Student"));
+            student.CreateChildPermission(ParkPermissions.Student_Create, L("Create"));
+            student.CreateChildPermission(ParkPermissions.Student_Edit, L("Edit"));
+            student.CreateChildPermission(ParkPermissions.Student_Delete, L("Delete"));
             
-            var residentReport = residentMenu.CreateChildPermission(ReportPermissions.ResidentReports, L("ResidentReports"));
-            residentReport.CreateChildPermission(ReportPermissions.ResidentPaidReport, L("ResidentPaidReport"));
+            var studentReport = student.CreateChildPermission(ReportPermissions.StudentReports, L("StudentReports"));
+            studentReport.CreateChildPermission(ReportPermissions.StudentRenewCardReport, L("StudentRenewCardReport"));
 
             #endregion
             

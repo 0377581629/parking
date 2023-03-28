@@ -30,5 +30,7 @@ namespace DPS.Park.Core.Card
         [ForeignKey("VehicleTypeId")]
         [CanBeNull]
         public VehicleType VehicleType { get; set; }
+        
+        public int Balance { get; set; }
     }
 }

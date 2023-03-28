@@ -124,12 +124,11 @@ namespace ParkingApp
             {
                 var log = new SecurityData
                 {
-                    Id = data.PersonId,
+                    Id = data.Id,
                     StudentId = data.StudentId,
-                    PersonId = data.PersonId,
                     CamCode = data.CamCode,
                     CardNumber = data.CardNumber,
-                    ParentId = data.ParentId,
+                    ParentStatus = data.ParentStatus,
                     PhotoUrl = data.PhotoUrl,
                     SecurityDateStr = data.SecurityDateStr,
                     Status = 0
@@ -242,19 +241,13 @@ namespace ParkingApp
                         {
                             Id = (int)itm.Id,
                             Code = itm.Code,
-                            PersonId = (int)itm.PersonId,
-                            FirstName = itm.FirstName,
-                            LastName = itm.LastName,
-                            PeopleId = itm.PeopleId,
+                            Name = itm.Name,
                             Avatar = itm.Avatar,
                             AvatarBase64 = itm.AvatarBase64,
                             Male = itm.Male ? 1 : 0,
                             DoBStr = itm.DoBStr,
 
-                            CardDateStr = itm.CardDateStr,
                             CardNumber = itm.CardNumber,
-
-                            ClassName = itm.ClassName
                         };
 
                         candidate.Add();
@@ -271,7 +264,6 @@ namespace ParkingApp
                             Id = (int)itm.Id,
                             StudentId = itm.StudentId,
                             CardNumber = itm.CardNumber,
-                            PersonId = (int)itm.PersonId,
                             CamCode = itm.CamCode,
                             PhotoUrl = itm.PhotoUrl,
                             PhotoBase64 = itm.PhotoBase64,
@@ -320,8 +312,7 @@ namespace ParkingApp
                             Id = itm.Id,
                             StudentId = itm.StudentId,
                             
-                            ParentId = itm.ParentId,
-                            PersonId = itm.PersonId,
+                            ParentStatus = itm.ParentStatus,
                             CamCode = itm.CamCode,
                             SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SecurityDateStr = itm.SecurityDateStr,

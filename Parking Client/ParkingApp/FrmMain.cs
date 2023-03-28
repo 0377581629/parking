@@ -60,7 +60,7 @@ namespace ParkingApp
                         // Xoa file cache
                         var path = Application.StartupPath + "/Cache";
                         DirectoryInfo di = new DirectoryInfo(path);
-
+                        
                         foreach (FileInfo file in di.GetFiles())
                         {
                             file.Delete();

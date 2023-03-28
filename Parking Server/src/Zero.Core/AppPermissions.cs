@@ -214,14 +214,14 @@
         public const string Fare_Edit = "Park.Fare.Edit";
         public const string Fare_Delete = "Park.Fare.Delete";
 
-        #region Resident
+        #region Student
 
-        public const string ResidentMenu = "Park.ResidentMenu";
+        public const string StudentMenu = "Park.StudentMenu";
         
-        public const string Resident = "Park.Resident";
-        public const string Resident_Create = "Park.Resident.Create";
-        public const string Resident_Edit = "Park.Resident.Edit";
-        public const string Resident_Delete = "Park.Resident.Delete";
+        public const string Student = "Park.Student";
+        public const string Student_Create = "Park.Student.Create";
+        public const string Student_Edit = "Park.Student.Edit";
+        public const string Student_Delete = "Park.Student.Delete";
 
         #endregion
         
@@ -231,10 +231,10 @@
     {
         public const string Reports = "Reports";
 
-        #region Resident
+        #region Student
         
-        public const string ResidentReports = "Reports.ResidentReports";
-        public const string ResidentPaidReport = "Reports.ResidentPaidReport";
+        public const string StudentReports = "Reports.StudentReports";
+        public const string StudentRenewCardReport = "Reports.StudentRenewCardReport";
 
         #endregion
         

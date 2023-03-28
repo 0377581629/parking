@@ -270,8 +270,7 @@ namespace ParkingApp
                         {
                             CamCode = "",
                             CardNumber = cardNumberNow,
-                            ParentId = isIn ? (int)Helper.SecurityDataStatus.In : (int)Helper.SecurityDataStatus.Out,
-                            PersonId = studentSelected.PersonId,
+                            ParentStatus = isIn ? (int)Helper.SecurityDataStatus.In : (int)Helper.SecurityDataStatus.Out,
                             StudentId = studentSelected.Id,
                             PhotoUrl = pathCaptureIn,
                             PhotoBase64 = "", // Việc chuyển đổi lâu ~ 7s => thực hiện khi đồng bộ lên server
@@ -280,7 +279,7 @@ namespace ParkingApp
                         // Save log
                         var logId = _helper.AddLogSecurity(log, ref mes);
                         cardNumberNow = string.Empty;
-                        if (logId > 0 && log.PersonId > 0)
+                        if (logId > 0 && !string.IsNullOrEmpty(log.CardNumber))
                         {
                             // OpenBarie();
                         }
@@ -343,7 +342,7 @@ namespace ParkingApp
                     if (studentInfo != null)
                     {
                         var avatar = Helper.Base64ToImage(studentInfo.AvatarBase64);
-                        var fullName = studentInfo.FirstName + " " + studentInfo.LastName;
+                        var fullName = studentInfo.Name;
                         var gender = studentInfo.Male == 1 ? "Nam" : "Nữ";
                         mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
                               "\n Ngày sinh: " + studentInfo.DoBStr + " - Giới tính: " + gender;

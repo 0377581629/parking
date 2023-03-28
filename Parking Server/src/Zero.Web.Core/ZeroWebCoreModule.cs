@@ -137,10 +137,10 @@ namespace Zero.Web
             IocManager.Resolve<ApplicationPartManager>()
                 .AddApplicationPartsIfNotAddedBefore(typeof(ZeroWebCoreModule).Assembly);
 
-            var emailResidentNotPaidBackGroundJobService = IocManager.Resolve<IEmailResidentNotPaidBackGroundJob>();
-            RecurringJob.RemoveIfExists("Send Email For Resident Did Not Paid");
-            RecurringJob.AddOrUpdate("Send Email For Resident Did Not Paid",
-                () => emailResidentNotPaidBackGroundJobService.SendEmailResidentNotPaid(), Cron.Daily(6));
+            var emailStudentOutOfMoneyBackGroundJobService = IocManager.Resolve<IEmailStudentOutOfMoneyBackGroundJob>();
+            RecurringJob.RemoveIfExists("Send Email For Student Out Of Money");
+            RecurringJob.AddOrUpdate("Send Email For Student Out Of Money",
+                () => emailStudentOutOfMoneyBackGroundJobService.SendEmailStudentOutOfMoney(), Cron.Daily(6));
         }
 
         private void SetAppFolders()

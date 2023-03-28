@@ -9,7 +9,7 @@ using DPS.Park.Core.Card;
 using DPS.Park.Core.Fare;
 using DPS.Park.Core.History;
 using DPS.Park.Core.Message;
-using DPS.Park.Core.Resident;
+using DPS.Park.Core.Student;
 using DPS.Park.Core.Vehicle;
 using Microsoft.EntityFrameworkCore;
 using Zero.Abp.Authorization.Accounting;
@@ -24,7 +24,6 @@ using Zero.Editions;
 using Zero.Friendships;
 using Zero.MultiTenancy;
 using Zero.MultiTenancy.Accounting;
-using Zero.MultiTenancy.Payments;
 using Zero.Storage;
 
 namespace Zero.EntityFrameworkCore
@@ -102,9 +101,9 @@ namespace Zero.EntityFrameworkCore
 
         public virtual DbSet<Message> Messages { get; set; }
 
-        public virtual DbSet<Resident> Residents { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
-        public virtual DbSet<ResidentCard> ResidentCards { get; set; }
+        public virtual DbSet<StudentCard> StudentCards { get; set; }
 
         #endregion
 

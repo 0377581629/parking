@@ -22,14 +22,6 @@ namespace ParkingLib
             get { return _id; }
             set { _id = value; }
         }
-        private Int32 _personId = 0;
-        [DisplayName("PersonId")]
-        [JsonProperty("PersonId", NullValueHandling = NullValueHandling.Ignore)]
-        public Int32 PersonId
-        {
-            get { return _personId; }
-            set { _personId = value; }
-        }
         private Int32 _studentId = 0;
         [DisplayName("StudentId")]
         [JsonProperty("StudentId", NullValueHandling = NullValueHandling.Ignore)]
@@ -54,13 +46,13 @@ namespace ParkingLib
             get { return _camCode; }
             set { _camCode = value; }
         }
-        private Int32 _parentId = 0;
-        [DisplayName("ParentId")]
-        [JsonProperty("ParentId", NullValueHandling = NullValueHandling.Ignore)]
-        public Int32 ParentId
+        private Int32 _parentStatus = 0;
+        [DisplayName("ParentStatus")]
+        [JsonProperty("ParentStatus", NullValueHandling = NullValueHandling.Ignore)]
+        public Int32 ParentStatus
         {
-            get { return _parentId; }
-            set { _parentId = value; }
+            get { return _parentStatus; }
+            set { _parentStatus = value; }
         }
         private String _securityDateStr = String.Empty;
         [DisplayName("SecurityDateStr")]
@@ -86,14 +78,7 @@ namespace ParkingLib
             get { return _photoUrl; }
             set { _photoUrl = value; }
         }
-        private Int32 _isDeleted = 0;
-        [DisplayName("IsDeleted")]
-        [JsonProperty("IsDeleted", NullValueHandling = NullValueHandling.Ignore)]
-        public Int32 IsDeleted
-        {
-            get { return _isDeleted; }
-            set { _isDeleted = value; }
-        }
+        
         private Int32 _status = 0;
         [DisplayName("Status")]
         [JsonProperty("Status", NullValueHandling = NullValueHandling.Ignore)]
@@ -104,24 +89,7 @@ namespace ParkingLib
         }
         public SecurityData() { }
         #endregion
-
-        private String _errorStr = String.Empty;
-        public String ErrorStr
-        {
-            get { return _errorStr; }
-            set { _errorStr = value; }
-        }
-        public bool Valid()
-        {
-            bool _res = true;
-            if (_id == null)
-            {
-                _res = false;
-                _errorStr = "_ID không được bỏ trống!";
-            }
-
-            return _res;
-        }
+        
         // Extend
         public DateTime SecurityDate { get; set; }
         public StudentData StudentInfo { get; set; }
@@ -131,64 +99,26 @@ namespace ParkingLib
         private SQLiteCommand _cmd = new SQLiteCommand();
         public void Add()
         {
-            var _strSecurityData = "INSERT INTO SecurityData([PersonId],[StudentId],[CardNumber],[CamCode],[ParentId],[SecurityDateStr],[PhotoBase64],[PhotoUrl],[Status],[IsDeleted]) Values(@PersonId,@StudentId,@CardNumber,@CamCode,@ParentId,@SecurityDateStr,@PhotoBase64,@PhotoUrl,@Status,@IsDeleted)";
+            var _strSecurityData = "INSERT INTO SecurityData([StudentId],[CardNumber],[CamCode],[ParentStatus],[SecurityDateStr],[PhotoBase64],[PhotoUrl],[Status]) Values(@StudentId,@CardNumber,@CamCode,@ParentStatus,@SecurityDateStr,@PhotoBase64,@PhotoUrl,@Status)";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             _cmd = new SQLiteCommand();
             _cmd.Connection = _conn;
             _cmd.CommandText = _strSecurityData;
             _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
-            _cmd.Parameters.Add("@PersonId", DbType.Int32).Value = _personId;
             _cmd.Parameters.Add("@StudentId", DbType.Int32).Value = _studentId;
             _cmd.Parameters.Add("@CardNumber", DbType.String).Value = String.IsNullOrEmpty(_cardNumber) ? "" : _cardNumber;
-            _cmd.Parameters.Add("@ParentId", DbType.Int32).Value = _parentId;
+            _cmd.Parameters.Add("@ParentStatus", DbType.Int32).Value = _parentStatus;
             _cmd.Parameters.Add("@CamCode", DbType.String).Value = String.IsNullOrEmpty(_camCode) ? "" : _camCode;
             _cmd.Parameters.Add("@SecurityDateStr", DbType.String).Value = String.IsNullOrEmpty(_securityDateStr) ? "" : _securityDateStr;
             _cmd.Parameters.Add("@PhotoBase64", DbType.String).Value = String.IsNullOrEmpty(_photoBase64) ? "" : _photoBase64;
             _cmd.Parameters.Add("@PhotoUrl", DbType.String).Value = String.IsNullOrEmpty(_photoUrl) ? "" : _photoUrl;
             _cmd.Parameters.Add("@Status", DbType.Int32).Value = 0;
-            _cmd.Parameters.Add("@IsDeleted", DbType.Int32).Value = _isDeleted;
 
             _cmd.ExecuteNonQuery();
             var _cmdID = new SQLiteCommand(" SELECT last_insert_rowid() AS  Id FROM SecurityData", _conn);
             System.Object temp = _cmdID.ExecuteScalar();
             _id = Convert.ToInt32(temp);
 
-            _conn.Close();
-        }
-
-        public void Edit()
-        {
-            var _strSecurityData = "UPDATE SecurityData SET PersonId = @PersonId,StudentId = @StudentId,CardNumber = @CardNumber,CamCode = @CamCode,ParentId = @ParentId,SecurityDateStr = @SecurityDateStr,PhotoBase64 = @PhotoBase64,PhotoUrl = @PhotoUrl,IsDeleted = @IsDeleted WHERE (Id = @Id)";
-            if (_conn.State == ConnectionState.Closed) _conn.Open();
-            _cmd = new SQLiteCommand();
-            _cmd.Connection = _conn;
-            _cmd.CommandText = _strSecurityData;
-            _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
-            _cmd.Parameters.Add("@PersonId", DbType.Int32).Value = _personId;
-            _cmd.Parameters.Add("@StudentId", DbType.Int32).Value = _studentId;
-            _cmd.Parameters.Add("@CardNumber", DbType.String).Value = String.IsNullOrEmpty(_cardNumber) ? "" : _cardNumber;
-            _cmd.Parameters.Add("@ParentId", DbType.Int32).Value = _parentId;
-            _cmd.Parameters.Add("@CamCode", DbType.String).Value = String.IsNullOrEmpty(_camCode) ? "" : _camCode;
-            _cmd.Parameters.Add("@SecurityDateStr", DbType.String).Value = String.IsNullOrEmpty(_securityDateStr) ? "" : _securityDateStr;
-            _cmd.Parameters.Add("@PhotoBase64", DbType.String).Value = String.IsNullOrEmpty(_photoBase64) ? "" : _photoBase64;
-            _cmd.Parameters.Add("@PhotoUrl", DbType.String).Value = String.IsNullOrEmpty(_photoUrl) ? "" : _photoUrl;
-            _cmd.Parameters.Add("@Status", DbType.Int32).Value = 0;
-            _cmd.Parameters.Add("@IsDeleted", DbType.Int32).Value = _isDeleted;
-
-            _cmd.ExecuteNonQuery();
-            _conn.Close();
-        }
-
-        public void Del()
-        {
-            var _strSecurityData = "DELETE FROM SecurityData WHERE  (Id = @Id)";
-            if (_conn.State == ConnectionState.Closed) _conn.Open();
-            _cmd = new SQLiteCommand();
-            _cmd.Connection = _conn;
-            _cmd.CommandText = _strSecurityData;
-            _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
-
-            _cmd.ExecuteNonQuery();
             _conn.Close();
         }
 
@@ -224,60 +154,6 @@ namespace ParkingLib
             _conn.Close();
         }
 
-        public SecurityData Get()
-        {
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            SecurityData _SecurityData = null;
-            var _strSecurityData = "SELECT * FROM SecurityData WHERE Id = " + _id;
-            if (_conn.State == ConnectionState.Closed) _conn.Open();
-            using (SQLiteDataAdapter da = new SQLiteDataAdapter(_strSecurityData, _conn))
-            {
-                using (new SQLiteCommandBuilder(da))
-                {
-                    da.Fill(ds, "SecurityData");
-                    dt = ds.Tables["SecurityData"];
-                }
-            }
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                DataRow dr = dt.Rows[i];
-                _SecurityData = new SecurityData();
-                _SecurityData.Id = Convert.ToInt32(dr["Id"]);
-                _SecurityData.PersonId = Convert.ToInt32(dr["PersonId"]);
-                _SecurityData.StudentId = Convert.ToInt32(dr["StudentId"]);
-                _SecurityData.CardNumber = Convert.ToString(dr["CardNumber"]);
-                _SecurityData.ParentId = Convert.ToInt32(dr["ParentId"]);
-                _SecurityData.CamCode = Convert.ToString(dr["CamCode"]);
-                _SecurityData.SecurityDateStr = Convert.ToString(dr["SecurityDateStr"]);
-                _SecurityData.PhotoBase64 = Convert.ToString(dr["PhotoBase64"]);
-                _SecurityData.PhotoUrl = Convert.ToString(dr["PhotoUrl"]);
-                _SecurityData.Status = Convert.ToInt32(dr["Status"]);
-                _SecurityData.IsDeleted = Convert.ToInt32(dr["IsDeleted"]);
-
-            }
-            _conn.Close();
-            return _SecurityData;
-        }
-
-        public DataTable Get_Table()
-        {
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            var _strSecurityData = "SELECT * FROM SecurityData WHERE Id = " + _id;
-            if (_conn.State == ConnectionState.Closed) _conn.Open();
-            using (SQLiteDataAdapter da = new SQLiteDataAdapter(_strSecurityData, _conn))
-            {
-                using (new SQLiteCommandBuilder(da))
-                {
-                    da.Fill(ds, "SecurityData");
-                    dt = ds.Tables["SecurityData"];
-                }
-            }
-            _conn.Close();
-            return dt;
-        }
-
         public List<SecurityData> Gets()
         {
             DataTable dt = new DataTable();
@@ -298,39 +174,19 @@ namespace ParkingLib
                 DataRow dr = dt.Rows[i];
                 var _SecurityData = new SecurityData();
                 _SecurityData.Id = Convert.ToInt32(dr["Id"]);
-                _SecurityData.PersonId = Convert.ToInt32(dr["PersonId"]);
                 _SecurityData.StudentId = Convert.ToInt32(dr["StudentId"]);
                 _SecurityData.CardNumber = Convert.ToString(dr["CardNumber"]);
-                _SecurityData.ParentId = Convert.ToInt32(dr["ParentId"]);
+                _SecurityData.ParentStatus = Convert.ToInt32(dr["ParentStatus"]);
                 _SecurityData.CamCode = Convert.ToString(dr["CamCode"]);
                 _SecurityData.SecurityDateStr = Convert.ToString(dr["SecurityDateStr"]);
                 _SecurityData.PhotoBase64 = Convert.ToString(dr["PhotoBase64"]);
                 _SecurityData.PhotoUrl = Convert.ToString(dr["PhotoUrl"]);
                 _SecurityData.Status = Convert.ToInt32(dr["Status"]);
-                _SecurityData.IsDeleted = Convert.ToInt32(dr["IsDeleted"]);
 
                 _lstSecurityData.Add(_SecurityData);
             }
             _conn.Close();
             return _lstSecurityData;
-        }
-
-        public DataTable Gets_Table()
-        {
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            var _strSecurityData = "SELECT * FROM SecurityData";
-            if (_conn.State == ConnectionState.Closed) _conn.Open();
-            using (SQLiteDataAdapter da = new SQLiteDataAdapter(_strSecurityData, _conn))
-            {
-                using (new SQLiteCommandBuilder(da))
-                {
-                    da.Fill(ds, "SecurityData");
-                    dt = ds.Tables["SecurityData"];
-                }
-            }
-            _conn.Close();
-            return dt;
         }
 
         public List<SecurityData> GetByCardNumbers()
@@ -355,17 +211,15 @@ namespace ParkingLib
                 DataRow dr = dt.Rows[i];
                 var _SecurityData = new SecurityData();
                 _SecurityData.Id = Convert.ToInt32(dr["Id"]);
-                _SecurityData.PersonId = Convert.ToInt32(dr["PersonId"]);
                 _SecurityData.StudentId = Convert.ToInt32(dr["StudentId"]);
                 _SecurityData.CardNumber = Convert.ToString(dr["CardNumber"]);
-                _SecurityData.ParentId = Convert.ToInt32(dr["ParentId"]);
+                _SecurityData.ParentStatus = Convert.ToInt32(dr["ParentStatus"]);
                 _SecurityData.CamCode = Convert.ToString(dr["CamCode"]);
                 _SecurityData.SecurityDateStr = Convert.ToString(dr["SecurityDateStr"]);
                 _SecurityData.SecurityDate = DateTime.ParseExact(_SecurityData.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", culture);
                 _SecurityData.PhotoBase64 = Convert.ToString(dr["PhotoBase64"]);
                 _SecurityData.PhotoUrl = Convert.ToString(dr["PhotoUrl"]);
                 _SecurityData.Status = Convert.ToInt32(dr["Status"]);
-                _SecurityData.IsDeleted = Convert.ToInt32(dr["IsDeleted"]);
 
                 _lstSecurityData.Add(_SecurityData);
             }

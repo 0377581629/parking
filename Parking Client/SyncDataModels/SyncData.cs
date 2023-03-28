@@ -16,13 +16,7 @@ namespace SyncDataModels
 
         public string Code { get; set; }
 
-        public long PersonId { get; set; }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string PeopleId { get; set; }
+        public string Name { get; set; }
 
         public string Avatar { get; set; }
 
@@ -44,14 +38,11 @@ namespace SyncDataModels
     public class SecurityData
     {
         public long Id { get; set; }
-
-        public long PersonId { get; set; }
-
         public int StudentId { get; set; }
 
         public string CardNumber { get; set; }
 
-        public int ParentId { get; set; }
+        public int ParentStatus { get; set; }
 
         public string CamCode { get; set; }
 

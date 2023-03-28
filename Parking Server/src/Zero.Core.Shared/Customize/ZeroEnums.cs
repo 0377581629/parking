@@ -10,7 +10,7 @@ namespace Zero
             [StringValue("EmailTemplateType_UserActiveEmail")] UserActiveEmail = 2,
             [StringValue("EmailTemplateType_UserResetPassword")] UserResetPassword = 3,
             [StringValue("EmailTemplateType_SecurityCode")] UserTwoFactorSecurityCode = 4,
-            [StringValue("EmailTemplateType_ResidentNotPaid")] ResidentNotPaid = 5,
+            [StringValue("EmailTemplateType_StudentOutOfMoney")] StudentOutOfMoney = 5,
         }
         
         public enum DefaultStatus

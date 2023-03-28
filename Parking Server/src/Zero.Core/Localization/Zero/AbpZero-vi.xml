@@ -2,13 +2,18 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
-    <text name="IsPaid">Đã thanh toán</text>
-    <text name="IsNotPaid">Chưa thanh toán</text>
-    <text name="Reports">Báo cáo</text>
-    <text name="ResidentPaidReport">Báo cáo danh sách thanh toán thẻ xe của dân cư trong tháng</text>
-    <text name="ResidentPaid">Thanh toán thẻ xe</text>
+    <text name="CardNumberSearch">Tìm kiếm theo số thẻ</text>
     
-    <text name="ResidentMenu">Danh mục cư dân</text>
+    <text name="DeleteMessageWarningTitle">Bạn có chắc chắn muốn xóa</text>
+    
+    <text name="Reports">Báo cáo</text>
+    <text name="Reporting">Báo cáo</text>
+    <text name="ReportLeftHeader">Tiêu đề báo cáo trái</text>
+    <text name="ReportRightHeader">Tiêu đề báo cáo phải</text>
+    <text name="StudentRenewCardReport">Báo cáo danh sách làm thẻ xe của sinh viên</text>
+    <text name="StudentRenewCard">Làm thẻ xe</text>
+    
+    <text name="StudentMenu">Danh mục học sinh</text>
     
     <text name="UseHostDefaultEmailSettings">Sử dụng cài đặt email mặc định của host</text>
     <text name="ExcelHasDuplicateObjs">Dữ liệu bị trùng trong file excel</text>
@@ -19,20 +24,17 @@
     <text name="DayOfWeek">Thứ</text>
     <text name="Sunday">Chủ nhật</text>
     
-    <text name="EmailTemplateType_ResidentNotPaid">Thông báo chưa đóng vé xe tháng</text>
-    <text name="PriceByThousandDong">Giá ( nghìn đồng )</text>
-    <text name="MonthlyFare">Giá vé theo tháng</text>
+    <text name="EmailTemplateType_StudentOutOfMoney">Thông báo học sinh hết tiền trong thẻ xe</text>
+    <text name="BalanceToSendEmail">Số dư để gửi email thông báo cần nạp tiền</text>
     
     <text name="CardMenu">Danh mục thẻ</text>
+    <text name="Balance">Số dư</text>
     
-    <text name="Resident">Cư dân</text>
-    <text name="ResidentHeaderInfo">Danh mục cư dân</text>
-    <text name="ApartmentNumberExists">Số căn hộ đã tồn tại</text>
-    <text name="ApartmentNumber">Số căn hộ</text>
-    <text name="OwnerFullName">Tên chủ hộ</text>
-    <text name="OwnerEmail">Email chủ hộ</text>
-    <text name="OwnerPhone">Số điện thoại chủ hộ</text>
-    <text name="IsPaidAllMonthlyFare">Đã thanh toán toàn bộ tiền vé xe trong tháng</text>
+    <text name="Student">Học sinh</text>
+    <text name="StudentHeaderInfo">Danh mục học sinh</text>
+    <text name="DoB">Ngày sinh</text>
+    <text name="Male">Nam</text>
+    <text name="Female">Nữ</text>
     
     <text name="TotalSlotCount">Tổng số slot gửi xe</text>
     

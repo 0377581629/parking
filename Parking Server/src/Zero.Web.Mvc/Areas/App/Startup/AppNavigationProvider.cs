@@ -162,27 +162,27 @@ namespace Zero.Web.Areas.App.Startup
                     )
                 )
                 .AddItem(new MenuItemDefinition(
-                        AppPageNames.Park.ResidentMenu,
-                        L("ResidentMenu"),
+                        AppPageNames.Park.StudentMenu,
+                        L("StudentMenu"),
                         icon: "la la-user",
-                        permissionDependency: new SimplePermissionDependency(ParkPermissions.ResidentMenu)
+                        permissionDependency: new SimplePermissionDependency(ParkPermissions.StudentMenu)
                     ).AddItem(new MenuItemDefinition(
-                            AppPageNames.Park.Resident,
-                            L("Resident"),
-                            url: $"{ZeroConst.ParkAreas}/Resident",
-                            permissionDependency: new SimplePermissionDependency(ParkPermissions.Resident)
+                            AppPageNames.Park.Student,
+                            L("Student"),
+                            url: $"{ZeroConst.ParkAreas}/Student",
+                            permissionDependency: new SimplePermissionDependency(ParkPermissions.Student)
                         )
                     )
                     .AddItem(new MenuItemDefinition(
-                            AppPageNames.Reporting.ResidentReports,
+                            AppPageNames.Reporting.StudentReports,
                             L("Reports"),
-                            permissionDependency: new SimplePermissionDependency(ReportPermissions.ResidentReports)
+                            permissionDependency: new SimplePermissionDependency(ReportPermissions.StudentReports)
                         )
                         .AddItem(new MenuItemDefinition(
-                                AppPageNames.Reporting.ResidentPaidReports,
-                                L("ResidentPaid"),
-                                url: $"{ZeroConst.ReportingAreas}/Resident/ResidentPaidReport",
-                                permissionDependency: new SimplePermissionDependency(ReportPermissions.ResidentPaidReport)
+                                AppPageNames.Reporting.StudentRenewCardReports,
+                                L("StudentRenewCard"),
+                                url: $"{ZeroConst.ReportingAreas}/Student/StudentRenewCardReport",
+                                permissionDependency: new SimplePermissionDependency(ReportPermissions.StudentRenewCardReport)
                             )
                         )
                     )

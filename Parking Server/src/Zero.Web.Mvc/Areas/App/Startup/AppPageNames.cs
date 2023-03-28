@@ -84,19 +84,19 @@
 
             public const string Fare = "Park.Fare";
 
-            public const string ResidentMenu = "Park.ResidentMenu";
+            public const string StudentMenu = "Park.StudentMenu";
 
-            public const string Resident = "Park.Resident";
+            public const string Student = "Park.Student";
         }
 
         public static class Reporting
         {
             public const string Reports = "Reporting.Reports";
 
-            #region Resident
+            #region Student
 
-            public const string ResidentReports = "Reporting.ResidentReports";
-            public const string ResidentPaidReports = "Reporting.ResidentPaidReports";
+            public const string StudentReports = "Reporting.StudentReports";
+            public const string StudentRenewCardReports = "Reporting.StudentRenewCardReports";
 
             #endregion
             

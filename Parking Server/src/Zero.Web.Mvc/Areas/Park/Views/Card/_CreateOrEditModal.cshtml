@@ -44,7 +44,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-6">
                     <div class="form-group">
                         <label>@L("VehicleType")</label>
@@ -68,7 +68,16 @@
                     </div>
                 </div>
 
-                <div class="col-12">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Card_Balance">
+                            @L("Balance")
+                        </label>
+                        <input class="form-control" id="Card_Balance" value="@Model.Card.Balance" type="number" name="balance"/>
+                    </div>
+                </div>
+
+                <div class="col-6">
                     <div class="form-group">
                         <label for="Card_Note">
                             @L("Note")
@@ -76,7 +85,6 @@
                         <input class="form-control" id="Card_Note" value="@Model.Card.Note" type="text" name="note"/>
                     </div>
                 </div>
-
             </div>
         </form>
     </div>

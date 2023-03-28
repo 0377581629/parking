@@ -10,6 +10,6 @@
         
         public int TotalSlotCount { get; set; }
 
-        public int MonthlyFare { get; set; }
+        public int BalanceToSendEmail { get; set; }
     }
 }

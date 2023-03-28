@@ -14,5 +14,23 @@
                 @L("IsQuickThemeSelectEnabled")
             </label>
         </div>
+
+        <div class="row pt-20">
+            <div class="col-12">
+                <h5>@L("Reporting")</h5>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>@L("ReportLeftHeader")</label>
+                    <textarea id="ReportLeftHeaderContent" name="reportLeftHeader" class="form-control">@Html.Raw(Model.Settings.OtherSettings.ReportLeftHeader)</textarea>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>@L("ReportRightHeader")</label>
+                    <textarea id="ReportRightHeaderContent" name="reportRightHeader" class="form-control">@Html.Raw(Model.Settings.OtherSettings.ReportRightHeader)</textarea>
+                </div>
+            </div>
+        </div>
     </form>
 </div>

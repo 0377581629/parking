@@ -20,7 +20,8 @@ namespace SyncDataClient
             {
                 return null;
             }
-
+            
+            client.DefaultRequestHeaders.Add("Abp.TenantId", GlobalConfig.TenantId);
             var tokenResponse = client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
                 Address = disco.TokenEndpoint,
@@ -28,8 +29,8 @@ namespace SyncDataClient
                 ClientSecret = GlobalConfig.ClientSecret,
                 Scope = GlobalConfig.ClientScope,
 
-                UserName = GlobalConfig.ClientInfo.UserName,
-                Password = GlobalConfig.ClientInfo.Password
+                UserName = GlobalConfig.UserName,
+                Password = GlobalConfig.Password
             }).Result;
 
             return tokenResponse.IsError ? null : tokenResponse.AccessToken;
@@ -41,7 +42,8 @@ namespace SyncDataClient
             using (var client = new HttpClient())
             {
                 client.SetBearerToken(accessToken);
-                var response = client.GetAsync($"{GlobalConfig.TargetDomain}/{GlobalConst.AvailableDomitoryDataUrl}").Result;
+                var response = client.GetAsync($"{GlobalConfig.TargetDomain}{GlobalConst.AvailableDomitoryDataUrl}")
+                    .Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     return null;
@@ -69,7 +71,8 @@ namespace SyncDataClient
                 var json = JsonConvert.SerializeObject(syncData);
                 var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync($"{GlobalConfig.TargetDomain}/{GlobalConst.SendDomitoryDataInfoUrl}", data);
+                var response =
+                    await client.PostAsync($"{GlobalConfig.TargetDomain}/{GlobalConst.SendDomitoryDataInfoUrl}", data);
 
                 return response.IsSuccessStatusCode;
             }

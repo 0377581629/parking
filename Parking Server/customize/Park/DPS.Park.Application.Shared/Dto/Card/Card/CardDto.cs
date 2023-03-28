@@ -21,5 +21,7 @@ namespace DPS.Park.Application.Shared.Dto.Card.Card
         public int? VehicleTypeId { get; set; }
         
         public string VehicleTypeName { get; set; }
+        
+        public int Balance { get; set; }
     }
 }

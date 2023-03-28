@@ -39,9 +39,9 @@ namespace Zero.Web.Areas.Park.Controllers
                     TotalSlotCount =
                         await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
                             .TotalSlotCount),
-                    MonthlyFare = 
+                    BalanceToSendEmail = 
                         await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
-                            .MonthlyFare)
+                            .BalanceToSendEmail)
                 }
             };
             return View(viewModel);

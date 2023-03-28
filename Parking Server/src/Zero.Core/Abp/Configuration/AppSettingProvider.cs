@@ -213,8 +213,8 @@ namespace Zero.Configuration
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.TotalSlotCount,
                     GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0")),
-                new(AppSettings.ParkSettings.MonthlyFare,
-                    GetFromAppSettings(AppSettings.ParkSettings.MonthlyFare, "0"))
+                new(AppSettings.ParkSettings.BalanceToSendEmail,
+                    GetFromAppSettings(AppSettings.ParkSettings.BalanceToSendEmail, "0"))
             };
 
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.AllowTenantUseCustomConfig,

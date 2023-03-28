@@ -14,11 +14,5 @@ namespace Zero.Web.Areas.Reporting.Models
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        #region ResidentPaidReport
-
-        public int TargetMonth { get; set; }
-
-        #endregion
     }
 }

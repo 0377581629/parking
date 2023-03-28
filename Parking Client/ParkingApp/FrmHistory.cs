@@ -91,7 +91,7 @@ namespace ParkingApp
                 var fullName = string.Empty;
                 if(_lstSecurityDatas[i].StudentInfo!= null)
                 {
-                    fullName = _lstSecurityDatas[i].StudentInfo.FirstName + " " + _lstSecurityDatas[i].StudentInfo.LastName;
+                    fullName = _lstSecurityDatas[i].StudentInfo.Name;
                 }
                 else
                 {
