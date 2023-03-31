@@ -268,7 +268,6 @@ namespace ParkingApp
                         var mes = string.Empty;
                         var log = new ParkingLib.SecurityData
                         {
-                            CamCode = "",
                             CardNumber = cardNumberNow,
                             ParentStatus = isIn ? (int)Helper.SecurityDataStatus.In : (int)Helper.SecurityDataStatus.Out,
                             StudentId = studentSelected.Id,

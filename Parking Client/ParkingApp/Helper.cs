@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using SyncDataModels;
 
 namespace ParkingApp
 {
@@ -126,7 +127,6 @@ namespace ParkingApp
                 {
                     Id = data.Id,
                     StudentId = data.StudentId,
-                    CamCode = data.CamCode,
                     CardNumber = data.CardNumber,
                     ParentStatus = data.ParentStatus,
                     PhotoUrl = data.PhotoUrl,
@@ -222,22 +222,22 @@ namespace ParkingApp
         /// <param name="educateData"></param>
         /// <param name="mes"></param>
         /// <returns></returns>
-        public bool SyncDownData(SyncDataModels.SyncClientDto syncData, ref string mes)
+        public bool SyncDownData(List<SyncStudentDataDto> syncStudentData, ref string mes)
         {
             try
             {
-                if (syncData == null || syncData.ListStudentData == null || syncData.ListSecurityData == null)
+                if (syncStudentData == null)
                 {
                     mes = "Không có dữ liệu !";
                     return false;
                 }
 
-                // Sync Candidate
-                if (syncData.ListStudentData.Any())
+                // Sync Student
+                if (syncStudentData.Any())
                 {
-                    foreach (var itm in syncData.ListStudentData)
+                    foreach (var itm in syncStudentData)
                     {
-                        var candidate = new StudentData()
+                        var student = new StudentData()
                         {
                             Id = (int)itm.Id,
                             Code = itm.Code,
@@ -249,27 +249,7 @@ namespace ParkingApp
                             CardNumber = itm.CardNumber,
                         };
 
-                        candidate.Add();
-                    }
-                }
-
-                // Sync FingerData
-                if (syncData.ListSecurityData != null && syncData.ListSecurityData.Any())
-                {
-                    foreach (var itm in syncData.ListSecurityData)
-                    {
-                        var security = new SecurityData()
-                        {
-                            Id = (int)itm.Id,
-                            StudentId = itm.StudentId,
-                            CardNumber = itm.CardNumber,
-                            CamCode = itm.CamCode,
-                            PhotoUrl = itm.PhotoUrl,
-                            PhotoBase64 = itm.PhotoBase64,
-                            SecurityDateStr = itm.SecurityDateStr
-                        };
-
-                        security.Add();
+                        student.Add();
                     }
                 }
 
@@ -303,16 +283,15 @@ namespace ParkingApp
 
                     var lstSecurityDataLocal = lstSecurityData.Where(x => x.Status == 0);
 
-                    syncData.ListSecurityData = new List<SyncDataModels.SecurityDataDto>();
+                    syncData.ListSecurityData = new List<SyncDataModels.SyncSecurityDataDto>();
                     foreach (var itm in lstSecurityDataLocal)
                     {
-                        var securityDataServer = new SyncDataModels.SecurityDataDto()
+                        var securityDataServer = new SyncDataModels.SyncSecurityDataDto()
                         {
                             Id = itm.Id,
                             StudentId = itm.StudentId,
                             
                             ParentStatus = itm.ParentStatus,
-                            CamCode = itm.CamCode,
                             SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
                             SecurityDateStr = itm.SecurityDateStr,
                             CardNumber = itm.CardNumber,

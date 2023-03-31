@@ -5,12 +5,12 @@ namespace SyncDataModels
 {
     public class SyncClientDto
     {
-        public List<StudentDataDto> ListStudentData { get; set; }
+        public List<SyncStudentDataDto> ListStudentData { get; set; }
 
-        public List<SecurityDataDto> ListSecurityData { get; set; }
+        public List<SyncSecurityDataDto> ListSecurityData { get; set; }
     }
 
-    public class StudentDataDto
+    public class SyncStudentDataDto
     {
         public long Id { get; set; }
 
@@ -27,7 +27,7 @@ namespace SyncDataModels
         public string CardNumber { get; set; }
     }
 
-    public class SecurityDataDto
+    public class SyncSecurityDataDto
     {
         public long Id { get; set; }
         public int StudentId { get; set; }
@@ -35,8 +35,6 @@ namespace SyncDataModels
         public string CardNumber { get; set; }
 
         public int ParentStatus { get; set; }
-
-        public string CamCode { get; set; }
 
         public string SecurityDateStr { get; set; }
 

@@ -19,7 +19,7 @@
     
     public class GlobalConst
     {
-        public const string AvailableDomitoryDataUrl = "api/services/app/ParkSync/GetInfo";
+        public const string AvailableDomitoryDataUrl = "api/services/app/ParkSync/GetStudentActiveInfo";
         
         public const string SendDomitoryDataInfoUrl = "api/services/app/dormitory/sendData";
     }

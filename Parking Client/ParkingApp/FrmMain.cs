@@ -1,16 +1,18 @@
 ﻿using MetroFramework;
 using ParkingLib;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using SyncDataModels;
 
 namespace ParkingApp
 {
     public partial class FrmMain : MetroFramework.Forms.MetroForm
     {
-        private static SyncDataModels.SyncClientDto _educateData;
+        private static List<SyncStudentDataDto> _syncStudentData;
         readonly Helper _helperDLL = new Helper();
         
         private enumMain _xuLy;
@@ -54,8 +56,7 @@ namespace ParkingApp
                     break;
                 case enumMain.SyncDownLoad:
                     {
-                        // Xóa dữ liệu trong CSDL
-                        new SecurityData().DelAll();
+                        // Xóa dữ liệu học sinh trong CSDL
                         new StudentData().DelAll();
                         // Xoa file cache
                         var path = Application.StartupPath + "/Cache";
@@ -70,9 +71,9 @@ namespace ParkingApp
                             dir.Delete(true);
                         }
                         // Tải dữ liệu từ serer về
-                        _educateData = SyncDataClient.AsyncHelper.RunSync(() => SyncDataClient.Sync.GetSyncClientData());
+                        _syncStudentData = SyncDataClient.AsyncHelper.RunSync(() => SyncDataClient.Sync.GetSyncStudentActiveInfo());
                         // Lưu dữ liệu tải về vào CSDL
-                        _check = _helperDLL.SyncDownData(_educateData, ref mes);
+                        _check = _helperDLL.SyncDownData(_syncStudentData, ref mes);
                     }
                     break;
                 default:

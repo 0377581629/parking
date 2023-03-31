@@ -21,14 +21,5 @@ namespace SyncDataClient
                 .GetAwaiter()
                 .GetResult();
         }
-
-        public static void RunSync(Func<Task> func)
-        {
-            MyTaskFactory
-                .StartNew(func)
-                .Unwrap()
-                .GetAwaiter()
-                .GetResult();
-        }
     }
 }

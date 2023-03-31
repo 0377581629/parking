@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,7 @@ namespace SyncDataClient
             return tokenResponse.IsError ? null : tokenResponse.AccessToken;
         }
 
-        public static async Task<SyncClientDto> GetSyncClientData()
+        public static async Task<List<SyncStudentDataDto>> GetSyncStudentActiveInfo()
         {
             var accessToken = GetAccessTokenAsync();
             using (var client = new HttpClient())
@@ -52,7 +53,7 @@ namespace SyncDataClient
                 var content = await response.Content.ReadAsStringAsync();
                 try
                 {
-                    var res = JsonConvert.DeserializeObject<SyncClientDto>(content);
+                    var res = JsonConvert.DeserializeObject<List<SyncStudentDataDto>>(content);
                     return res;
                 }
                 catch (Exception)

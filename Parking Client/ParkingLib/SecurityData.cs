@@ -36,14 +36,7 @@ namespace ParkingLib
             get { return _cardNumber; }
             set { _cardNumber = value; }
         }
-        private String _camCode = String.Empty;
-        [DisplayName("CamCode")]
-        [JsonProperty("CamCode", NullValueHandling = NullValueHandling.Ignore)]
-        public String CamCode
-        {
-            get { return _camCode; }
-            set { _camCode = value; }
-        }
+        
         private Int32 _parentStatus = 0;
         [DisplayName("ParentStatus")]
         [JsonProperty("ParentStatus", NullValueHandling = NullValueHandling.Ignore)]
@@ -97,7 +90,7 @@ namespace ParkingLib
         private SQLiteCommand _cmd = new SQLiteCommand();
         public void Add()
         {
-            var _strSecurityData = "INSERT INTO SecurityData([StudentId],[CardNumber],[CamCode],[ParentStatus],[SecurityDateStr],[PhotoBase64],[PhotoUrl],[Status]) Values(@StudentId,@CardNumber,@CamCode,@ParentStatus,@SecurityDateStr,@PhotoBase64,@PhotoUrl,@Status)";
+            var _strSecurityData = "INSERT INTO SecurityData([StudentId],[CardNumber],[ParentStatus],[SecurityDateStr],[PhotoBase64],[PhotoUrl],[Status]) Values(@StudentId,@CardNumber,@ParentStatus,@SecurityDateStr,@PhotoBase64,@PhotoUrl,@Status)";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             _cmd = new SQLiteCommand();
             _cmd.Connection = _conn;
@@ -106,7 +99,6 @@ namespace ParkingLib
             _cmd.Parameters.Add("@StudentId", DbType.Int32).Value = _studentId;
             _cmd.Parameters.Add("@CardNumber", DbType.String).Value = String.IsNullOrEmpty(_cardNumber) ? "" : _cardNumber;
             _cmd.Parameters.Add("@ParentStatus", DbType.Int32).Value = _parentStatus;
-            _cmd.Parameters.Add("@CamCode", DbType.String).Value = String.IsNullOrEmpty(_camCode) ? "" : _camCode;
             _cmd.Parameters.Add("@SecurityDateStr", DbType.String).Value = String.IsNullOrEmpty(_securityDateStr) ? "" : _securityDateStr;
             _cmd.Parameters.Add("@PhotoBase64", DbType.String).Value = String.IsNullOrEmpty(_photoBase64) ? "" : _photoBase64;
             _cmd.Parameters.Add("@PhotoUrl", DbType.String).Value = String.IsNullOrEmpty(_photoUrl) ? "" : _photoUrl;
@@ -175,7 +167,6 @@ namespace ParkingLib
                 _SecurityData.StudentId = Convert.ToInt32(dr["StudentId"]);
                 _SecurityData.CardNumber = Convert.ToString(dr["CardNumber"]);
                 _SecurityData.ParentStatus = Convert.ToInt32(dr["ParentStatus"]);
-                _SecurityData.CamCode = Convert.ToString(dr["CamCode"]);
                 _SecurityData.SecurityDateStr = Convert.ToString(dr["SecurityDateStr"]);
                 _SecurityData.PhotoBase64 = Convert.ToString(dr["PhotoBase64"]);
                 _SecurityData.PhotoUrl = Convert.ToString(dr["PhotoUrl"]);
@@ -212,7 +203,6 @@ namespace ParkingLib
                 _SecurityData.StudentId = Convert.ToInt32(dr["StudentId"]);
                 _SecurityData.CardNumber = Convert.ToString(dr["CardNumber"]);
                 _SecurityData.ParentStatus = Convert.ToInt32(dr["ParentStatus"]);
-                _SecurityData.CamCode = Convert.ToString(dr["CamCode"]);
                 _SecurityData.SecurityDateStr = Convert.ToString(dr["SecurityDateStr"]);
                 _SecurityData.SecurityDate = DateTime.ParseExact(_SecurityData.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", culture);
                 _SecurityData.PhotoBase64 = Convert.ToString(dr["PhotoBase64"]);
