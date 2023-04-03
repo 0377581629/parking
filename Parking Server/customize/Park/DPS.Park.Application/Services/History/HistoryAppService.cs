@@ -15,7 +15,7 @@ using Zero.Authorization;
 namespace DPS.Park.Application.Services.History
 {
     [AbpAuthorize(ParkPermissions.History)]
-    public class HistoryAppService: ZeroAppServiceBase, IHistoryAppService
+    public class HistoryAppService : ZeroAppServiceBase, IHistoryAppService
     {
         private readonly IRepository<Core.History.History> _historyRepository;
 
@@ -23,7 +23,7 @@ namespace DPS.Park.Application.Services.History
         {
             _historyRepository = historyRepository;
         }
-        
+
         private IQueryable<HistoryDto> HistoryQuery(QueryInput queryInput)
         {
             var input = queryInput.Input;
@@ -31,25 +31,27 @@ namespace DPS.Park.Application.Services.History
 
             var query = from obj in _historyRepository.GetAll()
                     .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
-                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => e.LicensePlate.Contains(input.Filter))
-                    .WhereIf(input is {FromDate: { }}, o => input.FromDate.Value <= o.InTime)
-                    .WhereIf(input is {ToDate: { }}, o => input.ToDate.Value >= o.InTime)
+                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
+                        e => e.LicensePlate.Contains(input.Filter))
+                    .WhereIf(input is {FromDate: { }}, o => input.FromDate.Value <= o.Time)
+                    .WhereIf(input is {ToDate: { }}, o => input.ToDate.Value >= o.Time)
                     .WhereIf(id.HasValue, e => e.Id == id.Value)
+                    .Include(o => o.Card.CardType)
+                    .Include(o => o.Card.VehicleType)
                 select new HistoryDto
                 {
                     TenantId = obj.TenantId,
                     Id = obj.Id,
-                    CardCode = obj.CardCode,
+                    CardId = obj.CardId,
+                    CardCode = obj.Card != null ? obj.Card.Code : "",
+                    CardNumber = obj.Card != null ? obj.Card.CardNumber : "",
                     LicensePlate = obj.LicensePlate,
                     Price = obj.Price,
-                    InTime = obj.InTime,
-                    OutTime = obj.OutTime,
-                    
-                    CardTypeId = obj.CardTypeId,
-                    CardTypeName = obj.CardType.Name,
-                    
-                    VehicleTypeId = obj.VehicleTypeId,
-                    VehicleTypeName = obj.VehicleType.Name
+                    Time = obj.Time,
+                    Type = obj.Type,
+                    Photo = obj.Photo,
+                    CardTypeName = obj.Card.CardType.Name,
+                    VehicleTypeName = obj.Card.VehicleType.Name
                 };
             return query;
         }
@@ -101,7 +103,7 @@ namespace DPS.Park.Application.Services.History
             };
             return output;
         }
-        
+
         public async Task CreateOrEdit(CreateOrEditHistoryDto input)
         {
             input.TenantId = AbpSession.TenantId;
@@ -127,7 +129,8 @@ namespace DPS.Park.Application.Services.History
         {
             if (input.Id.HasValue)
             {
-                var obj = await _historyRepository.FirstOrDefaultAsync(o => o.TenantId == AbpSession.TenantId && o.Id == input.Id);
+                var obj = await _historyRepository.FirstOrDefaultAsync(o =>
+                    o.TenantId == AbpSession.TenantId && o.Id == input.Id);
                 if (obj == null) throw new UserFriendlyException(L("NotFound"));
                 ObjectMapper.Map(input, obj);
             }
@@ -136,7 +139,8 @@ namespace DPS.Park.Application.Services.History
         [AbpAuthorize(ParkPermissions.History_Delete)]
         public async Task Delete(EntityDto input)
         {
-            var obj = await _historyRepository.FirstOrDefaultAsync(o => o.TenantId == AbpSession.TenantId && o.Id == input.Id);
+            var obj = await _historyRepository.FirstOrDefaultAsync(o =>
+                o.TenantId == AbpSession.TenantId && o.Id == input.Id);
             if (obj == null) throw new UserFriendlyException(L("NotFound"));
             await _historyRepository.DeleteAsync(input.Id);
         }

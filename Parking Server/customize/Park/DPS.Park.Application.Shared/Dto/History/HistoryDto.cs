@@ -7,21 +7,22 @@ namespace DPS.Park.Application.Shared.Dto.History
     {
         public int? TenantId { get; set; }
         
+        public int? CardId { get; set; }
         public string CardCode { get; set; }
+        
+        public string CardNumber { get; set; }
         
         public string LicensePlate { get; set; }
         
         public double Price { get; set; }
         
-        public DateTime InTime { get; set; }
+        public DateTime Time { get; set; }
         
-        public DateTime OutTime { get; set; }
+        public int Type { get; set; }
         
-        public int? CardTypeId { get; set; }
+        public string Photo { get; set; }
         
         public string CardTypeName { get; set; }
-
-        public int? VehicleTypeId { get; set; }
         
         public string VehicleTypeName { get; set; }
     }

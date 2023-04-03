@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using Abp.AspNetCore.Mvc.Authorization;
 using DPS.Park.Application.Shared.Dto.History;
 using DPS.Park.Application.Shared.Interface.History;
+using DPS.Park.Core.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Authorization;
 using Zero.Web.Areas.Park.Models.History;
@@ -48,8 +49,7 @@ namespace Zero.Web.Areas.Park.Controllers
                 {
                     History = new CreateOrEditHistoryDto()
                     {
-                        InTime = DateTime.Today,
-                        OutTime = DateTime.Today
+                        Time = DateTime.Now
                     }
                 };
             }
@@ -57,6 +57,7 @@ namespace Zero.Web.Areas.Park.Controllers
             var viewModel = new CreateOrEditHistoryViewModel()
             {
                 History = getHistoryForEditOutput.History,
+                ListHistoryType = ParkHelper.ListHistoryType(0, LocalizationSource)
             };
 
             return PartialView("_CreateOrEditModal", viewModel);

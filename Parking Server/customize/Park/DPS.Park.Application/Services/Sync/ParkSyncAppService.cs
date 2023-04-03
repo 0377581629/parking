@@ -12,6 +12,7 @@ using DPS.Park.Application.Shared.Dto.Sync;
 using DPS.Park.Application.Shared.Interface.Common;
 using DPS.Park.Application.Shared.Interface.Sync;
 using DPS.Park.Core.Message;
+using DPS.Park.Core.Shared;
 using DPS.Park.Core.Student;
 using Microsoft.EntityFrameworkCore;
 using NPOI.SS.Formula.Functions;
@@ -61,7 +62,8 @@ namespace DPS.Park.Application.Services.Sync
                 {
                     EntityFrameworkManager.ContextFactory = _ => _historyRepository.GetDbContext();
                     var todayHistories = await _historyRepository.GetAllListAsync(o =>
-                        EF.Functions.DateDiffDay(o.InTime, DateTime.Today) == 0);
+                        EF.Functions.DateDiffDay(o.Time, DateTime.Today) == 0 &&
+                        o.Type == (int) ParkEnums.HistoryType.In);
                     if (todayHistories != null && todayHistories.Any())
                     {
                         await _historyRepository.GetDbContext().BulkDeleteAsync(todayHistories);
@@ -97,11 +99,11 @@ namespace DPS.Park.Application.Services.Sync
                 var cardNumbersOfStudent =
                     cards.Where(o => cardIdsOfStudent.Contains(o.Id)).Select(o => o.CardNumber).ToList();
                 var cardNumberOfStudentToSync = string.Join(";", cardNumbersOfStudent);
-                
+
                 var defaultAvatarPath = GlobalConfig.DefaultAvatarUrlBackEnd;
                 var defaultAvatarBytes = await File.ReadAllBytesAsync(defaultAvatarPath);
                 var defaultAvatarBase64 = Convert.ToBase64String(defaultAvatarBytes);
-                
+
                 res.Add(new GetStudentActiveInfoSyncDto()
                 {
                     Id = student.Id,
@@ -125,7 +127,8 @@ namespace DPS.Park.Application.Services.Sync
 
             var historyOutToday = await _historyRepository.GetAll()
                 .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
-                .Where(o => EF.Functions.DateDiffDay(o.OutTime, DateTime.Today) == 0)
+                .Where(o => o.Type == (int) ParkEnums.HistoryType.Out)
+                .Where(o => EF.Functions.DateDiffDay(o.Time, DateTime.Today) == 0)
                 .Select(o => o.Price)
                 .ToListAsync();
 

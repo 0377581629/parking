@@ -2,6 +2,11 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name="Type">Loại</text>
+    <text name="HistoryType">Loại</text>
+    <text name="HistoryType_In">Vào</text>
+    <text name="HistoryType_Out">Ra</text>
+    
     <text name="CardNumberSearch">Tìm kiếm theo số thẻ</text>
     
     <text name="DeleteMessageWarningTitle">Bạn có chắc chắn muốn xóa</text>

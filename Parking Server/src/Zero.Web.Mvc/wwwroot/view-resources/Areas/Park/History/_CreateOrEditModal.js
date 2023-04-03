@@ -15,11 +15,59 @@
 
             _modalManager.initControl();
 
-            let vehicleTypeSelector = modal.find('#VehicleTypeId');
-            baseHelper.SimpleSelector(vehicleTypeSelector, app.localize('NoneSelect'), 'Park/GetPagedVehicleTypes');
+            let vehicleTypeName = modal.find('#History_VehicleTypeName');
+            let cardTypeName = modal.find('#History_CardTypeName');
 
-            let cardTypeSelector = modal.find('#CardTypeId');
-            baseHelper.SimpleSelector(cardTypeSelector, app.localize('NoneSelect'), 'Park/GetPagedCardTypes');
+            let cardSelector = modal.find('#CardId');
+            cardSelector.select2({
+                placeholder: app.localize('PleaseSelect'),
+                allowClear: true,
+                width: '100%',
+                ajax: {
+                    url: abp.appPath + "api/services/app/Park/GetPagedCards",
+                    dataType: 'json',
+                    delay: 50,
+                    data: function (params) {
+                        return {
+                            filter: params.term,
+                            skipCount: ((params.page || 1) - 1) * 10,
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        let res = $.map(data.result.items, function (item) {
+                            return {
+                                id: item.id,
+                                text: item.code + '-' + item.cardNumber,
+                                vehicleTypeName: item.vehicleTypeName,
+                                cardTypeName: item.cardTypeName,
+                            }
+                        });
+
+                        if (data.result.totalCount === 0) {
+                            res.splice(0, 0, {
+                                text: app.localize('NotFound'),
+                                id: null,
+                                vehicleTypeName: '',
+                                cardTypeName: '',
+                            });
+                        }
+
+                        return {
+                            results: res,
+                            pagination: {
+                                more: (params.page * 10) < data.result.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                },
+                language: abp.localization.currentLanguage.name
+            }).on('select2:select', function (e) {
+                let data = e.params.data;
+                vehicleTypeName.val(data.vehicleTypeName);
+                cardTypeName.val(data.cardTypeName);
+            })
 
             _$HistoryInformationForm = _modalManager.getModal().find('form[name=HistoryInformationsForm]');
             _$HistoryInformationForm.validate();
@@ -31,6 +79,7 @@
             }
 
             const History = _$HistoryInformationForm.serializeFormToObject();
+            console.log('history = ', History);
 
             _modalManager.setBusy(true);
             _HistoryService.createOrEdit(

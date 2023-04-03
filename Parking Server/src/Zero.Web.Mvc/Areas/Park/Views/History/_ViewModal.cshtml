@@ -7,10 +7,10 @@
         <div class="form-body view-detail-modal-content">
             <div class="form-group row">
                 <label class="col-lg-2 col-form-label">
-                    <b>@L("CardCode"):</b>
+                    <b>@L("CardNumber"):</b>
                 </label>
                 <div class="col-lg-2">
-                    <label class="col-form-label">@Model.History.CardCode</label>
+                    <label class="col-form-label">@Model.History.CardNumber</label>
                 </div>
 
                 <label class="col-lg-2 col-form-label">
@@ -45,17 +45,26 @@
                 </div>
 
                 <label class="col-lg-2 col-form-label">
-                    <b>@L("InTime"):</b>
+                    <b>@L("Type"):</b>
                 </label>
                 <div class="col-lg-4">
-                    <label class="col-form-label">@Model.History.InTime</label>
+                    @{
+                        if (Model.History.Type == 1)
+                        {
+                            <label class="col-form-label">@L("HistoryType_In")</label>
+                        }
+                        else
+                        {
+                            <label class="col-form-label">@L("HistoryType_Out")</label>
+                        }
+                    }
                 </div>
 
                 <label class="col-lg-2 col-form-label">
-                    <b>@L("OutTime"):</b>
+                    <b>@L("Time"):</b>
                 </label>
                 <div class="col-lg-4">
-                    <label class="col-form-label">@Model.History.OutTime</label>
+                    <label class="col-form-label">@Model.History.Time</label>
                 </div>
             </div>
         </div>

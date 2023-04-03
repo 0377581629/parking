@@ -101,8 +101,8 @@
                 },
                 {
                     targets: 2,
-                    data: "history.cardCode",
-                    name: "cardCode"
+                    data: "history.cardNumber",
+                    name: "cardNumber"
                 },
                 {
                     targets: 3,
@@ -120,23 +120,31 @@
                 },
                 {
                     targets: 5,
+                    data: "history.type",
+                    name: "type",
+                    render: function (type) {
+                        return type === 1 ? app.localize('HistoryType_In') : app.localize('HistoryType_Out')
+                    }
+                },
+                {
+                    targets: 6,
                     width: 80,
-                    data: "history.inTime",
-                    name: "inTime",
+                    data: "history.time",
+                    name: "time",
                     class: "text-center",
                     render: function (date) {
                         return moment(date).format('DD-MM-YYYY HH:mm:ss');
                     }
                 },
                 {
-                    targets: 6,
-                    width: 80,
-                    data: "history.outTime",
-                    name: "outTime",
-                    class: "text-center",
-                    render: function (date) {
-                        return moment(date).format('DD-MM-YYYY HH:mm:ss');
-                    }
+                    targets: 7,
+                    data: "history.cardTypeName",
+                    name: "licensePlate"
+                },
+                {
+                    targets: 8,
+                    data: "history.vehicleTypeName",
+                    name: "licensePlate"
                 }
             ]
         });

@@ -57,5 +57,14 @@ namespace DPS.Park.Core.Shared
             [StringValue("WidgetContentType_MenuGroup")]
             MenuGroup = 12,
         }
+        
+        public enum HistoryType
+        {
+            [StringValue("HistoryType_In")]
+            In = 1,
+
+            [StringValue("HistoryType_Out")] 
+            Out = 2,
+        }
     }
 }

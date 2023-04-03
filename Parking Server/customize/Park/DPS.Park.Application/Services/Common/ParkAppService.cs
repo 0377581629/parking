@@ -168,7 +168,16 @@ namespace DPS.Park.Application.Services.Common
                     TenantId = o.TenantId,
                     Id = o.Id,
                     Code = o.Code,
-                    CardNumber = o.CardNumber
+                    CardNumber = o.CardNumber,
+                    Balance = o.Balance,
+                    Note = o.Note,
+                    IsActive = o.IsActive,
+                    
+                    CardTypeId = o.CardTypeId,
+                    CardTypeName = o.CardType.Name,
+                    
+                    VehicleTypeId = o.VehicleTypeId,
+                    VehicleTypeName = o.VehicleType.Name
                 };
             return query;
         }

@@ -1,5 +1,6 @@
 ﻿@using Zero
 @using Zero.Web.Areas.App.Models.Common.Modals
+@using DPS.Park.Core.Shared
 @model Zero.Web.Areas.Park.Models.History.CreateOrEditHistoryViewModel
 
 @await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit")) : L("Create")))
@@ -17,10 +18,13 @@
             <div class="row">
                 <div class="col-4">
                     <div class="form-group">
-                        <label for="History_CardCode">
-                            @L("CardCode")
-                        </label>
-                        <input class="form-control" id="History_CardCode" value="@Model.History.CardCode" type="text" name="cardCode"/>
+                        <label>@L("Card")</label>
+                        <select id="CardId" style="width:100%;" name="cardId" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.History.CardNumber) && Model.History.CardId > 0)
+                            {
+                                <option value="@Model.History.CardId" selected="selected">@Model.History.CardCode - @Model.History.CardNumber</option>
+                            }
+                        </select>
                     </div>
                 </div>
                 <div class="col-4">
@@ -41,31 +45,17 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label>@L("VehicleType")</label>
-                        <select id="VehicleTypeId" style="width:100%;" name="vehicleTypeId" class="form-control">
-                            @if (!string.IsNullOrEmpty(Model.History.VehicleTypeName) && Model.History.VehicleTypeId > 0)
-                            {
-                                <option value="@Model.History.VehicleTypeId" selected="selected">@Model.History.VehicleTypeName</option>
-                            }
-                        </select>
+                        <label>
+                            @L("HistoryType")
+                        </label>
+                        @Html.DropDownList("type", ParkHelper.ListHistoryType(Model.History.Type, LocalizationManager.GetSource(ZeroConst.LocalizationSourceName)), new {@class = "form-control kt-select2-non-search", @id = "HistoryType"})
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label>@L("CardType")</label>
-                        <select id="CardTypeId" style="width:100%;" name="cardTypeId" class="form-control">
-                            @if (!string.IsNullOrEmpty(Model.History.CardTypeName) && Model.History.CardTypeId > 0)
-                            {
-                                <option value="@Model.History.CardTypeId" selected="selected">@Model.History.CardTypeName</option>
-                            }
-                        </select>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label>@L("InTime")</label>
+                        <label>@L("Time")</label>
                         <div class="input-group">
-                            <input type="text" class="form-control dateTime date-picker text-center" id="InTime" name="InTime" init-value="@Model.History.InTime.ToString("dd/MM/yyyy")">
+                            <input type="text" class="form-control dateTime date-picker text-center" id="Time" name="time" init-value="@Model.History.Time.ToString("dd/MM/yyyy")">
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <i class="la la-calendar"></i>
@@ -76,15 +66,18 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label>@L("OutTime")</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control dateTime date-picker text-center" id="OutTime" name="OutTime" init-value="@Model.History.OutTime.ToString("dd/MM/yyyy")">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="la la-calendar"></i>
-                                </span>
-                            </div>
-                        </div>
+                        <label for="History_VehicleTypeName">
+                            @L("VehicleType")
+                        </label>
+                        <input class="form-control" id="History_VehicleTypeName" value="@Model.History.VehicleTypeName" type="text" name="vehicleTypeName" disabled/>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="History_CardTypeName">
+                            @L("CardType")
+                        </label>
+                        <input class="form-control" id="History_CardTypeName" value="@Model.History.CardTypeName" type="text" name="cardTypeName" disabled/>
                     </div>
                 </div>
             </div>

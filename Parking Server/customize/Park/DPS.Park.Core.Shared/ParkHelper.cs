@@ -40,6 +40,17 @@ namespace DPS.Park.Core.Shared
         }
 
         #endregion
+
+        #region Park
+
+        public static List<SelectListItem> ListHistoryType(int currentHistoryType, ILocalizationSource lang)
+        {
+            return (from historyType in (ParkEnums.HistoryType[]) Enum.GetValues(typeof(ParkEnums.HistoryType))
+                select new SelectListItem(lang.GetString(historyType.GetStringValue()),
+                    ((int) historyType).ToString(), currentHistoryType == (int) historyType)).ToList();
+        }
+
+        #endregion
     }
 
     public class SocialMediaHelper

@@ -13,25 +13,19 @@ namespace DPS.Park.Core.History
     {
         public int? TenantId { get; set; }
         
-        public string CardCode { get; set; }
-        public string LicensePlate { get; set; }
+        public int? CardId { get; set; }
         
+        [ForeignKey("CardId")]
+        [CanBeNull]
+        public Card.Card Card { get; set; }
+        
+        public string LicensePlate { get; set; }
         public double Price { get; set; }
         
-        public DateTime InTime { get; set; }
+        public DateTime Time { get; set; }
         
-        public DateTime OutTime { get; set; }
+        public int Type { get; set; }
         
-        public int? CardTypeId { get; set; }
-        
-        [ForeignKey("CardTypeId")]
-        [CanBeNull]
-        public CardType CardType { get; set; }
-        
-        public int? VehicleTypeId { get; set; }
-        
-        [ForeignKey("VehicleTypeId")]
-        [CanBeNull]
-        public VehicleType VehicleType { get; set; }
+        public string Photo { get; set; }
     }
 }
