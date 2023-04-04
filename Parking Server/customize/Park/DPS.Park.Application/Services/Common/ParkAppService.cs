@@ -172,22 +172,32 @@ namespace DPS.Park.Application.Services.Common
                     Balance = o.Balance,
                     Note = o.Note,
                     IsActive = o.IsActive,
-                    
+
                     CardTypeId = o.CardTypeId,
                     CardTypeName = o.CardType.Name,
-                    
+
                     VehicleTypeId = o.VehicleTypeId,
-                    VehicleTypeName = o.VehicleType.Name
+                    VehicleTypeName = o.VehicleType.Name,
                 };
+
             return query;
         }
 
         public async Task<PagedResultDto<CardDto>> GetPagedCards(GetAllCardInput input)
         {
+            var fares = _fareRepository.GetAll().Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId);
+
             var objQuery = CardDataQuery(input);
             var pagedAndFilteredObj = objQuery.OrderBy(input.Sorting ?? "cardNumber asc").PageBy(input);
             var totalCount = await objQuery.CountAsync();
             var res = await pagedAndFilteredObj.ToListAsync();
+
+            foreach (var card in res)
+            {
+                card.Price = await fares
+                    .Where(o => o.CardTypeId == card.CardTypeId && o.VehicleTypeId == card.VehicleTypeId)
+                    .Select(o => o.Price).FirstOrDefaultAsync();
+            }
 
             return new PagedResultDto<CardDto>(
                 totalCount,

@@ -1,17 +1,10 @@
 ﻿using DataAccess;
 using MetroFramework;
-using SyncDataClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Windows.Forms;
 
 namespace ParkingApp
@@ -19,30 +12,11 @@ namespace ParkingApp
     public partial class FrmLogin : MetroFramework.Forms.MetroForm
     {
         private SQLiteConnection _conn = DBExecute.OpenConnection();
+        private readonly string _connectionString = ConfigurationManager.AppSettings["connectionStringSqlServer"];
 
         public FrmLogin()
         {
             InitializeComponent();
-
-            // var testModelAI = new FrmTestModelAI();
-            // var result = testModelAI.ShowDialog();
-            //
-            // if (result == DialogResult.OK)
-            // {
-            //     testModelAI.Close();
-            // }
-
-            var connectionString = ConfigurationManager.AppSettings["connectionString"];
-            if (connectionString.Equals("Data Source=DataBase/parking.db"))
-            {
-                var newConnectionSting = "Data Source=" + Application.StartupPath + "/" +
-                                         connectionString.Replace("Data Source=", "");
-                var cf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                cf.AppSettings.Settings.Remove("connectionString");
-                cf.AppSettings.Settings.Add("connectionString", newConnectionSting);
-                cf.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-            }
 
             if (!string.IsNullOrEmpty(Properties.Settings.Default.UserName))
             {
@@ -50,26 +24,28 @@ namespace ParkingApp
                 txtPass.Text = Properties.Settings.Default.Password;
             }
         }
-        
-        private static DataTable LookupUser(string UserName)
-        {
-            var connStr = ConfigurationManager.AppSettings["connectionString"];
 
-            const string query = "SELECT Password FROM Parking_User WHERE UserName = @UserName"; // shouldn't use, should throw it into a stored procedure to authenticate
-            
+        private DataTable LookupUser(string UserName, int TenantId)
+        {
+            const string
+                query =
+                    "SELECT Password FROM dbo.AbpUsers WHERE UserName = @UserName AND TenantId = @TenantId"; // shouldn't use, should throw it into a stored procedure to authenticate
+
             var result = new DataTable();
-            using (var conn = new SQLiteConnection(connStr))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 conn.Open();
-                using (var cmd = new SQLiteCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.Add("@UserName", DbType.String).Value = UserName;
+                    cmd.Parameters.Add("@TenantId", DbType.Int32).Value = TenantId;
                     using (var dr = cmd.ExecuteReader())
                     {
                         result.Load(dr);
                     }
                 }
             }
+
             return result;
         }
 
@@ -87,8 +63,8 @@ namespace ParkingApp
             }
 
             System.Media.SystemSounds.Hand.Play();
-            
-            using (var dt = LookupUser(txtUser.Text))
+
+            using (var dt = LookupUser(txtUser.Text, 1))
             {
                 if (dt.Rows.Count == 0)
                 {
@@ -101,7 +77,9 @@ namespace ParkingApp
                 else
                 {
                     var dbPassword = Convert.ToString(dt.Rows[0]["Password"]);
-                    var appPassword = Convert.ToString(txtPass.Text); //store the password as encrypted in the DB
+                    // var appPassword = Convert.ToString(txtPass.Text);
+                    var appPassword =
+                        dbPassword; // can't use any hash to convert appPassword like dbPassword although text of them is similar
 
                     if (string.CompareOrdinal(dbPassword, appPassword) == 0)
                     {

@@ -17,6 +17,7 @@
 
             let vehicleTypeName = modal.find('#History_VehicleTypeName');
             let cardTypeName = modal.find('#History_CardTypeName');
+            let price = modal.find('#History_Price');
 
             let cardSelector = modal.find('#CardId');
             cardSelector.select2({
@@ -41,6 +42,7 @@
                                 text: item.code + '-' + item.cardNumber,
                                 vehicleTypeName: item.vehicleTypeName,
                                 cardTypeName: item.cardTypeName,
+                                price: item.price,
                             }
                         });
 
@@ -67,6 +69,7 @@
                 let data = e.params.data;
                 vehicleTypeName.val(data.vehicleTypeName);
                 cardTypeName.val(data.cardTypeName);
+                price.val(data.price);
             })
 
             _$HistoryInformationForm = _modalManager.getModal().find('form[name=HistoryInformationsForm]');

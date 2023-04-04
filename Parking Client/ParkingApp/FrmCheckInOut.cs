@@ -4,6 +4,7 @@ using ParkingLib;
 using RawInput_dll;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -340,11 +341,11 @@ namespace ParkingApp
 
                     if (studentInfo != null)
                     {
-                        var avatar = Helper.Base64ToImage(studentInfo.AvatarBase64);
+                        var avatar = Image.FromFile("../../Resources/ic_person.png");
                         var fullName = studentInfo.Name;
-                        var gender = studentInfo.Male == 1 ? "Nam" : "Nữ";
+                        var gender = studentInfo.Gender ? "Nam" : "Nữ";
                         mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
-                              "\n Ngày sinh: " + studentInfo.DoBStr + " - Giới tính: " + gender;
+                              "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) + " - Giới tính: " + gender;
 
                         picRegistry.Image = avatar;
                         richNoiDungCanhBao.Text = mes;

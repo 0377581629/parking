@@ -12,10 +12,6 @@ namespace ParkingApp
 {
     public partial class FrmMain : MetroFramework.Forms.MetroForm
     {
-        private static List<SyncStudentDataDto> _syncStudentData;
-        readonly Helper _helperDLL = new Helper();
-        
-        private enumMain _xuLy;
         private System.Windows.Forms.Timer aTimer;
 
         public FrmMain()
@@ -26,78 +22,11 @@ namespace ParkingApp
             aTimer.Tick += new EventHandler(timer_Tick);
         }
 
-        private string mes = string.Empty;
-        private bool _check = false;
-        private void SyncData()
-        {
-            switch (_xuLy)
-            {
-                case enumMain.SyncUpLoad:
-                    {
-                        var lstSecurityData = new SecurityData().Gets().Where(x => x.Status == 0);
-
-                        if (lstSecurityData.Any())
-                        {
-                            var syncData = new SyncDataModels.SyncClientDto();
-                            _check = _helperDLL.SyncUpData(ref syncData, ref mes);
-
-                            if (_check)
-                            {
-                                var pushDataSuccess = SyncDataClient.AsyncHelper.RunSync(() => SyncDataClient.Sync.SendSyncClientData(syncData));
-
-                                if(pushDataSuccess)
-                                {
-                                    var lstId = lstSecurityData.Select(x => x.Id).ToList();
-                                    var updStatus = new SecurityData().UpdateStatus(lstId, 1);
-                                }
-                            }
-                        }
-                    }
-                    break;
-                case enumMain.SyncDownLoad:
-                    {
-                        // Xóa dữ liệu học sinh trong CSDL
-                        new StudentData().DelAll();
-                        // Xoa file cache
-                        var path = Application.StartupPath + "/Cache";
-                        DirectoryInfo di = new DirectoryInfo(path);
-                        
-                        foreach (FileInfo file in di.GetFiles())
-                        {
-                            file.Delete();
-                        }
-                        foreach (DirectoryInfo dir in di.GetDirectories())
-                        {
-                            dir.Delete(true);
-                        }
-                        // Tải dữ liệu từ serer về
-                        _syncStudentData = SyncDataClient.AsyncHelper.RunSync(() => SyncDataClient.Sync.GetSyncStudentActiveInfo());
-                        // Lưu dữ liệu tải về vào CSDL
-                        _check = _helperDLL.SyncDownData(_syncStudentData, ref mes);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
         private void FrmMain_Load(object sender, EventArgs e)
         {
             aTimer.Enabled = true;
             aTimer.Start();
             ShowDateTime();
-        }
-
-        private void WartingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
-        {
-            var stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            var thread = new Thread(SyncData);
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
-            if (stt == "")
-                stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
         }
 
         private void ShowDateTime()
@@ -137,8 +66,7 @@ namespace ParkingApp
         {
             ShowDateTime();
         }
-
-
+        
         private void btnTraCuu_Click(object sender, EventArgs e)
         {
             var frmHistory = new FrmHistory();
@@ -147,33 +75,6 @@ namespace ParkingApp
             if (result == DialogResult.OK)
             {
                 frmHistory.Close();
-            }
-        }
-
-        private void btnDongBo_Click(object sender, EventArgs e)
-        {
-            DialogResult dr = MetroMessageBox.Show(this, "\n\nViệc đồng bộ sẽ xóa hết dữ liệu hiện tại ở local. Bạn có muốn tiếp tục?", "Đồng bộ", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (dr == DialogResult.Yes)
-            {
-
-                var strTitle = "Đang tiến hành tải dữ liệu về !";
-                _xuLy = enumMain.SyncDownLoad;
-                var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
-                if (!_check)
-                {
-                    MetroMessageBox.Show(this, mes, "Cảnh báo");
-                }
-            }
-        }
-
-        private void btnUpload_Click(object sender, EventArgs e)
-        {
-            var strTitle = "Đang tiến hành tải dữ liệu lên !";
-            _xuLy = enumMain.SyncUpLoad;
-            var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
-            if (!_check)
-            {
-                MetroMessageBox.Show(this, mes, "Cảnh báo");
             }
         }
 
@@ -214,12 +115,5 @@ namespace ParkingApp
                 frmTestModelAI.Close();
             }
         }
-    }
-
-    enum enumMain
-    {
-        SyncUpLoad,
-        SyncDownLoad,
-        Default
     }
 }

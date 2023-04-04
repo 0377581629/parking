@@ -32,7 +32,7 @@ namespace DPS.Park.Application.Services.History
             var query = from obj in _historyRepository.GetAll()
                     .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
                     .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                        e => e.LicensePlate.Contains(input.Filter))
+                        e => e.Card.CardNumber.Contains(input.Filter) || e.LicensePlate.Contains(input.Filter))
                     .WhereIf(input is {FromDate: { }}, o => input.FromDate.Value <= o.Time)
                     .WhereIf(input is {ToDate: { }}, o => input.ToDate.Value >= o.Time)
                     .WhereIf(id.HasValue, e => e.Id == id.Value)

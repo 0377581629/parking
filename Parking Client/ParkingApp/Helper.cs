@@ -11,12 +11,13 @@ using SyncDataModels;
 
 namespace ParkingApp
 {
-     class Helper
+    class Helper
     {
         /// <summary>
         /// Lấy thông tin cấu hình trong file config
         /// </summary>
-        public static void GetConfig(ref string rtspCameraIn, ref string rtspCameraOut, ref string cardReaderIn, ref string cardReaderOut, ref double timeWaiting)
+        public static void GetConfig(ref string rtspCameraIn, ref string rtspCameraOut, ref string cardReaderIn,
+            ref string cardReaderOut, ref double timeWaiting)
         {
             if (ConfigurationManager.AppSettings.AllKeys.Contains("RtspCameraIn"))
             {
@@ -47,13 +48,13 @@ namespace ParkingApp
                 // Key exists
                 timeWaiting = double.Parse(ConfigurationManager.AppSettings["TimeWaiting"]);
             }
-
         }
 
         /// <summary>
         /// Lưu thông tin cấu hình trong file config
         /// </summary>
-        public static void SetConfig(string rtspCameraIn, string rtspCameraOut, string cardReaderIn, string cardReaderOut, string timeWaiting)
+        public static void SetConfig(string rtspCameraIn, string rtspCameraOut, string cardReaderIn,
+            string cardReaderOut, string timeWaiting)
         {
             var cf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -82,10 +83,12 @@ namespace ParkingApp
             try
             {
                 var lstStudents = new StudentData().Gets();
-                if (lstStudents.Any())
-                {
-                    student = lstStudents.FirstOrDefault(x => x.CardNumber.Contains(cardNumber.Trim()));
-                }
+                var lstCards = new CardData().Gets();
+                var lstStudentCard = new StudentCardData().Gets();
+
+                var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(cardNumber.Trim()));
+                var studentCard = lstStudentCard.FirstOrDefault(o => o.CardId == card.Id);
+                student = lstStudents.FirstOrDefault(o => o.Id == studentCard.StudentId);
             }
             catch (Exception ex)
             {
@@ -99,13 +102,15 @@ namespace ParkingApp
         {
             try
             {
-                var lstLogs = new SecurityData() { CardNumber = cardNumber }.GetByCardNumbers();
-                if(lstLogs.Any())
+                var lstLogs = new SecurityData() {CardNumber = cardNumber}.GetByCardNumbers();
+                if (lstLogs.Any())
                 {
-                    var lstLogIns = lstLogs.Where(x => x.Status == (int)Helper.SecurityDataStatus.In).OrderByDescending(x => x.SecurityDate).ToList();
-                    var lstLogOuts = lstLogs.Where(x => x.Status == (int)Helper.SecurityDataStatus.Out).OrderByDescending(x => x.SecurityDate).ToList();
+                    var lstLogIns = lstLogs.Where(x => x.Status == (int) Helper.SecurityDataStatus.In)
+                        .OrderByDescending(x => x.SecurityDate).ToList();
+                    var lstLogOuts = lstLogs.Where(x => x.Status == (int) Helper.SecurityDataStatus.Out)
+                        .OrderByDescending(x => x.SecurityDate).ToList();
 
-                    if(lstLogOuts.Count > lstLogIns.Count)
+                    if (lstLogOuts.Count > lstLogIns.Count)
                     {
                         return lstLogIns[0];
                     }
@@ -153,7 +158,6 @@ namespace ParkingApp
         {
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
             {
-
                 return "";
             }
             else
@@ -201,6 +205,7 @@ namespace ParkingApp
                     return image;
                 }
             }
+
             return null;
         }
 
@@ -216,110 +221,8 @@ namespace ParkingApp
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
 
-        /// <summary>
-        /// Lưu dữ liệu lấy từ server về DB local
-        /// </summary>
-        /// <param name="educateData"></param>
-        /// <param name="mes"></param>
-        /// <returns></returns>
-        public bool SyncDownData(List<SyncStudentDataDto> syncStudentData, ref string mes)
-        {
-            try
-            {
-                if (syncStudentData == null)
-                {
-                    mes = "Không có dữ liệu !";
-                    return false;
-                }
-
-                // Sync Student
-                if (syncStudentData.Any())
-                {
-                    foreach (var itm in syncStudentData)
-                    {
-                        var student = new StudentData()
-                        {
-                            Id = (int)itm.Id,
-                            Code = itm.Code,
-                            Name = itm.Name,
-                            AvatarBase64 = itm.AvatarBase64,
-                            Male = itm.Male ? 1 : 0,
-                            DoBStr = itm.DoBStr,
-
-                            CardNumber = itm.CardNumber,
-                        };
-
-                        student.Add();
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                mes = ex.Message;
-                return false;
-                throw;
-            }
-        }
-
-
-        /// <summary>
-        /// Push dữ liệu từ local lên server
-        /// </summary>
-        /// <param name="syncData"></param>
-        /// <param name="mes"></param>
-        /// <returns></returns>
-        public bool SyncUpData(ref SyncDataModels.SyncClientDto syncData, ref string mes)
-        {
-            try
-            {
-                if (syncData == null) syncData = new SyncDataModels.SyncClientDto();
-
-                var lstSecurityData = new SecurityData().Gets();
-
-                if (lstSecurityData.Any())
-                {
-
-                    var lstSecurityDataLocal = lstSecurityData.Where(x => x.Status == 0);
-
-                    syncData.ListSecurityData = new List<SyncDataModels.SyncSecurityDataDto>();
-                    foreach (var itm in lstSecurityDataLocal)
-                    {
-                        var securityDataServer = new SyncDataModels.SyncSecurityDataDto()
-                        {
-                            Id = itm.Id,
-                            StudentId = itm.StudentId,
-                            
-                            ParentStatus = itm.ParentStatus,
-                            SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture),
-                            SecurityDateStr = itm.SecurityDateStr,
-                            CardNumber = itm.CardNumber,
-                            PhotoUrl = itm.PhotoUrl,
-                            PhotoBase64 = itm.PhotoBase64
-                        };
-                        //
-
-                        if(!string.IsNullOrEmpty(securityDataServer.PhotoUrl) && File.Exists(securityDataServer.PhotoUrl))
-                        {
-                            securityDataServer.PhotoBase64 = PathImageToBase64(securityDataServer.PhotoUrl);
-                        }
-                        syncData.ListSecurityData.Add(securityDataServer);
-                    }
-                }
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                mes = ex.Message;
-                return false;
-                throw;
-            }
-        }
-
-
-        public bool LoadSecurityData(DateTime fromDate, DateTime toDate, ref List<SecurityData> lstSecurityDatas, bool fakeNew = true)
+        public bool LoadSecurityData(DateTime fromDate, DateTime toDate, ref List<SecurityData> lstSecurityDatas,
+            bool fakeNew = true)
         {
             try
             {
@@ -328,17 +231,18 @@ namespace ParkingApp
                 {
                     var lstSecurityData = new SecurityData().Gets();
                     var lstStudents = new StudentData().Gets();
-                    if(lstSecurityData!= null && lstSecurityData.Any())
+                    if (lstSecurityData != null && lstSecurityData.Any())
                     {
                         foreach (var itm in lstSecurityData)
                         {
                             itm.StudentInfo = lstStudents.FirstOrDefault(o => o.Id == itm.StudentId);
-                            itm.SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                            itm.SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss",
+                                System.Globalization.CultureInfo.InvariantCulture);
                         }
 
                         foreach (var itm in lstSecurityData)
                         {
-                            if(fromDate <= itm.SecurityDate && toDate >= itm.SecurityDate)
+                            if (fromDate <= itm.SecurityDate && toDate >= itm.SecurityDate)
                             {
                                 lstSecurityDatas.Add(itm);
                             }
@@ -347,8 +251,8 @@ namespace ParkingApp
                 }
                 else
                 {
-
                 }
+
                 return true;
             }
             catch (Exception ex)

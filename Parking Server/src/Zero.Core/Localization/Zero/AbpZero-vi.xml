@@ -49,7 +49,9 @@
     <text name="ConfigureParks">Cấu hình bãi gửi xe</text>
     <text name="DecreasePercent">Phần trăm giảm trừ</text>
     <text name="ApplyDecreasePercent">Áp dụng cấu hình giảm trừ</text>
-    
+
+    <text name="FilterByTime_FromDate">Tìm kiếm theo ngày : Từ ngày</text>
+    <text name="FilterByTime_ToDate">Đến ngày</text>
     <text name="FilterByInTime_FromDate">Tìm kiếm theo ngày vào : Từ ngày</text>
     <text name="FilterByInTime_ToDate">Đến ngày</text>
     <text name="History">Lịch sử ra vào</text>
