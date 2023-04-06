@@ -36,13 +36,13 @@
             this.btnGiamSat = new MetroFramework.Controls.MetroTile();
             this.btnTraCuu = new MetroFramework.Controls.MetroTile();
             this.btnTestModelAI = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize) (this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lbDay
             // 
             this.lbDay.AutoSize = true;
-            this.lbDay.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lbDay.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDay.ForeColor = System.Drawing.Color.Maroon;
             this.lbDay.Location = new System.Drawing.Point(403, 312);
             this.lbDay.Name = "lbDay";
@@ -53,7 +53,7 @@
             // lbDayOfWeek
             // 
             this.lbDayOfWeek.AutoSize = true;
-            this.lbDayOfWeek.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.lbDayOfWeek.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDayOfWeek.ForeColor = System.Drawing.Color.Maroon;
             this.lbDayOfWeek.Location = new System.Drawing.Point(413, 278);
             this.lbDayOfWeek.Name = "lbDayOfWeek";
@@ -81,7 +81,7 @@
             this.btnCauHinh.TabIndex = 57;
             this.btnCauHinh.Tag = "4";
             this.btnCauHinh.Text = "3. Cấu hình";
-            this.btnCauHinh.TileImage = ((System.Drawing.Image) (resources.GetObject("btnCauHinh.TileImage")));
+            this.btnCauHinh.TileImage = ((System.Drawing.Image)(resources.GetObject("btnCauHinh.TileImage")));
             this.btnCauHinh.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnCauHinh.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnCauHinh.UseSelectable = true;
@@ -98,7 +98,7 @@
             this.btnGiamSat.TabIndex = 54;
             this.btnGiamSat.Tag = "0";
             this.btnGiamSat.Text = "4. Giám sát";
-            this.btnGiamSat.TileImage = ((System.Drawing.Image) (resources.GetObject("btnGiamSat.TileImage")));
+            this.btnGiamSat.TileImage = ((System.Drawing.Image)(resources.GetObject("btnGiamSat.TileImage")));
             this.btnGiamSat.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnGiamSat.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnGiamSat.UseSelectable = true;
@@ -114,7 +114,7 @@
             this.btnTraCuu.TabIndex = 55;
             this.btnTraCuu.Tag = "0";
             this.btnTraCuu.Text = "2. Tra cứu";
-            this.btnTraCuu.TileImage = ((System.Drawing.Image) (resources.GetObject("btnTraCuu.TileImage")));
+            this.btnTraCuu.TileImage = ((System.Drawing.Image)(resources.GetObject("btnTraCuu.TileImage")));
             this.btnTraCuu.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnTraCuu.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnTraCuu.UseSelectable = true;
@@ -124,7 +124,7 @@
             // btnTestModelAI
             // 
             this.btnTestModelAI.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTestModelAI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
+            this.btnTestModelAI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTestModelAI.Location = new System.Drawing.Point(317, 41);
             this.btnTestModelAI.Name = "btnTestModelAI";
             this.btnTestModelAI.Size = new System.Drawing.Size(284, 101);
@@ -145,14 +145,15 @@
             this.Controls.Add(this.btnCauHinh);
             this.Controls.Add(this.btnGiamSat);
             this.Controls.Add(this.btnTraCuu);
-            this.Icon = ((System.Drawing.Icon) (resources.GetObject("$this.Icon")));
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmMain";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
-            ((System.ComponentModel.ISupportInitialize) (this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

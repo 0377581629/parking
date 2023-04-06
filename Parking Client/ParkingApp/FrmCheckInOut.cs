@@ -264,20 +264,19 @@ namespace ParkingApp
                     CaptureCamera();
                     StartStopCamera();
                     break;
-                case enumCheckInOut.SetLogSecurity:
+                case enumCheckInOut.SetLogHistory:
                     {
                         var mes = string.Empty;
-                        var log = new ParkingLib.SecurityData
+                        var log = new ParkingLib.HistoryData
                         {
                             CardNumber = cardNumberNow,
-                            ParentStatus = isIn ? (int)Helper.SecurityDataStatus.In : (int)Helper.SecurityDataStatus.Out,
-                            StudentId = studentSelected.Id,
-                            PhotoUrl = pathCaptureIn,
-                            PhotoBase64 = "", // Việc chuyển đổi lâu ~ 7s => thực hiện khi đồng bộ lên server
-                            SecurityDateStr = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")
+                            Type = isIn ? (int)Helper.HistoryDataStatus.In : (int)Helper.HistoryDataStatus.Out,
+                            StudentData = studentSelected,
+                            Photo = pathCaptureIn,
+                            Time = DateTime.Now
                         };
                         // Save log
-                        var logId = _helper.AddLogSecurity(log, ref mes);
+                        var logId = _helper.AddLogHistory(log, ref mes);
                         cardNumberNow = string.Empty;
                         if (logId > 0 && !string.IsNullOrEmpty(log.CardNumber))
                         {
@@ -361,19 +360,19 @@ namespace ParkingApp
                     if(!isIn)
                     {
                         #region Get thông tin vào gần nhất ra
-                        var logSecurityInLasted = new SecurityData();
-                        logSecurityInLasted = _helper.GetLogInLasted(txtMaThe.Text.Trim());
-                        if (!string.IsNullOrEmpty(logSecurityInLasted.PhotoUrl) && File.Exists(logSecurityInLasted.PhotoUrl))
+                        var logHistoryInLasted = new HistoryData();
+                        logHistoryInLasted = _helper.GetLogInLasted(txtMaThe.Text.Trim());
+                        if (!string.IsNullOrEmpty(logHistoryInLasted.Photo) && File.Exists(logHistoryInLasted.Photo))
                         {
-                            picIn.Image = (Bitmap)Image.FromFile(logSecurityInLasted.PhotoUrl);
-                            txtThoiGianVao.Text = logSecurityInLasted.SecurityDateStr;
+                            picIn.Image = (Bitmap)Image.FromFile(logHistoryInLasted.Photo);
+                            txtThoiGianVao.Text = logHistoryInLasted.Time.ToString(CultureInfo.InvariantCulture);
                         }
                         #endregion
                     }
                     // --------------------
                     cardNumberNow = txtMaThe.Text.Trim();
                     var strTitle = "Đang tiến hành tải dữ liệu !";
-                    _xuLy = enumCheckInOut.SetLogSecurity;
+                    _xuLy = enumCheckInOut.SetLogHistory;
                     var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
                 }
             }
@@ -441,7 +440,7 @@ namespace ParkingApp
     enum enumCheckInOut
     {
         LoadData,
-        SetLogSecurity,
+        SetLogHistory,
         ConnectDevice,
         Default
     }

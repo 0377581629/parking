@@ -122,7 +122,8 @@ namespace ParkingLib
             var dt = new DataTable();
             var ds = new DataSet();
             var lstStudentData = new List<StudentData>();
-            var studentDataQuery = "SELECT * FROM dbo.Parking_Student_Student";
+            var tenantId = GlobalConfig.ClientId;
+            var studentDataQuery = $"SELECT * FROM dbo.Parking_Student_Student student WHERE student.TenantId = {tenantId}";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(studentDataQuery, _conn))
             {

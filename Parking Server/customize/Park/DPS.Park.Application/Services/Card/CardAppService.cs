@@ -110,7 +110,8 @@ namespace DPS.Park.Application.Services.Card
         private async Task ValidateDataInput(CreateOrEditCardDto input)
         {
             var res = await _cardRepository.GetAll()
-                .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.Code.Equals(input.Code))
+                .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId &&
+                            (o.Code.Equals(input.Code) || o.CardNumber.Equals(input.CardNumber)))
                 .WhereIf(input.Id.HasValue, o => o.Id != input.Id)
                 .FirstOrDefaultAsync();
             if (res != null)

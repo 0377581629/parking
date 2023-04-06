@@ -98,17 +98,17 @@ namespace ParkingApp
             return student;
         }
 
-        public SecurityData GetLogInLasted(string cardNumber)
+        public HistoryData GetLogInLasted(string cardNumber)
         {
             try
             {
-                var lstLogs = new SecurityData() {CardNumber = cardNumber}.GetByCardNumbers();
-                if (lstLogs.Any())
+                var lstHistories = new HistoryData().Gets().Where(o => o.CardNumber == cardNumber);
+                if (lstHistories.Any())
                 {
-                    var lstLogIns = lstLogs.Where(x => x.Status == (int) Helper.SecurityDataStatus.In)
-                        .OrderByDescending(x => x.SecurityDate).ToList();
-                    var lstLogOuts = lstLogs.Where(x => x.Status == (int) Helper.SecurityDataStatus.Out)
-                        .OrderByDescending(x => x.SecurityDate).ToList();
+                    var lstLogIns = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.In)
+                        .OrderByDescending(x => x.Time).ToList();
+                    var lstLogOuts = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.Out)
+                        .OrderByDescending(x => x.Time).ToList();
 
                     if (lstLogOuts.Count > lstLogIns.Count)
                     {
@@ -121,22 +121,26 @@ namespace ParkingApp
                 Console.WriteLine(ex.Message);
             }
 
-            return new SecurityData();
+            return new HistoryData();
         }
 
-        public int AddLogSecurity(SecurityData data, ref string mes)
+        public int AddLogHistory(HistoryData data, ref string mes)
         {
             try
             {
-                var log = new SecurityData
+                var log = new HistoryData
                 {
                     Id = data.Id,
-                    StudentId = data.StudentId,
+                    CardId = data.CardId,
+                    CardCode = data.CardCode,
                     CardNumber = data.CardNumber,
-                    ParentStatus = data.ParentStatus,
-                    PhotoUrl = data.PhotoUrl,
-                    SecurityDateStr = data.SecurityDateStr,
-                    Status = 0
+                    LicensePlate = data.LicensePlate,
+                    Price = data.Price,
+                    Time = data.Time,
+                    Type = data.Type,
+                    Photo = data.Photo,
+                    CardTypeName = data.CardTypeName,
+                    VehicleTypeName = data.VehicleTypeName
                 };
                 log.Add();
                 return log.Id;
@@ -221,30 +225,33 @@ namespace ParkingApp
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
 
-        public bool LoadSecurityData(DateTime fromDate, DateTime toDate, ref List<SecurityData> lstSecurityDatas,
+        public bool LoadHistoryData(DateTime fromDate, DateTime toDate, ref List<HistoryData> lstHistoryDatas,
             bool fakeNew = true)
         {
             try
             {
-                lstSecurityDatas.Clear();
+                lstHistoryDatas.Clear();
                 if (!fakeNew)
                 {
-                    var lstSecurityData = new SecurityData().Gets();
+                    var lstHistoryData = new HistoryData().Gets();
                     var lstStudents = new StudentData().Gets();
-                    if (lstSecurityData != null && lstSecurityData.Any())
+                    var lstStudentCards = new StudentCardData().Gets();
+                    if (lstHistoryData != null && lstHistoryData.Any())
                     {
-                        foreach (var itm in lstSecurityData)
+                        foreach (var history in lstHistoryData)
                         {
-                            itm.StudentInfo = lstStudents.FirstOrDefault(o => o.Id == itm.StudentId);
-                            itm.SecurityDate = DateTime.ParseExact(itm.SecurityDateStr, "dd/MM/yyyy HH:mm:ss",
-                                System.Globalization.CultureInfo.InvariantCulture);
+                            var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
+                            history.StudentData = lstStudents.FirstOrDefault(o =>
+                                studentCard != null && o.Id == studentCard.StudentId);
+                            // history.HistoryDate = DateTime.ParseExact(history.HistoryDateStr, "dd/MM/yyyy HH:mm:ss",
+                            //     System.Globalization.CultureInfo.InvariantCulture);
                         }
 
-                        foreach (var itm in lstSecurityData)
+                        foreach (var itm in lstHistoryData)
                         {
-                            if (fromDate <= itm.SecurityDate && toDate >= itm.SecurityDate)
+                            if (fromDate <= itm.Time && toDate >= itm.Time)
                             {
-                                lstSecurityDatas.Add(itm);
+                                lstHistoryDatas.Add(itm);
                             }
                         }
                     }
@@ -262,7 +269,7 @@ namespace ParkingApp
             }
         }
 
-        public enum SecurityDataStatus
+        public enum HistoryDataStatus
         {
             In = 1,
             Out = 2

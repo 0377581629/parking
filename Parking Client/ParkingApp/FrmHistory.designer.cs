@@ -302,7 +302,6 @@
             this.Padding = new System.Windows.Forms.Padding(27, 65, 27, 22);
             this.Text = "LỊCH SỬ TRA CỨU";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmHistory_FormClosing);
-            this.Load += new System.EventHandler(this.FrmCheckIn_Load);
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).EndInit();
             this.groupBox1.ResumeLayout(false);

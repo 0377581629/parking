@@ -2,6 +2,7 @@
 using ParkingLib;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,8 +15,8 @@ namespace ParkingApp
         private string mes = string.Empty;
         private bool _check = false;
         readonly Helper _helperDLL = new Helper();
-        private List<SecurityData> _lstSecurityDatas;
-        private SecurityData _securityDataSelected;
+        private List<HistoryData> _lstHistoryDatas;
+        private HistoryData _historyDataSelected;
         private int _rowIndex = -1;
 
         public FrmHistory()
@@ -31,14 +32,14 @@ namespace ParkingApp
 
         private void SearchInfo()
         {
-            var lstSecurityDataSearch = new List<SecurityData>();
+            var lstHistoryDataSearch = new List<HistoryData>();
             var mes = string.Empty;
             if (txtSearch.Text.Trim() == "")
             {
                 #region -- Show all --
-                lstSecurityDataSearch = new List<SecurityData>();
-                _helperDLL.LoadSecurityData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstSecurityDataSearch, false);
-                ReloadGrid(lstSecurityDataSearch);
+                lstHistoryDataSearch = new List<HistoryData>();
+                _helperDLL.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataSearch, false);
+                ReloadGrid(lstHistoryDataSearch);
                 return;
                 #endregion
             }
@@ -49,70 +50,57 @@ namespace ParkingApp
                 for (var j = 0; j < tokens.Length; j++)
                 {
                     var strSearch = Helper.ConvertNoUnicode(tokens[j].ToString().Trim()).ToLower();
-                    for (var i = 0; i < _lstSecurityDatas.Count; i++)
+                    for (var i = 0; i < _lstHistoryDatas.Count; i++)
                     {
 
-                        if (_lstSecurityDatas[i].CardNumber.Contains(strSearch))
+                        if (_lstHistoryDatas[i].CardNumber.Contains(strSearch))
                         {
-                            if (lstSecurityDataSearch.Count == 0)
+                            if (lstHistoryDataSearch.Count == 0)
                             {
-                                lstSecurityDataSearch.Add(_lstSecurityDatas[i]);
+                                lstHistoryDataSearch.Add(_lstHistoryDatas[i]);
                             }
                             else
                             {
-                                var result = lstSecurityDataSearch.FirstOrDefault(s => s.Id == _lstSecurityDatas[i].Id);
-                                if (result == null) lstSecurityDataSearch.Add(_lstSecurityDatas[i]);
+                                var result = lstHistoryDataSearch.FirstOrDefault(s => s.Id == _lstHistoryDatas[i].Id);
+                                if (result == null) lstHistoryDataSearch.Add(_lstHistoryDatas[i]);
                             }
                         }
                     }
                 }
             }
 
-            ReloadGrid(lstSecurityDataSearch);
+            ReloadGrid(lstHistoryDataSearch);
         }
 
-        private void LoadData()
-        {
-            var strTitle = "Đang tiến hành tải dữ liệu !";
-            _xuLy = enumCheckIn.LoadData;
-            var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
-        }
-
-        private void ReloadGrid(List<SecurityData> _lstSecurityDatas)
+        private void ReloadGrid(List<HistoryData> _lstHistoryDatas)
         {
             int scrollPosition = dgvHistory.FirstDisplayedScrollingRowIndex;
             dgvHistory.Rows.Clear();
-            for (var i = 0; i < _lstSecurityDatas.Count; i++)
+            for (var i = 0; i < _lstHistoryDatas.Count; i++)
             {
                 dgvHistory.Rows.Add();
                 dgvHistory.Rows[i].Cells["STT"].Value = i + 1;
-                dgvHistory.Rows[i].Cells["securityDataID"].Value = _lstSecurityDatas[i].Id;
-                dgvHistory.Rows[i].Cells["cardNumber"].Value = _lstSecurityDatas[i].CardNumber.ToString();
-                var fullName = string.Empty;
-                if(_lstSecurityDatas[i].StudentInfo!= null)
+                dgvHistory.Rows[i].Cells["historyDataID"].Value = _lstHistoryDatas[i].Id;
+                dgvHistory.Rows[i].Cells["cardNumber"].Value = _lstHistoryDatas[i].CardNumber.ToString();
+                
+                var type = string.Empty;
+                switch (_lstHistoryDatas[i].Type)
                 {
-                    fullName = _lstSecurityDatas[i].StudentInfo.Name;
-                }
-                else
-                {
-                    fullName = "Khách";
-                }
-                dgvHistory.Rows[i].Cells["studentFullName"].Value = fullName;
-                dgvHistory.Rows[i].Cells["securityDataDate"].Value = _lstSecurityDatas[i].SecurityDateStr.ToString();
-                var stt = "";
-                switch (_lstSecurityDatas[i].Status)
-                {
-                    case (int)Helper.SecurityDataStatus.In:
-                        stt = "Vào";
+                    case (int)Helper.HistoryDataStatus.In:
+                        type = "Vào";
                         break;
-                    case (int)Helper.SecurityDataStatus.Out:
-                        stt = "Ra";
+                    case (int)Helper.HistoryDataStatus.Out:
+                        type = "Ra";
                         break;
                     default:
-                        stt = string.Empty;
+                        type = string.Empty;
                         break;
                 }
-                dgvHistory.Rows[i].Cells["status"].Value = stt;
+                dgvHistory.Rows[i].Cells["type"].Value = type;
+                
+                dgvHistory.Rows[i].Cells["time"].Value = _lstHistoryDatas[i].Time.ToString(CultureInfo.InvariantCulture);
+                dgvHistory.Rows[i].Cells["vehicleTypeName"].Value = _lstHistoryDatas[i].VehicleTypeName;
+                dgvHistory.Rows[i].Cells["cardTypeName"].Value = _lstHistoryDatas[i].CardTypeName;
             }
 
             for (var i = 0; i < dgvHistory.Rows.Count; i++)
@@ -125,29 +113,7 @@ namespace ParkingApp
                 dgvHistory.FirstDisplayedScrollingRowIndex = scrollPosition;
             }
         }
-
-        private void SyncData()
-        {
-            switch (_xuLy)
-            {
-                case enumCheckIn.LoadData:
-                    {
-                        _check = _helperDLL.LoadSecurityData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref _lstSecurityDatas, false);
-                    }
-                    break;
-                case enumCheckIn.Default:
-                    break;
-                default:
-                    break;
-            }
-        }
-
-
-        private void FrmCheckIn_Load(object sender, EventArgs e)
-        {
-            LoadData();
-        }
-
+        
         private void dgvCandidate_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             _rowIndex = e.RowIndex;
@@ -160,19 +126,6 @@ namespace ParkingApp
             _rowIndex = e.RowIndex;
             if (_rowIndex < 0) return;
             dgvHistory.Rows[_rowIndex].Selected = true;
-        }
-
-
-        private void WartingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
-        {
-            var stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            var thread = new Thread(SyncData);
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
-            if (stt == "")
-                stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
         }
 
         private void txtSearchCandidate_KeyDown(object sender, KeyEventArgs e)

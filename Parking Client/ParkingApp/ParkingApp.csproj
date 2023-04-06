@@ -53,14 +53,14 @@
     <Reference Include="Emgu.CV.World, Version=3.1.0.2282, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <HintPath>..\packages\EmguCV.3.1.0.1\lib\net30\Emgu.CV.World.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework">
-      <HintPath>..\Libs\MetroFramework.dll</HintPath>
+    <Reference Include="MetroFramework, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework.Design">
-      <HintPath>..\Libs\MetroFramework.Design.dll</HintPath>
+    <Reference Include="MetroFramework.Design, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Design.dll</HintPath>
     </Reference>
-    <Reference Include="MetroFramework.Fonts">
-      <HintPath>..\Libs\MetroFramework.Fonts.dll</HintPath>
+    <Reference Include="MetroFramework.Fonts, Version=1.4.0.0, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.Fonts.dll</HintPath>
     </Reference>
     <Reference Include="SHD.Framework.WaitWindow.Library">
       <HintPath>..\Libs\SHD.Framework.WaitWindow.Library.dll</HintPath>
@@ -206,14 +206,6 @@
     <ProjectReference Include="..\RawInputLib\RawInputLib.csproj">
       <Project>{4143d085-38cf-4640-bb05-2fdffaf94d76}</Project>
       <Name>RawInputLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SyncDataClient\SyncDataClient.csproj">
-      <Project>{39060528-742c-487f-a23f-5a19d86fa32a}</Project>
-      <Name>SyncDataClient</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SyncDataModels\SyncDataModels.csproj">
-      <Project>{1542f24f-b4a6-4247-addf-f4df18b4d8e7}</Project>
-      <Name>SyncDataModels</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
