@@ -26,7 +26,6 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        [System.Obsolete]
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -41,12 +40,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHistory));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvHistory = new System.Windows.Forms.DataGridView();
-            this.stt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.securityDataID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cardNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.studentFullName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.securityDataDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtSearch = new MetroFramework.Controls.MetroTextBox();
             this.btnSearch = new MetroFramework.Controls.MetroButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -54,6 +47,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePickerTo = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerFrom = new System.Windows.Forms.DateTimePicker();
+            this.stt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CardNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.LicensePlate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VehicleTypeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CardTypeName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvHistory)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -91,11 +92,13 @@
             this.dgvHistory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvHistory.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.stt,
-            this.securityDataID,
-            this.cardNumber,
-            this.studentFullName,
-            this.securityDataDate,
-            this.status});
+            this.CardNumber,
+            this.LicensePlate,
+            this.Price,
+            this.Type,
+            this.Time,
+            this.VehicleTypeName,
+            this.CardTypeName});
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
             dataGridViewCellStyle8.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -119,77 +122,8 @@
             this.dgvHistory.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvHistory.Size = new System.Drawing.Size(842, 352);
             this.dgvHistory.TabIndex = 4;
-            this.dgvHistory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCandidate_CellClick);
-            this.dgvHistory.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCandidate_RowEnter);
-            // 
-            // stt
-            // 
-            this.stt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.stt.DefaultCellStyle = dataGridViewCellStyle2;
-            this.stt.HeaderText = "STT";
-            this.stt.MinimumWidth = 12;
-            this.stt.Name = "stt";
-            this.stt.ReadOnly = true;
-            this.stt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.stt.Width = 69;
-            // 
-            // securityDataID
-            // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.securityDataID.DefaultCellStyle = dataGridViewCellStyle3;
-            this.securityDataID.HeaderText = "candidateID";
-            this.securityDataID.MinimumWidth = 12;
-            this.securityDataID.Name = "securityDataID";
-            this.securityDataID.ReadOnly = true;
-            this.securityDataID.Visible = false;
-            this.securityDataID.Width = 250;
-            // 
-            // cardNumber
-            // 
-            this.cardNumber.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.cardNumber.DefaultCellStyle = dataGridViewCellStyle4;
-            this.cardNumber.HeaderText = "Số thẻ";
-            this.cardNumber.MinimumWidth = 180;
-            this.cardNumber.Name = "cardNumber";
-            this.cardNumber.ReadOnly = true;
-            this.cardNumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.cardNumber.Width = 180;
-            // 
-            // studentFullName
-            // 
-            this.studentFullName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            this.studentFullName.DefaultCellStyle = dataGridViewCellStyle5;
-            this.studentFullName.HeaderText = "Họ tên";
-            this.studentFullName.MinimumWidth = 160;
-            this.studentFullName.Name = "studentFullName";
-            this.studentFullName.ReadOnly = true;
-            this.studentFullName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.studentFullName.Width = 260;
-            // 
-            // securityDataDate
-            // 
-            this.securityDataDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.securityDataDate.DefaultCellStyle = dataGridViewCellStyle6;
-            this.securityDataDate.HeaderText = "Thời gian";
-            this.securityDataDate.MinimumWidth = 220;
-            this.securityDataDate.Name = "securityDataDate";
-            this.securityDataDate.ReadOnly = true;
-            this.securityDataDate.Width = 220;
-            // 
-            // status
-            // 
-            this.status.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.status.DefaultCellStyle = dataGridViewCellStyle7;
-            this.status.HeaderText = "Trạng thái";
-            this.status.MinimumWidth = 100;
-            this.status.Name = "status";
-            this.status.ReadOnly = true;
-            this.status.Width = 120;
+            this.dgvHistory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistory_CellClick);
+            this.dgvHistory.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistory_RowEnter);
             // 
             // txtSearch
             // 
@@ -288,6 +222,93 @@
             this.dateTimePickerFrom.Size = new System.Drawing.Size(244, 22);
             this.dateTimePickerFrom.TabIndex = 8;
             // 
+            // stt
+            // 
+            this.stt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.stt.DefaultCellStyle = dataGridViewCellStyle2;
+            this.stt.HeaderText = "STT";
+            this.stt.MinimumWidth = 12;
+            this.stt.Name = "stt";
+            this.stt.ReadOnly = true;
+            this.stt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.stt.Width = 69;
+            // 
+            // CardNumber
+            // 
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.CardNumber.DefaultCellStyle = dataGridViewCellStyle3;
+            this.CardNumber.HeaderText = "Số thẻ";
+            this.CardNumber.MinimumWidth = 12;
+            this.CardNumber.Name = "CardNumber";
+            this.CardNumber.ReadOnly = true;
+            this.CardNumber.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.CardNumber.Width = 250;
+            // 
+            // LicensePlate
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.LicensePlate.DefaultCellStyle = dataGridViewCellStyle4;
+            this.LicensePlate.HeaderText = "Biển số";
+            this.LicensePlate.MinimumWidth = 12;
+            this.LicensePlate.Name = "LicensePlate";
+            this.LicensePlate.ReadOnly = true;
+            this.LicensePlate.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.LicensePlate.Width = 250;
+            // 
+            // Price
+            // 
+            this.Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            this.Price.DefaultCellStyle = dataGridViewCellStyle5;
+            this.Price.HeaderText = "Giá";
+            this.Price.MinimumWidth = 80;
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            this.Price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Price.Width = 80;
+            // 
+            // Type
+            // 
+            this.Type.HeaderText = "Loại";
+            this.Type.MinimumWidth = 50;
+            this.Type.Name = "Type";
+            this.Type.ReadOnly = true;
+            this.Type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Type.Width = 50;
+            // 
+            // Time
+            // 
+            this.Time.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Time.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Time.HeaderText = "Thời gian";
+            this.Time.MinimumWidth = 220;
+            this.Time.Name = "Time";
+            this.Time.ReadOnly = true;
+            this.Time.Width = 220;
+            // 
+            // VehicleTypeName
+            // 
+            this.VehicleTypeName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.VehicleTypeName.DefaultCellStyle = dataGridViewCellStyle7;
+            this.VehicleTypeName.HeaderText = "Loại xe";
+            this.VehicleTypeName.MinimumWidth = 12;
+            this.VehicleTypeName.Name = "VehicleTypeName";
+            this.VehicleTypeName.ReadOnly = true;
+            this.VehicleTypeName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.VehicleTypeName.Width = 250;
+            // 
+            // CardTypeName
+            // 
+            this.CardTypeName.HeaderText = "Loại thẻ";
+            this.CardTypeName.MinimumWidth = 12;
+            this.CardTypeName.Name = "CardTypeName";
+            this.CardTypeName.ReadOnly = true;
+            this.CardTypeName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.CardTypeName.Width = 250;
+            // 
             // FrmHistory
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
@@ -321,10 +342,12 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataGridViewTextBoxColumn stt;
-        private System.Windows.Forms.DataGridViewTextBoxColumn securityDataID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cardNumber;
-        private System.Windows.Forms.DataGridViewTextBoxColumn studentFullName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn securityDataDate;
-        private System.Windows.Forms.DataGridViewTextBoxColumn status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CardNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn LicensePlate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Time;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VehicleTypeName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CardTypeName;
     }
 }

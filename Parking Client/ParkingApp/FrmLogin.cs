@@ -1,17 +1,14 @@
-﻿using DataAccess;
-using MetroFramework;
+﻿using MetroFramework;
 using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Data.SQLite;
 using System.Windows.Forms;
 
 namespace ParkingApp
 {
     public partial class FrmLogin : MetroFramework.Forms.MetroForm
     {
-        private SQLiteConnection _conn = DBExecute.OpenConnection();
         private readonly string _connectionString = ConfigurationManager.AppSettings["connectionStringSqlServer"];
 
         public FrmLogin()

@@ -11,12 +11,7 @@ namespace ParkingApp
 {
     public partial class FrmHistory : MetroFramework.Forms.MetroForm
     {
-        private enumCheckIn _xuLy;
-        private string mes = string.Empty;
-        private bool _check = false;
         readonly Helper _helperDLL = new Helper();
-        private List<HistoryData> _lstHistoryDatas;
-        private HistoryData _historyDataSelected;
         private int _rowIndex = -1;
 
         public FrmHistory()
@@ -32,59 +27,46 @@ namespace ParkingApp
 
         private void SearchInfo()
         {
-            var lstHistoryDataSearch = new List<HistoryData>();
-            var mes = string.Empty;
+            var lstHistoryDataFilter = new List<HistoryData>();
+            _helperDLL.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataFilter, false);
+
             if (txtSearch.Text.Trim() == "")
             {
-                #region -- Show all --
-                lstHistoryDataSearch = new List<HistoryData>();
-                _helperDLL.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataSearch, false);
-                ReloadGrid(lstHistoryDataSearch);
-                return;
-                #endregion
+                ReloadGrid(lstHistoryDataFilter);
             }
             else
             {
                 var tokens = txtSearch.Text.Trim().Split('|');
-
-                for (var j = 0; j < tokens.Length; j++)
+                var lstHistoryDataSearchAndFilter = new List<HistoryData>();
+                foreach (var token in tokens)
                 {
-                    var strSearch = Helper.ConvertNoUnicode(tokens[j].ToString().Trim()).ToLower();
-                    for (var i = 0; i < _lstHistoryDatas.Count; i++)
+                    var strSearch = Helper.ConvertNoUnicode(token.Trim()).ToLower();
+                    var history = lstHistoryDataFilter.FirstOrDefault(o => o.CardNumber.Contains(strSearch));
+                    if (history != null)
                     {
-
-                        if (_lstHistoryDatas[i].CardNumber.Contains(strSearch))
-                        {
-                            if (lstHistoryDataSearch.Count == 0)
-                            {
-                                lstHistoryDataSearch.Add(_lstHistoryDatas[i]);
-                            }
-                            else
-                            {
-                                var result = lstHistoryDataSearch.FirstOrDefault(s => s.Id == _lstHistoryDatas[i].Id);
-                                if (result == null) lstHistoryDataSearch.Add(_lstHistoryDatas[i]);
-                            }
-                        }
+                        lstHistoryDataSearchAndFilter.Add(history);
+                        lstHistoryDataFilter.Remove(history);
                     }
+
+                    ReloadGrid(lstHistoryDataSearchAndFilter);
                 }
             }
-
-            ReloadGrid(lstHistoryDataSearch);
         }
 
-        private void ReloadGrid(List<HistoryData> _lstHistoryDatas)
+        private void ReloadGrid(List<HistoryData> lstHistoryDatas)
         {
-            int scrollPosition = dgvHistory.FirstDisplayedScrollingRowIndex;
+            var scrollPosition = dgvHistory.FirstDisplayedScrollingRowIndex;
             dgvHistory.Rows.Clear();
-            for (var i = 0; i < _lstHistoryDatas.Count; i++)
+            for (var i = 0; i < lstHistoryDatas.Count; i++)
             {
                 dgvHistory.Rows.Add();
                 dgvHistory.Rows[i].Cells["STT"].Value = i + 1;
-                dgvHistory.Rows[i].Cells["historyDataID"].Value = _lstHistoryDatas[i].Id;
-                dgvHistory.Rows[i].Cells["cardNumber"].Value = _lstHistoryDatas[i].CardNumber.ToString();
-                
-                var type = string.Empty;
-                switch (_lstHistoryDatas[i].Type)
+                dgvHistory.Rows[i].Cells["CardNumber"].Value = lstHistoryDatas[i].CardNumber;
+                dgvHistory.Rows[i].Cells["LicensePlate"].Value = lstHistoryDatas[i].LicensePlate;
+                dgvHistory.Rows[i].Cells["Price"].Value = lstHistoryDatas[i].Price;
+
+                string type;
+                switch (lstHistoryDatas[i].Type)
                 {
                     case (int)Helper.HistoryDataStatus.In:
                         type = "Vào";
@@ -96,11 +78,11 @@ namespace ParkingApp
                         type = string.Empty;
                         break;
                 }
-                dgvHistory.Rows[i].Cells["type"].Value = type;
-                
-                dgvHistory.Rows[i].Cells["time"].Value = _lstHistoryDatas[i].Time.ToString(CultureInfo.InvariantCulture);
-                dgvHistory.Rows[i].Cells["vehicleTypeName"].Value = _lstHistoryDatas[i].VehicleTypeName;
-                dgvHistory.Rows[i].Cells["cardTypeName"].Value = _lstHistoryDatas[i].CardTypeName;
+                dgvHistory.Rows[i].Cells["Type"].Value = type;
+
+                dgvHistory.Rows[i].Cells["Time"].Value = lstHistoryDatas[i].Time.ToString(CultureInfo.InvariantCulture);
+                dgvHistory.Rows[i].Cells["VehicleTypeName"].Value = lstHistoryDatas[i].VehicleTypeName;
+                dgvHistory.Rows[i].Cells["CardTypeName"].Value = lstHistoryDatas[i].CardTypeName;
             }
 
             for (var i = 0; i < dgvHistory.Rows.Count; i++)
@@ -113,15 +95,15 @@ namespace ParkingApp
                 dgvHistory.FirstDisplayedScrollingRowIndex = scrollPosition;
             }
         }
-        
-        private void dgvCandidate_RowEnter(object sender, DataGridViewCellEventArgs e)
+
+        private void dgvHistory_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             _rowIndex = e.RowIndex;
             if (_rowIndex <= 0) return;
             dgvHistory.Rows[_rowIndex].Selected = true;
         }
 
-        private void dgvCandidate_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void dgvHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             _rowIndex = e.RowIndex;
             if (_rowIndex < 0) return;
@@ -145,11 +127,5 @@ namespace ParkingApp
         {
             SearchInfo();
         }
-    }
-
-    enum enumCheckIn
-    {
-        LoadData,
-        Default
     }
 }

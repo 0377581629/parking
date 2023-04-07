@@ -3,9 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
-using System.Data.SQLite;
 using Newtonsoft.Json;
-using System.Globalization;
 using SyncDataModels;
 
 namespace ParkingLib
@@ -183,7 +181,7 @@ namespace ParkingLib
             List<HistoryData> lstHistoryData = new List<HistoryData>();
             var tenantId = GlobalConfig.TenantId;
             var historyDataQuery =
-                $"SELECT history.Id, history.CardId, card.Code,card.CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name,vehicleType.Name FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId = {tenantId}";
+                $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId = {tenantId}";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(historyDataQuery, _conn))
             {
