@@ -251,6 +251,8 @@ namespace DPS.Park.Application.Importing.Card
                                     VehicleTypeId = obj.VehicleTypeId,
                                     Code = obj.Code,
                                     CardNumber = obj.CardNumber,
+                                    Balance = obj.Balance,
+                                    LicensePlate = obj.LicensePlate,
                                     Note = obj.Note,
                                     IsActive = true
                                 });

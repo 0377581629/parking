@@ -54,7 +54,8 @@ namespace DPS.Park.Application.Services.Card
 
                     VehicleTypeId = obj.VehicleTypeId,
                     VehicleTypeName = obj.VehicleType.Name,
-                    Balance = obj.Balance
+                    Balance = obj.Balance,
+                    LicensePlate = obj.LicensePlate
                 };
             return query;
         }

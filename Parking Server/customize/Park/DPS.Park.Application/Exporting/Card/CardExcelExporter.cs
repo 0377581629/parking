@@ -36,7 +36,7 @@ namespace DPS.Park.Application.Exporting.Card
                 "DanhSach_TheXe.xlsx",
                 excelPackage =>
                 {
-                    var sheet = excelPackage.CreateSheet(L("Users"));
+                    var sheet = excelPackage.CreateSheet(L("Card"));
 
                     AddHeader(
                         sheet,
@@ -44,6 +44,8 @@ namespace DPS.Park.Application.Exporting.Card
                         L("VehicleType"),
                         L("Code"),
                         L("CardNumber"),
+                        L("Balance"),
+                        L("LicensePlate"),
                         L("Note")
                     );
 
@@ -53,6 +55,8 @@ namespace DPS.Park.Application.Exporting.Card
                         _ => _.VehicleTypeName,
                         _ => _.Code,
                         _ => _.CardNumber,
+                        _ => _.Balance,
+                        _ => _.LicensePlate,
                         _ => _.Note
                     );
 

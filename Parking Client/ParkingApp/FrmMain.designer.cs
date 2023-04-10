@@ -44,7 +44,7 @@
             this.lbDay.AutoSize = true;
             this.lbDay.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDay.ForeColor = System.Drawing.Color.Maroon;
-            this.lbDay.Location = new System.Drawing.Point(403, 312);
+            this.lbDay.Location = new System.Drawing.Point(242, 329);
             this.lbDay.Name = "lbDay";
             this.lbDay.Size = new System.Drawing.Size(116, 25);
             this.lbDay.TabIndex = 66;
@@ -55,7 +55,7 @@
             this.lbDayOfWeek.AutoSize = true;
             this.lbDayOfWeek.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDayOfWeek.ForeColor = System.Drawing.Color.Maroon;
-            this.lbDayOfWeek.Location = new System.Drawing.Point(413, 278);
+            this.lbDayOfWeek.Location = new System.Drawing.Point(252, 295);
             this.lbDayOfWeek.Name = "lbDayOfWeek";
             this.lbDayOfWeek.Size = new System.Drawing.Size(98, 25);
             this.lbDayOfWeek.TabIndex = 67;
@@ -80,30 +80,32 @@
             this.btnCauHinh.Size = new System.Drawing.Size(140, 106);
             this.btnCauHinh.TabIndex = 57;
             this.btnCauHinh.Tag = "4";
-            this.btnCauHinh.Text = "3. Cấu hình";
+            this.btnCauHinh.Text = "Cấu hình";
+            this.btnCauHinh.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCauHinh.TileImage = ((System.Drawing.Image)(resources.GetObject("btnCauHinh.TileImage")));
             this.btnCauHinh.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnCauHinh.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnCauHinh.UseSelectable = true;
             this.btnCauHinh.UseTileImage = true;
-            this.btnCauHinh.Click += new System.EventHandler(this.btnCauHinh_Click);
+            this.btnCauHinh.Click += new System.EventHandler(this.BtnCauHinh_Click);
             // 
             // btnGiamSat
             // 
             this.btnGiamSat.ActiveControl = null;
             this.btnGiamSat.Location = new System.Drawing.Point(318, 148);
             this.btnGiamSat.Name = "btnGiamSat";
-            this.btnGiamSat.Size = new System.Drawing.Size(140, 106);
+            this.btnGiamSat.Size = new System.Drawing.Size(283, 106);
             this.btnGiamSat.Style = MetroFramework.MetroColorStyle.Green;
             this.btnGiamSat.TabIndex = 54;
             this.btnGiamSat.Tag = "0";
-            this.btnGiamSat.Text = "4. Giám sát";
+            this.btnGiamSat.Text = "Giám sát";
+            this.btnGiamSat.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnGiamSat.TileImage = ((System.Drawing.Image)(resources.GetObject("btnGiamSat.TileImage")));
             this.btnGiamSat.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnGiamSat.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnGiamSat.UseSelectable = true;
             this.btnGiamSat.UseTileImage = true;
-            this.btnGiamSat.Click += new System.EventHandler(this.btnGiamSat_Click);
+            this.btnGiamSat.Click += new System.EventHandler(this.BtnGiamSat_Click);
             // 
             // btnTraCuu
             // 
@@ -113,13 +115,14 @@
             this.btnTraCuu.Size = new System.Drawing.Size(140, 106);
             this.btnTraCuu.TabIndex = 55;
             this.btnTraCuu.Tag = "0";
-            this.btnTraCuu.Text = "2. Tra cứu";
+            this.btnTraCuu.Text = "Tra cứu";
+            this.btnTraCuu.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnTraCuu.TileImage = ((System.Drawing.Image)(resources.GetObject("btnTraCuu.TileImage")));
             this.btnTraCuu.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnTraCuu.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnTraCuu.UseSelectable = true;
             this.btnTraCuu.UseTileImage = true;
-            this.btnTraCuu.Click += new System.EventHandler(this.btnTraCuu_Click);
+            this.btnTraCuu.Click += new System.EventHandler(this.BtnTraCuu_Click);
             // 
             // btnTestModelAI
             // 
@@ -131,7 +134,7 @@
             this.btnTestModelAI.TabIndex = 68;
             this.btnTestModelAI.Text = "Test Model AI";
             this.btnTestModelAI.UseVisualStyleBackColor = false;
-            this.btnTestModelAI.Click += new System.EventHandler(this.btnTestModelAI_click);
+            this.btnTestModelAI.Click += new System.EventHandler(this.BtnTestModelAI_click);
             // 
             // FrmMain
             // 

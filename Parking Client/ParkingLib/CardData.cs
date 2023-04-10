@@ -81,6 +81,16 @@ namespace ParkingLib
             set { _balance = value; }
         }
 
+        private string _licensePlate = string.Empty;
+
+        [DisplayName("LicensePlate")]
+        [JsonProperty("LicensePlate", NullValueHandling = NullValueHandling.Ignore)]
+        public string LicensePlate
+        {
+            get { return _licensePlate; }
+            set { _licensePlate = value; }
+        }
+
         public CardData()
         {
         }
@@ -102,7 +112,7 @@ namespace ParkingLib
             var ds = new DataSet();
             var lstCardData = new List<CardData>();
             var cardDataQuery =
-                "SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id";
+                "SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(cardDataQuery, _conn))
             {
@@ -124,6 +134,7 @@ namespace ParkingLib
                 cardData.CardType = Convert.ToString(dr["CardType"]);
                 cardData.VehicleType = Convert.ToString(dr["VehicleType"]);
                 cardData.Balance = Convert.ToInt32(dr["Balance"]);
+                cardData.LicensePlate = Convert.ToString(dr["LicensePlate"]);
 
                 lstCardData.Add(cardData);
             }

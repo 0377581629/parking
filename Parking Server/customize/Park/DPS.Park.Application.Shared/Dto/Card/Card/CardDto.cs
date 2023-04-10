@@ -24,6 +24,7 @@ namespace DPS.Park.Application.Shared.Dto.Card.Card
         
         public int Balance { get; set; }
         
-        public double Price { get; set; } 
+        public string LicensePlate { get; set; }
+        public double Price { get; set; }
     }
 }

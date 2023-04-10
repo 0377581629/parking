@@ -77,27 +77,6 @@ namespace ParkingApp
             ConfigurationManager.RefreshSection("appSettings");
         }
 
-        public StudentData GetStudentByCode(string cardNumber)
-        {
-            StudentData student = null;
-            try
-            {
-                var lstStudents = new StudentData().Gets();
-                var lstCards = new CardData().Gets();
-                var lstStudentCard = new StudentCardData().Gets();
-
-                var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(cardNumber.Trim()));
-                var studentCard = lstStudentCard.FirstOrDefault(o => o.CardId == card.Id);
-                student = lstStudents.FirstOrDefault(o => o.Id == studentCard.StudentId);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-            return student;
-        }
-
         public HistoryData GetLogInLasted(string cardNumber)
         {
             try

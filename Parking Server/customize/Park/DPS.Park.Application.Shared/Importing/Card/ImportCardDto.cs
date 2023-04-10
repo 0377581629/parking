@@ -29,6 +29,14 @@ namespace DPS.Park.Application.Shared.Importing.Card
         
         [DisplayName("E")]
         [InvalidExport]
+        public int Balance { get; set; }
+        
+        [DisplayName("F")]
+        [InvalidExport]
+        public string LicensePlate { get; set; }
+        
+        [DisplayName("G")]
+        [InvalidExport]
         public string Note { get; set; }
 
         [InvalidExport]

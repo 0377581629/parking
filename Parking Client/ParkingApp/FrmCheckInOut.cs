@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -64,7 +65,7 @@ namespace ParkingApp
             //KeyPreview = true;
             var strTitle = "Đang kết nối thiết bị !";
             _xuLy = enumCheckInOut.ConnectDevice;
-            WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
+            WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
         }
 
         #region Proccess Camera
@@ -244,7 +245,7 @@ namespace ParkingApp
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void WartingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
+        private void WaitingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
         {
             var stt = "Quá trình xử lý dữ liệu hoàn tất !";
             var thread = new Thread(Doing);
@@ -335,7 +336,14 @@ namespace ParkingApp
                     }
 
                     //
-                    var studentInfo = _helper.GetStudentByCode(txtMaThe.Text.Trim());
+                    var lstStudents = new StudentData().Gets();
+                    var lstCards = new CardData().Gets();
+                    var lstStudentCard = new StudentCardData().Gets();
+
+                    var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(txtMaThe.Text.Trim()));
+                    var studentCard = lstStudentCard.FirstOrDefault(o => card != null && o.CardId == card.Id);
+                    var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
+
                     var mes = string.Empty;
 
                     if (studentInfo != null)
@@ -348,6 +356,8 @@ namespace ParkingApp
 
                         picRegistry.Image = avatar;
                         richNoiDungCanhBao.Text = mes;
+                        richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
+                        richRecognitionLicensePlate.Text = "";
                         studentSelected = (StudentData)studentInfo.Clone();
                     }
                     else
@@ -373,7 +383,7 @@ namespace ParkingApp
                     cardNumberNow = txtMaThe.Text.Trim();
                     var strTitle = "Đang tiến hành tải dữ liệu !";
                     _xuLy = enumCheckInOut.SetLogHistory;
-                    var result = WaitWindow.WaitWindow.Show(WartingSyncData, strTitle);
+                    var result = WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
                 }
             }
         }
@@ -416,9 +426,6 @@ namespace ParkingApp
                 //MessageBox.Show("Đóng !");
                 btnClose.PerformClick();
             }
-            else
-            {
-            }
         }
 
         private void FrmCheckInOut_KeyPress(object sender, KeyPressEventArgs e)
@@ -439,9 +446,7 @@ namespace ParkingApp
 
     enum enumCheckInOut
     {
-        LoadData,
         SetLogHistory,
         ConnectDevice,
-        Default
     }
 }

@@ -135,12 +135,6 @@
     <Compile Include="ImagePanel.designer.cs">
       <DependentUpon>ImagePanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Keyboard.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Keyboard.designer.cs">
-      <DependentUpon>Keyboard.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmHistory.resx">
@@ -166,9 +160,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImagePanel.resx">
       <DependentUpon>ImagePanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Keyboard.resx">
-      <DependentUpon>Keyboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -32,5 +32,7 @@ namespace DPS.Park.Core.Card
         public VehicleType VehicleType { get; set; }
         
         public int Balance { get; set; }
+        
+        public string LicensePlate { get; set; }
     }
 }

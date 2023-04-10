@@ -35,6 +35,10 @@
             this.picOut = new System.Windows.Forms.PictureBox();
             this.btnOpen = new MetroFramework.Controls.MetroTile();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.richNoiDungCanhBao = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.richRecognitionLicensePlate = new System.Windows.Forms.RichTextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.picRegistry = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,7 +46,7 @@
             this.txtThoiGianVao = new System.Windows.Forms.RichTextBox();
             this.txtMaThe = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.richNoiDungCanhBao = new System.Windows.Forms.RichTextBox();
+            this.richCardLicensePlate = new System.Windows.Forms.RichTextBox();
             this.btnClose = new MetroFramework.Controls.MetroTile();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.picCaptureIn = new System.Windows.Forms.PictureBox();
@@ -75,7 +79,6 @@
             // picIn
             // 
             this.picIn.BackColor = System.Drawing.Color.Gray;
-            this.picIn.Dock = System.Windows.Forms.DockStyle.Fill;
             this.picIn.Location = new System.Drawing.Point(3, 17);
             this.picIn.Name = "picIn";
             this.picIn.Size = new System.Drawing.Size(744, 571);
@@ -128,6 +131,10 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.groupBox1.Controls.Add(this.richNoiDungCanhBao);
+            this.groupBox1.Controls.Add(this.label5);
+            this.groupBox1.Controls.Add(this.richRecognitionLicensePlate);
+            this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.picRegistry);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
@@ -135,13 +142,55 @@
             this.groupBox1.Controls.Add(this.txtThoiGianVao);
             this.groupBox1.Controls.Add(this.txtMaThe);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.richNoiDungCanhBao);
+            this.groupBox1.Controls.Add(this.richCardLicensePlate);
             this.groupBox1.Location = new System.Drawing.Point(783, 668);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(654, 197);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "THÔNG TIN: ";
+            // 
+            // richNoiDungCanhBao
+            // 
+            this.richNoiDungCanhBao.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richNoiDungCanhBao.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+            this.richNoiDungCanhBao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.richNoiDungCanhBao.Location = new System.Drawing.Point(195, 10);
+            this.richNoiDungCanhBao.Name = "richNoiDungCanhBao";
+            this.richNoiDungCanhBao.ReadOnly = true;
+            this.richNoiDungCanhBao.Size = new System.Drawing.Size(442, 30);
+            this.richNoiDungCanhBao.TabIndex = 16;
+            this.richNoiDungCanhBao.Text = "Khách";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(426, 43);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(114, 13);
+            this.label5.TabIndex = 15;
+            this.label5.Text = "Biển số nhận diện:";
+            // 
+            // richRecognitionLicensePlate
+            // 
+            this.richRecognitionLicensePlate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richRecognitionLicensePlate.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.richRecognitionLicensePlate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.richRecognitionLicensePlate.Location = new System.Drawing.Point(429, 59);
+            this.richRecognitionLicensePlate.Name = "richRecognitionLicensePlate";
+            this.richRecognitionLicensePlate.ReadOnly = true;
+            this.richRecognitionLicensePlate.Size = new System.Drawing.Size(208, 30);
+            this.richRecognitionLicensePlate.TabIndex = 14;
+            this.richRecognitionLicensePlate.Text = "17N40569";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(192, 43);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(100, 13);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "Biển số của thẻ:";
             // 
             // picRegistry
             // 
@@ -202,8 +251,8 @@
             // 
             this.txtMaThe.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtMaThe.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMaThe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.txtMaThe.Location = new System.Drawing.Point(195, 98);
+            this.txtMaThe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtMaThe.Location = new System.Drawing.Point(195, 108);
             this.txtMaThe.Multiline = false;
             this.txtMaThe.Name = "txtMaThe";
             this.txtMaThe.ReadOnly = true;
@@ -215,23 +264,24 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(192, 79);
+            this.label1.Location = new System.Drawing.Point(192, 92);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(50, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Mã thẻ:";
             // 
-            // richNoiDungCanhBao
+            // richCardLicensePlate
             // 
-            this.richNoiDungCanhBao.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richNoiDungCanhBao.Font = new System.Drawing.Font("Verdana", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.richNoiDungCanhBao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.richNoiDungCanhBao.Location = new System.Drawing.Point(195, 21);
-            this.richNoiDungCanhBao.Name = "richNoiDungCanhBao";
-            this.richNoiDungCanhBao.ReadOnly = true;
-            this.richNoiDungCanhBao.Size = new System.Drawing.Size(442, 48);
-            this.richNoiDungCanhBao.TabIndex = 2;
-            this.richNoiDungCanhBao.Text = "KHÁCH";
+            this.richCardLicensePlate.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.richCardLicensePlate.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.richCardLicensePlate.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold);
+            this.richCardLicensePlate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.richCardLicensePlate.Location = new System.Drawing.Point(195, 59);
+            this.richCardLicensePlate.Name = "richCardLicensePlate";
+            this.richCardLicensePlate.ReadOnly = true;
+            this.richCardLicensePlate.Size = new System.Drawing.Size(208, 30);
+            this.richCardLicensePlate.TabIndex = 2;
+            this.richCardLicensePlate.Text = "17N40569";
             // 
             // btnClose
             // 
@@ -344,13 +394,17 @@
         private System.Windows.Forms.RichTextBox txtThoiGianVao;
         private System.Windows.Forms.RichTextBox txtMaThe;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richNoiDungCanhBao;
-        private System.Windows.Forms.PictureBox picRegistry;
+        private System.Windows.Forms.RichTextBox richCardLicensePlate;
         private MetroFramework.Controls.MetroTile btnClose;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox picCaptureIn;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.PictureBox picCaptureOut;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RichTextBox richRecognitionLicensePlate;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RichTextBox richNoiDungCanhBao;
+        private System.Windows.Forms.PictureBox picRegistry;
     }
 }
 

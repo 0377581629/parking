@@ -93,21 +93,26 @@
                 },
                 {
                     targets: 4,
+                    data: "card.licensePlate",
+                    name: "licensePlate"
+                },
+                {
+                    targets: 5,
                     data: "card.vehicleTypeName",
                     name: "vehicleTypeName"
                 },
                 {
-                    targets: 5,
+                    targets: 6,
                     data: "card.cardTypeName",
                     name: "cardTypeName"
                 },
                 {
-                    targets: 6,
+                    targets: 7,
                     data: "card.note",
                     name: "note"
                 },
                 {
-                    targets: 7,
+                    targets: 8,
                     data: "card.isActive",
                     name: "isActive",
                     class: "text-center",

@@ -1,31 +1,24 @@
-﻿using MetroFramework;
-using ParkingLib;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
+﻿using System;
 using System.Windows.Forms;
-using SyncDataModels;
 
 namespace ParkingApp
 {
     public partial class FrmMain : MetroFramework.Forms.MetroForm
     {
-        private System.Windows.Forms.Timer aTimer;
+        private readonly Timer _aTimer;
 
         public FrmMain()
         {
             InitializeComponent();
 
-            aTimer = new System.Windows.Forms.Timer();
-            aTimer.Tick += new EventHandler(timer_Tick);
+            _aTimer = new Timer();
+            _aTimer.Tick += Timer_Tick;
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            aTimer.Enabled = true;
-            aTimer.Start();
+            _aTimer.Enabled = true;
+            _aTimer.Start();
             ShowDateTime();
         }
 
@@ -55,19 +48,17 @@ namespace ParkingApp
                 case DayOfWeek.Saturday:
                     strDayOfWeek = "Thứ bảy";
                     break;
-                default:
-                    break;
             }
             lbDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
             lbDayOfWeek.Text = strDayOfWeek;
         }
 
-        private void timer_Tick(object sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
             ShowDateTime();
         }
         
-        private void btnTraCuu_Click(object sender, EventArgs e)
+        private void BtnTraCuu_Click(object sender, EventArgs e)
         {
             var frmHistory = new FrmHistory();
             var result = frmHistory.ShowDialog();
@@ -78,7 +69,7 @@ namespace ParkingApp
             }
         }
 
-        private void btnGiamSat_Click(object sender, EventArgs e)
+        private void BtnGiamSat_Click(object sender, EventArgs e)
         {
             var frmCheckInOut = new FrmCheckInOut();
             var result = frmCheckInOut.ShowDialog();
@@ -89,7 +80,7 @@ namespace ParkingApp
             }
         }
 
-        private void btnCauHinh_Click(object sender, EventArgs e)
+        private void BtnCauHinh_Click(object sender, EventArgs e)
         {
             var config = new FrmConfig();
             var result = config.ShowDialog();
@@ -105,7 +96,7 @@ namespace ParkingApp
             Application.Exit();
         }
 
-        private void btnTestModelAI_click(object sender, EventArgs e)
+        private void BtnTestModelAI_click(object sender, EventArgs e)
         {
             var frmTestModelAI = new FrmTestModelAI();
             var result = frmTestModelAI.ShowDialog();
