@@ -87,6 +87,10 @@
             public const string StudentMenu = "Park.StudentMenu";
 
             public const string Student = "Park.Student";
+            
+            public const string OrderMenu = "Park.OrderMenu";
+            
+            public const string Order = "Park.Order";
         }
 
         public static class Reporting

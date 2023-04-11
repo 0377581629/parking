@@ -4,6 +4,7 @@ using DPS.Park.Application.Shared.Dto.Card.CardType;
 using DPS.Park.Application.Shared.Dto.Fare;
 using DPS.Park.Application.Shared.Dto.History;
 using DPS.Park.Application.Shared.Dto.Message;
+using DPS.Park.Application.Shared.Dto.Order;
 using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Dto.Student.StudentCard;
 using DPS.Park.Application.Shared.Dto.Vehicle.VehicleType;
@@ -11,6 +12,7 @@ using DPS.Park.Core.Card;
 using DPS.Park.Core.Fare;
 using DPS.Park.Core.History;
 using DPS.Park.Core.Message;
+using DPS.Park.Core.Order;
 using DPS.Park.Core.Student;
 using DPS.Park.Core.Vehicle;
 
@@ -46,6 +48,10 @@ namespace DPS.Park.Application
             configuration.CreateMap<CreateOrEditStudentDto, Student>().ReverseMap();
             configuration.CreateMap<StudentDto, CreateOrEditStudentDto>().ReverseMap();
             configuration.CreateMap<StudentCard, StudentCardDto>().ReverseMap();
+            
+            configuration.CreateMap<OrderDto, Order>().ReverseMap();
+            configuration.CreateMap<CreateOrEditOrderDto, Order>().ReverseMap();
+            configuration.CreateMap<OrderDto, CreateOrEditOrderDto>().ReverseMap();
         }
     }
 }

@@ -2,6 +2,13 @@
 <localizationDictionary culture="vi">
   <texts>
     <!--  Park  -->
+    <text name="OrderMenu">Danh mục đơn hàng</text>
+    <text name="Order">Đơn hàng</text>
+    <text name="OrderHeaderInfo">Danh mục đơn hàng</text>
+    <text name="VnpTransactionNo">Mã giao dịch tại hệ thống VNPAY</text>
+    <text name="OrderStatus_Success">Thành công</text>
+    <text name="OrderStatus_Fail">Thất bại</text>
+    
     <text name="Type">Loại</text>
     <text name="HistoryType">Loại</text>
     <text name="HistoryType_In">Vào</text>

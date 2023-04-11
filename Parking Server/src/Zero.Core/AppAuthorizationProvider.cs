@@ -241,6 +241,17 @@ namespace Zero.Authorization
 
             #endregion
             
+            #region OrderMenu
+
+            var orderMenu = pages.CreateChildPermission(ParkPermissions.OrderMenu, L("OrderMenu"));
+            
+            var order = orderMenu.CreateChildPermission(ParkPermissions.Order, L("Order"));
+            order.CreateChildPermission(ParkPermissions.Order_Create, L("Create"));
+            order.CreateChildPermission(ParkPermissions.Order_Edit, L("Edit"));
+            order.CreateChildPermission(ParkPermissions.Order_Delete, L("Delete"));
+
+            #endregion
+            
             #endregion
         }
 

@@ -187,6 +187,19 @@ namespace Zero.Web.Areas.App.Startup
                         )
                     )
                 )
+                .AddItem(new MenuItemDefinition(
+                        AppPageNames.Park.OrderMenu,
+                        L("OrderMenu"),
+                        icon: "la la-user",
+                        permissionDependency: new SimplePermissionDependency(ParkPermissions.OrderMenu)
+                    ).AddItem(new MenuItemDefinition(
+                            AppPageNames.Park.Order,
+                            L("Order"),
+                            url: $"{ZeroConst.ParkAreas}/Order",
+                            permissionDependency: new SimplePermissionDependency(ParkPermissions.Order)
+                        )
+                    )
+                )
 
                 #region Administration
 

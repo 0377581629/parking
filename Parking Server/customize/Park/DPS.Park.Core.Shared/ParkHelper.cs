@@ -49,6 +49,13 @@ namespace DPS.Park.Core.Shared
                 select new SelectListItem(lang.GetString(historyType.GetStringValue()),
                     ((int) historyType).ToString(), currentHistoryType == (int) historyType)).ToList();
         }
+        
+        public static List<SelectListItem> ListOrderStatus(int currentOrderStatus, ILocalizationSource lang)
+        {
+            return (from orderStatus in (ParkEnums.OrderStatus[]) Enum.GetValues(typeof(ParkEnums.OrderStatus))
+                select new SelectListItem(lang.GetString(orderStatus.GetStringValue()),
+                    ((int) orderStatus).ToString(), currentOrderStatus == (int) orderStatus)).ToList();
+        }
 
         #endregion
     }

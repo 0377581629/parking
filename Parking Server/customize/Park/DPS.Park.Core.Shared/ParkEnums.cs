@@ -66,5 +66,14 @@ namespace DPS.Park.Core.Shared
             [StringValue("HistoryType_Out")] 
             Out = 2,
         }
+        
+        public enum OrderStatus
+        {
+            [StringValue("OrderStatus_Success")]
+            Success = 1,
+
+            [StringValue("OrderStatus_Fail")] 
+            Fail = 2,
+        }
     }
 }

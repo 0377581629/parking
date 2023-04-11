@@ -1,10 +1,10 @@
 (function ($) {
-    app.modals.CreateOrEditHistoryModal = function () {
+    app.modals.CreateOrEditOrderModal = function () {
 
-        const _HistoryService = abp.services.app.history;
+        const _OrderService = abp.services.app.order;
 
         let _modalManager;
-        let _$HistoryInformationForm = null;
+        let _$OrderInformationForm = null;
 
         let modal;
 
@@ -14,10 +14,6 @@
             modal = _modalManager.getModal();
 
             _modalManager.initControl();
-
-            let vehicleTypeName = modal.find('#History_VehicleTypeName');
-            let cardTypeName = modal.find('#History_CardTypeName');
-            let price = modal.find('#History_Price');
 
             let cardSelector = modal.find('#CardId');
             cardSelector.select2({
@@ -40,20 +36,8 @@
                             return {
                                 id: item.id,
                                 text: item.code + '-' + item.cardNumber,
-                                vehicleTypeName: item.vehicleTypeName,
-                                cardTypeName: item.cardTypeName,
-                                price: item.price,
                             }
                         });
-
-                        if (data.result.totalCount === 0) {
-                            res.splice(0, 0, {
-                                text: app.localize('NotFound'),
-                                id: null,
-                                vehicleTypeName: '',
-                                cardTypeName: '',
-                            });
-                        }
 
                         return {
                             results: res,
@@ -65,31 +49,26 @@
                     cache: true
                 },
                 language: abp.localization.currentLanguage.name
-            }).on('select2:select', function (e) {
-                let data = e.params.data;
-                vehicleTypeName.val(data.vehicleTypeName);
-                cardTypeName.val(data.cardTypeName);
-                price.val(data.price);
             })
 
-            _$HistoryInformationForm = _modalManager.getModal().find('form[name=HistoryInformationsForm]');
-            _$HistoryInformationForm.validate();
+            _$OrderInformationForm = _modalManager.getModal().find('form[name=OrderInformationsForm]');
+            _$OrderInformationForm.validate();
         };
 
         this.save = function () {
-            if (!_$HistoryInformationForm.valid()) {
+            if (!_$OrderInformationForm.valid()) {
                 return;
             }
 
-            const History = _$HistoryInformationForm.serializeFormToObject();
+            const Order = _$OrderInformationForm.serializeFormToObject();
 
             _modalManager.setBusy(true);
-            _HistoryService.createOrEdit(
-                History
+            _OrderService.createOrEdit(
+                Order
             ).done(function () {
                 abp.notify.info(app.localize('SavedSuccessfully'));
                 _modalManager.close();
-                abp.event.trigger('app.createOrEditHistoryModalSaved');
+                abp.event.trigger('app.createOrEditOrderModalSaved');
             }).always(function () {
                 _modalManager.setBusy(false);
             });

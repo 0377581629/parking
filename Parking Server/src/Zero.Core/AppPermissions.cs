@@ -224,6 +224,17 @@
         public const string Student_Delete = "Park.Student.Delete";
 
         #endregion
+
+        #region Order
+
+        public const string OrderMenu = "Park.OrderMenu";
+        
+        public const string Order = "Park.Order";
+        public const string Order_Create = "Park.Order.Create";
+        public const string Order_Edit = "Park.Order.Edit";
+        public const string Order_Delete = "Park.Order.Delete";
+
+        #endregion
         
     }
 

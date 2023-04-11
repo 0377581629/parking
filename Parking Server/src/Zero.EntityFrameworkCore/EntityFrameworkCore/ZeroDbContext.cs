@@ -9,6 +9,7 @@ using DPS.Park.Core.Card;
 using DPS.Park.Core.Fare;
 using DPS.Park.Core.History;
 using DPS.Park.Core.Message;
+using DPS.Park.Core.Order;
 using DPS.Park.Core.Student;
 using DPS.Park.Core.Vehicle;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +105,8 @@ namespace Zero.EntityFrameworkCore
         public virtual DbSet<Student> Students { get; set; }
 
         public virtual DbSet<StudentCard> StudentCards { get; set; }
+        
+        public virtual DbSet<Order> Orders { get; set; }
 
         #endregion
 
