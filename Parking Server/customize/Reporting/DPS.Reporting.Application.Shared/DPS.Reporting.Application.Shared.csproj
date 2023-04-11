@@ -10,7 +10,4 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Zero.Application.Shared\Zero.Application.Shared.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="Dto\Student\StudentRenewCard" />
-    </ItemGroup>
 </Project>
