@@ -26,16 +26,16 @@ namespace ParkingApp
             txtCardReaderOut.Text = _cardReaderOut;
         }
 
-        private void btnLoad_Click(object sender, EventArgs e)
+        private void BtnLoad_Click(object sender, EventArgs e)
         {
             Helper.SetConfig(txtRtspIn.Text.Trim(), txtRtspOut.Text.Trim(), txtCardReaderIn.Text.Trim(), txtCardReaderOut.Text.Trim(), _timeWaiting.ToString());
 
             MetroMessageBox.Show(this, "Cấu hình thành công !", "Thông báo");
 
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
-        private void txtTimerUpload_KeyPress(object sender, KeyPressEventArgs e)
+        private void TxtTimerUpload_KeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }

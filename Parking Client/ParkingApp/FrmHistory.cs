@@ -94,21 +94,21 @@ namespace ParkingApp
             }
         }
 
-        private void dgvHistory_RowEnter(object sender, DataGridViewCellEventArgs e)
+        private void DgvHistory_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             _rowIndex = e.RowIndex;
             if (_rowIndex <= 0) return;
             dgvHistory.Rows[_rowIndex].Selected = true;
         }
 
-        private void dgvHistory_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvHistory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             _rowIndex = e.RowIndex;
             if (_rowIndex < 0) return;
             dgvHistory.Rows[_rowIndex].Selected = true;
         }
 
-        private void txtSearchCandidate_KeyDown(object sender, KeyEventArgs e)
+        private void TxtSearchCandidate_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
@@ -121,7 +121,7 @@ namespace ParkingApp
             this.DialogResult = DialogResult.OK;
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+        private void BtnSearch_Click(object sender, EventArgs e)
         {
             SearchInfo();
         }

@@ -48,7 +48,7 @@
             this.linkExit.Text = "Thoát";
             this.linkExit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.linkExit.UseSelectable = true;
-            this.linkExit.Click += new System.EventHandler(this.linkExit_Click);
+            this.linkExit.Click += new System.EventHandler(this.LinkExit_Click);
             // 
             // checkRemember
             // 
@@ -74,7 +74,7 @@
             this.btnLogin.TabIndex = 5;
             this.btnLogin.Text = "Đăng nhập";
             this.btnLogin.UseSelectable = true;
-            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            this.btnLogin.Click += new System.EventHandler(this.BtnLogin_Click);
             // 
             // pictureBox1
             // 
@@ -125,7 +125,7 @@
             this.txtPass.WaterMark = "Nhập thông tin mật khẩu";
             this.txtPass.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtPass.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtPass_KeyDown);
+            this.txtPass.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPass_KeyDown);
             // 
             // txtUser
             // 

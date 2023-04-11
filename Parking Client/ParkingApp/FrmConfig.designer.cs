@@ -88,7 +88,7 @@
             this.btnLoad.TabStop = false;
             this.btnLoad.Text = "Lưu thông tin";
             this.btnLoad.UseSelectable = true;
-            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            this.btnLoad.Click += new System.EventHandler(this.BtnLoad_Click);
             // 
             // metroLabel2
             // 

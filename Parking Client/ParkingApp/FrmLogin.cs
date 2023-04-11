@@ -46,12 +46,12 @@ namespace ParkingApp
             return result;
         }
 
-        private void linkExit_Click(object sender, EventArgs e)
+        private void LinkExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void BtnLogin_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(txtUser.Text.Trim()) || string.IsNullOrEmpty(txtPass.Text.Trim()))
             {
@@ -110,11 +110,11 @@ namespace ParkingApp
             }
         }
 
-        private void txtPass_KeyDown(object sender, KeyEventArgs e)
+        private void TxtPass_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                btnLogin_Click(null, null);
+                BtnLogin_Click(null, null);
             }
         }
     }

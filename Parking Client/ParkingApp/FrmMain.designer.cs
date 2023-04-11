@@ -32,9 +32,9 @@
             this.lbDay = new System.Windows.Forms.Label();
             this.lbDayOfWeek = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnCauHinh = new MetroFramework.Controls.MetroTile();
-            this.btnGiamSat = new MetroFramework.Controls.MetroTile();
-            this.btnTraCuu = new MetroFramework.Controls.MetroTile();
+            this.btnConfig = new MetroFramework.Controls.MetroTile();
+            this.btnSupervise = new MetroFramework.Controls.MetroTile();
+            this.btnHistory = new MetroFramework.Controls.MetroTile();
             this.btnTestModelAI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -72,57 +72,57 @@
             this.pictureBox1.TabIndex = 59;
             this.pictureBox1.TabStop = false;
             // 
-            // btnCauHinh
+            // btnConfig
             // 
-            this.btnCauHinh.ActiveControl = null;
-            this.btnCauHinh.Location = new System.Drawing.Point(23, 148);
-            this.btnCauHinh.Name = "btnCauHinh";
-            this.btnCauHinh.Size = new System.Drawing.Size(140, 106);
-            this.btnCauHinh.TabIndex = 57;
-            this.btnCauHinh.Tag = "4";
-            this.btnCauHinh.Text = "Cấu hình";
-            this.btnCauHinh.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnCauHinh.TileImage = ((System.Drawing.Image)(resources.GetObject("btnCauHinh.TileImage")));
-            this.btnCauHinh.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnCauHinh.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.btnCauHinh.UseSelectable = true;
-            this.btnCauHinh.UseTileImage = true;
-            this.btnCauHinh.Click += new System.EventHandler(this.BtnCauHinh_Click);
+            this.btnConfig.ActiveControl = null;
+            this.btnConfig.Location = new System.Drawing.Point(23, 148);
+            this.btnConfig.Name = "btnConfig";
+            this.btnConfig.Size = new System.Drawing.Size(140, 106);
+            this.btnConfig.TabIndex = 57;
+            this.btnConfig.Tag = "4";
+            this.btnConfig.Text = "Cấu hình";
+            this.btnConfig.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnConfig.TileImage = ((System.Drawing.Image)(resources.GetObject("btnConfig.TileImage")));
+            this.btnConfig.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnConfig.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.btnConfig.UseSelectable = true;
+            this.btnConfig.UseTileImage = true;
+            this.btnConfig.Click += new System.EventHandler(this.BtnConfig_Click);
             // 
-            // btnGiamSat
+            // btnSupervise
             // 
-            this.btnGiamSat.ActiveControl = null;
-            this.btnGiamSat.Location = new System.Drawing.Point(318, 148);
-            this.btnGiamSat.Name = "btnGiamSat";
-            this.btnGiamSat.Size = new System.Drawing.Size(283, 106);
-            this.btnGiamSat.Style = MetroFramework.MetroColorStyle.Green;
-            this.btnGiamSat.TabIndex = 54;
-            this.btnGiamSat.Tag = "0";
-            this.btnGiamSat.Text = "Giám sát";
-            this.btnGiamSat.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnGiamSat.TileImage = ((System.Drawing.Image)(resources.GetObject("btnGiamSat.TileImage")));
-            this.btnGiamSat.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnGiamSat.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.btnGiamSat.UseSelectable = true;
-            this.btnGiamSat.UseTileImage = true;
-            this.btnGiamSat.Click += new System.EventHandler(this.BtnGiamSat_Click);
+            this.btnSupervise.ActiveControl = null;
+            this.btnSupervise.Location = new System.Drawing.Point(318, 148);
+            this.btnSupervise.Name = "btnSupervise";
+            this.btnSupervise.Size = new System.Drawing.Size(283, 106);
+            this.btnSupervise.Style = MetroFramework.MetroColorStyle.Green;
+            this.btnSupervise.TabIndex = 54;
+            this.btnSupervise.Tag = "0";
+            this.btnSupervise.Text = "Giám sát";
+            this.btnSupervise.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSupervise.TileImage = ((System.Drawing.Image)(resources.GetObject("btnSupervise.TileImage")));
+            this.btnSupervise.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnSupervise.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.btnSupervise.UseSelectable = true;
+            this.btnSupervise.UseTileImage = true;
+            this.btnSupervise.Click += new System.EventHandler(this.BtnSupervise_Click);
             // 
-            // btnTraCuu
+            // btnHistory
             // 
-            this.btnTraCuu.ActiveControl = null;
-            this.btnTraCuu.Location = new System.Drawing.Point(172, 148);
-            this.btnTraCuu.Name = "btnTraCuu";
-            this.btnTraCuu.Size = new System.Drawing.Size(140, 106);
-            this.btnTraCuu.TabIndex = 55;
-            this.btnTraCuu.Tag = "0";
-            this.btnTraCuu.Text = "Tra cứu";
-            this.btnTraCuu.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnTraCuu.TileImage = ((System.Drawing.Image)(resources.GetObject("btnTraCuu.TileImage")));
-            this.btnTraCuu.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnTraCuu.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.btnTraCuu.UseSelectable = true;
-            this.btnTraCuu.UseTileImage = true;
-            this.btnTraCuu.Click += new System.EventHandler(this.BtnTraCuu_Click);
+            this.btnHistory.ActiveControl = null;
+            this.btnHistory.Location = new System.Drawing.Point(172, 148);
+            this.btnHistory.Name = "btnHistory";
+            this.btnHistory.Size = new System.Drawing.Size(140, 106);
+            this.btnHistory.TabIndex = 55;
+            this.btnHistory.Tag = "0";
+            this.btnHistory.Text = "Lịch sử";
+            this.btnHistory.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnHistory.TileImage = ((System.Drawing.Image)(resources.GetObject("btnHistory.TileImage")));
+            this.btnHistory.TileImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnHistory.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.btnHistory.UseSelectable = true;
+            this.btnHistory.UseTileImage = true;
+            this.btnHistory.Click += new System.EventHandler(this.BtnHistory_Click);
             // 
             // btnTestModelAI
             // 
@@ -145,9 +145,9 @@
             this.Controls.Add(this.lbDayOfWeek);
             this.Controls.Add(this.lbDay);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.btnCauHinh);
-            this.Controls.Add(this.btnGiamSat);
-            this.Controls.Add(this.btnTraCuu);
+            this.Controls.Add(this.btnConfig);
+            this.Controls.Add(this.btnSupervise);
+            this.Controls.Add(this.btnHistory);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "FrmMain";
@@ -161,9 +161,9 @@
 
         #endregion
 
-        private MetroFramework.Controls.MetroTile btnCauHinh;
-        private MetroFramework.Controls.MetroTile btnGiamSat;
-        private MetroFramework.Controls.MetroTile btnTraCuu;
+        private MetroFramework.Controls.MetroTile btnConfig;
+        private MetroFramework.Controls.MetroTile btnSupervise;
+        private MetroFramework.Controls.MetroTile btnHistory;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbDay;
         private System.Windows.Forms.Label lbDayOfWeek;

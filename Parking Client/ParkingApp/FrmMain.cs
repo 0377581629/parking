@@ -58,7 +58,7 @@ namespace ParkingApp
             ShowDateTime();
         }
         
-        private void BtnTraCuu_Click(object sender, EventArgs e)
+        private void BtnHistory_Click(object sender, EventArgs e)
         {
             var frmHistory = new FrmHistory();
             var result = frmHistory.ShowDialog();
@@ -69,7 +69,7 @@ namespace ParkingApp
             }
         }
 
-        private void BtnGiamSat_Click(object sender, EventArgs e)
+        private void BtnSupervise_Click(object sender, EventArgs e)
         {
             var frmCheckInOut = new FrmCheckInOut();
             var result = frmCheckInOut.ShowDialog();
@@ -80,7 +80,7 @@ namespace ParkingApp
             }
         }
 
-        private void BtnCauHinh_Click(object sender, EventArgs e)
+        private void BtnConfig_Click(object sender, EventArgs e)
         {
             var config = new FrmConfig();
             var result = config.ShowDialog();

@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="btnCauHinh.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnConfig.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAgBJREFUaEPt
         mO1KxDAQRX0aEV/eD3wu8fN3zQyk3D1MOsOW7HbBAwfs3NsQlyWt3v1zSyzL8tB8bn41L81P87Vpe7C9
@@ -132,7 +132,7 @@
         RznnO7q3oRxc85wn3FtoOLwlw+HtuNz9ARStdBacAVroAAAAAElFTkSuQmCC
 </value>
   </data>
-  <data name="btnGiamSat.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnSupervise.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAPFJREFUaEPt
         0wEOgjAQRFGO7s2VYWdRsgiFZLRN5iUmUmr3o3EyMzMzs7enGMfocI4Mx+hwjgzH6HCODMeYmQr/azIc
@@ -142,7 +142,7 @@
         sScAAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="btnTraCuu.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnHistory.TileImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAAX9JREFUaEPt
         2UFKK1EQheEeZh0ZSDbjnnRFMboeXYKIERy258afwkFCwalOCqQ/KNDivt9S3izTarXKzfO80zxpPjXX

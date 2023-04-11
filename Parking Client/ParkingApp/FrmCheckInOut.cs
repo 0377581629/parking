@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -16,11 +17,13 @@ namespace ParkingApp
 {
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
-        private string _rtspCameraIn = "rtsp://admin:123abc@@@192.168.1.250/live";
-        private string _rtspCameraOut = "rtsp://admin:123abc@@@192.168.1.252:554/live";
-        private double _timeWaiting = 0;
+        private readonly string _rtspCameraIn = "rtsp://admin:123abc@@@192.168.1.250/live";
+        private readonly string _rtspCameraOut = "rtsp://admin:123abc@@@192.168.1.252:554/live";
+        private readonly double _timeWaiting = 0;
         private string _ipBarie = "192.168.1.201";
         private int _portBarie = 4370;
+
+        private readonly string _url = "http://localhost:5000/upload";
         //
         private Capture _captureIn = null;
         Mat frameIn = new Mat();
@@ -40,7 +43,7 @@ namespace ParkingApp
         private bool isIn = false;
         StudentData studentSelected = new StudentData();
         //
-        private enumCheckInOut _xuLy;
+        private EnumCheckInOut _xuLy;
         readonly Helper _helper = new Helper();
         //
         private readonly RawInput _rawinput;
@@ -63,8 +66,8 @@ namespace ParkingApp
         private void Form1_Load(object sender, EventArgs e)
         {
             //KeyPreview = true;
-            var strTitle = "Đang kết nối thiết bị !";
-            _xuLy = enumCheckInOut.ConnectDevice;
+            const string strTitle = "Đang kết nối thiết bị !";
+            _xuLy = EnumCheckInOut.ConnectDevice;
             WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
         }
 
@@ -151,12 +154,12 @@ namespace ParkingApp
 
             if (takeSnapshotIn)
             {
-                string pathCache = Application.StartupPath + "\\Cache";
+                var pathCache = Application.StartupPath + "\\Cache";
                 if (!Directory.Exists(pathCache))
                 {
                     Directory.CreateDirectory(pathCache);
                 }
-                string path = pathCache + "\\" + Guid.NewGuid().ToString() + ".jpg";
+                var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
                 // Save the image
                 frameIn_copy.Save(path);
 
@@ -166,23 +169,23 @@ namespace ParkingApp
             }
         }
 
-        private object lockObject = new object();
+        private readonly object _lockObject = new object();
         private void ProcessFrameOut(object sender, EventArgs arg)
         {
             _captureOut.Retrieve(frameOut);
             frameOut_copy = frameOut;
             var bitmap = (Bitmap)frameOut_copy.Bitmap.Clone();
-            lock (lockObject) // (bitmap)
+            lock (_lockObject) // (bitmap)
                 picCaptureOut.Image = bitmap;
 
             if (takeSnapshotOut)
             {
-                string pathCache = Application.StartupPath + "\\Cache";
+                var pathCache = Application.StartupPath + "\\Cache";
                 if (!Directory.Exists(pathCache))
                 {
                     Directory.CreateDirectory(pathCache);
                 }
-                string path = pathCache + "\\" + Guid.NewGuid().ToString() + ".jpg";
+                var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
                 // Save the image
                 frameOut_copy.Save(path);
 
@@ -195,7 +198,7 @@ namespace ParkingApp
         #endregion
 
         #region Proccess Card Reader
-        private static void CurrentDomain_UnhandledException(Object sender, UnhandledExceptionEventArgs e)
+        private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception;
             if (null == ex) return;
@@ -206,7 +209,7 @@ namespace ParkingApp
         private string handleCardReader = string.Empty;
         private void OnKeyPressed(object sender, RawInputEventArg e)
         {
-            handleCardReader = e.KeyPressEvent.Source.ToString();
+            handleCardReader = e.KeyPressEvent.Source;
             cardNumber += e.KeyPressEvent.VKeyName;
 
             if (e.KeyPressEvent.VKeyName == "ENTER")
@@ -226,7 +229,7 @@ namespace ParkingApp
                 {
                     if (i % 2 == 0)
                     {
-                        strOut = strOut + strIn[i];
+                        strOut += strIn[i];
                     }
                 }
             }
@@ -261,14 +264,14 @@ namespace ParkingApp
         {
             switch (_xuLy)
             {
-                case enumCheckInOut.ConnectDevice:
+                case EnumCheckInOut.ConnectDevice:
                     CaptureCamera();
                     StartStopCamera();
                     break;
-                case enumCheckInOut.SetLogHistory:
+                case EnumCheckInOut.SetLogHistory:
                     {
                         var mes = string.Empty;
-                        var log = new ParkingLib.HistoryData
+                        var log = new HistoryData
                         {
                             CardNumber = cardNumberNow,
                             Type = isIn ? (int)Helper.HistoryDataStatus.In : (int)Helper.HistoryDataStatus.Out,
@@ -297,7 +300,7 @@ namespace ParkingApp
             _rawinput.KeyPressed -= OnKeyPressed;
         }
 
-        private void txtMaThe_TextChanged(object sender, EventArgs e)
+        private async void txtMaThe_TextChanged(object sender, EventArgs e)
         {
             var txt = (RichTextBox)sender;
             if (txt.Text.Length > 0)
@@ -358,6 +361,34 @@ namespace ParkingApp
                         richNoiDungCanhBao.Text = mes;
                         richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                         richRecognitionLicensePlate.Text = "";
+
+                        using (var client = new HttpClient())
+                        {
+                            using (var content = new MultipartFormDataContent())
+                            {
+                                byte[] imageBytes = { };
+                                // Đọc dữ liệu từ tệp ảnh và thêm vào nội dung yêu cầu POST
+                                if (handleCardReader == _cardReaderIn)
+                                {
+                                    imageBytes = File.ReadAllBytes(pathCaptureIn);
+                                }
+                                else if (handleCardReader == _cardReaderOut)
+                                {
+                                    imageBytes = File.ReadAllBytes(pathCaptureOut);
+                                }
+                                
+                                var imageContent = new ByteArrayContent(imageBytes);
+                                content.Add(imageContent, "image", "image.jpg");
+
+                                // Gửi yêu cầu POST đến địa chỉ API
+                                var response = await client.PostAsync(_url, content);
+
+                                // Đọc phản hồi từ máy chủ
+                                var responseString = await response.Content.ReadAsStringAsync();
+                                MessageBox.Show(responseString);
+                            }
+                        }
+
                         studentSelected = (StudentData)studentInfo.Clone();
                     }
                     else
@@ -382,8 +413,8 @@ namespace ParkingApp
                     // --------------------
                     cardNumberNow = txtMaThe.Text.Trim();
                     var strTitle = "Đang tiến hành tải dữ liệu !";
-                    _xuLy = enumCheckInOut.SetLogHistory;
-                    var result = WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
+                    _xuLy = EnumCheckInOut.SetLogHistory;
+                    WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
                 }
             }
         }
@@ -412,16 +443,16 @@ namespace ParkingApp
 
         private void FrmCheckInOut_KeyDown(object sender, KeyEventArgs e)
         {
-            if (Control.ModifierKeys == Keys.F1)
+            if (ModifierKeys == Keys.F1)
             {
                 txtMaThe.Focus();
             }
-            else if((e.Control == true && e.KeyCode == Keys.F2))
+            else if(e.Control && e.KeyCode == Keys.F)
             {
                 //MessageBox.Show("Mở !");
                 btnOpen.PerformClick();
             }
-            else if ((e.Control == true && e.KeyCode == Keys.F6))
+            else if (e.Control && e.KeyCode == Keys.F6)
             {
                 //MessageBox.Show("Đóng !");
                 btnClose.PerformClick();
@@ -444,7 +475,7 @@ namespace ParkingApp
         }
     }
 
-    enum enumCheckInOut
+    internal enum EnumCheckInOut
     {
         SetLogHistory,
         ConnectDevice,

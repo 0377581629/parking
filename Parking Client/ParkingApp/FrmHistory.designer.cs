@@ -122,8 +122,8 @@
             this.dgvHistory.RowsDefaultCellStyle = dataGridViewCellStyle9;
             this.dgvHistory.Size = new System.Drawing.Size(842, 352);
             this.dgvHistory.TabIndex = 4;
-            this.dgvHistory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistory_CellClick);
-            this.dgvHistory.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvHistory_RowEnter);
+            this.dgvHistory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHistory_CellClick);
+            this.dgvHistory.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvHistory_RowEnter);
             // 
             // txtSearch
             // 
@@ -159,7 +159,7 @@
             this.txtSearch.WaterMark = "Nhập số thẻ !";
             this.txtSearch.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtSearch.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSearchCandidate_KeyDown);
+            this.txtSearch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtSearchCandidate_KeyDown);
             // 
             // btnSearch
             // 
@@ -171,7 +171,7 @@
             this.btnSearch.TabIndex = 7;
             this.btnSearch.Text = "Tìm kiếm";
             this.btnSearch.UseSelectable = true;
-            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            this.btnSearch.Click += new System.EventHandler(this.BtnSearch_Click);
             // 
             // groupBox1
             // 
