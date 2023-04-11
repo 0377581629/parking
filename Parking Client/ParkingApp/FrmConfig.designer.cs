@@ -186,7 +186,7 @@
             this.txtCardReaderIn.WaterMark = "Code thẻ vào!";
             this.txtCardReaderIn.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtCardReaderIn.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtCardReaderIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTimerUpload_KeyPress);
+            this.txtCardReaderIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTimerUpload_KeyPress);
             // 
             // txtCardReaderOut
             // 

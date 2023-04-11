@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
-using SyncDataModels;
 
 namespace ParkingLib
 {
