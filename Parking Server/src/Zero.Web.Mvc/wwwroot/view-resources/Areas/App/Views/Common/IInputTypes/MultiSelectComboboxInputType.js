@@ -1,26 +1,38 @@
 ﻿var MultiSelectComboBoxInputType = (function () {
     return function () {
-        var _options;
+        let _options;
         function init(inputTypeInfo, options) {
             _options = options;
         }
 
-        var $combobox;
+        let $combobox;
         function getView(selectedValues, allItems) {
             $combobox = $('<select class="form-control w-100" multiple/>');
 
             if (allItems && allItems.length > 0) {
-                for (var i = 0; i < allItems.length; i++) {
+                for (let i = 0; i < allItems.length; i++) {
+                    if (typeof(allItems[i]) === 'object' && allItems[i].value !== undefined) {
+                        let $option = $('<option></option>')
+                            .attr('value', allItems[i].value)
+                            .text(allItems[i].value);
 
-                    var $option = $('<option></option>')
-                        .attr('value', allItems[i])
-                        .text(allItems[i]);
+                        if (selectedValues && selectedValues.length > 0 && selectedValues.indexOf(allItems[i].value) !== -1) {
+                            $option.attr("selected", "selected");
+                        }
 
-                    if (selectedValues && selectedValues.length > 0 && selectedValues.indexOf(allItems[i]) !== -1) {
-                        $option.attr("selected", "selected");
+                        $option.appendTo($combobox);
                     }
+                    else{
+                        let $option = $('<option></option>')
+                            .attr('value', allItems[i])
+                            .text(allItems[i]);
 
-                    $option.appendTo($combobox);
+                        if (selectedValues && selectedValues.length > 0 && selectedValues.indexOf(allItems[i]) !== -1) {
+                            $option.attr("selected", "selected");
+                        }
+
+                        $option.appendTo($combobox);
+                    }
                 }
             }
 
@@ -38,7 +50,13 @@
         }
 
         function afterViewInitialized() {
-            $combobox.select2({ width: '100%' });
+            $combobox.select2({
+                width: '100%',
+                dropdownAutoWidth: true,
+                multiple: true,
+                closeOnSelect: false,
+                language: baseHelper.Select2Language()
+            });
         }
 
         return {

@@ -1,0 +1,20 @@
+﻿@using Zero.Web.Views.Shared.Components.MainHeader
+@model List<DPS.Cms.Application.Shared.Dto.Menu.MenuDto>
+@if (Model != null && Model.Any())
+{
+    var rootMenus = Model.Where(o => o.ParentId == null).ToList();
+    <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+        <nav>
+            <ul>
+                @foreach (var menu in rootMenus)
+                {
+                    @await Html.PartialAsync("Components/MainHeader/Desktop/_MenusItem", new HeaderMenuItem
+                    {
+                        Menu = menu,
+                        AllMenus = Model
+                    })
+                }
+            </ul>
+        </nav>
+    </div>
+}

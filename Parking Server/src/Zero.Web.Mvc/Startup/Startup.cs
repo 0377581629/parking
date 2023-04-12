@@ -254,6 +254,8 @@ namespace Zero.Web.Startup
             {
                 endpoints.MapHub<AbpCommonHub>("/signalr");
                 endpoints.MapHub<ChatHub>("/signalr-chat");
+                
+                endpoints.MapControllerRoute("Pages", "{slug}", new { controller = "Home", action = "Pages" });
 
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");

@@ -445,6 +445,32 @@ namespace DPS.Cms.Application.Services.Common
         {
             return await MenuQuery(input).ToListAsync();
         }
+        
+        public async Task<List<MenuDto>> GetDefaultMenus()
+        {
+            return await _menuRepository.GetAll()
+                .Where(o => o.MenuGroup.IsDefault && o.MenuGroup.IsActive &&
+                            o.MenuGroup.TenantId == AbpSession.TenantId)
+                .Select(o => new MenuDto
+                {
+                    Id = o.Id,
+                    Numbering = o.Numbering,
+                    Code = o.Code,
+                    Name = o.Name,
+                    Note = o.Note,
+                    Order = o.Order,
+                    IsDefault = o.IsDefault,
+                    IsActive = o.IsActive,
+
+                    MenuGroupId = o.MenuGroupId,
+                    MenuGroupCode = o.MenuGroup.Code,
+                    MenuGroupName = o.MenuGroup.Name,
+                    Url = o.Url,
+                    ParentId = o.ParentId,
+                })
+                .OrderBy(o => o.Code)
+                .ToListAsync();
+        }
 
         #endregion
 

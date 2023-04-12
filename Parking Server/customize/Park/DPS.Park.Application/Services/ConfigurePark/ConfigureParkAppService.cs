@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Abp.Authorization;
 using Abp.Configuration;
+using Abp.Runtime.Session;
 using DPS.Park.Application.Shared.Dto.ConfigurePark;
 using DPS.Park.Application.Shared.Interface.ConfigurePark;
 using Zero;
@@ -10,7 +11,7 @@ using Zero.Configuration;
 namespace DPS.Park.Application.Services.ConfigurePark
 {
     [AbpAuthorize(ParkPermissions.ConfigurePark)]
-    public class ConfigureParkAppService: ZeroAppServiceBase,IConfigureParkAppService
+    public class ConfigureParkAppService : ZeroAppServiceBase, IConfigureParkAppService
     {
         private readonly ISettingManager _settingManager;
 
@@ -18,19 +19,73 @@ namespace DPS.Park.Application.Services.ConfigurePark
         {
             _settingManager = settingManager;
         }
-        
+
         public async Task UpdateConfigurePark(ConfigureParkDto input)
         {
-            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.ApplyDecreasePercent,
-                input.ApplyDecreasePercent.ToString().ToLowerInvariant());
-            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.DecreasePercent,
-                input.DecreasePercent.ToString().ToLowerInvariant());
-            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.PhoneToSendMessage,
-                input.PhoneToSendMessage.ToLowerInvariant());
-            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.TotalSlotCount,
-                input.TotalSlotCount.ToString().ToLowerInvariant());
-            await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.BalanceToSendEmail,
-                input.BalanceToSendEmail.ToString().ToLowerInvariant());
+            if (AbpSession.TenantId.HasValue)
+            {
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.Name, input.Name);
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.Hotline, input.Hotline);
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.ApplyDecreasePercent,
+                    input.ApplyDecreasePercent.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.DecreasePercent,
+                    input.DecreasePercent.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.PhoneToSendMessage,
+                    input.PhoneToSendMessage.ToLowerInvariant());
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.TotalSlotCount,
+                    input.TotalSlotCount.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.BalanceToSendEmail,
+                    input.BalanceToSendEmail.ToString().ToLowerInvariant());
+            }
+            else
+            {
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Name, input.Name);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Hotline, input.Hotline);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.ApplyDecreasePercent,
+                    input.ApplyDecreasePercent.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.DecreasePercent,
+                    input.DecreasePercent.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.PhoneToSendMessage,
+                    input.PhoneToSendMessage.ToLowerInvariant());
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.TotalSlotCount,
+                    input.TotalSlotCount.ToString().ToLowerInvariant());
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.BalanceToSendEmail,
+                    input.BalanceToSendEmail.ToString().ToLowerInvariant());
+            }
+        }
+
+        [AbpAllowAnonymous]
+        public async Task<ConfigureParkDto> Get()
+        {
+            ConfigureParkDto res;
+            if (AbpSession.TenantId.HasValue)
+            {
+                res = new ConfigureParkDto
+                {
+                    Name = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Name,
+                        AbpSession.GetTenantId()),
+                    Hotline = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Hotline,
+                        AbpSession.GetTenantId()),
+                };
+            }
+            else
+            {
+                res = new ConfigureParkDto
+                {
+                    Name = await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Name),
+                    Hotline =
+                        await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Hotline),
+                };
+            }
+
+            return res;
         }
     }
 }

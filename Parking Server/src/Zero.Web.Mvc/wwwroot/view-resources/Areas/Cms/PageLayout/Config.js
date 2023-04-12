@@ -51,16 +51,16 @@
             }
         }
 
-        bodyContentSortable.sortable({
-            exclude: '.unsortable',
-            handle: '.sortableHandle',
-            isValidTarget: function ($item, container) {
-                let containerId = container.el[0].id;
-                if (containerId === undefined || containerId.length <= 0)
-                    return false;
-                return !$("#" + containerId).hasClass('unsortable');
-            }
-        });
+        // bodyContentSortable.sortable({
+        //     exclude: '.unsortable',
+        //     handle: '.sortableHandle',
+        //     isValidTarget: function ($item, container) {
+        //         let containerId = container.el[0].id;
+        //         if (containerId === undefined || containerId.length <= 0)
+        //             return false;
+        //         return !$("#" + containerId).hasClass('unsortable');
+        //     }
+        // });
 
         $(".blockDraggable").each(function () {
             $(this).kendoDraggable({

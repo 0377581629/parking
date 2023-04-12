@@ -90,4 +90,34 @@ namespace Zero
         
         #endregion
     }
+    
+    public class FrontPagePrefix
+    {
+        public const string Search = "/tim-kiem";
+        
+        public const string Cart = "/gio-hang";
+
+        public const string Checkout = "/thanh-toan";
+
+        public const string OrderTracking = "/theo-doi-don-hang";
+        
+        #region User
+        public const string Account = "/tai-khoan";
+        public const string Login = "/dang-nhap";
+        public const string SignIn = "/dang-ky";
+        public const string ForgotPassword = "/quen-mat-khau";
+        #endregion
+        
+        #region Post
+        public const string PostSearch = "/tim-kiem-bai-viet";
+        
+        public const string PostCategory = "/danh-muc-bai-viet/";
+
+        public const string PostList = "/danh-sach-bai-viet";
+        
+        public const string PostDetail = "/bai-viet/";
+        
+        public const string PostSearchPostTagFilter = "PostTagId";
+        #endregion
+    }
 }

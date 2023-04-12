@@ -6,6 +6,7 @@ namespace DPS.Park.Application.Shared.Interface.ConfigurePark
 {
     public interface IConfigureParkAppService: IApplicationService
     {
+        Task<ConfigureParkDto> Get();
         Task UpdateConfigurePark(ConfigureParkDto input);
     }
 }

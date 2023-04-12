@@ -212,9 +212,17 @@ namespace Zero.Configuration
                     GetFromAppSettings(AppSettings.ParkSettings.PhoneToSendMessage, ""),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.TotalSlotCount,
-                    GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0")),
+                    GetFromAppSettings(AppSettings.ParkSettings.TotalSlotCount, "0"),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.BalanceToSendEmail,
-                    GetFromAppSettings(AppSettings.ParkSettings.BalanceToSendEmail, "0"))
+                    GetFromAppSettings(AppSettings.ParkSettings.BalanceToSendEmail, "0"),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new(AppSettings.ParkSettings.Hotline,
+                    GetFromAppSettings(AppSettings.ParkSettings.Hotline, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new(AppSettings.ParkSettings.Name,
+                    GetFromAppSettings(AppSettings.ParkSettings.Name, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
             };
 
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.AllowTenantUseCustomConfig,

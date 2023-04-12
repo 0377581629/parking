@@ -8,14 +8,20 @@
         var $combobox;
         function getView(selectedValues, allItems) {
             $combobox = $('<select class="form-control" />');
-            $('<option></option>').appendTo($combobox);
 
             if (allItems && allItems.length > 0) {
-                for (var i = 0; i < allItems.length; i++) {
-                    $('<option></option>')
-                        .attr('value', allItems[i])
-                        .text(allItems[i])
-                        .appendTo($combobox);
+                for (let i = 0; i < allItems.length; i++) {
+                    if (typeof(allItems[i]) === 'object' && allItems[i].value !== undefined) {
+                        $('<option></option>')
+                            .attr('value', allItems[i].value)
+                            .text(allItems[i].value)
+                            .appendTo($combobox);
+                    } else {
+                        $('<option></option>')
+                            .attr('value', allItems[i])
+                            .text(allItems[i])
+                            .appendTo($combobox);    
+                    }
                 }
             }
 
@@ -48,6 +54,11 @@
          */
 
         function afterViewInitialized() {
+            $combobox.select2({
+                width: '100%',
+                dropdownAutoWidth: true,
+                language: baseHelper.Select2Language()
+            });
         }
 
         return {

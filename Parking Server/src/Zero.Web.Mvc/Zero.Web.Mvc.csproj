@@ -120,6 +120,32 @@
     <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\c40916a2245214350b83617c54f354a31760d17d.mp4" />
     <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\e0407925409a889a223b3f2acf0de61791a38dab.mp4" />
     <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\e65eeaa976fd49e9fcd8563e599b5f8f513893be.mp4" />
+    <_ContentIncludedByDefault Remove="Views\FrontPage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_Header.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_Menus.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_MenusItem.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\CheckBoxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\CheckBoxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\ComboBoxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\ComboBoxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateTimeInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateTimeInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\GroupInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\GroupInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\IInputTypeProvider.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\IInputTypeProvider.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiLineStringInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiLineStringInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiSelectComboboxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiSelectComboboxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\RadioInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\RadioInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\SingleLineStringInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\SingleLineStringInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.min.js" />
   </ItemGroup>
 
 </Project>

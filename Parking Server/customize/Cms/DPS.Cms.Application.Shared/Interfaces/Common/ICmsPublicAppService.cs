@@ -34,6 +34,8 @@ namespace DPS.Cms.Application.Shared.Interfaces.Common
         #region Menu
         Task<List<MenuDto>> GetMenusByGroupIds(CmsPublicInput input);
         
+        Task<List<MenuDto>> GetDefaultMenus();
+        
         #endregion
     }
 }

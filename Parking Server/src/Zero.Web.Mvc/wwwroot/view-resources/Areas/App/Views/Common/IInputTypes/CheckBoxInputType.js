@@ -7,10 +7,10 @@
 
         var $checkbox;
         function getView(selectedValues, allItems) {
-            $div = $('<div class="form-group checkbox-list">');
-            $label = $('<label class="checkbox">').appendTo($div)
+            let $div = $('<div class="form-group checkbox-list">');
+            let $label = $('<label class="checkbox">').appendTo($div)
             $checkbox = $('<input type="checkbox"/>').appendTo($label);
-            $span = $('<span></span>').appendTo($label);
+            $('<span></span>').appendTo($label);
             $checkbox
                 .on('change', function () {
                     if (_options && typeof (_options.onChange) === "function") {
