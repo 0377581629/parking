@@ -1,16 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Abp.AspNetCore.Mvc.Authorization;
 using Abp.Domain.Repositories;
-using Abp.Extensions;
-using Abp.Json;
 using DPS.Cms.Application.Shared.Dto.Menu;
 using DPS.Cms.Core.Menu;
-using GHN;
-using GHN.Models;
-using GHTK;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Authorization;
 using Zero.Customize;
@@ -32,12 +24,10 @@ namespace Zero.Web.Areas.Cms.Controllers
             _fileAppService = fileAppService;
         }
 
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var ghtkApi = new GHTKApiClient();
-            var res = await ghtkApi.PrintLabel("S19806501.BO.SG01-F06.1965415192");
-            
-            return View();
+            var model = new MenuViewModel();
+            return View(model);
         }
 
         [AbpMvcAuthorize(CmsPermissions.Menu_Create, CmsPermissions.Menu_Edit)]

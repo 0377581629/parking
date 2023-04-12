@@ -14,7 +14,6 @@ COPY ["src/Zero.Application.Shared/Zero.Application.Shared.csproj", "src/Zero.Ap
 COPY ["src/Zero.Core.Shared/Zero.Core.Shared.csproj", "src/Zero.Core.Shared/"]
 COPY ["src/Zero.Core/Zero.Core.csproj", "src/Zero.Core/"]
 COPY ["src/Zero.EntityFrameworkCore/Zero.EntityFrameworkCore.csproj", "src/Zero.EntityFrameworkCore/"]
-COPY ["src/Zero.GraphQL/Zero.GraphQL.csproj", "src/Zero.GraphQL/"]
 RUN dotnet restore "src/Zero.Web.Mvc/Zero.Web.Mvc.csproj"
 COPY . .
 WORKDIR "/src/src/Zero.Web.Mvc"

@@ -14,14 +14,5 @@ namespace Zero.Web.Common
         {
             ZeroConst.AbpApiClientUserAgent
         };
-
-        public static class GraphQL
-        {
-            public const string PlaygroundEndPoint = "/ui/playground";
-            public const string EndPoint = "/graphql";
-
-            public static bool PlaygroundEnabled = false;
-            public static bool Enabled = false;
-        }
     }
 }

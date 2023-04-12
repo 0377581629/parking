@@ -27,21 +27,53 @@ namespace Zero.Web.Controllers
             _tenantManager = tenantManager;
         }
 
-        public async Task<IActionResult> Index(string redirect = "", bool forceNewRegistration = false)
+        // Use for Back pages - uncomment when the project not have front pages
+        // public async Task<IActionResult> Index(string redirect = "", bool forceNewRegistration = false)
+        // {
+        //     if (forceNewRegistration)
+        //     {
+        //         await _signInManager.SignOutAsync();
+        //     }
+        //
+        //     if (redirect == "TenantRegistration")
+        //     {
+        //         return RedirectToAction("SelectEdition", "TenantRegistration");
+        //     }
+        //
+        //     return AbpSession.UserId.HasValue
+        //         ? RedirectToAction("Index", "Home", new {area = "App"})
+        //         : RedirectToAction("Login", "Account");
+        // }
+        
+        public async Task<ActionResult> Index()
         {
-            if (forceNewRegistration)
+            var page = await _cmsPublicAppService.GetHomePage();
+        
+            var pageViewModel = new PageViewModel
             {
-                await _signInManager.SignOutAsync();
-            }
-
-            if (redirect == "TenantRegistration")
-            {
-                return RedirectToAction("SelectEdition", "TenantRegistration");
-            }
-
-            return AbpSession.UserId.HasValue
-                ? RedirectToAction("Index", "Home", new {area = "App"})
-                : RedirectToAction("Login", "Account");
+                Page = page,
+                Widgets = await _cmsPublicAppService.GetPageWidgets(new CmsInput
+                {
+                    PageId = page?.Id,
+                    PageSlug = page?.Slug
+                }),
+                Blocks = await _cmsPublicAppService.GetPageLayoutBlocks(new CmsInput
+                {
+                    PageLayoutId = page?.PageLayoutId
+                })
+            };
+        
+            ViewBag.AdminWebSiteRootAddress = AdminWebsiteRootAddress;
+            ViewBag.WebSiteRootAddress = WebsiteRootAddress;
+        
+            if (page == null) return View(pageViewModel);
+        
+            ViewBag.Title = !page.TitleDefault ? page.Title : GlobalConfig.AppName;
+            ViewBag.MetaTitle = !page.TitleDefault ? page.Title : GlobalConfig.AppName;
+            ViewBag.MetaDesciption = !page.DescriptionDefault ? page.Description : GlobalConfig.AppDescription;
+            ViewBag.MetaAuthor = !page.AuthorDefault ? page.Author : GlobalConfig.AppAuthor;
+        
+            return View(pageViewModel);
         }
 
         public async Task<ActionResult> Pages(string slug)
