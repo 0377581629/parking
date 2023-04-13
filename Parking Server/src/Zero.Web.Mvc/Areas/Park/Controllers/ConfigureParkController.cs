@@ -27,6 +27,10 @@ namespace Zero.Web.Areas.Park.Controllers
             {
                 ConfigurePark = new ConfigureParkDto
                 {
+                    Name = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .Name),
+                    Hotline = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .Hotline),
                     ApplyDecreasePercent =
                         await _settingManager.GetSettingValueAsync<bool>(AppSettings.ParkSettings
                             .ApplyDecreasePercent),

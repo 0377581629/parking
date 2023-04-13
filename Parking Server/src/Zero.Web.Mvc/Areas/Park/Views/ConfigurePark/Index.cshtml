@@ -19,6 +19,7 @@
         <div class="card card-custom gutter-b">
             <div class="card-body">
                 <form id="ConfigureParkSettingsForm">
+
                     <h5>@L("DecreasePercent")</h5>
                     <div class="row">
                         <div class="col-12">
@@ -45,7 +46,32 @@
                     <br/>
                     <div class="col-12 mb-20 bottom-separate"></div>
 
-                    <h5>@L("PhoneToSendMessage")</h5>
+                    <h5>@L("FrontPage")</h5>
+                    <div class="row" id="FP_NameConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Name">
+                                    @L("FP_Name")
+                                </label>
+                                <input class="form-control" id="FP_Name" value="@Model.ConfigurePark.Name" type="text" name="name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="FP_HotlineConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Hotline">
+                                    @L("FP_Hotline")
+                                </label>
+                                <input class="form-control" id="FP_Hotline" value="@Model.ConfigurePark.Hotline" type="text" name="hotline"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="col-12 mb-20 bottom-separate"></div>
+
+                    <h5>@L("BackPage")</h5>
                     <div class="row" id="PhoneToSendMessageConfigurePark">
                         <div class="col-12">
                             <div class="form-group">
@@ -57,9 +83,6 @@
                         </div>
                     </div>
 
-                    <div class="col-12 mb-20 bottom-separate"></div>
-
-                    <h5>@L("TotalSlotCount")</h5>
                     <div class="row" id="TotalSlotCountConfigurePark">
                         <div class="col-12">
                             <div class="form-group">
@@ -71,9 +94,6 @@
                         </div>
                     </div>
 
-                    <div class="col-12 mb-20 bottom-separate"></div>
-
-                    <h5>@L("BalanceToSendEmail")</h5>
                     <div class="row" id="BalanceToSendEmailConfigurePark">
                         <div class="col-12">
                             <div class="form-group">

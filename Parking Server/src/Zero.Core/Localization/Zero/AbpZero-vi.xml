@@ -1,6 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="vi">
   <texts>
+    <!-- Front Page -->
+    <text name="FP_SystemManager">Quản lý hệ thống</text>
+    <text name="FP_AccountInfo">Thông tin tài khoản</text>
+    <text name="FP_Account">Tài khoản</text>
+    <text name="FrontPage">Trang ngoài</text>
+    <text name="BackPage">Trang quản trị</text>
+    <text name="FP_Name">Tên đơn vị</text>
+    <text name="FP_Hotline">Hotline đơn vị</text>
+    <text name="Connect247">Hỗ trợ 24/7</text>
+    <!--    -->
+    
     <!--  Park  -->
     <text name="OrderMenu">Danh mục đơn hàng</text>
     <text name="Order">Đơn hàng</text>
