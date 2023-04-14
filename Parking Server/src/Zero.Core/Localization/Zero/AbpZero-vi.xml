@@ -24,11 +24,19 @@
     <text name="Order_Done">Thành công</text>
     <text name="Order_Fail">Thất bại</text>
     <text name="FP_UpdateSuccessful">Cập nhật thành công</text>
+    <text name="FP_Checkout">Thanh toán</text>
+    <text name="FP_Payment">Phương thức thanh toán</text>
+    <text name="FB_CheckoutForCard">Nạp tiền vào thẻ xe của bạn</text>
+    <text name="FB_AlreadyHaveAccount">Bạn đã có tài khoản chưa</text>
+    <text name="FB_ClickHereToLogin">Click vào đây để đăng nhập</text>
+    <text name="FB_OrderDetail">Chi tiết đơn hàng</text>
+    <text name="FP_Amount">Số tiền ( VND )</text>
     <!--    -->
     
     <!--  Park  -->
     <text name="OrderMenu">Danh mục đơn hàng</text>
     <text name="Order">Đơn hàng</text>
+    <text name="OrderCode">Mã đơn hàng</text>
     <text name="OrderHeaderInfo">Danh mục đơn hàng</text>
     <text name="VnpTransactionNo">Mã giao dịch tại hệ thống VNPAY</text>
     <text name="OrderStatus_Success">Thành công</text>
@@ -72,6 +80,8 @@
     <text name="DoB">Ngày sinh</text>
     <text name="Male">Nam</text>
     <text name="Female">Nữ</text>
+    <text name="StudentCode">Mã số sinh viên</text>
+    <text name="StudentName">Họ tên sinh viên</text>
     
     <text name="TotalSlotCount">Tổng số slot gửi xe</text>
     

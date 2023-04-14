@@ -18,12 +18,51 @@
         let _imageValue;
         let uploadFileInput;
 
+        let userSelector;
+
         this.init = function (modalManager) {
             _modalManager = modalManager;
 
             modal = _modalManager.getModal();
 
             _modalManager.initControl();
+
+            userSelector = modal.find('#UserId');
+
+            userSelector.select2({
+                placeholder: app.localize('NoneSelect'),
+                allowClear: true,
+                width: '100%',
+                language: baseHelper.Select2Language(),
+                ajax: {
+                    url: abp.appPath + "api/services/app/Zero/GetPagedUsers",
+                    dataType: 'json',
+                    delay: 10,
+                    data: function (params) {
+                        return {
+                            filter: params.term,
+                            skipCount: ((params.page || 1) - 1) * 10,
+                        };
+                    },
+                    processResults: function (data, params) {
+                        params.page = params.page || 1;
+                        let res = $.map(data.result.items, function (item) {
+                            return {
+                                text: item.userName + ' - ' + item.emailAddress,
+                                id: item.id
+                            }
+                        });
+
+                        return {
+                            results: res,
+                            pagination: {
+                                more: (params.page * 10) < data.result.totalCount
+                            }
+                        };
+                    },
+                    cache: true
+                }
+            });
 
             _imageWrap = modal.find('#AvatarWrap');
             _imageHolder = modal.find('#AvatarHolder');

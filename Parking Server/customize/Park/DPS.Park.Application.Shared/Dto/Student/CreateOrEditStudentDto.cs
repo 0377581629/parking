@@ -26,5 +26,11 @@ namespace DPS.Park.Application.Shared.Dto.Student
         public bool IsActive { get; set; }
 
         public List<StudentCardDto> StudentDetails { get; set; }
+        
+        public long? UserId { get; set; }
+        
+        public string UserName { get; set; }
+        
+        public string UserEmail { get; set; }
     }
 }

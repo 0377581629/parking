@@ -22,6 +22,7 @@ using Abp.Zero.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Zero.Abp.Authorization.Users.Dto;
 using Zero.Authorization.Permissions;
 using Zero.Authorization.Permissions.Dto;
 using Zero.Authorization.Roles;

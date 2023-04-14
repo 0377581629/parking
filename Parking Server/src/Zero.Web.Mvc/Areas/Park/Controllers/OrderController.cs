@@ -6,6 +6,7 @@ using DPS.Park.Application.Shared.Interface.Order;
 using DPS.Park.Core.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Authorization;
+using Zero.Customize;
 using Zero.Web.Areas.Park.Models.Order;
 using Zero.Web.Controllers;
 
@@ -45,6 +46,9 @@ namespace Zero.Web.Areas.Park.Controllers
                 getOrderForEditOutput = new GetOrderForEditOutput
                 {
                     Order = new CreateOrEditOrderDto()
+                    {
+                        Code = StringHelper.ShortIdentity()
+                    }
                 };
             }
 

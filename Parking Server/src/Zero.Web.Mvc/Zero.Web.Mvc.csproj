@@ -144,6 +144,7 @@
     <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\SingleLineStringInputType.min.js" />
     <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.js" />
     <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.min.js" />
+    <_ContentIncludedByDefault Remove="Views\Shared\ContentCheckout\Default.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -22,5 +22,10 @@ namespace DPS.Park.Application.Shared.Dto.Student
         public DateTime DoB { get; set; }
         
         public bool IsActive { get; set; }
+        
+        public long? UserId { get; set; }
+        
+        public string UserName { get; set; }
+        public string UserEmail { get; set; }
     }
 }

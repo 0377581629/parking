@@ -61,7 +61,11 @@ namespace DPS.Park.Application.Services.Student
                     PhoneNumber = obj.PhoneNumber,
                     Gender = obj.Gender,
                     DoB = obj.DoB,
-                    IsActive = obj.IsActive
+                    IsActive = obj.IsActive,
+                    
+                    UserId = obj.UserId,
+                    UserName = obj.User.UserName,
+                    UserEmail = obj.User.EmailAddress
                 };
             return query;
         }

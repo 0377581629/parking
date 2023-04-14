@@ -11,5 +11,17 @@ namespace DPS.Park.Application.Shared.Dto.Common
         public string OrderCode { get; set; }
 
         #endregion
+
+        #region User
+        
+        public long? UserId { get; set; }
+        
+        #endregion
+
+        #region Student
+
+        public int? StudentId { get; set; }
+
+        #endregion
     }
 }

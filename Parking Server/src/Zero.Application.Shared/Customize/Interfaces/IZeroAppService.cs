@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Zero.Abp.Authorization.Users.Dto;
+using Zero.Authorization.Users.Dto;
 using Zero.Dto;
 using Zero.Editions.Dto;
 using Zero.MultiTenancy.Dto;
@@ -48,6 +50,11 @@ namespace Zero.Customize.Interfaces
 	    
 	    #region Role
 	    Task<List<int>> GetCurrentRoleIds();
+	    #endregion
+	    
+	    #region User
+	    Task<PagedResultDto<UserListDto>> GetPagedUsers(GetUsersInput input);
+	    
 	    #endregion
     }
 }

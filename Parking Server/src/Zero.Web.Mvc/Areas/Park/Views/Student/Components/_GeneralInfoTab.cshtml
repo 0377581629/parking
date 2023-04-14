@@ -84,34 +84,44 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label>@L("Email")</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" value="@Model.Student.Email" name="email">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="la la-envelope kt-font-brand"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label>@L("Phone")</label>
-                        <div class="input-group">
-                            <input class="form-control" value="@Model.Student.PhoneNumber" type="text" name="phoneNumber"/>
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="la la-phone kt-font-brand"></i>
-                                </span>
-                            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>@L("Email")</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" value="@Model.Student.Email" name="email">
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-envelope kt-font-brand"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label>@L("Phone")</label>
+                    <div class="input-group">
+                        <input class="form-control" value="@Model.Student.PhoneNumber" type="text" name="phoneNumber"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text">
+                                <i class="la la-phone kt-font-brand"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label>@L("UserName")</label>
+                    <select id="UserId" style="width:100%;" name="userId" class="form-control">
+                        @if (!string.IsNullOrEmpty(Model.Student.UserName) && Model.Student.UserId > 0)
+                        {
+                            <option value="@Model.Student.UserId" selected="selected">@Model.Student.UserName - @Model.Student.UserEmail</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
         </div>
     </div>
 </form>

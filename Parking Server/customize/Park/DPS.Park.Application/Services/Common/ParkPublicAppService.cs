@@ -7,6 +7,7 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using DPS.Park.Application.Shared.Dto.Common;
 using DPS.Park.Application.Shared.Dto.Order;
+using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Interface.Common;
 using Microsoft.EntityFrameworkCore;
 using Zero;
@@ -19,15 +20,18 @@ namespace DPS.Park.Application.Services.Common
         #region Constructor
 
         private readonly IRepository<Core.Order.Order> _orderRepository;
+        private readonly IRepository<Core.Student.Student> _studentRepository;
 
-        public ParkPublicAppService(IRepository<Core.Order.Order> orderRepository)
+        public ParkPublicAppService(IRepository<Core.Order.Order> orderRepository,
+            IRepository<Core.Student.Student> studentRepository)
         {
             _orderRepository = orderRepository;
+            _studentRepository = studentRepository;
         }
 
         #endregion
-        
-        #region User
+
+        #region Order
 
         [AbpAuthorize]
         public async Task<PagedResultDto<GetOrderForViewDto>> GetMyOrders(ParkPublicInput input)
@@ -71,6 +75,45 @@ namespace DPS.Park.Application.Services.Common
         }
 
         #endregion
-        
+
+        #region Student
+
+        private IQueryable<StudentDto> StudentQuery(ParkPublicInput input)
+        {
+            var query = from obj in _studentRepository.GetAll()
+                    .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
+                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
+                        o => o.Code.Contains(input.Filter) || o.Name.Contains(input.Filter))
+                    .WhereIf(input is {UserId: { }}, o => o.UserId == input.UserId.Value)
+                    .WhereIf(input is {StudentId: { }}, o => o.Id == input.StudentId.Value)
+                select new StudentDto
+                {
+                    TenantId = obj.TenantId,
+                    Id = obj.Id,
+                    Code = obj.Code,
+                    Name = obj.Name,
+                    Avatar = obj.Avatar,
+                    Email = obj.Email,
+                    PhoneNumber = obj.PhoneNumber,
+                    Gender = obj.Gender,
+                    DoB = obj.DoB,
+                    IsActive = obj.IsActive,
+
+                    UserId = obj.UserId,
+                    UserName = obj.User.UserName,
+                    UserEmail = obj.User.EmailAddress
+                };
+            return query;
+        }
+
+        public async Task<StudentDto> GetStudentByUserId(ParkPublicInput input)
+        {
+            var objQuery = StudentQuery(input);
+
+            var res = await objQuery.FirstOrDefaultAsync();
+            
+            return res;
+        }
+        #endregion
     }
 }
