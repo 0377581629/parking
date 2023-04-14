@@ -1,8 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Abp.Configuration;
 using Abp.Configuration.Startup;
+using Abp.Runtime.Session;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Configuration;
+using Zero.MultiTenancy;
+using Zero.Url;
 using Zero.Web.Models.Account;
 
 namespace Zero.Web.Views.Shared.Components.Login
@@ -13,14 +16,17 @@ namespace Zero.Web.Views.Shared.Components.Login
 
         private readonly IMultiTenancyConfig _multiTenancyConfig;
         private readonly ISettingManager _settingManager;
+        private readonly TenantManager _tenantManager;
+        private readonly IWebUrlService _webUrlService;
 
         public LoginViewComponent(
             ISettingManager settingManager,
-            IMultiTenancyConfig multiTenancyConfig
-        )
+            IMultiTenancyConfig multiTenancyConfig, TenantManager tenantManager, IWebUrlService webUrlService)
         {
             _settingManager = settingManager;
             _multiTenancyConfig = multiTenancyConfig;
+            _tenantManager = tenantManager;
+            _webUrlService = webUrlService;
         }
 
         #endregion
@@ -36,7 +42,10 @@ namespace Zero.Web.Views.Shared.Components.Login
 
         public async Task<IViewComponentResult> InvokeAsync(int pageWidgetId)
         {
-            ViewBag.ReturnUrl = "/trang-chu";
+            var tenancyName = await GetCurrentTenancyName();
+            var websiteAddress = _webUrlService.GetSiteRootAddress(tenancyName);
+
+            ViewBag.ReturnUrl = websiteAddress;
             ViewBag.IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled;
             ViewBag.SingleSignIn = "";
             ViewBag.UseCaptcha = UseCaptchaOnLogin();
@@ -48,6 +57,17 @@ namespace Zero.Web.Views.Shared.Components.Login
                     SuccessMessage = "",
                     UserNameOrEmailAddress = ""
                 });
+        }
+
+        private async Task<string> GetCurrentTenancyName()
+        {
+            if (!AbpSession.TenantId.HasValue)
+            {
+                return "";
+            }
+
+            var tenant = await _tenantManager.GetByIdAsync(AbpSession.GetTenantId());
+            return tenant.TenancyName;
         }
     }
 }

@@ -103,6 +103,16 @@
                 },
                 {
                     targets: 6,
+                    data: "order.creationTime",
+                    name: "creationTime",
+                    class: "text-center",
+                    width: 120,
+                    render: function (creationTime) {
+                        return moment(creationTime).format('L LT');
+                    }
+                },
+                {
+                    targets: 7,
                     data: "order.status",
                     name: "status",
                     render: function (status) {

@@ -103,6 +103,16 @@
                     render: function(isActive) {
                         return baseHelper.ShowActive(isActive);
                     }
+                },
+                {
+                    targets: 5,
+                    data: "menuGroup.isDefault",
+                    name: "isDefault",
+                    class: "text-center",
+                    width: 80,
+                    render: function(isDefault) {
+                        return baseHelper.ShowActive(isDefault);
+                    }
                 }
             ]
         });

@@ -1,11 +1,5 @@
-@using System.Globalization
-@using Abp.Extensions
-@using Abp.MultiTenancy
 @using Zero.Identity
-@using Zero.Localization
 @using Zero.Web.Security.Recaptcha
-@using Owl.reCAPTCHA
-@using Zero
 @using Zero.Web.Resources
 @using Zero.Web.Session
 @addTagHelper *, Owl.reCAPTCHA
@@ -14,16 +8,13 @@
 @inject IPerRequestSessionCache SessionCache
 @inject IWebResourceManager WebResourceManager
 
-@{
-    WebResourceManager.AddScript(ApplicationPath + "view-resources/Views/Account/Login.js");
-}
 <div class="page-content pt-150 pb-150">
     <div class="container">
         <div class="row">
             <div class="col-xl-8 col-lg-10 col-md-12 m-auto">
                 <div class="row">
                     <div class="col-lg-6 pr-30 d-none d-lg-block">
-                        <img class="border-radius-15" src="/Ecommerce/imgs/blog/blog-16.png" alt="">
+                        <img class="border-radius-15" src="/Ecommerce/imgs/page/login-1.png" alt="">
                     </div>
                     <div class="col-lg-6 col-md-8">
                         <div class="login_wrap widget-taber-content background-white">

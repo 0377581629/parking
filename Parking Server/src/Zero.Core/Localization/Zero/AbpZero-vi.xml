@@ -9,7 +9,20 @@
     <text name="BackPage">Trang quản trị</text>
     <text name="FP_Name">Tên đơn vị</text>
     <text name="FP_Hotline">Hotline đơn vị</text>
-    <text name="Connect247">Hỗ trợ 24/7</text>
+    <text name="FP_AccountSecurity">Bảo mật</text>
+    <text name="FP_OldPassword">Mật khẩu cũ</text>
+    <text name="FP_NewPassword">Mật khẩu mới</text>
+    <text name="FP_UpdatePassword">Cập nhật mật khẩu</text>
+    <text name="FP_UpdateUserInfo">Cập nhật thông tin</text>
+    <text name="FP_Order">Đơn hàng</text>
+    <text name="FP_YourOrder">Đơn hàng của bạn</text>
+    <text name="FP_OrderCode">Mã đơn hàng</text>
+    <text name="FP_OrderCardNumber">Số thẻ</text>
+    <text name="FP_OrderAmount">Số tiền</text>
+    <text name="FP_OrderStatus">Trạng thái</text>
+    <text name="FP_OrderCreationTime">Thời gian</text>
+    <text name="Order_Done">Thành công</text>
+    <text name="Order_Fail">Thất bại</text>
     <!--    -->
     
     <!--  Park  -->

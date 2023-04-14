@@ -278,7 +278,7 @@ namespace Zero.Web.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task<AbpLoginResult<Tenant, User>> GetLoginResultAsync(string usernameOrEmailAddress, string password, string tenancyName)
@@ -977,7 +977,7 @@ namespace Zero.Web.Controllers
 
         public string GetAppHomeUrl()
         {
-            return Url.Action("Index", "Home", new { area = "App" });
+            return Url.Action("Index", "Home");
         }
 
         private string NormalizeReturnUrl(string returnUrl, Func<string> defaultValueBuilder = null)

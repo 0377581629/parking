@@ -366,35 +366,14 @@ baseHelper.SimpleTableIcon = function (funcName) {
 
 baseHelper.ShowOrderStatus = function (status) {
     let $span = $("<span/>");
-    if (status === 0) {
-        $span.addClass("badge badge-danger").text(app.localize('InvalidStatus'));
-    } else if (status === 1) {
-        $span.addClass("badge badge-light").text(app.localize('Order_Draft'));
-    } else if (status === 2) {
-        $span.addClass("badge badge-info").text(app.localize('Order_Processing'));
-    } else if (status === 3) {
-        $span.addClass("badge badge-dark").text(app.localize('Order_Cancel'));
-    } else if (status === 4) {
+    if (status === 1) {
         $span.addClass("badge badge-success").text(app.localize('Order_Done'));
+    } else if (status === 2) {
+        $span.addClass("badge badge-danger").text(app.localize('Order_Fail'));
     }
     return $span[0].outerHTML;
 }
 
-baseHelper.ShowBillingStatus = function (status) {
-    let $span = $("<span/>");
-    if (status === 0) {
-        $span.addClass("badge badge-light").text(app.localize('PaymentStatus_Waiting'));
-    } else if (status === 1) {
-        $span.addClass("badge badge-light").text(app.localize('PaymentStatus_Waiting'));
-    } else if (status === 2) {
-        $span.addClass("badge badge-dark").text(app.localize('PaymentStatus_Cancel'));
-    } else if (status === 3) {
-        $span.addClass("badge badge-warning").text(app.localize('PaymentStatus_Fail'));
-    } else if (status === 4) {
-        $span.addClass("badge badge-success").text(app.localize('PaymentStatus_Done'));
-    }
-    return $span[0].outerHTML;
-}
 
 $('.kt-select2').select2({
     width: '100%',

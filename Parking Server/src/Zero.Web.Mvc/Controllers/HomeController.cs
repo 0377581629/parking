@@ -132,6 +132,7 @@ namespace Zero.Web.Controllers
                 var tenant = _tenantManager.GetById(AbpSession.GetTenantId());
                 tenancyName = tenant.TenancyName;
 
+                var x = _webUrlService.GetSiteRootAddress(tenancyName).EnsureEndsWith('/');
                 return _webUrlService.GetSiteRootAddress(tenancyName).EnsureEndsWith('/');
             }
         }
