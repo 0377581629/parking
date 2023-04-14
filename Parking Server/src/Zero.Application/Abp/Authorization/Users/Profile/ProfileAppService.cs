@@ -15,6 +15,7 @@ using Abp.Timing;
 using Abp.UI;
 using Abp.Zero.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Zero.Abp.Authorization.Users.Profile.Dto;
 using Zero.Authentication.TwoFactor.Google;
 using Zero.Authorization.Users.Dto;
 using Zero.Authorization.Users.Profile.Cache;
@@ -186,6 +187,14 @@ namespace Zero.Authorization.Users.Profile
                         TimingSettingNames.TimeZone, input.Timezone);
                 }
             }
+        }
+        
+        public async Task UpdateCurrentUserProfileSimple(CurrentUserProfileSimpleEditDto input)
+        {
+            var user = await GetCurrentUserAsync();
+
+            ObjectMapper.Map(input, user);
+            CheckErrors(await UserManager.UpdateAsync(user));
         }
 
         public async Task ChangePassword(ChangePasswordInput input)

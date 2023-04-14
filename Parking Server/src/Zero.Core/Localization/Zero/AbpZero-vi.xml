@@ -23,6 +23,7 @@
     <text name="FP_OrderCreationTime">Thời gian</text>
     <text name="Order_Done">Thành công</text>
     <text name="Order_Fail">Thất bại</text>
+    <text name="FP_UpdateSuccessful">Cập nhật thành công</text>
     <!--    -->
     
     <!--  Park  -->

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Zero.Abp.Authorization.Users.Profile.Dto;
 using Zero.Authorization.Users.Dto;
 using Zero.Authorization.Users.Profile.Dto;
 using Zero.Dto;
@@ -13,6 +14,7 @@ namespace Zero.Authorization.Users.Profile
 
         Task UpdateCurrentUserProfile(CurrentUserProfileEditDto input);
 
+        Task UpdateCurrentUserProfileSimple(CurrentUserProfileSimpleEditDto input);
         Task ChangePassword(ChangePasswordInput input);
 
         Task UpdateProfilePicture(UpdateProfilePictureInput input);

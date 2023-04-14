@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Abp.Authorization.Users;
+using Zero.Authorization.Users;
 
-namespace Zero.Authorization.Users.Profile.Dto
+namespace Zero.Abp.Authorization.Users.Profile.Dto
 {
-    public class CurrentUserProfileEditDto
+    public class CurrentUserProfileSimpleEditDto
     {
         [Required]
         [StringLength(AbpUserBase.MaxNameLength)]
@@ -12,7 +13,10 @@ namespace Zero.Authorization.Users.Profile.Dto
         [Required]
         [StringLength(AbpUserBase.MaxSurnameLength)]
         public string Surname { get; set; }
-
+    }
+    
+    public class CurrentUserProfileEditDto: CurrentUserProfileSimpleEditDto
+    {
         [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }

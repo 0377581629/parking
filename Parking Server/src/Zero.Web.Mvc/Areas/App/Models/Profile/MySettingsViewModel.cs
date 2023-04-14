@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
 using Abp.AutoMapper;
+using Zero.Abp.Authorization.Users.Profile.Dto;
 using Zero.Authorization.Users.Profile.Dto;
 
 namespace Zero.Web.Areas.App.Models.Profile
