@@ -3,8 +3,6 @@ using DPS.Park.Application.Shared.Dto.Common;
 using DPS.Park.Application.Shared.Dto.Order;
 using DPS.Park.Application.Shared.Interface.Common;
 using Microsoft.AspNetCore.Mvc;
-using Zero.Customize;
-using Zero.Customize.Interfaces;
 using Zero.Web.Models.FrontPages.Checkout;
 
 namespace Zero.Web.Views.Shared.Components.ContentCheckout
@@ -18,6 +16,7 @@ namespace Zero.Web.Views.Shared.Components.ContentCheckout
             _parkPublicAppService = parkPublicAppService;
         }
 
+
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var student = await _parkPublicAppService.GetStudentByUserId(new ParkPublicInput()
@@ -27,10 +26,7 @@ namespace Zero.Web.Views.Shared.Components.ContentCheckout
 
             var model = new CheckoutViewModel()
             {
-                Order = new CreateOrEditOrderDto()
-                {
-                    Code = StringHelper.ShortIdentity(),
-                },
+                Order = new CreateOrEditOrderDto(),
                 StudentCode = student.Code,
                 StudentName = student.Name
             };

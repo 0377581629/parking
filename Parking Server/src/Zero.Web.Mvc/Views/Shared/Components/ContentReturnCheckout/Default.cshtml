@@ -1,0 +1,21 @@
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+            <div class="row">
+
+                <div class="col-md-12 text-center">
+                    <h1 class="">Thanh toán</h1>
+                    @if (ViewBag.CheckoutSuccess != null)
+                    {
+                        <p>Bạn đã thanh toán thành công với @ViewBag.CheckoutSuccess</p>
+                        <p>@ViewBag.VnpayTranId</p>
+                        <p>@ViewBag.Bank</p>
+                    }
+                    <p>@ViewBag.InnerText</p>
+                </div>
+
+            </div>
+            <hr/>
+        </div>
+    </div>
+</div>

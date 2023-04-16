@@ -817,5 +817,17 @@ function slugify(text) {
                 $(this).removeAttr('initEditor');
             }
         });
+
+        baseHelper.ShowOrderStatus = function (status) {
+            let $span = $("<span/>");
+            if (status === 1) {
+                $span.addClass("badge badge-success").text(app.localize('Order_Done'));
+            } else if (status === 2) {
+                $span.addClass("badge badge-danger").text(app.localize('Order_Fail'));
+            } else if (status === 3) {
+                $span.addClass("badge badge-light").text(app.localize('Order_Waiting'));
+            }
+            return $span[0].outerHTML;
+        }
     });
 })();

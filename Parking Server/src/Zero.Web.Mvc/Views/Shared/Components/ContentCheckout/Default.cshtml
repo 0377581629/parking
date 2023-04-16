@@ -26,7 +26,7 @@
         <div class="col-lg-7">
             <div class="row">
                 <h4 class="mb-30">@L("FB_OrderDetail")</h4>
-                <form method="post">
+                <form role="form" id="billingDetailForm">
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <div class="form-group">
@@ -48,14 +48,6 @@
                     <div class="row">
                         <div class="form-group col-lg-6">
                             <div class="form-group">
-                                <label for="Order_Code">
-                                    @L("OrderCode") <span class="text-danger">*</span>
-                                </label>
-                                <input class="form-control" id="Order_Code" value="@Model.Order.Code" type="text" name="code" required disabled="disabled"/>
-                            </div>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <div class="form-group">
                                 <label>@L("Card")</label>
                                 <select id="CardId" style="width:100%;" name="cardId" class="form-control requiredSelect2">
                                     @if (!string.IsNullOrEmpty(Model.Order.CardNumber) && Model.Order.CardId > 0)
@@ -65,9 +57,7 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-lg-12">
+                        <div class="form-group col-lg-6">
                             <div class="form-group">
                                 <label for="Order_Amount">
                                     @L("FP_Amount")
@@ -83,17 +73,23 @@
             <div class="payment ml-30">
                 <h4 class="mb-30">@L("FP_Payment")</h4>
                 <div class="payment_option">
+                    <h5>Cách 1: Chuyển hướng sang VNPAY chọn phương thức thanh toán</h5>
                     <div class="custome-radio">
-                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" checked="">
-                        <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse" data-target="#bankTranfer" aria-controls="bankTranfer">Direct Bank Transfer</label>
+                        <input class="form-check-input" required="" type="radio" name="TypePaymentVN" id="exampleRadios0" value="0" checked="">
+                        <label class="form-check-label" for="exampleRadios0" data-bs-toggle="collapse">Cổng thanh toán VNPAYQR</label>
+                    </div>
+                    <h5>Cách 2: Tách phương thức thanh toán tại site của Merchant</h5>
+                    <div class="custome-radio">
+                        <input class="form-check-input" required="" type="radio" name="TypePaymentVN" id="exampleRadios1" value="1" checked="">
+                        <label class="form-check-label" for="exampleRadios1" data-bs-toggle="collapse">Thanh toán qua ứng dụng hỗ trợ VNPAYQR</label>
                     </div>
                     <div class="custome-radio">
-                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios4" checked="">
-                        <label class="form-check-label" for="exampleRadios4" data-bs-toggle="collapse" data-target="#checkPayment" aria-controls="checkPayment">Cash on delivery</label>
+                        <input class="form-check-input" required="" type="radio" name="TypePaymentVN" id="exampleRadios2" value="2" checked="">
+                        <label class="form-check-label" for="exampleRadios2" data-bs-toggle="collapse">ATM-Tài khoản ngân hàng nội địa</label>
                     </div>
                     <div class="custome-radio">
-                        <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios5" checked="">
-                        <label class="form-check-label" for="exampleRadios5" data-bs-toggle="collapse" data-target="#paypal" aria-controls="paypal">Online Getway</label>
+                        <input class="form-check-input" required="" type="radio" name="TypePaymentVN" id="exampleRadios3" value="3" checked="">
+                        <label class="form-check-label" for="exampleRadios3" data-bs-toggle="collapse">Thanh toán qua thẻ quốc tế</label>
                     </div>
                 </div>
                 <div class="payment-logo d-flex">
@@ -102,9 +98,15 @@
                     <img class="mr-15" src="Ecommerce/imgs/theme/icons/payment-master.svg" alt="">
                     <img src="Ecommerce/imgs/theme/icons/payment-zapper.svg" alt="">
                 </div>
-                <a href="#" class="btn btn-fill-out btn-block mt-30">
+                <div class="form-group" id="load_send" hidden="hidden"></div>
+
+                <button type="submit" class="btn btn-fill-out btn-block mt-30 font-size-18 w-p100" id="checkoutBtnConfirmOrder">
+                    @L("FP_ConfirmOrder")<i class="fi-rs-sign-out ml-15"></i>
+                </button>
+
+                <button type="submit" class="btn btn-fill-out btn-block mt-30 font-size-18 w-p100" id="btnCheckOut" disabled="disabled">
                     @L("FP_Checkout")<i class="fi-rs-sign-out ml-15"></i>
-                </a>
+                </button>
             </div>
         </div>
     </div>

@@ -21,8 +21,6 @@
     <text name="FP_OrderAmount">Số tiền</text>
     <text name="FP_OrderStatus">Trạng thái</text>
     <text name="FP_OrderCreationTime">Thời gian</text>
-    <text name="Order_Done">Thành công</text>
-    <text name="Order_Fail">Thất bại</text>
     <text name="FP_UpdateSuccessful">Cập nhật thành công</text>
     <text name="FP_Checkout">Thanh toán</text>
     <text name="FP_Payment">Phương thức thanh toán</text>
@@ -31,6 +29,9 @@
     <text name="FB_ClickHereToLogin">Click vào đây để đăng nhập</text>
     <text name="FB_OrderDetail">Chi tiết đơn hàng</text>
     <text name="FP_Amount">Số tiền ( VND )</text>
+    <text name="FP_ConfirmOrder">Xác nhận đơn hàng</text>
+    <text name="FP_CreateOrderSuccessful">Xác nhận đơn hàng thành công, nhấn vào thanh toán để hoàn thành đơn hàng</text>
+    <text name="FP_Connect247">Liên hệ 24/7</text>
     <!--    -->
     
     <!--  Park  -->
@@ -41,6 +42,10 @@
     <text name="VnpTransactionNo">Mã giao dịch tại hệ thống VNPAY</text>
     <text name="OrderStatus_Success">Thành công</text>
     <text name="OrderStatus_Fail">Thất bại</text>
+    <text name="OrderStatus_Waiting">Đang chờ</text>
+    <text name="Order_Done">Thành công</text>
+    <text name="Order_Fail">Thất bại</text>
+    <text name="Order_Waiting">Đang chờ</text>
     
     <text name="Type">Loại</text>
     <text name="HistoryType">Loại</text>

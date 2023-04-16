@@ -9,8 +9,13 @@ using DPS.Park.Application.Shared.Dto.Common;
 using DPS.Park.Application.Shared.Dto.Order;
 using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Interface.Common;
+using DPS.Park.Core.Shared;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Zero;
+using Zero.Configuration;
+using Zero.Customize;
 
 namespace DPS.Park.Application.Services.Common
 {
@@ -21,12 +26,17 @@ namespace DPS.Park.Application.Services.Common
 
         private readonly IRepository<Core.Order.Order> _orderRepository;
         private readonly IRepository<Core.Student.Student> _studentRepository;
+        private readonly IAppConfigurationAccessor _configurationAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ParkPublicAppService(IRepository<Core.Order.Order> orderRepository,
-            IRepository<Core.Student.Student> studentRepository)
+            IRepository<Core.Student.Student> studentRepository, IAppConfigurationAccessor configurationAccessor,
+            IHttpContextAccessor httpContextAccessor)
         {
             _orderRepository = orderRepository;
             _studentRepository = studentRepository;
+            _configurationAccessor = configurationAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         #endregion
@@ -111,9 +121,84 @@ namespace DPS.Park.Application.Services.Common
             var objQuery = StudentQuery(input);
 
             var res = await objQuery.FirstOrDefaultAsync();
-            
+
             return res;
         }
+
+        #endregion
+
+        #region Order
+
+        public async Task<int> CreateOrder(CreateOrEditOrderDto input)
+        {
+            input.TenantId = AbpSession.TenantId;
+            input.Code = StringHelper.ShortIdentity();
+            input.Status = (int) ParkEnums.OrderStatus.Waiting;
+
+            var obj = ObjectMapper.Map<Core.Order.Order>(input);
+            await _orderRepository.InsertAndGetIdAsync(obj);
+
+            return obj.Id;
+        }
+
+        #endregion
+
+        #region Checkout vnpay
+
+        public async Task<string> UrlPayment(int typePayment, int orderId)
+        {
+            var urlPayment = "";
+            var order = await _orderRepository.FirstOrDefaultAsync(o =>
+                !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.Id == orderId);
+            //Get Config Info
+            string vnp_Returnurl =
+                _configurationAccessor.Configuration["Payment:VNPay:vnp_Returnurl"]; //URL nhan ket qua tra ve 
+            string vnp_Url = _configurationAccessor.Configuration["Payment:VNPay:vnp_Url"]; //URL thanh toan cua VNPAY 
+            string vnp_TmnCode =
+                _configurationAccessor.Configuration[
+                    "Payment:VNPay:vnp_TmnCode"]; //Ma định danh merchant kết nối (Terminal Id)
+            string vnp_HashSecret = _configurationAccessor.Configuration["Payment:VNPay:vnp_HashSecret"]; //Secret Key
+
+            //Build URL for VNPAY
+            VnPayLibrary vnpay = new VnPayLibrary();
+            var price = (long) order.Amount * 100;
+            vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+            vnpay.AddRequestData("vnp_Command", "pay");
+            vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+            vnpay.AddRequestData("vnp_Amount",
+                price.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
+            if (typePayment == 1)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNPAYQR");
+            }
+            else if (typePayment == 2)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNBANK");
+            }
+            else if (typePayment == 3)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "INTCARD");
+            }
+
+            vnpay.AddRequestData("vnp_CreateDate", order.CreationTime.ToString("yyyyMMddHHmmss"));
+            vnpay.AddRequestData("vnp_CurrCode", "VND");
+            vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress(_httpContextAccessor.HttpContext));
+            vnpay.AddRequestData("vnp_Locale", "vn");
+            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.Code);
+            vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
+
+            vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+            vnpay.AddRequestData("vnp_TxnRef",
+                order.Code); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
+
+            //Add Params of 2.1.0 Version
+            //Billing
+
+            urlPayment = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+            //log.InfoFormat("VNPAY URL: {0}", paymentUrl);
+            return urlPayment;
+        }
+
         #endregion
     }
 }

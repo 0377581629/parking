@@ -74,6 +74,9 @@ namespace DPS.Park.Core.Shared
 
             [StringValue("OrderStatus_Fail")] 
             Fail = 2,
+            
+            [StringValue("OrderStatus_Waiting")] 
+            Waiting = 3,
         }
     }
 }

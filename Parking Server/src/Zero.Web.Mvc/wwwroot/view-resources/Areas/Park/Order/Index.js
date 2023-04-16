@@ -116,14 +116,7 @@
                     data: "order.status",
                     name: "status",
                     render: function (status) {
-                        switch (status) {
-                            case 1:
-                                return app.localize('OrderStatus_Success')
-                            case 2:
-                                return app.localize('OrderStatus_Fail')
-                            default:
-                                return ""
-                        }
+                        return baseHelper.ShowOrderStatus(status);
                     }
                 }
             ]
