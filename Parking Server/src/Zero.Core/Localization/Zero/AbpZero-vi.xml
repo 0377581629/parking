@@ -9,6 +9,8 @@
     <text name="BackPage">Trang quản trị</text>
     <text name="FP_Name">Tên đơn vị</text>
     <text name="FP_Hotline">Hotline đơn vị</text>
+    <text name="FP_Address">Địa chỉ đơn vị</text>
+    <text name="FP_Email">Email đơn vị</text>
     <text name="FP_AccountSecurity">Bảo mật</text>
     <text name="FP_OldPassword">Mật khẩu cũ</text>
     <text name="FP_NewPassword">Mật khẩu mới</text>
@@ -32,9 +34,21 @@
     <text name="FP_ConfirmOrder">Xác nhận đơn hàng</text>
     <text name="FP_CreateOrderSuccessful">Xác nhận đơn hàng thành công, nhấn vào thanh toán để hoàn thành đơn hàng</text>
     <text name="FP_Connect247">Liên hệ 24/7</text>
+    <text name="FP_Office">Thông tin liên hệ</text>
+    <text name="FP_ViewInMap">Xem trên bản đồ</text>
+    <text name="FP_YourName">Tên của bạn</text>
+    <text name="FP_YourEmail">Email của bạn</text>
+    <text name="FP_YourMessage">Nội dung liên hệ</text>
+    <text name="FP_SendMessage">Gửi liên hệ</text>
+    <text name="FB_SendSuccess">Gửi thành công</text>
     <!--    -->
     
     <!--  Park  -->
+    <text name="ContactMenu">Danh mục liên hệ</text>
+    <text name="UserContacts">Liên hệ của khách hàng</text>
+    <text name="UserContactsHeaderInfo">Danh mục liên hệ của khách hàng</text>
+    <text name="UserContactName">Tên khách hàng</text>
+    
     <text name="OrderMenu">Danh mục đơn hàng</text>
     <text name="Order">Đơn hàng</text>
     <text name="OrderCode">Mã đơn hàng</text>

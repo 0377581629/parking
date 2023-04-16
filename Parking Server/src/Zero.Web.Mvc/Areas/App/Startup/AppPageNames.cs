@@ -91,6 +91,10 @@
             public const string OrderMenu = "Park.OrderMenu";
             
             public const string Order = "Park.Order";
+            
+            public const string ContactMenu = "Park.ContactMenu";
+            
+            public const string UserContact = "Park.UserContact";
         }
 
         public static class Reporting

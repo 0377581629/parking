@@ -200,6 +200,19 @@ namespace Zero.Web.Areas.App.Startup
                         )
                     )
                 )
+                .AddItem(new MenuItemDefinition(
+                        AppPageNames.Park.ContactMenu,
+                        L("ContactMenu"),
+                        icon: "la la-user",
+                        permissionDependency: new SimplePermissionDependency(ParkPermissions.ContactMenu)
+                    ).AddItem(new MenuItemDefinition(
+                            AppPageNames.Park.UserContact,
+                            L("UserContact"),
+                            url: $"{ZeroConst.ParkAreas}/UserContact",
+                            permissionDependency: new SimplePermissionDependency(ParkPermissions.UserContact)
+                        )
+                    )
+                )
 
                 #region Administration
 

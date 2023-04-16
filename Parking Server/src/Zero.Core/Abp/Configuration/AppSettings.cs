@@ -176,6 +176,8 @@
             
             public const string Name = "App.ParkSettings.Name";
             public const string Hotline = "App.ParkSettings.Hotline";
+            public const string Address = "App.ParkSettings.Address";
+            public const string Email = "App.ParkSettings.Email";
         }
     }
 }

@@ -6,6 +6,7 @@ using DPS.Cms.Core.Page;
 using DPS.Cms.Core.Post;
 using DPS.Cms.Core.Widget;
 using DPS.Park.Core.Card;
+using DPS.Park.Core.Contact;
 using DPS.Park.Core.Fare;
 using DPS.Park.Core.History;
 using DPS.Park.Core.Message;
@@ -107,6 +108,8 @@ namespace Zero.EntityFrameworkCore
         public virtual DbSet<StudentCard> StudentCards { get; set; }
         
         public virtual DbSet<Order> Orders { get; set; }
+        
+        public virtual DbSet<UserContact> UserContacts { get; set; }
 
         #endregion
 

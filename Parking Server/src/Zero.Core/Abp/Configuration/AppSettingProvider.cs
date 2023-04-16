@@ -223,6 +223,12 @@ namespace Zero.Configuration
                 new(AppSettings.ParkSettings.Name,
                     GetFromAppSettings(AppSettings.ParkSettings.Name, ""),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new(AppSettings.ParkSettings.Address,
+                    GetFromAppSettings(AppSettings.ParkSettings.Address, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
+                new(AppSettings.ParkSettings.Email,
+                    GetFromAppSettings(AppSettings.ParkSettings.Email, ""),
+                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
             };
 
             res.Add(new SettingDefinition(AppSettings.PaymentManagement.AllowTenantUseCustomConfig,

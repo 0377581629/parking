@@ -252,6 +252,17 @@ namespace Zero.Authorization
 
             #endregion
             
+            #region ContactMenu
+
+            var contactMenu = pages.CreateChildPermission(ParkPermissions.ContactMenu, L("ContactMenu"));
+            
+            var userContact = contactMenu.CreateChildPermission(ParkPermissions.UserContact, L("UserContact"));
+            userContact.CreateChildPermission(ParkPermissions.UserContact_Create, L("Create"));
+            userContact.CreateChildPermission(ParkPermissions.UserContact_Edit, L("Edit"));
+            userContact.CreateChildPermission(ParkPermissions.UserContact_Delete, L("Delete"));
+
+            #endregion
+            
             #endregion
         }
 

@@ -5,10 +5,13 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using DPS.Park.Application.Shared.Dto.Common;
+using DPS.Park.Application.Shared.Dto.Contact.UserContact;
 using DPS.Park.Application.Shared.Dto.Order;
 using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Interface.Common;
+using DPS.Park.Core.Contact;
 using DPS.Park.Core.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -28,15 +31,17 @@ namespace DPS.Park.Application.Services.Common
         private readonly IRepository<Core.Student.Student> _studentRepository;
         private readonly IAppConfigurationAccessor _configurationAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRepository<UserContact> _userContactRepository;
 
         public ParkPublicAppService(IRepository<Core.Order.Order> orderRepository,
             IRepository<Core.Student.Student> studentRepository, IAppConfigurationAccessor configurationAccessor,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor, IRepository<UserContact> userContactRepository)
         {
             _orderRepository = orderRepository;
             _studentRepository = studentRepository;
             _configurationAccessor = configurationAccessor;
             _httpContextAccessor = httpContextAccessor;
+            _userContactRepository = userContactRepository;
         }
 
         #endregion
@@ -197,6 +202,38 @@ namespace DPS.Park.Application.Services.Common
             urlPayment = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
             //log.InfoFormat("VNPAY URL: {0}", paymentUrl);
             return urlPayment;
+        }
+
+        #endregion
+
+        #region Contact
+
+        private async Task ValidateUserContactDataInput(CreateOrEditUserContactDto input)
+        {
+            var res = await _userContactRepository.GetAll()
+                .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.Code.Equals(input.Code))
+                .WhereIf(input.Id.HasValue, o => o.Id != input.Id)
+                .FirstOrDefaultAsync();
+            if (res != null)
+                throw new UserFriendlyException(L("Error"), L("CodeAlreadyExists"));
+        }
+
+        public async Task GetUserContact(CreateOrEditUserContactDto input)
+        {
+            input.Code = StringHelper.ShortIdentity();
+            input.TenantId = AbpSession.TenantId;
+            await ValidateUserContactDataInput(input);
+
+            if (input.Id == null)
+            {
+                await Create(input);
+            }
+        }
+
+        protected virtual async Task Create(CreateOrEditUserContactDto input)
+        {
+            var obj = ObjectMapper.Map<UserContact>(input);
+            await _userContactRepository.InsertAndGetIdAsync(obj);
         }
 
         #endregion

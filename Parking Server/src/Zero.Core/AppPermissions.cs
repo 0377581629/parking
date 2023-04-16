@@ -235,6 +235,17 @@
         public const string Order_Delete = "Park.Order.Delete";
 
         #endregion
+
+        #region Contact
+
+        public const string ContactMenu = "Park.ContactMenu";
+        
+        public const string UserContact = "Park.UserContact";
+        public const string UserContact_Create = "Park.UserContact.Create";
+        public const string UserContact_Edit = "Park.UserContact.Edit";
+        public const string UserContact_Delete = "Park.UserContact.Delete";
+
+        #endregion
         
     }
 

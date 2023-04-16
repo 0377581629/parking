@@ -31,6 +31,10 @@ namespace Zero.Web.Areas.Park.Controllers
                         .Name),
                     Hotline = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                         .Hotline),
+                    Address = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .Address),
+                    Email = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .Email),
                     ApplyDecreasePercent =
                         await _settingManager.GetSettingValueAsync<bool>(AppSettings.ParkSettings
                             .ApplyDecreasePercent),

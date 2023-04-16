@@ -2,6 +2,7 @@
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using DPS.Park.Application.Shared.Dto.Common;
+using DPS.Park.Application.Shared.Dto.Contact.UserContact;
 using DPS.Park.Application.Shared.Dto.Order;
 using DPS.Park.Application.Shared.Dto.Student;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,12 @@ namespace DPS.Park.Application.Shared.Interface.Common
 
         Task<string> UrlPayment(int typePayment, int orderId);
 
+
+        #endregion
+        
+        #region Contact
+
+        Task GetUserContact(CreateOrEditUserContactDto input);
 
         #endregion
     }

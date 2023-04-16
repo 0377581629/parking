@@ -29,6 +29,10 @@ namespace DPS.Park.Application.Services.ConfigurePark
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
                     AppSettings.ParkSettings.Hotline, input.Hotline);
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.Address, input.Address);
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
+                    AppSettings.ParkSettings.Email, input.Email);
+                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
                     AppSettings.ParkSettings.ApplyDecreasePercent,
                     input.ApplyDecreasePercent.ToString().ToLowerInvariant());
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
@@ -48,6 +52,8 @@ namespace DPS.Park.Application.Services.ConfigurePark
             {
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Name, input.Name);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Hotline, input.Hotline);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Address, input.Address);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Email, input.Email);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.ApplyDecreasePercent,
                     input.ApplyDecreasePercent.ToString().ToLowerInvariant());
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.DecreasePercent,
@@ -73,6 +79,10 @@ namespace DPS.Park.Application.Services.ConfigurePark
                         AbpSession.GetTenantId()),
                     Hotline = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Hotline,
                         AbpSession.GetTenantId()),
+                    Address = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Address,
+                        AbpSession.GetTenantId()),
+                    Email = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Email,
+                        AbpSession.GetTenantId()),
                 };
             }
             else
@@ -82,6 +92,8 @@ namespace DPS.Park.Application.Services.ConfigurePark
                     Name = await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Name),
                     Hotline =
                         await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Hotline),
+                    Address = 
+                        await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Address),
                 };
             }
 
