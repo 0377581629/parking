@@ -41,11 +41,15 @@
     <text name="FP_YourMessage">Nội dung liên hệ</text>
     <text name="FP_SendMessage">Gửi liên hệ</text>
     <text name="FB_SendSuccess">Gửi thành công</text>
+    <text name="FP_Card">Thẻ</text>
+    <text name="FP_YourCard">Thẻ của bạn</text>
     <!--    -->
     
     <!--  Park  -->
+    <text name="CodeOrCardNumberAlreadyExists">Mã thẻ hoặc số thẻ đã tồn tại</text>
     <text name="ContactMenu">Danh mục liên hệ</text>
     <text name="UserContacts">Liên hệ của khách hàng</text>
+    <text name="UserContact">Liên hệ của khách hàng</text>
     <text name="UserContactsHeaderInfo">Danh mục liên hệ của khách hàng</text>
     <text name="UserContactName">Tên khách hàng</text>
     

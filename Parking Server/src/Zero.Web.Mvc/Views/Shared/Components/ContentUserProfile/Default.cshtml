@@ -23,6 +23,11 @@
                                             <i class="fi-rs-shopping-bag mr-10"></i>@L("FP_Order")
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="cards-tab" data-bs-toggle="tab" href="#cards" role="tab" aria-controls="cards" aria-selected="false">
+                                            <i class="fa fa-id-card-o mr-10"></i>@L("FP_Card")
+                                        </a>
+                                    </li>
 
                                     <li class="nav-item">
                                         <a class="nav-link" href="@Url.Action("Logout", "Account")"><i class="fi-rs-sign-out mr-10"></i>Đăng xuất</a>
@@ -103,6 +108,29 @@
                                                         <th>@L("FP_OrderAmount")</th>
                                                         <th>@L("FP_OrderCreationTime")</th>
                                                         <th>@L("FP_OrderStatus")</th>
+                                                    </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="cards" role="tabpanel" aria-labelledby="cards-tab">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="mb-0">@L("FP_YourCard")</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table" id="MyCardsTable">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>@L("CardNumber")</th>
+                                                        <th>@L("LicensePlate")</th>
+                                                        <th>@L("VehicleType")</th>
+                                                        <th>@L("CardType")</th>
+                                                        <th>@L("Balance")</th>
+                                                        <th>@L("IsActive")</th>
                                                     </tr>
                                                     </thead>
                                                 </table>

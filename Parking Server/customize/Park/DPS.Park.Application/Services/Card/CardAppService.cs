@@ -116,7 +116,7 @@ namespace DPS.Park.Application.Services.Card
                 .WhereIf(input.Id.HasValue, o => o.Id != input.Id)
                 .FirstOrDefaultAsync();
             if (res != null)
-                throw new UserFriendlyException(L("Error"), L("CodeAlreadyExists"));
+                throw new UserFriendlyException(L("Error"), L("CodeOrCardNumberAlreadyExists"));
         }
 
         public async Task CreateOrEdit(CreateOrEditCardDto input)

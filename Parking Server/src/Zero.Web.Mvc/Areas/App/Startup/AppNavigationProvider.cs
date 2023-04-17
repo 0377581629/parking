@@ -190,7 +190,7 @@ namespace Zero.Web.Areas.App.Startup
                 .AddItem(new MenuItemDefinition(
                         AppPageNames.Park.OrderMenu,
                         L("OrderMenu"),
-                        icon: "la la-user",
+                        icon: "la la-folder",
                         permissionDependency: new SimplePermissionDependency(ParkPermissions.OrderMenu)
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Park.Order,
@@ -203,7 +203,7 @@ namespace Zero.Web.Areas.App.Startup
                 .AddItem(new MenuItemDefinition(
                         AppPageNames.Park.ContactMenu,
                         L("ContactMenu"),
-                        icon: "la la-user",
+                        icon: "la la-comments",
                         permissionDependency: new SimplePermissionDependency(ParkPermissions.ContactMenu)
                     ).AddItem(new MenuItemDefinition(
                             AppPageNames.Park.UserContact,

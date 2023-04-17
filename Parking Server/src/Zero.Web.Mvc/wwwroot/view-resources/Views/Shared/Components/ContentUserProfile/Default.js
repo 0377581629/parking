@@ -57,10 +57,7 @@
                     data: "order.code",
                     name: "code",
                     width: 120,
-                    class: "text-center",
-                    // render: function (order) {
-                    //     return '<a class="btnViewOrderDetail" data-id="' + order.id + '" href="#">' + order.code + '</a>';
-                    // }
+                    class: "text-center"
                 },
                 {
                     targets: 1,
@@ -102,19 +99,71 @@
             ]
         });
 
-        let _scriptUrl = abp.appPath + 'view-resources/Views/Shared/Components/ContentUserProfile/';
-        let _viewUrl = abp.appPath + 'UserProfile/';
+        let myCardsTable = $("#MyCardsTable");
 
-        const _viewOrderDetailModal = new app.ModalManager({
-            viewUrl: _viewUrl + 'ViewOrderDetailModal',
-            scriptUrl: _scriptUrl + '_ViewOrderDetailModal.js',
-            modalClass: 'ViewOrderDetailModal'
+        myCardsTable.DataTable({
+            paging: true,
+            serverSide: true,
+            processing: true,
+            deferLoad: 0,
+            listAction: {
+                ajaxFunction: _parkService.getMyCards
+            },
+            columnDefs: [
+                {
+                    targets: 0,
+                    data: "card.cardNumber",
+                    name: "cardNumber",
+                    class: "text-center",
+                    width: 120,
+                },
+                {
+                    targets: 1,
+                    data: "card.licensePlate",
+                    name: "licensePlate",
+                    class: "text-center",
+                    width: 120,
+                    render: function (total) {
+                        return baseHelper.ShowNumber(total);
+                    }
+                },
+                {
+                    targets: 2,
+                    data: "card.vehicleTypeName",
+                    name: "vehicleTypeName",
+                    class: "text-center",
+                    width: 120,
+                },
+                {
+                    targets: 3,
+                    data: "card.cardTypeName",
+                    name: "cardTypeName",
+                    class: "text-center",
+                    width: 120,
+                },
+                {
+                    targets: 4,
+                    data: "card.balance",
+                    name: "balance",
+                    class: "text-center",
+                    width: 120,
+                    render: function (balance) {
+                        return baseHelper.ShowNumber(balance);
+                    }
+                },
+                {
+                    targets: 5,
+                    data: "card.isActive",
+                    name: "isActive",
+                    class: "text-center",
+                    width: 80,
+                    render: function(isActive) {
+                        return baseHelper.ShowActive(isActive);
+                    }
+                }
+            ]
         });
-
-        // myOrdersTable.on('click', '.btnViewOrderDetail', function (e) {
-        //     e.preventDefault();
-        //     _viewOrderDetailModal.open({id: $(this).data('id')});
-        // });
+        
     });
 })();
 

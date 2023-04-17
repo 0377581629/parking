@@ -6,6 +6,7 @@ using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.UI;
+using DPS.Park.Application.Shared.Dto.Card.Card;
 using DPS.Park.Application.Shared.Dto.Common;
 using DPS.Park.Application.Shared.Dto.Contact.UserContact;
 using DPS.Park.Application.Shared.Dto.Order;
@@ -13,6 +14,7 @@ using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Interface.Common;
 using DPS.Park.Core.Contact;
 using DPS.Park.Core.Shared;
+using DPS.Park.Core.Student;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -32,61 +34,21 @@ namespace DPS.Park.Application.Services.Common
         private readonly IAppConfigurationAccessor _configurationAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IRepository<UserContact> _userContactRepository;
+        private readonly IRepository<Core.Card.Card> _cardRepository;
+        private readonly IRepository<StudentCard> _studentCardRepository;
 
         public ParkPublicAppService(IRepository<Core.Order.Order> orderRepository,
             IRepository<Core.Student.Student> studentRepository, IAppConfigurationAccessor configurationAccessor,
-            IHttpContextAccessor httpContextAccessor, IRepository<UserContact> userContactRepository)
+            IHttpContextAccessor httpContextAccessor, IRepository<UserContact> userContactRepository,
+            IRepository<Core.Card.Card> cardRepository, IRepository<StudentCard> studentCardRepository)
         {
             _orderRepository = orderRepository;
             _studentRepository = studentRepository;
             _configurationAccessor = configurationAccessor;
             _httpContextAccessor = httpContextAccessor;
             _userContactRepository = userContactRepository;
-        }
-
-        #endregion
-
-        #region Order
-
-        [AbpAuthorize]
-        public async Task<PagedResultDto<GetOrderForViewDto>> GetMyOrders(ParkPublicInput input)
-        {
-            var objQuery = from order in _orderRepository.GetAll()
-                    .Where(e => e.CreatorUserId == AbpSession.UserId && !e.IsDeleted)
-                    .WhereIf(input != null && !string.IsNullOrEmpty(input.Filter), o => o.Code.Contains(input.Filter))
-                select new OrderDto
-                {
-                    TenantId = order.TenantId,
-                    Id = order.Id,
-                    Code = order.Code,
-
-                    CardId = order.CardId,
-                    CardCode = order.Card.Code,
-                    CardNumber = order.Card.CardNumber,
-
-                    Amount = order.Amount,
-                    Status = order.Status,
-                    VnpTransactionNo = order.VnpTransactionNo,
-
-                    CreationTime = order.CreationTime
-                };
-
-            var pagedAndFilteredOrders = objQuery.OrderBy("creationTime desc").PageBy(input);
-
-
-            var objs = from o in pagedAndFilteredOrders
-                select new GetOrderForViewDto
-                {
-                    Order = ObjectMapper.Map<OrderDto>(o),
-                };
-
-            var totalCount = await objQuery.CountAsync();
-            var res = await objs.ToListAsync();
-
-            return new PagedResultDto<GetOrderForViewDto>(
-                totalCount,
-                res
-            );
+            _cardRepository = cardRepository;
+            _studentCardRepository = studentCardRepository;
         }
 
         #endregion
@@ -144,6 +106,47 @@ namespace DPS.Park.Application.Services.Common
             await _orderRepository.InsertAndGetIdAsync(obj);
 
             return obj.Id;
+        }
+
+        [AbpAuthorize]
+        public async Task<PagedResultDto<GetOrderForViewDto>> GetMyOrders(ParkPublicInput input)
+        {
+            var objQuery = from order in _orderRepository.GetAll()
+                    .Where(e => e.CreatorUserId == AbpSession.UserId && !e.IsDeleted)
+                    .WhereIf(input != null && !string.IsNullOrEmpty(input.Filter), o => o.Code.Contains(input.Filter))
+                select new OrderDto
+                {
+                    TenantId = order.TenantId,
+                    Id = order.Id,
+                    Code = order.Code,
+
+                    CardId = order.CardId,
+                    CardCode = order.Card.Code,
+                    CardNumber = order.Card.CardNumber,
+
+                    Amount = order.Amount,
+                    Status = order.Status,
+                    VnpTransactionNo = order.VnpTransactionNo,
+
+                    CreationTime = order.CreationTime
+                };
+
+            var pagedAndFilteredOrders = objQuery.OrderBy("creationTime desc").PageBy(input);
+
+
+            var objs = from o in pagedAndFilteredOrders
+                select new GetOrderForViewDto
+                {
+                    Order = ObjectMapper.Map<OrderDto>(o),
+                };
+
+            var totalCount = await objQuery.CountAsync();
+            var res = await objs.ToListAsync();
+
+            return new PagedResultDto<GetOrderForViewDto>(
+                totalCount,
+                res
+            );
         }
 
         #endregion
@@ -234,6 +237,60 @@ namespace DPS.Park.Application.Services.Common
         {
             var obj = ObjectMapper.Map<UserContact>(input);
             await _userContactRepository.InsertAndGetIdAsync(obj);
+        }
+
+        #endregion
+
+        #region Card
+
+        public async Task<PagedResultDto<GetCardForViewDto>> GetMyCards(ParkPublicInput input)
+        {
+            var studentByCurrentUser = await _studentRepository.FirstOrDefaultAsync(o =>
+                !o.IsDeleted && o.TenantId == AbpSession.TenantId && o.UserId == AbpSession.UserId);
+            var listCardIdOfStudent = await _studentCardRepository.GetAll()
+                .Where(o => o.TenantId == AbpSession.TenantId && o.StudentId == studentByCurrentUser.Id)
+                .Select(o => o.CardId).ToListAsync();
+
+            var objQuery = from obj in _cardRepository.GetAll()
+                    .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
+                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
+                        e => e.Code.Contains(input.Filter) || e.CardNumber.Contains(input.Filter) ||
+                             e.Note.Contains(input.Filter))
+                    .Where(o => listCardIdOfStudent.Contains(o.Id))
+                select new CardDto
+                {
+                    TenantId = obj.TenantId,
+                    Id = obj.Id,
+                    Code = obj.Code,
+                    CardNumber = obj.CardNumber,
+                    Note = obj.Note,
+                    IsActive = obj.IsActive,
+
+                    CardTypeId = obj.CardTypeId,
+                    CardTypeName = obj.CardType.Name,
+
+                    VehicleTypeId = obj.VehicleTypeId,
+                    VehicleTypeName = obj.VehicleType.Name,
+                    Balance = obj.Balance,
+                    LicensePlate = obj.LicensePlate
+                };
+
+            var pagedAndFilteredOrders = objQuery.OrderBy("id asc").PageBy(input);
+
+
+            var objs = from o in pagedAndFilteredOrders
+                select new GetCardForViewDto
+                {
+                    Card = ObjectMapper.Map<CardDto>(o),
+                };
+
+            var totalCount = await objQuery.CountAsync();
+            var res = await objs.ToListAsync();
+
+            return new PagedResultDto<GetCardForViewDto>(
+                totalCount,
+                res
+            );
         }
 
         #endregion

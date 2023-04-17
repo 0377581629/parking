@@ -108,8 +108,11 @@
                 },
                 {
                     targets: 7,
-                    data: "card.note",
-                    name: "note"
+                    data: "card.balance",
+                    name: "balance",
+                    render: function (balance) {
+                        return baseHelper.ShowNumber(balance);
+                    }
                 },
                 {
                     targets: 8,

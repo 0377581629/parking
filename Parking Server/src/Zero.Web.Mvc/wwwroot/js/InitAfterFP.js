@@ -344,6 +344,14 @@ baseHelper.ShowNumber = function (input, floatCount = 0) {
     return '';
 }
 
+baseHelper.ShowActive = function (isActive) {
+    let $span = $("<span/>");
+    if (isActive) {
+        $span.addClass("badge badge-success");
+    }
+    return $span[0].outerHTML;
+}
+
 baseHelper.SimpleTableIcon = function (funcName) {
     switch (funcName) {
         case 'send':
