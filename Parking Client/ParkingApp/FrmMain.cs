@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using ParkingLib;
 
 namespace ParkingApp
 {
@@ -24,7 +25,7 @@ namespace ParkingApp
 
         private void ShowDateTime()
         {
-            var strDayOfWeek = string.Empty;
+            string strDayOfWeek;
             switch (DateTime.Now.DayOfWeek)
             {
                 case DayOfWeek.Sunday:
@@ -48,8 +49,10 @@ namespace ParkingApp
                 case DayOfWeek.Saturday:
                     strDayOfWeek = "Thứ bảy";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            lbDay.Text = DateTime.Now.ToString("dd/MM/yyyy");
+            lbDay.Text = DateTime.Now.ToString(GlobalConfig.DateTimePickerFormat);
             lbDayOfWeek.Text = strDayOfWeek;
         }
 
@@ -98,12 +101,12 @@ namespace ParkingApp
 
         private void BtnTestModelAI_click(object sender, EventArgs e)
         {
-            var frmTestModelAI = new FrmTestModelAI();
-            var result = frmTestModelAI.ShowDialog();
+            var frmTestModelAi = new FrmTestModelAi();
+            var result = frmTestModelAi.ShowDialog();
 
             if (result == DialogResult.OK)
             {
-                frmTestModelAI.Close();
+                frmTestModelAi.Close();
             }
         }
     }

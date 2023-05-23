@@ -145,14 +145,14 @@ namespace ParkingApp
             else
             {
                 System.Threading.Thread.Sleep(5000);
-                using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
-                    using (System.Drawing.Image image = System.Drawing.Image.FromStream(fs))
+                    using (var image = System.Drawing.Image.FromStream(fs))
                     {
-                        using (MemoryStream m = new MemoryStream())
+                        using (var m = new MemoryStream())
                         {
                             image.Save(m, image.RawFormat);
-                            byte[] imageBytes = m.ToArray();
+                            var imageBytes = m.ToArray();
                             var base64String = Convert.ToBase64String(imageBytes);
                             return base64String;
                         }
@@ -168,7 +168,7 @@ namespace ParkingApp
         /// <returns></returns>
         public static string ImageToBase64(Bitmap bitmap)
         {
-            using (MemoryStream ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 var base64String = Convert.ToBase64String(ms.GetBuffer()); //Get Base64
@@ -180,10 +180,10 @@ namespace ParkingApp
         {
             if (!string.IsNullOrEmpty(base64String))
             {
-                byte[] imageBytes = Convert.FromBase64String(base64String);
+                var imageBytes = Convert.FromBase64String(base64String);
                 using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
                 {
-                    Image image = Image.FromStream(ms, true);
+                    var image = Image.FromStream(ms, true);
                     return image;
                 }
             }
@@ -198,8 +198,8 @@ namespace ParkingApp
         /// <returns></returns>
         public static string ConvertNoUnicode(string s)
         {
-            Regex regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
-            string temp = s.Normalize(NormalizationForm.FormD);
+            var regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
+            var temp = s.Normalize(NormalizationForm.FormD);
             return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
 

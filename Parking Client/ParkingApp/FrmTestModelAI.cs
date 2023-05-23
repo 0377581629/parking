@@ -7,9 +7,9 @@ using System.Windows.Forms;
 
 namespace ParkingApp
 {
-    public partial class FrmTestModelAI : MetroFramework.Forms.MetroForm
+    public partial class FrmTestModelAi : MetroFramework.Forms.MetroForm
     {
-        public FrmTestModelAI()
+        public FrmTestModelAi()
         {
             InitializeComponent();
         }
@@ -17,13 +17,13 @@ namespace ParkingApp
         private void btnChonFile_Click(object sender, EventArgs e)
         {
             // Hiển thị dialog chọn tệp
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (var openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png, *.bmp) | *.jpg; *.jpeg; *.png; *.bmp";
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     // Lấy đường dẫn tệp được chọn
-                    string filePath = openFileDialog.FileName;
+                    var filePath = openFileDialog.FileName;
 
                     // Hiển thị đường dẫn tệp trong textbox
                     textBox1.Text = filePath;
@@ -33,8 +33,8 @@ namespace ParkingApp
 
         private async void btnUploadFile_Click(object sender, EventArgs e)
         {
-            string url = "http://localhost:5000/upload"; // URL của API Python
-            string filePath = textBox1.Text; // Đường dẫn đến tệp ảnh cần gửi lên API
+            const string url = "http://localhost:5000/upload"; // URL của API Python
+            var filePath = textBox1.Text; // Đường dẫn đến tệp ảnh cần gửi lên API
 
             // Kiểm tra xem người dùng đã chọn tệp hay chưa
             if (string.IsNullOrEmpty(filePath))
@@ -48,7 +48,7 @@ namespace ParkingApp
                 using (var content = new MultipartFormDataContent())
                 {
                     // Đọc dữ liệu từ tệp ảnh và thêm vào nội dung yêu cầu POST
-                    byte[] imageBytes = File.ReadAllBytes(filePath);
+                    var imageBytes = File.ReadAllBytes(filePath);
                     var imageContent = new ByteArrayContent(imageBytes);
                     content.Add(imageContent, "image", "image.jpg");
 
@@ -56,7 +56,7 @@ namespace ParkingApp
                     var response = await client.PostAsync(url, content);
 
                     // Đọc phản hồi từ máy chủ
-                    string responseString = await response.Content.ReadAsStringAsync();
+                    var responseString = await response.Content.ReadAsStringAsync();
                     MessageBox.Show(responseString);
                 }
             }

@@ -2,7 +2,7 @@
 
 namespace ParkingApp
 {
-    partial class FrmTestModelAI
+    partial class FrmTestModelAi
     {
         /// <summary>
         /// Required designer variable.
@@ -79,7 +79,7 @@ namespace ParkingApp
             this.Controls.Add(this.btnUploadFile);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.btnChonFile);
-            this.Name = "FrmTestModelAI";
+            this.Name = "FrmTestModelAi";
             this.Text = "FrmTestModelAI";
             this.ResumeLayout(false);
             this.PerformLayout();
