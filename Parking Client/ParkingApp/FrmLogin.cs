@@ -1,15 +1,17 @@
 ﻿using MetroFramework;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using ParkingLib;
 
 namespace ParkingApp
 {
     public partial class FrmLogin : MetroFramework.Forms.MetroForm
     {
-        private readonly string _connectionString = ConfigurationManager.AppSettings["connectionStringSqlServer"];
+        private SqlConnection _conn = ParkingLib.Helper.OpenConnection();
 
         public FrmLogin()
         {
@@ -22,28 +24,33 @@ namespace ParkingApp
             }
         }
 
-        private DataTable LookupUser(string userName, int tenantId)
+        private DataTable LookupUser(string userName)
         {
-            const string
-                query =
-                    "SELECT Password FROM dbo.AbpUsers WHERE UserName = @UserName AND TenantId = @TenantId"; // shouldn't use, should throw it into a stored procedure to authenticate
-
-            var result = new DataTable();
-            using (var conn = new SqlConnection(_connectionString))
+            var dt = new DataTable();
+            var ds = new DataSet();
+            
+            var tenantId = GlobalConfig.TenantId;
+            var passwordQuery = "";
+            if (tenantId != null)
             {
-                conn.Open();
-                using (var cmd = new SqlCommand(query, conn))
+               passwordQuery = $"SELECT Password FROM dbo.AbpUsers WHERE UserName = {userName} AND TenantId = {tenantId}"; // shouldn't use, should throw it into a stored procedure to authenticate
+            }
+            else
+            {
+                passwordQuery = $"SELECT abpUser.Password FROM dbo.AbpUsers abpUser WHERE abpUser.UserName = '{userName}' AND TenantId IS NULL"; // shouldn't use, should throw it into a stored procedure to authenticate
+            }
+            
+            if (_conn.State == ConnectionState.Closed) _conn.Open();
+            using (var da = new SqlDataAdapter(passwordQuery, _conn))
+            {
+                using (new SqlCommandBuilder(da))
                 {
-                    cmd.Parameters.Add("@UserName", DbType.String).Value = userName;
-                    cmd.Parameters.Add("@TenantId", DbType.Int32).Value = tenantId;
-                    using (var dr = cmd.ExecuteReader())
-                    {
-                        result.Load(dr);
-                    }
+                    da.Fill(ds, "UserData");
+                    dt = ds.Tables["UserData"];
                 }
             }
 
-            return result;
+            return dt;
         }
 
         private void LinkExit_Click(object sender, EventArgs e)
@@ -61,7 +68,7 @@ namespace ParkingApp
 
             System.Media.SystemSounds.Hand.Play();
 
-            using (var dt = LookupUser(txtUser.Text, 1))
+            using (var dt = LookupUser(txtUser.Text))
             {
                 if (dt.Rows.Count == 0)
                 {

@@ -22,7 +22,7 @@ namespace ParkingApp
         private string _ipBarie = "192.168.1.201";
         private int _portBarie = 4370;
 
-        private readonly string _uploadImageUrl = "http://localhost:5000/upload";
+        private const string UPLOAD_IMAGE_URL = "http://localhost:5000/upload";
 
         //
         private Capture _captureIn;
@@ -73,7 +73,7 @@ namespace ParkingApp
         private void Form1_Load(object sender, EventArgs e)
         {
             const string strTitle = "Đang kết nối thiết bị !";
-            _xuLy = EnumCheckInOut.ConnectDevice;
+            _xuLy = EnumCheckInOut.CONNECT_DEVICE;
         }
 
         #region Proccess Camera
@@ -262,11 +262,11 @@ namespace ParkingApp
         {
             switch (_xuLy)
             {
-                case EnumCheckInOut.ConnectDevice:
+                case EnumCheckInOut.CONNECT_DEVICE:
                     CaptureCamera();
                     StartStopCamera();
                     break;
-                case EnumCheckInOut.SetLogHistory:
+                case EnumCheckInOut.SET_LOG_HISTORY:
                 {
                     var mes = string.Empty;
                     var log = new HistoryData
@@ -377,7 +377,7 @@ namespace ParkingApp
                             content.Add(imageContent, "image", "image.jpg");
 
                             // Gửi yêu cầu POST đến địa chỉ API
-                            var response = await client.PostAsync(_uploadImageUrl, content);
+                            var response = await client.PostAsync(UPLOAD_IMAGE_URL, content);
 
                             // Đọc phản hồi từ máy chủ
                             var responseString = await response.Content.ReadAsStringAsync();
@@ -412,8 +412,7 @@ namespace ParkingApp
                 // --------------------
                 _cardNumberNow = txtMaThe.Text.Trim();
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
-                _xuLy = EnumCheckInOut.SetLogHistory;
-                WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
+                _xuLy = EnumCheckInOut.SET_LOG_HISTORY;
             }
         }
 
@@ -473,7 +472,7 @@ namespace ParkingApp
 
     internal enum EnumCheckInOut
     {
-        SetLogHistory,
-        ConnectDevice,
+        SET_LOG_HISTORY,
+        CONNECT_DEVICE,
     }
 }
