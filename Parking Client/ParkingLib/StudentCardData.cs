@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ParkingLib
 {
-    public class StudentCardData: ICloneable
+    public class StudentCardData : ICloneable
     {
         #region Structures
 
@@ -20,7 +20,7 @@ namespace ParkingLib
             get { return _id; }
             set { _id = value; }
         }
-        
+
         private int _studentId = 0;
 
         [DisplayName("StudentId")]
@@ -30,7 +30,7 @@ namespace ParkingLib
             get { return _studentId; }
             set { _studentId = value; }
         }
-        
+
         private int _cardId = 0;
 
         [DisplayName("CardId")]
@@ -61,7 +61,20 @@ namespace ParkingLib
             var dt = new DataTable();
             var ds = new DataSet();
             var lstStudentCardData = new List<StudentCardData>();
-            var studentCardDataQuery = "SELECT * FROM dbo.Parking_Student_StudentCard";
+
+            var tenantId = GlobalConfig.TenantId;
+            var studentCardDataQuery = "";
+            if (tenantId != null)
+            {
+                studentCardDataQuery =
+                    $"SELECT * FROM dbo.Parking_Student_StudentCard studentCard WHERE studentCard.TenantId = {tenantId}";
+            }
+            else
+            {
+                studentCardDataQuery =
+                    $"SELECT * FROM dbo.Parking_Student_StudentCard studentCard WHERE studentCard.TenantId IS NULL";
+            }
+
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(studentCardDataQuery, _conn))
             {

@@ -111,8 +111,19 @@ namespace ParkingLib
             var dt = new DataTable();
             var ds = new DataSet();
             var lstCardData = new List<CardData>();
-            var cardDataQuery =
-                "SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id";
+            var tenantId = GlobalConfig.TenantId;
+            var cardDataQuery = "";
+            if (tenantId != null)
+            {
+                cardDataQuery =
+                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card WHERE card.TenantId = {tenantId} LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id";
+            }
+            else
+            {
+                cardDataQuery =
+                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id WHERE card.TenantId IS NULL";
+            }
+
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(cardDataQuery, _conn))
             {

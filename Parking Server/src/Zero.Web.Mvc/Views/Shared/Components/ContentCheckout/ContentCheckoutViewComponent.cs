@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using DPS.Park.Application.Shared.Dto.Common;
 using DPS.Park.Application.Shared.Dto.Order;
+using DPS.Park.Application.Shared.Dto.Student;
 using DPS.Park.Application.Shared.Interface.Common;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Web.Models.FrontPages.Checkout;
@@ -19,10 +20,15 @@ namespace Zero.Web.Views.Shared.Components.ContentCheckout
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var student = await _parkPublicAppService.GetStudentByUserId(new ParkPublicInput()
+            var student = new StudentDto();
+            
+            if (AbpSession.UserId.HasValue)
             {
-                UserId = AbpSession.UserId
-            });
+                student = await _parkPublicAppService.GetStudentByUserId(new ParkPublicInput()
+                {
+                    UserId = AbpSession.UserId
+                });
+            }
 
             var model = new CheckoutViewModel()
             {

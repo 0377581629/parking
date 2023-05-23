@@ -33,6 +33,10 @@ namespace Zero.Web.Areas.Park.Controllers
                         .Hotline),
                     Address = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                         .Address),
+                    SubAddress1 = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .SubAddress1),
+                    SubAddress2 = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
+                        .SubAddress2),
                     Email = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                         .Email),
                     ApplyDecreasePercent =

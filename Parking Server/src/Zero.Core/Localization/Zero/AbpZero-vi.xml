@@ -43,6 +43,9 @@
     <text name="FB_SendSuccess">Gửi thành công</text>
     <text name="FP_Card">Thẻ</text>
     <text name="FP_YourCard">Thẻ của bạn</text>
+    <text name="FP_InvalidData_PleaseCheck">Dữ liệu không hợp lệ, vui lòng kiểm tra lại</text>
+    <text name="FP_SubAddress1">Tòa nhà B1</text>
+    <text name="FP_SubAddress2">Viện đào tạo liên tục</text>
     <!--    -->
     
     <!--  Park  -->

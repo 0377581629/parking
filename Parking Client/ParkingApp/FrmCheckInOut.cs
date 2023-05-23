@@ -68,7 +68,6 @@ namespace ParkingApp
             //KeyPreview = true;
             const string strTitle = "Đang kết nối thiết bị !";
             _xuLy = EnumCheckInOut.ConnectDevice;
-            WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
         }
 
         #region Proccess Camera
@@ -248,18 +247,6 @@ namespace ParkingApp
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void WaitingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
-        {
-            var stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            var thread = new Thread(Doing);
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            thread.Join();
-            if (stt == "")
-                stt = "Quá trình xử lý dữ liệu hoàn tất !";
-            e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
-        }
-
         private void Doing()
         {
             switch (_xuLy)
@@ -414,7 +401,6 @@ namespace ParkingApp
                     cardNumberNow = txtMaThe.Text.Trim();
                     var strTitle = "Đang tiến hành tải dữ liệu !";
                     _xuLy = EnumCheckInOut.SetLogHistory;
-                    WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
                 }
             }
         }

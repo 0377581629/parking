@@ -9,38 +9,41 @@
         const geocoder = L.esri.Geocoding.geocodeService({apikey: apiKey});
         let mapLocations = [];
         
-        let btnViewInMap = $('.btnViewInMap');
-        let isHeadOffice = btnViewInMap.attr('is-head');
-        let isHead = isHeadOffice !== undefined && isHeadOffice !== null && isHeadOffice === 'true';
-        let markerTitle = btnViewInMap.attr('marker-title');
-        let address = btnViewInMap.attr('address');
-        if (address !== undefined && address !== null && address.length > 0) {
-            geocoder
-                .geocode()
-                .text(address)
-                .run((error, result) => {
-                    if (error) {
-                        return;
-                    }
-                    if (result !== undefined && result !== null && result.results !== undefined && result.results !== null && result.results.length > 0) {
-                        let location = result.results[0];
-                        let marker = L.marker(location.latlng)
-                            .addTo(map)
-                            .bindPopup(`<h3>${markerTitle}</h3><p>${location.properties.Match_addr}</p>`);
-                        if (isHead)
-                            marker.openPopup();
-                        map.setView(location.latlng, 16);
-                        mapLocations.push({
-                            title: markerTitle,
-                            isHead: isHead,
-                            address: address,
-                            latlng: location.latlng,
-                            marker: marker
-                        });
-                    }
-                });
-        }
-        btnViewInMap.on('click', function () {
+        let btnViewInMaps = $('.btnViewInMap');
+        btnViewInMaps.each(function () {
+            let isHeadOffice = $(this).attr('is-head');
+            let isHead = isHeadOffice !== undefined && isHeadOffice !== null && isHeadOffice === 'true';
+            let markerTitle = $(this).attr('marker-title');
+            let address = $(this).attr('address');
+
+            if (address !== undefined && address !== null && address.length > 0) {
+                geocoder
+                    .geocode()
+                    .text(address)
+                    .run((error, result) => {
+                        if (error) {
+                            return;
+                        }
+                        if (result !== undefined && result !== null && result.results !== undefined && result.results !== null && result.results.length > 0) {
+                            let location = result.results[0];
+                            let marker = L.marker(location.latlng)
+                                .addTo(map)
+                                .bindPopup(`<h3>${markerTitle}</h3><p>${location.properties.Match_addr}</p>`);
+                            if (isHead)
+                                marker.openPopup();
+                            map.setView(location.latlng, 16);
+                            mapLocations.push({
+                                title: markerTitle,
+                                isHead: isHead,
+                                address: address,
+                                latlng: location.latlng,
+                                marker: marker
+                            });
+                        }
+                    });
+            }
+        });
+        btnViewInMaps.on('click', function () {
             let markerTitle = $(this).attr('marker-title');
             if (mapLocations.length > 0) {
                 for (let i = 0; i < mapLocations.length; i++) {

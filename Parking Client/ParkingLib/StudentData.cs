@@ -60,7 +60,7 @@ namespace ParkingLib
             get { return _avatar; }
             set { _avatar = value; }
         }
-        
+
         private string _email = string.Empty;
 
         [DisplayName("Email")]
@@ -90,7 +90,7 @@ namespace ParkingLib
             get { return _dob; }
             set { _dob = value; }
         }
-        
+
         private bool _isActive = true;
 
         [DisplayName("IsActive")]
@@ -122,7 +122,17 @@ namespace ParkingLib
             var ds = new DataSet();
             var lstStudentData = new List<StudentData>();
             var tenantId = GlobalConfig.TenantId;
-            var studentDataQuery = $"SELECT * FROM dbo.Parking_Student_Student student WHERE student.TenantId = {tenantId}";
+            var studentDataQuery = "";
+            if (tenantId != null)
+            {
+                studentDataQuery =
+                    $"SELECT * FROM dbo.Parking_Student_Student student WHERE student.TenantId = {tenantId}";
+            }
+            else
+            {
+                studentDataQuery = $"SELECT * FROM dbo.Parking_Student_Student student WHERE student.TenantId IS NULL";
+            }
+
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(studentDataQuery, _conn))
             {
