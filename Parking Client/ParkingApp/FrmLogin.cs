@@ -22,7 +22,7 @@ namespace ParkingApp
             }
         }
 
-        private DataTable LookupUser(string UserName, int TenantId)
+        private DataTable LookupUser(string userName, int tenantId)
         {
             const string
                 query =
@@ -34,8 +34,8 @@ namespace ParkingApp
                 conn.Open();
                 using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.Add("@UserName", DbType.String).Value = UserName;
-                    cmd.Parameters.Add("@TenantId", DbType.Int32).Value = TenantId;
+                    cmd.Parameters.Add("@UserName", DbType.String).Value = userName;
+                    cmd.Parameters.Add("@TenantId", DbType.Int32).Value = tenantId;
                     using (var dr = cmd.ExecuteReader())
                     {
                         result.Load(dr);

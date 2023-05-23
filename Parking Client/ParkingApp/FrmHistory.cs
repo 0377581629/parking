@@ -9,7 +9,7 @@ namespace ParkingApp
 {
     public partial class FrmHistory : MetroFramework.Forms.MetroForm
     {
-        readonly Helper _helperDLL = new Helper();
+        private readonly Helper _helperDll = new Helper();
         private int _rowIndex = -1;
 
         public FrmHistory()
@@ -17,16 +17,16 @@ namespace ParkingApp
             InitializeComponent();
 
             dateTimePickerFrom.Format = DateTimePickerFormat.Custom;
-            dateTimePickerFrom.CustomFormat = "dd/MM/yyyy";
+            dateTimePickerFrom.CustomFormat = GlobalConfig.DateTimePickerFormat;
 
             dateTimePickerTo.Format = DateTimePickerFormat.Custom;
-            dateTimePickerTo.CustomFormat = "dd/MM/yyyy";
+            dateTimePickerTo.CustomFormat = GlobalConfig.DateTimePickerFormat;
         }
 
         private void SearchInfo()
         {
             var lstHistoryDataFilter = new List<HistoryData>();
-            _helperDLL.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataFilter, false);
+            _helperDll.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataFilter, false);
 
             if (txtSearch.Text.Trim() == "")
             {
@@ -51,20 +51,20 @@ namespace ParkingApp
             }
         }
 
-        private void ReloadGrid(List<HistoryData> lstHistoryDatas)
+        private void ReloadGrid(IReadOnlyList<HistoryData> lstHistoryData)
         {
             var scrollPosition = dgvHistory.FirstDisplayedScrollingRowIndex;
             dgvHistory.Rows.Clear();
-            for (var i = 0; i < lstHistoryDatas.Count; i++)
+            for (var i = 0; i < lstHistoryData.Count; i++)
             {
                 dgvHistory.Rows.Add();
                 dgvHistory.Rows[i].Cells["STT"].Value = i + 1;
-                dgvHistory.Rows[i].Cells["CardNumber"].Value = lstHistoryDatas[i].CardNumber;
-                dgvHistory.Rows[i].Cells["LicensePlate"].Value = lstHistoryDatas[i].LicensePlate;
-                dgvHistory.Rows[i].Cells["Price"].Value = lstHistoryDatas[i].Price;
+                dgvHistory.Rows[i].Cells["CardNumber"].Value = lstHistoryData[i].CardNumber;
+                dgvHistory.Rows[i].Cells["LicensePlate"].Value = lstHistoryData[i].LicensePlate;
+                dgvHistory.Rows[i].Cells["Price"].Value = lstHistoryData[i].Price;
 
                 string type;
-                switch (lstHistoryDatas[i].Type)
+                switch (lstHistoryData[i].Type)
                 {
                     case (int)Helper.HistoryDataStatus.In:
                         type = "Vào";
@@ -78,9 +78,9 @@ namespace ParkingApp
                 }
                 dgvHistory.Rows[i].Cells["Type"].Value = type;
 
-                dgvHistory.Rows[i].Cells["Time"].Value = lstHistoryDatas[i].Time.ToString(CultureInfo.InvariantCulture);
-                dgvHistory.Rows[i].Cells["VehicleTypeName"].Value = lstHistoryDatas[i].VehicleTypeName;
-                dgvHistory.Rows[i].Cells["CardTypeName"].Value = lstHistoryDatas[i].CardTypeName;
+                dgvHistory.Rows[i].Cells["Time"].Value = lstHistoryData[i].Time.ToString(CultureInfo.InvariantCulture);
+                dgvHistory.Rows[i].Cells["VehicleTypeName"].Value = lstHistoryData[i].VehicleTypeName;
+                dgvHistory.Rows[i].Cells["CardTypeName"].Value = lstHistoryData[i].CardTypeName;
             }
 
             for (var i = 0; i < dgvHistory.Rows.Count; i++)
@@ -118,7 +118,7 @@ namespace ParkingApp
 
         private void FrmHistory_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void BtnSearch_Click(object sender, EventArgs e)

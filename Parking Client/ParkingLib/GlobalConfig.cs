@@ -5,5 +5,7 @@
         public const string TargetDomain = "https://localhost:44302";
 
         public const string TenantId = null;
+
+        public const string DateTimePickerFormat = "dd/MM/yyyy";
     }
 }

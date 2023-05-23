@@ -1,21 +1,23 @@
 ﻿using MetroFramework;
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace ParkingApp
 {
     public partial class FrmConfig : MetroFramework.Forms.MetroForm
     {
-        private string _rtspCameraIn = "rtsp://admin:123abc@@@192.168.1.250/live";
-        private string _rtspCameraOut = "rtsp://admin:123abc@@@192.168.1.252:554/live";
-        private string _cardReaderIn = "10620057";
-        private string _cardReaderOut = "95748765";
-        private double _timeWaiting = 0;
+        private readonly string _rtspCameraIn;
+        private readonly string _rtspCameraOut;
+        private readonly string _cardReaderIn;
+        private readonly string _cardReaderOut;
+        private readonly double _timeWaiting;
 
         public FrmConfig()
         {
             InitializeComponent();
-            Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut, ref _timeWaiting);
+            Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut,
+                ref _timeWaiting);
         }
 
         private void FrmConfig_Load(object sender, EventArgs e)
@@ -28,7 +30,8 @@ namespace ParkingApp
 
         private void BtnLoad_Click(object sender, EventArgs e)
         {
-            Helper.SetConfig(txtRtspIn.Text.Trim(), txtRtspOut.Text.Trim(), txtCardReaderIn.Text.Trim(), txtCardReaderOut.Text.Trim(), _timeWaiting.ToString());
+            Helper.SetConfig(txtRtspIn.Text.Trim(), txtRtspOut.Text.Trim(), txtCardReaderIn.Text.Trim(),
+                txtCardReaderOut.Text.Trim(), _timeWaiting.ToString(CultureInfo.InvariantCulture));
 
             MetroMessageBox.Show(this, "Cấu hình thành công !", "Thông báo");
 

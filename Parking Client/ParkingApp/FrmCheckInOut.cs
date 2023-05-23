@@ -10,82 +10,87 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Windows.Forms;
-
 using Capture = Emgu.CV.Capture;
 
 namespace ParkingApp
 {
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
-        private readonly string _rtspCameraIn = "rtsp://admin:123abc@@@192.168.1.250/live";
+        private readonly string _rtspCameraIn = "rtsp://admin:admin@192.168.2.5:1935";
         private readonly string _rtspCameraOut = "rtsp://admin:123abc@@@192.168.1.252:554/live";
         private readonly double _timeWaiting = 0;
         private string _ipBarie = "192.168.1.201";
         private int _portBarie = 4370;
 
-        private readonly string _url = "http://localhost:5000/upload";
-        //
-        private Capture _captureIn = null;
-        Mat frameIn = new Mat();
-        Mat frameIn_copy = new Mat();
-        private bool _captureInProgress;
-        private bool takeSnapshotIn = false;
-        private string pathCaptureIn = string.Empty;
+        private readonly string _uploadImageUrl = "http://localhost:5000/upload";
 
-        private Capture _captureOut = null;
-        Mat frameOut = new Mat();
-        Mat frameOut_copy = new Mat();
+        //
+        private Capture _captureIn;
+        private readonly Mat _frameIn = new Mat();
+        private Mat _frameInCopy = new Mat();
+        private bool _captureInProgress;
+        private bool _takeSnapshotIn;
+        private string _pathCaptureIn = string.Empty;
+
+        private Capture _captureOut;
+        private readonly Mat _frameOut = new Mat();
+        private Mat _frameOutCopy = new Mat();
         private bool _captureOutProgress;
-        private bool takeSnapshotOut = false;
-        private string pathCaptureOut = string.Empty;
+        private bool _takeSnapshotOut;
+
+        private string _pathCaptureOut = string.Empty;
+
         // Now
-        private string cardNumberNow = string.Empty;
-        private bool isIn = false;
-        StudentData studentSelected = new StudentData();
+        private string _cardNumberNow = string.Empty;
+        private bool _isIn;
+
+        private StudentData _studentSelected = new StudentData();
+
         //
         private EnumCheckInOut _xuLy;
-        readonly Helper _helper = new Helper();
+
+        private readonly Helper _helper = new Helper();
+
         //
-        private readonly RawInput _rawinput;
-        const bool CaptureOnlyInForeground = true;
-        private string _cardReaderIn = "10620057";
-        private string _cardReaderOut = "95748765";
+        private readonly RawInput _rawInput;
+        private const bool CAPTURE_ONLY_IN_FOREGROUND = true;
+        private readonly string _cardReaderIn = "10620057";
+        private readonly string _cardReaderOut = "95748765";
 
         public FrmCheckInOut()
         {
             InitializeComponent();
-            Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut, ref _timeWaiting);
+            Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut,
+                ref _timeWaiting);
             //
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            _rawinput = new RawInput(Handle, CaptureOnlyInForeground);
-            _rawinput.AddMessageFilter();   // Adding a message filter will cause keypresses to be handled
-            Win32.DeviceAudit();            // Writes a file DeviceAudit.txt to the current directory
-            _rawinput.KeyPressed += OnKeyPressed;
+            _rawInput = new RawInput(Handle, CAPTURE_ONLY_IN_FOREGROUND);
+            _rawInput.AddMessageFilter(); // Adding a message filter will cause keypresses to be handled
+            Win32.DeviceAudit(); // Writes a file DeviceAudit.txt to the current directory
+            _rawInput.KeyPressed += OnKeyPressed;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //KeyPreview = true;
             const string strTitle = "Đang kết nối thiết bị !";
             _xuLy = EnumCheckInOut.ConnectDevice;
         }
 
         #region Proccess Camera
+
         private void StartStopCamera()
         {
-
             {
                 if (_captureIn != null)
                 {
                     if (_captureInProgress)
-                    {  //stop the capture
-                        Console.WriteLine("Start Capture Camera In");
+                    {
+                        //stop the capture
                         _captureIn.Pause();
                     }
                     else
                     {
                         //start the capture
-                        Console.WriteLine("Stop Camera In");
                         _captureIn.Start();
                     }
 
@@ -97,14 +102,13 @@ namespace ParkingApp
                 if (_captureOut != null)
                 {
                     if (_captureOutProgress)
-                    {  //stop the capture
-                        Console.WriteLine("Start Capture Camera Out");
+                    {
+                        //stop the capture
                         _captureOut.Pause();
                     }
                     else
                     {
                         //start the capture
-                        Console.WriteLine("Stop Camera Out");
                         _captureOut.Start();
                     }
 
@@ -123,7 +127,6 @@ namespace ParkingApp
 
                     _captureIn.SetCaptureProperty(CapProp.FrameWidth, 1280);
                     _captureIn.SetCaptureProperty(CapProp.FrameHeight, 720);
-                    //_captureIn.SetCaptureProperty(CapProp.Fps, 3);
 
                     _captureIn.ImageGrabbed += ProcessFrameIn;
                 }
@@ -133,70 +136,73 @@ namespace ParkingApp
 
                     _captureOut.SetCaptureProperty(CapProp.FrameWidth, 1280);
                     _captureOut.SetCaptureProperty(CapProp.FrameHeight, 720);
-                    //_captureOut.SetCaptureProperty(CapProp.Fps, 3);
 
                     _captureOut.ImageGrabbed += ProcessFrameOut;
                 }
             }
-            catch (NullReferenceException excpt)
+            catch (NullReferenceException e)
             {
-                MessageBox.Show(excpt.Message);
+                MessageBox.Show(e.Message);
             }
         }
 
         private void ProcessFrameIn(object sender, EventArgs arg)
         {
-            _captureIn.Retrieve(frameIn);
-            frameIn_copy = frameIn;
-            var bitmap = (Bitmap)frameIn_copy.Bitmap.Clone();
+            _captureIn.Retrieve(_frameIn);
+            _frameInCopy = _frameIn;
+            var bitmap = (Bitmap)_frameInCopy.Bitmap.Clone();
             picCaptureIn.Image = bitmap;
 
-            if (takeSnapshotIn)
+            if (_takeSnapshotIn)
             {
                 var pathCache = Application.StartupPath + "\\Cache";
                 if (!Directory.Exists(pathCache))
                 {
                     Directory.CreateDirectory(pathCache);
                 }
+
                 var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
                 // Save the image
-                frameIn_copy.Save(path);
+                _frameInCopy.Save(path);
 
-                pathCaptureIn = path;
+                _pathCaptureIn = path;
                 // Set the bool to false again to make sure we only take one snapshot
-                takeSnapshotIn = !takeSnapshotIn;
+                _takeSnapshotIn = !_takeSnapshotIn;
             }
         }
 
         private readonly object _lockObject = new object();
+
         private void ProcessFrameOut(object sender, EventArgs arg)
         {
-            _captureOut.Retrieve(frameOut);
-            frameOut_copy = frameOut;
-            var bitmap = (Bitmap)frameOut_copy.Bitmap.Clone();
+            _captureOut.Retrieve(_frameOut);
+            _frameOutCopy = _frameOut;
+            var bitmap = (Bitmap)_frameOutCopy.Bitmap.Clone();
             lock (_lockObject) // (bitmap)
                 picCaptureOut.Image = bitmap;
 
-            if (takeSnapshotOut)
+            if (_takeSnapshotOut)
             {
                 var pathCache = Application.StartupPath + "\\Cache";
                 if (!Directory.Exists(pathCache))
                 {
                     Directory.CreateDirectory(pathCache);
                 }
+
                 var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
                 // Save the image
-                frameOut_copy.Save(path);
+                _frameOutCopy.Save(path);
 
-                pathCaptureOut = path;
+                _pathCaptureOut = path;
                 // Set the bool to false again to make sure we only take one snapshot
-                takeSnapshotOut = !takeSnapshotOut;
+                _takeSnapshotOut = !_takeSnapshotOut;
             }
         }
 
         #endregion
 
         #region Proccess Card Reader
+
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var ex = e.ExceptionObject as Exception;
@@ -204,19 +210,21 @@ namespace ParkingApp
             MessageBox.Show(ex.Message);
         }
 
-        private string cardNumber = string.Empty;
-        private string handleCardReader = string.Empty;
+        private string _cardNumber = string.Empty;
+        private string _handleCardReader = string.Empty;
+
         private void OnKeyPressed(object sender, RawInputEventArg e)
         {
-            handleCardReader = e.KeyPressEvent.Source;
-            cardNumber += e.KeyPressEvent.VKeyName;
+            _handleCardReader = e.KeyPressEvent.Source;
+            _cardNumber += e.KeyPressEvent.VKeyName;
 
             if (e.KeyPressEvent.VKeyName == "ENTER")
             {
-                txtMaThe.Text = FormatCardNumber(cardNumber);
-                cardNumber = string.Empty;
+                txtMaThe.Text = FormatCardNumber(_cardNumber);
+                _cardNumber = string.Empty;
             }
         }
+
         private string FormatCardNumber(string strIn)
         {
             var strOut = string.Empty;
@@ -232,8 +240,10 @@ namespace ParkingApp
                     }
                 }
             }
+
             return strOut;
         }
+
         #endregion
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -244,6 +254,7 @@ namespace ParkingApp
                 MessageBox.Show("Đóng !");
                 return true;
             }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
@@ -256,24 +267,24 @@ namespace ParkingApp
                     StartStopCamera();
                     break;
                 case EnumCheckInOut.SetLogHistory:
+                {
+                    var mes = string.Empty;
+                    var log = new HistoryData
                     {
-                        var mes = string.Empty;
-                        var log = new HistoryData
-                        {
-                            CardNumber = cardNumberNow,
-                            Type = isIn ? (int)Helper.HistoryDataStatus.In : (int)Helper.HistoryDataStatus.Out,
-                            StudentData = studentSelected,
-                            Photo = pathCaptureIn,
-                            Time = DateTime.Now
-                        };
-                        // Save log
-                        var logId = _helper.AddLogHistory(log, ref mes);
-                        cardNumberNow = string.Empty;
-                        if (logId > 0 && !string.IsNullOrEmpty(log.CardNumber))
-                        {
-                            // OpenBarie();
-                        }
+                        CardNumber = _cardNumberNow,
+                        Type = _isIn ? (int)Helper.HistoryDataStatus.In : (int)Helper.HistoryDataStatus.Out,
+                        StudentData = _studentSelected,
+                        Photo = _pathCaptureIn,
+                        Time = DateTime.Now
+                    };
+                    // Save log
+                    var logId = _helper.AddLogHistory(log, ref mes);
+                    _cardNumberNow = string.Empty;
+                    if (logId > 0 && !string.IsNullOrEmpty(log.CardNumber))
+                    {
+                        // OpenBarie();
                     }
+                }
                     break;
                 default:
                     break;
@@ -283,8 +294,7 @@ namespace ParkingApp
         private void FrmCheckInOut_FormClosing(object sender, FormClosingEventArgs e)
         {
             StartStopCamera();
-            //
-            _rawinput.KeyPressed -= OnKeyPressed;
+            _rawInput.KeyPressed -= OnKeyPressed;
         }
 
         private async void txtMaThe_TextChanged(object sender, EventArgs e)
@@ -293,115 +303,117 @@ namespace ParkingApp
             if (txt.Text.Length > 0)
             {
                 //Do what you have to do
-                if (handleCardReader == _cardReaderIn)
+                if (_handleCardReader == _cardReaderIn)
                 {
-                    takeSnapshotIn = !takeSnapshotIn;
+                    _takeSnapshotIn = !_takeSnapshotIn;
                 }
-                else if (handleCardReader == _cardReaderOut)
+                else if (_handleCardReader == _cardReaderOut)
                 {
-                    takeSnapshotOut = !takeSnapshotOut;
+                    _takeSnapshotOut = !_takeSnapshotOut;
                 }
+
                 Thread.Sleep(500);
                 // Có ảnh & Mã code đúng định dạng
-                if (txtMaThe.Text.Length >= 10)
+                if (txtMaThe.Text.Length < 10) return;
+                if (_handleCardReader == _cardReaderIn)
                 {
-                    if (handleCardReader == _cardReaderIn)
-                    {
-                        picIn.Image = Image.FromFile(pathCaptureIn);
-                    }
-                    else if (handleCardReader == _cardReaderOut)
-                    {
-                        picOut.Image = Image.FromFile(pathCaptureOut);
-                    }
-
-                    if (handleCardReader == _cardReaderIn)
-                    {
-                        txtThoiGianVao.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                        isIn = true;
-                    }
-                    else if (handleCardReader == _cardReaderOut)
-                    {
-                        txtThoiGianRa.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                        isIn = false;
-                    }
-
-                    //
-                    var lstStudents = new StudentData().Gets();
-                    var lstCards = new CardData().Gets();
-                    var lstStudentCard = new StudentCardData().Gets();
-
-                    var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(txtMaThe.Text.Trim()));
-                    var studentCard = lstStudentCard.FirstOrDefault(o => card != null && o.CardId == card.Id);
-                    var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
-
-                    var mes = string.Empty;
-
-                    if (studentInfo != null)
-                    {
-                        var avatar = Image.FromFile("../../Resources/ic_person.png");
-                        var fullName = studentInfo.Name;
-                        var gender = studentInfo.Gender ? "Nam" : "Nữ";
-                        mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
-                              "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) + " - Giới tính: " + gender;
-
-                        picRegistry.Image = avatar;
-                        richNoiDungCanhBao.Text = mes;
-                        richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
-                        richRecognitionLicensePlate.Text = "";
-
-                        using (var client = new HttpClient())
-                        {
-                            using (var content = new MultipartFormDataContent())
-                            {
-                                byte[] imageBytes = { };
-                                // Đọc dữ liệu từ tệp ảnh và thêm vào nội dung yêu cầu POST
-                                if (handleCardReader == _cardReaderIn)
-                                {
-                                    imageBytes = File.ReadAllBytes(pathCaptureIn);
-                                }
-                                else if (handleCardReader == _cardReaderOut)
-                                {
-                                    imageBytes = File.ReadAllBytes(pathCaptureOut);
-                                }
-                                
-                                var imageContent = new ByteArrayContent(imageBytes);
-                                content.Add(imageContent, "image", "image.jpg");
-
-                                // Gửi yêu cầu POST đến địa chỉ API
-                                var response = await client.PostAsync(_url, content);
-
-                                // Đọc phản hồi từ máy chủ
-                                var responseString = await response.Content.ReadAsStringAsync();
-                                MessageBox.Show(responseString);
-                            }
-                        }
-
-                        studentSelected = (StudentData)studentInfo.Clone();
-                    }
-                    else
-                    {
-                        richNoiDungCanhBao.Text = "Khách";
-
-                        studentSelected = new StudentData();
-                    }
-                    // --------------------
-                    if(!isIn)
-                    {
-                        #region Get thông tin vào gần nhất ra
-                        var logHistoryInLasted = new HistoryData();
-                        logHistoryInLasted = _helper.GetLogInLasted(txtMaThe.Text.Trim());
-                        if (!string.IsNullOrEmpty(logHistoryInLasted.Photo) && File.Exists(logHistoryInLasted.Photo))
-                        {
-                            picIn.Image = (Bitmap)Image.FromFile(logHistoryInLasted.Photo);
-                            txtThoiGianVao.Text = logHistoryInLasted.Time.ToString(CultureInfo.InvariantCulture);
-                        }
-                        #endregion
-                    }
-                    // --------------------
-                    cardNumberNow = txtMaThe.Text.Trim();
-                    var strTitle = "Đang tiến hành tải dữ liệu !";
-                    _xuLy = EnumCheckInOut.SetLogHistory;
+                    picIn.Image = Image.FromFile(_pathCaptureIn);
                 }
+                else if (_handleCardReader == _cardReaderOut)
+                {
+                    picOut.Image = Image.FromFile(_pathCaptureOut);
+                }
+
+                if (_handleCardReader == _cardReaderIn)
+                {
+                    txtThoiGianVao.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    _isIn = true;
+                }
+                else if (_handleCardReader == _cardReaderOut)
+                {
+                    txtThoiGianRa.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    _isIn = false;
+                }
+
+                //
+                var lstStudents = new StudentData().Gets();
+                var lstCards = new CardData().Gets();
+                var lstStudentCard = new StudentCardData().Gets();
+
+                var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(txtMaThe.Text.Trim()));
+                var studentCard = lstStudentCard.FirstOrDefault(o => card != null && o.CardId == card.Id);
+                var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
+
+                if (studentInfo != null)
+                {
+                    var avatar = Image.FromFile("../../Resources/ic_person.png");
+                    var fullName = studentInfo.Name;
+                    var gender = studentInfo.Gender ? "Nam" : "Nữ";
+                    var mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
+                              "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) +
+                              " - Giới tính: " + gender;
+
+                    picRegistry.Image = avatar;
+                    richNoiDungCanhBao.Text = mes;
+                    richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
+                    richRecognitionLicensePlate.Text = "";
+
+                    using (var client = new HttpClient())
+                    {
+                        using (var content = new MultipartFormDataContent())
+                        {
+                            byte[] imageBytes = { };
+                            // Đọc dữ liệu từ tệp ảnh và thêm vào nội dung yêu cầu POST
+                            if (_handleCardReader == _cardReaderIn)
+                            {
+                                imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                            }
+                            else if (_handleCardReader == _cardReaderOut)
+                            {
+                                imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                            }
+
+                            var imageContent = new ByteArrayContent(imageBytes);
+                            content.Add(imageContent, "image", "image.jpg");
+
+                            // Gửi yêu cầu POST đến địa chỉ API
+                            var response = await client.PostAsync(_uploadImageUrl, content);
+
+                            // Đọc phản hồi từ máy chủ
+                            var responseString = await response.Content.ReadAsStringAsync();
+                            richRecognitionLicensePlate.Text = responseString;
+                        }
+                    }
+
+                    _studentSelected = (StudentData)studentInfo.Clone();
+                }
+                else
+                {
+                    richNoiDungCanhBao.Text = "Khách";
+
+                    _studentSelected = new StudentData();
+                }
+
+                // --------------------
+                if (!_isIn)
+                {
+                    #region Get Last In
+
+                    var logHistoryInLasted = _helper.GetLogInLasted(txtMaThe.Text.Trim());
+                    if (!string.IsNullOrEmpty(logHistoryInLasted.Photo) && File.Exists(logHistoryInLasted.Photo))
+                    {
+                        picIn.Image = (Bitmap)Image.FromFile(logHistoryInLasted.Photo);
+                        txtThoiGianVao.Text = logHistoryInLasted.Time.ToString(CultureInfo.InvariantCulture);
+                    }
+
+                    #endregion
+                }
+
+                // --------------------
+                _cardNumberNow = txtMaThe.Text.Trim();
+                const string strTitle = "Đang tiến hành tải dữ liệu !";
+                _xuLy = EnumCheckInOut.SetLogHistory;
+                WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
             }
         }
 
@@ -433,7 +445,7 @@ namespace ParkingApp
             {
                 txtMaThe.Focus();
             }
-            else if(e.Control && e.KeyCode == Keys.F)
+            else if (e.Control && e.KeyCode == Keys.F)
             {
                 //MessageBox.Show("Mở !");
                 btnOpen.PerformClick();
@@ -452,12 +464,10 @@ namespace ParkingApp
 
         private void btnOpen_Click(object sender, EventArgs e)
         {
-
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
-
         }
     }
 

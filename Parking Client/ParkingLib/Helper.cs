@@ -17,6 +17,7 @@ namespace ParkingLib
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
             }
             return sqlConnection;
         }
