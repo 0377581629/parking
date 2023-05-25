@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
@@ -8,6 +10,8 @@ using Abp.Linq.Extensions;
 using Abp.UI;
 using DPS.Park.Application.Shared.Dto.History;
 using DPS.Park.Application.Shared.Interface.History;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Zero;
 using Zero.Authorization;
@@ -143,6 +147,18 @@ namespace DPS.Park.Application.Services.History
                 o.TenantId == AbpSession.TenantId && o.Id == input.Id);
             if (obj == null) throw new UserFriendlyException(L("NotFound"));
             await _historyRepository.DeleteAsync(input.Id);
+        }
+
+        [HttpPost]
+        public async Task UploadImage([FromForm] IFormFile file)
+        {
+            if (file.Length > 0)
+            {
+                var filePath = Path.Combine("path/to/your/static/folder", file.FileName); // Đường dẫn lưu trữ ảnh
+
+                await using var stream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(stream); // Lưu trữ ảnh vào đường dẫn
+            }
         }
     }
 }
