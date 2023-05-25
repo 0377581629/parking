@@ -200,7 +200,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon.ico" />
     <None Include="Resources\pictureBox1.InitialImage.png" />
     <Content Include="Resources\soict_logo.png" />
     <Content Include="vnua-logo.ico" />
