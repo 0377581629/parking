@@ -1,7 +1,10 @@
 ﻿using MetroFramework;
 using System;
 using System.Globalization;
+using System.IO;
+using System.Net.Http;
 using System.Windows.Forms;
+using ParkingLib;
 
 namespace ParkingApp
 {
@@ -18,6 +21,19 @@ namespace ParkingApp
             InitializeComponent();
             Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut,
                 ref _timeWaiting);
+            using (var client = new HttpClient())
+            {
+                using (var content = new MultipartFormDataContent())
+                {
+                    byte[] imageBytes = { };
+                    imageBytes = File.ReadAllBytes("C:/Users/pc/Desktop/visual-studio-keyboard-shortcut-cheatsheet.png");
+                    var imageContent = new ByteArrayContent(imageBytes);
+
+                    content.Add(imageContent, "image", "image.jpg");
+
+                    SyncDataClient.Sync.UploadImageToServer(content);
+                }
+            }
         }
 
         private void FrmConfig_Load(object sender, EventArgs e)

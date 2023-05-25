@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -99,35 +100,7 @@ namespace ParkingApp
 
             return new HistoryData();
         }
-
-        public int AddHistory(HistoryData data)
-        {
-            try
-            {
-                var historyData = new HistoryData
-                {
-                    Id = data.Id,
-                    CardId = data.CardId,
-                    CardCode = data.CardCode,
-                    CardNumber = data.CardNumber,
-                    LicensePlate = data.LicensePlate,
-                    Price = data.Price,
-                    Time = data.Time,
-                    Type = data.Type,
-                    Photo = data.Photo,
-                    CardTypeName = data.CardTypeName,
-                    VehicleTypeName = data.VehicleTypeName
-                };
-                historyData.Add();
-                return historyData.Id;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return 0;
-            }
-        }
-
+        
         /// <summary>
         /// Chuẩn hóa chuỗi sang tiếng việt không dấu
         /// </summary>

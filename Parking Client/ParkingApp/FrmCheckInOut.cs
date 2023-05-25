@@ -29,6 +29,7 @@ namespace ParkingApp
         private bool _captureInProgress;
         private bool _takeSnapshotIn;
         private string _pathCaptureIn = string.Empty;
+        private string _imageInUrl = string.Empty;
 
         private Capture _captureOut;
         private readonly Mat _frameOut = new Mat();
@@ -160,11 +161,12 @@ namespace ParkingApp
                     Directory.CreateDirectory(pathCache);
                 }
 
-                var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
+                var imgName = $"{Guid.NewGuid()}.jpg";
+                var path = $"{pathCache}\\{imgName}";
                 // Save the image
                 _frameInCopy.Save(path);
-
                 _pathCaptureIn = path;
+                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{imgName}";
                 // Set the bool to false again to make sure we only take one snapshot
                 _takeSnapshotIn = !_takeSnapshotIn;
             }
@@ -279,20 +281,33 @@ namespace ParkingApp
                     break;
                 case EnumCheckInOut.SET_HISTORY:
                 {
-                    var historyData = new HistoryData
+                    var lstCards = new CardData().Gets();
+                    var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
+
+                    if (card != null)
                     {
-                        CardNumber = _cardNumberNow,
-                        Type = _isIn ? (int) Helper.HistoryDataStatus.IN : (int) Helper.HistoryDataStatus.OUT,
-                        StudentData = _studentSelected,
-                        Photo = _pathCaptureIn,
-                        Time = DateTime.Now
-                    };
-                    // Save history
-                    var historyId = _helper.AddHistory(historyData);
-                    _cardNumberNow = string.Empty;
-                    if (historyId > 0 && !string.IsNullOrEmpty(historyData.CardNumber))
-                    {
-                        // OpenBarie();
+                        var historyData = new HistoryData
+                        {
+                            CardId = card.Id,
+                            CardNumber = _cardNumberNow,
+                            LicensePlate = card.LicensePlate,
+                            Time = DateTime.Now,
+                            Type = _isIn ? (int) Helper.HistoryDataStatus.IN : (int) Helper.HistoryDataStatus.OUT,
+                            Photo = _imageInUrl,
+                            CardTypeName = card.CardType,
+                            VehicleTypeName = card.VehicleType,
+                            StudentData = _studentSelected,
+                        };
+                        historyData.Price = historyData.Type == (int) Helper.HistoryDataStatus.IN ? 0 : 1;
+                    
+                        // Save history
+                        historyData.Add();
+                        var historyId = historyData.Id;
+                        _cardNumberNow = string.Empty;
+                        if (historyId > 0 && !string.IsNullOrEmpty(historyData.CardNumber))
+                        {
+                            // OpenBarie();
+                        }
                     }
                 }
                     break;
@@ -354,7 +369,7 @@ namespace ParkingApp
 
                 if (studentInfo != null)
                 {
-                    var avatar = Image.FromFile("../../Resources/ic_person.png");
+                    var avatar = Image.FromFile($"{GlobalConfig.ParkingServerHost}{studentInfo.Avatar}");
                     var fullName = studentInfo.Name;
                     var gender = studentInfo.Gender ? "Nam" : "Nữ";
                     var mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
@@ -385,12 +400,12 @@ namespace ParkingApp
 
                             content.Add(imageContent, "image", "image.jpg");
 
-                            // Gửi yêu cầu POST đến địa chỉ API
-                            var response = await client.PostAsync(GlobalConfig.UploadImageUrl, content);
-
-                            // Đọc phản hồi từ máy chủ
+                            // License plate detection and recognition
+                            var response = await client.PostAsync(GlobalConfig.PythonUploadImageUrl, content);
                             var responseString = await response.Content.ReadAsStringAsync();
                             richRecognitionLicensePlate.Text = responseString;
+
+                            // Add image to web app
                         }
                     }
 

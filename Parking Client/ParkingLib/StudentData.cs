@@ -151,7 +151,7 @@ namespace ParkingLib
                 studentData.Code = Convert.ToString(dr["Code"]);
                 studentData.Name = Convert.ToString(dr["Name"]);
                 studentData.PhoneNumber = Convert.ToString(dr["PhoneNumber"]);
-                studentData.Avatar = $"{GlobalConfig.TargetDomain}{Convert.ToString(dr["Avatar"])}";
+                studentData.Avatar = $"{GlobalConfig.ParkingServerHost}{Convert.ToString(dr["Avatar"])}";
                 studentData.Email = Convert.ToString(dr["Email"]);
                 studentData.Gender = Convert.ToBoolean(dr["Gender"]);
                 studentData.Dob = Convert.ToDateTime(dr["Dob"]);
