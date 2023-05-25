@@ -7,5 +7,7 @@
         public const string TenantId = null;
 
         public const string DateTimePickerFormat = "dd/MM/yyyy";
+
+        public const string UploadImageUrl = "http://localhost:5000/upload";
     }
 }

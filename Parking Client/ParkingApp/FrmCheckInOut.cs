@@ -16,13 +16,11 @@ namespace ParkingApp
 {
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
-        private readonly string _rtspCameraIn = "rtsp://admin:admin@192.168.2.5:1935";
-        private readonly string _rtspCameraOut = "rtsp://admin:123abc@@@192.168.1.252:554/live";
-        private readonly double _timeWaiting = 0;
-        private string _ipBarie = "192.168.1.201";
-        private int _portBarie = 4370;
-
-        private const string UPLOAD_IMAGE_URL = "http://localhost:5000/upload";
+        private readonly string _rtspCameraIn;
+        private readonly string _rtspCameraOut;
+        private readonly double _timeWaiting;
+        private string _ipBarie;
+        private int _portBarie;
 
         //
         private Capture _captureIn;
@@ -54,8 +52,8 @@ namespace ParkingApp
         //
         private readonly RawInput _rawInput;
         private const bool CAPTURE_ONLY_IN_FOREGROUND = true;
-        private readonly string _cardReaderIn = "10620057";
-        private readonly string _cardReaderOut = "95748765";
+        private readonly string _cardReaderIn;
+        private readonly string _cardReaderOut;
 
         public FrmCheckInOut()
         {
@@ -74,6 +72,7 @@ namespace ParkingApp
         {
             const string strTitle = "Đang kết nối thiết bị !";
             _xuLy = EnumCheckInOut.CONNECT_DEVICE;
+            WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
         }
 
         #region Proccess Camera
@@ -150,7 +149,7 @@ namespace ParkingApp
         {
             _captureIn.Retrieve(_frameIn);
             _frameInCopy = _frameIn;
-            var bitmap = (Bitmap)_frameInCopy.Bitmap.Clone();
+            var bitmap = (Bitmap) _frameInCopy.Bitmap.Clone();
             picCaptureIn.Image = bitmap;
 
             if (_takeSnapshotIn)
@@ -177,7 +176,7 @@ namespace ParkingApp
         {
             _captureOut.Retrieve(_frameOut);
             _frameOutCopy = _frameOut;
-            var bitmap = (Bitmap)_frameOutCopy.Bitmap.Clone();
+            var bitmap = (Bitmap) _frameOutCopy.Bitmap.Clone();
             lock (_lockObject) // (bitmap)
                 picCaptureOut.Image = bitmap;
 
@@ -258,6 +257,18 @@ namespace ParkingApp
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
+        private void WaitingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
+        {
+            var stt = "Quá trình xử lý dữ liệu hoàn tất !";
+            var thread = new Thread(Doing);
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            thread.Join();
+            if (stt == "")
+                stt = "Quá trình xử lý dữ liệu hoàn tất !";
+            e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
+        }
+
         private void Doing()
         {
             switch (_xuLy)
@@ -266,27 +277,24 @@ namespace ParkingApp
                     CaptureCamera();
                     StartStopCamera();
                     break;
-                case EnumCheckInOut.SET_LOG_HISTORY:
+                case EnumCheckInOut.SET_HISTORY:
                 {
-                    var mes = string.Empty;
-                    var log = new HistoryData
+                    var historyData = new HistoryData
                     {
                         CardNumber = _cardNumberNow,
-                        Type = _isIn ? (int)Helper.HistoryDataStatus.In : (int)Helper.HistoryDataStatus.Out,
+                        Type = _isIn ? (int) Helper.HistoryDataStatus.IN : (int) Helper.HistoryDataStatus.OUT,
                         StudentData = _studentSelected,
                         Photo = _pathCaptureIn,
                         Time = DateTime.Now
                     };
-                    // Save log
-                    var logId = _helper.AddLogHistory(log, ref mes);
+                    // Save history
+                    var historyId = _helper.AddHistory(historyData);
                     _cardNumberNow = string.Empty;
-                    if (logId > 0 && !string.IsNullOrEmpty(log.CardNumber))
+                    if (historyId > 0 && !string.IsNullOrEmpty(historyData.CardNumber))
                     {
                         // OpenBarie();
                     }
                 }
-                    break;
-                default:
                     break;
             }
         }
@@ -299,7 +307,7 @@ namespace ParkingApp
 
         private async void txtMaThe_TextChanged(object sender, EventArgs e)
         {
-            var txt = (RichTextBox)sender;
+            var txt = (RichTextBox) sender;
             if (txt.Text.Length > 0)
             {
                 //Do what you have to do
@@ -374,10 +382,11 @@ namespace ParkingApp
                             }
 
                             var imageContent = new ByteArrayContent(imageBytes);
+
                             content.Add(imageContent, "image", "image.jpg");
 
                             // Gửi yêu cầu POST đến địa chỉ API
-                            var response = await client.PostAsync(UPLOAD_IMAGE_URL, content);
+                            var response = await client.PostAsync(GlobalConfig.UploadImageUrl, content);
 
                             // Đọc phản hồi từ máy chủ
                             var responseString = await response.Content.ReadAsStringAsync();
@@ -385,7 +394,7 @@ namespace ParkingApp
                         }
                     }
 
-                    _studentSelected = (StudentData)studentInfo.Clone();
+                    _studentSelected = (StudentData) studentInfo.Clone();
                 }
                 else
                 {
@@ -399,11 +408,11 @@ namespace ParkingApp
                 {
                     #region Get Last In
 
-                    var logHistoryInLasted = _helper.GetLogInLasted(txtMaThe.Text.Trim());
-                    if (!string.IsNullOrEmpty(logHistoryInLasted.Photo) && File.Exists(logHistoryInLasted.Photo))
+                    var historyInLasted = _helper.GetHistoryInLasted(txtMaThe.Text.Trim());
+                    if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
                     {
-                        picIn.Image = (Bitmap)Image.FromFile(logHistoryInLasted.Photo);
-                        txtThoiGianVao.Text = logHistoryInLasted.Time.ToString(CultureInfo.InvariantCulture);
+                        picIn.Image = (Bitmap) Image.FromFile(historyInLasted.Photo);
+                        txtThoiGianVao.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 
                     #endregion
@@ -412,13 +421,14 @@ namespace ParkingApp
                 // --------------------
                 _cardNumberNow = txtMaThe.Text.Trim();
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
-                _xuLy = EnumCheckInOut.SET_LOG_HISTORY;
+                _xuLy = EnumCheckInOut.SET_HISTORY;
+                WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
             }
         }
 
         private void picIn_DoubleClick(object sender, EventArgs e)
         {
-            var obj = (PictureBox)sender;
+            var obj = (PictureBox) sender;
             if (obj != null)
             {
                 var img = new Bitmap(obj.Image);
@@ -429,7 +439,7 @@ namespace ParkingApp
 
         private void picOut_DoubleClick(object sender, EventArgs e)
         {
-            var obj = (PictureBox)sender;
+            var obj = (PictureBox) sender;
             if (obj != null)
             {
                 var img = new Bitmap(obj.Image);
@@ -472,7 +482,7 @@ namespace ParkingApp
 
     internal enum EnumCheckInOut
     {
-        SET_LOG_HISTORY,
+        SET_HISTORY,
         CONNECT_DEVICE,
     }
 }

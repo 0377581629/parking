@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -76,21 +74,21 @@ namespace ParkingApp
             ConfigurationManager.RefreshSection("appSettings");
         }
 
-        public HistoryData GetLogInLasted(string cardNumber)
+        public HistoryData GetHistoryInLasted(string cardNumber)
         {
             try
             {
                 var lstHistories = new HistoryData().Gets().Where(o => o.CardNumber == cardNumber);
                 if (lstHistories.Any())
                 {
-                    var lstLogIns = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.In)
+                    var lstHistoryIn = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.IN)
                         .OrderByDescending(x => x.Time).ToList();
-                    var lstLogOuts = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.Out)
+                    var lstLogOuts = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.OUT)
                         .OrderByDescending(x => x.Time).ToList();
 
-                    if (lstLogOuts.Count > lstLogIns.Count)
+                    if (lstLogOuts.Count > lstHistoryIn.Count)
                     {
-                        return lstLogIns[0];
+                        return lstHistoryIn[0];
                     }
                 }
             }
@@ -102,11 +100,11 @@ namespace ParkingApp
             return new HistoryData();
         }
 
-        public int AddLogHistory(HistoryData data, ref string mes)
+        public int AddHistory(HistoryData data)
         {
             try
             {
-                var log = new HistoryData
+                var historyData = new HistoryData
                 {
                     Id = data.Id,
                     CardId = data.CardId,
@@ -120,75 +118,14 @@ namespace ParkingApp
                     CardTypeName = data.CardTypeName,
                     VehicleTypeName = data.VehicleTypeName
                 };
-                log.Add();
-                return log.Id;
+                historyData.Add();
+                return historyData.Id;
             }
             catch (Exception ex)
             {
-                mes = ex.Message;
+                Console.WriteLine(ex.Message);
                 return 0;
-                throw;
             }
-        }
-
-        /// <summary>
-        /// chuyển đổi file ảnh -> string base 64
-        /// </summary>
-        /// <param name="path">Đường dẫn lưu file ảnh</param>
-        /// <returns></returns>
-        public static string PathImageToBase64(string path)
-        {
-            if (string.IsNullOrEmpty(path) || !File.Exists(path))
-            {
-                return "";
-            }
-            else
-            {
-                System.Threading.Thread.Sleep(5000);
-                using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-                {
-                    using (var image = System.Drawing.Image.FromStream(fs))
-                    {
-                        using (var m = new MemoryStream())
-                        {
-                            image.Save(m, image.RawFormat);
-                            var imageBytes = m.ToArray();
-                            var base64String = Convert.ToBase64String(imageBytes);
-                            return base64String;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Chuyển đổi đối tượng Bitmap (ảnh) --> string base 64
-        /// </summary>
-        /// <param name="img"></param>
-        /// <returns></returns>
-        public static string ImageToBase64(Bitmap bitmap)
-        {
-            using (var ms = new MemoryStream())
-            {
-                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                var base64String = Convert.ToBase64String(ms.GetBuffer()); //Get Base64
-                return base64String;
-            }
-        }
-
-        public static Image Base64ToImage(string base64String)
-        {
-            if (!string.IsNullOrEmpty(base64String))
-            {
-                var imageBytes = Convert.FromBase64String(base64String);
-                using (var ms = new MemoryStream(imageBytes, 0, imageBytes.Length))
-                {
-                    var image = Image.FromStream(ms, true);
-                    return image;
-                }
-            }
-
-            return null;
         }
 
         /// <summary>
@@ -200,57 +137,48 @@ namespace ParkingApp
         {
             var regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");
             var temp = s.Normalize(NormalizationForm.FormD);
-            return regex.Replace(temp, String.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
+            return regex.Replace(temp, string.Empty).Replace('\u0111', 'd').Replace('\u0110', 'D');
         }
 
-        public bool LoadHistoryData(DateTime fromDate, DateTime toDate, ref List<HistoryData> lstHistoryDatas,
-            bool fakeNew = true)
+        public void LoadHistoryData(DateTime fromDate, DateTime toDate, ref List<HistoryData> lstHistoryDatas)
         {
             try
             {
                 lstHistoryDatas.Clear();
-                if (!fakeNew)
-                {
-                    var lstHistoryData = new HistoryData().Gets();
-                    var lstStudents = new StudentData().Gets();
-                    var lstStudentCards = new StudentCardData().Gets();
-                    if (lstHistoryData != null && lstHistoryData.Any())
-                    {
-                        foreach (var history in lstHistoryData)
-                        {
-                            var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
-                            history.StudentData = lstStudents.FirstOrDefault(o =>
-                                studentCard != null && o.Id == studentCard.StudentId);
-                            // history.HistoryDate = DateTime.ParseExact(history.HistoryDateStr, "dd/MM/yyyy HH:mm:ss",
-                            //     System.Globalization.CultureInfo.InvariantCulture);
-                        }
 
-                        foreach (var itm in lstHistoryData)
+                var lstHistoryData = new HistoryData().Gets();
+                var lstStudents = new StudentData().Gets();
+                var lstStudentCards = new StudentCardData().Gets();
+                if (lstHistoryData != null && lstHistoryData.Any())
+                {
+                    foreach (var history in lstHistoryData)
+                    {
+                        var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
+                        history.StudentData = lstStudents.FirstOrDefault(o =>
+                            studentCard != null && o.Id == studentCard.StudentId);
+                        // history.HistoryDate = DateTime.ParseExact(history.HistoryDateStr, "dd/MM/yyyy HH:mm:ss",
+                        //     System.Globalization.CultureInfo.InvariantCulture);
+                    }
+
+                    foreach (var itm in lstHistoryData)
+                    {
+                        if (fromDate <= itm.Time && toDate >= itm.Time)
                         {
-                            if (fromDate <= itm.Time && toDate >= itm.Time)
-                            {
-                                lstHistoryDatas.Add(itm);
-                            }
+                            lstHistoryDatas.Add(itm);
                         }
                     }
                 }
-                else
-                {
-                }
-
-                return true;
             }
             catch (Exception ex)
             {
-                return false;
-                throw;
+                Console.WriteLine(ex.Message);
             }
         }
 
         public enum HistoryDataStatus
         {
-            In = 1,
-            Out = 2
+            IN = 1,
+            OUT = 2
         }
     }
 }

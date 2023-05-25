@@ -26,7 +26,7 @@ namespace ParkingApp
         private void SearchInfo()
         {
             var lstHistoryDataFilter = new List<HistoryData>();
-            _helperDll.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataFilter, false);
+            _helperDll.LoadHistoryData(dateTimePickerFrom.Value, dateTimePickerTo.Value, ref lstHistoryDataFilter);
 
             if (txtSearch.Text.Trim() == "")
             {
@@ -66,10 +66,10 @@ namespace ParkingApp
                 string type;
                 switch (lstHistoryData[i].Type)
                 {
-                    case (int)Helper.HistoryDataStatus.In:
+                    case (int)Helper.HistoryDataStatus.IN:
                         type = "Vào";
                         break;
-                    case (int)Helper.HistoryDataStatus.Out:
+                    case (int)Helper.HistoryDataStatus.OUT:
                         type = "Ra";
                         break;
                     default:

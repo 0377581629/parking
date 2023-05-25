@@ -137,10 +137,11 @@ namespace ParkingLib
 
         private SqlConnection _conn = Helper.OpenConnection();
         private SqlCommand _cmd = new SqlCommand();
-        private readonly int _tenantId = int.Parse(GlobalConfig.TenantId);
 
         public void Add()
         {
+            var tenantId = GlobalConfig.TenantId;
+            
             var _strSecurityData =
                 "INSERT INTO SecurityData([TenantId],[CardId],[CardCode],[CardNumber],[LicensePlate],[Price],[Time],[Type],[Photo],[CardTypeName],[VehicleTypeName]) Values(@TenantId,@CardId,@CardCode,@CardNumber,@LicensePlate,@Price,@Time,@Type,@Photo,@CardTypeName,@VehicleTypeName)";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
@@ -149,7 +150,14 @@ namespace ParkingLib
             _cmd.CommandText = _strSecurityData;
 
             _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
-            _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = _tenantId;
+            if (tenantId != null)
+            {
+                _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = tenantId;
+            }
+            else
+            {
+                _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = DBNull.Value;
+            }
             _cmd.Parameters.Add("@CardId", DbType.Int32).Value = _cardId;
             _cmd.Parameters.Add("@CardCode", DbType.String).Value = string.IsNullOrEmpty(_cardCode) ? "" : _cardCode;
             _cmd.Parameters.Add("@CardNumber", DbType.String).Value =
@@ -179,8 +187,18 @@ namespace ParkingLib
             DataSet ds = new DataSet();
             List<HistoryData> lstHistoryData = new List<HistoryData>();
             var tenantId = GlobalConfig.TenantId;
-            var historyDataQuery =
-                $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId = {tenantId}";
+
+            var historyDataQuery = "";
+            if(tenantId !=null)
+            {
+                historyDataQuery =
+                    $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId = {tenantId}";
+            }
+            else
+            {
+                historyDataQuery =
+                    $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId IS NULL";
+            }
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(historyDataQuery, _conn))
             {
