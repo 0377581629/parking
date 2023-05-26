@@ -30,6 +30,7 @@ namespace ParkingApp
         private bool _takeSnapshotIn;
         private string _pathCaptureIn = string.Empty;
         private string _imageInUrl = string.Empty;
+        private string _currentImgFileName = string.Empty;
 
         private Capture _captureOut;
         private readonly Mat _frameOut = new Mat();
@@ -161,12 +162,12 @@ namespace ParkingApp
                     Directory.CreateDirectory(pathCache);
                 }
 
-                var imgName = $"{Guid.NewGuid()}.jpg";
-                var path = $"{pathCache}\\{imgName}";
+                _currentImgFileName = $"{Guid.NewGuid()}.jpg";
+                var path = $"{pathCache}\\{_currentImgFileName}";
                 // Save the image
                 _frameInCopy.Save(path);
                 _pathCaptureIn = path;
-                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{imgName}";
+                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
                 // Set the bool to false again to make sure we only take one snapshot
                 _takeSnapshotIn = !_takeSnapshotIn;
             }
@@ -299,7 +300,7 @@ namespace ParkingApp
                             StudentData = _studentSelected,
                         };
                         historyData.Price = historyData.Type == (int) Helper.HistoryDataStatus.IN ? 0 : 1;
-                    
+
                         // Save history
                         historyData.Add();
                         var historyId = historyData.Id;
@@ -369,7 +370,8 @@ namespace ParkingApp
 
                 if (studentInfo != null)
                 {
-                    var avatar = Image.FromFile($"{GlobalConfig.ParkingServerHost}{studentInfo.Avatar}");
+                    // var avatar = Image.FromFile($"{GlobalConfig.ParkingServerHost}{studentInfo.Avatar}");
+                    var avatar = Image.FromFile(_pathCaptureIn);
                     var fullName = studentInfo.Name;
                     var gender = studentInfo.Gender ? "Nam" : "Nữ";
                     var mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
@@ -381,33 +383,21 @@ namespace ParkingApp
                     richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                     richRecognitionLicensePlate.Text = "";
 
-                    using (var client = new HttpClient())
-                    {
-                        using (var content = new MultipartFormDataContent())
-                        {
-                            byte[] imageBytes = { };
-                            // Đọc dữ liệu từ tệp ảnh và thêm vào nội dung yêu cầu POST
-                            if (_handleCardReader == _cardReaderIn)
-                            {
-                                imageBytes = File.ReadAllBytes(_pathCaptureIn);
-                            }
-                            else if (_handleCardReader == _cardReaderOut)
-                            {
-                                imageBytes = File.ReadAllBytes(_pathCaptureOut);
-                            }
-
-                            var imageContent = new ByteArrayContent(imageBytes);
-
-                            content.Add(imageContent, "image", "image.jpg");
-
-                            // License plate detection and recognition
-                            var response = await client.PostAsync(GlobalConfig.PythonUploadImageUrl, content);
-                            var responseString = await response.Content.ReadAsStringAsync();
-                            richRecognitionLicensePlate.Text = responseString;
-
-                            // Add image to web app
-                        }
-                    }
+                    // License plate detection and recognition
+                    // byte[] imageBytes = { };
+                    // if (_handleCardReader == _cardReaderIn)
+                    // {
+                    //     imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                    // }
+                    // else if (_handleCardReader == _cardReaderOut)
+                    // {
+                    //     imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                    // }
+                    // var responseString = await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+                    // richRecognitionLicensePlate.Text = responseString;
+                    
+                    // Add image to web app
+                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
 
                     _studentSelected = (StudentData) studentInfo.Clone();
                 }

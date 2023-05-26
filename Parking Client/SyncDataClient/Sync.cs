@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace SyncDataClient
             {
                 return null;
             }
-            
+
             client.DefaultRequestHeaders.Add("Abp.TenantId", GlobalConfig.TenantId);
             var tokenResponse = client.RequestPasswordTokenAsync(new PasswordTokenRequest
             {
@@ -35,18 +36,45 @@ namespace SyncDataClient
             return tokenResponse.IsError ? null : tokenResponse.AccessToken;
         }
 
-        public static async Task<bool> UploadImageToServer(MultipartFormDataContent content)
+        public static async Task<bool> UploadImageToServer(string imgPath, string fileName)
         {
             var accessToken = GetAccessTokenAsync();
             using (var client = new HttpClient())
             {
                 client.SetBearerToken(accessToken);
-                var json = JsonConvert.SerializeObject(content);
-                var data = new StringContent(json, Encoding.UTF8, "application/json");
+                using (var content = new MultipartFormDataContent())
+                {
+                    var stringContent = new StringContent(GlobalConfig.HistoryImageFolderName);
+                    content.Add(stringContent, "path");
 
-                var response = await client.PostAsync($"{GlobalConfig.TargetDomain}{GlobalConfig.UploadImageToServerUrl}", data);
+                    var imageBytes = File.ReadAllBytes(imgPath);
+                    var imageContent = new ByteArrayContent(imageBytes);
+                    content.Add(imageContent, "file", fileName);
 
-                return response.IsSuccessStatusCode;
+                    var response =
+                        await client.PostAsync($"{GlobalConfig.TargetDomain}{GlobalConfig.UploadImageToServerUrl}",
+                            content);
+
+                    return response.IsSuccessStatusCode;
+                }
+            }
+        }
+
+        public static async Task<string> RecognitionLicensePlate(byte[] imageBytes, string fileName)
+        {
+            using (var client = new HttpClient())
+            {
+                using (var content = new MultipartFormDataContent())
+                {
+                    var imageContent = new ByteArrayContent(imageBytes);
+
+                    content.Add(imageContent, "image", fileName);
+
+                    // License plate detection and recognition
+                    var response = await client.PostAsync(GlobalConfig.PythonUploadImageUrl, content);
+                    var responseString = await response.Content.ReadAsStringAsync();
+                    return responseString;
+                }
             }
         }
     }

@@ -16,7 +16,5 @@ namespace DPS.Park.Application.Shared.Interface.History
         Task CreateOrEdit(CreateOrEditHistoryDto input);
 
         Task Delete(EntityDto input);
-
-        Task UploadImage([FromForm] IFormFile file);
     }
 }

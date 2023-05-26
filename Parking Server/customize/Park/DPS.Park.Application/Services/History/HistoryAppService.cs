@@ -148,17 +148,5 @@ namespace DPS.Park.Application.Services.History
             if (obj == null) throw new UserFriendlyException(L("NotFound"));
             await _historyRepository.DeleteAsync(input.Id);
         }
-
-        [HttpPost]
-        public async Task UploadImage([FromForm] IFormFile file)
-        {
-            if (file.Length > 0)
-            {
-                var filePath = Path.Combine("path/to/your/static/folder", file.FileName); // Đường dẫn lưu trữ ảnh
-
-                await using var stream = new FileStream(filePath, FileMode.Create);
-                await file.CopyToAsync(stream); // Lưu trữ ảnh vào đường dẫn
-            }
-        }
     }
 }
