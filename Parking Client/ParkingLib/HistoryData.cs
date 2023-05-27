@@ -142,12 +142,12 @@ namespace ParkingLib
         {
             var tenantId = GlobalConfig.TenantId;
             
-            var _strSecurityData =
-                "INSERT INTO SecurityData([TenantId],[CardId],[CardCode],[CardNumber],[LicensePlate],[Price],[Time],[Type],[Photo],[CardTypeName],[VehicleTypeName]) Values(@TenantId,@CardId,@CardCode,@CardNumber,@LicensePlate,@Price,@Time,@Type,@Photo,@CardTypeName,@VehicleTypeName)";
+            var _strHistoryData =
+                "INSERT INTO dbo.Park_History([TenantId],[CardId],[CardCode],[CardNumber],[LicensePlate],[Price],[Time],[Type],[Photo],[CardTypeName],[VehicleTypeName]) Values(@TenantId,@CardId,@CardCode,@CardNumber,@LicensePlate,@Price,@Time,@Type,@Photo,@CardTypeName,@VehicleTypeName)";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             _cmd = new SqlCommand();
             _cmd.Connection = _conn;
-            _cmd.CommandText = _strSecurityData;
+            _cmd.CommandText = _strHistoryData;
 
             _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
             if (tenantId != null)
@@ -174,7 +174,7 @@ namespace ParkingLib
                 string.IsNullOrEmpty(_vehicleTypeName) ? "" : _vehicleTypeName;
 
             _cmd.ExecuteNonQuery();
-            var _cmdID = new SqlCommand(" SELECT last_insert_rowid() AS  Id FROM SecurityData", _conn);
+            var _cmdID = new SqlCommand(" SELECT last_insert_rowid() AS Id FROM dbo.Park_History", _conn);
             var temp = _cmdID.ExecuteScalar();
             _id = Convert.ToInt32(temp);
 

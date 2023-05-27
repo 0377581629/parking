@@ -217,13 +217,14 @@ namespace ParkingApp
 
         private void OnKeyPressed(object sender, RawInputEventArg e)
         {
-            _handleCardReader = e.KeyPressEvent.Source;
+            _handleCardReader = e.KeyPressEvent.Source.ToString();
             _cardNumber += e.KeyPressEvent.VKeyName;
 
             if (e.KeyPressEvent.VKeyName == "ENTER")
             {
-                txtMaThe.Text = FormatCardNumber(_cardNumber);
-                _cardNumber = string.Empty;
+                var currentCardNumber = FormatCardNumber(_cardNumber);
+                txtMaThe.Text = currentCardNumber;
+                // _cardNumber = string.Empty;
             }
         }
 
