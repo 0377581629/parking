@@ -57,8 +57,10 @@ namespace DPS.Park.Application.Services.ConfigurePark
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Name, input.Name);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Hotline, input.Hotline);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Address, input.Address);
-                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.SubAddress1, input.SubAddress1);
-                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.SubAddress2, input.SubAddress2);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.SubAddress1,
+                    input.SubAddress1);
+                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.SubAddress2,
+                    input.SubAddress2);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Email, input.Email);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.ApplyDecreasePercent,
                     input.ApplyDecreasePercent.ToString().ToLowerInvariant());
@@ -100,12 +102,13 @@ namespace DPS.Park.Application.Services.ConfigurePark
                     Name = await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Name),
                     Hotline =
                         await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Hotline),
-                    Address = 
+                    Address =
                         await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Address),
-                    SubAddress1 = 
+                    SubAddress1 =
                         await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.SubAddress1),
-                    SubAddress2 = 
+                    SubAddress2 =
                         await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.SubAddress2),
+                    Email = await _settingManager.GetSettingValueForApplicationAsync(AppSettings.ParkSettings.Email),
                 };
             }
 
