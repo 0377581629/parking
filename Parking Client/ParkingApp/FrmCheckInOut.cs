@@ -224,7 +224,7 @@ namespace ParkingApp
             {
                 var currentCardNumber = FormatCardNumber(_cardNumber);
                 txtMaThe.Text = currentCardNumber;
-                // _cardNumber = string.Empty;
+                _cardNumber = string.Empty;
             }
         }
 

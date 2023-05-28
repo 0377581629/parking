@@ -140,16 +140,25 @@ namespace ParkingLib
 
         public void Add()
         {
-            var tenantId = GlobalConfig.TenantId;
+            const string tenantId = GlobalConfig.TenantId;
             
             var _strHistoryData =
-                "INSERT INTO dbo.Park_History([TenantId],[CardId],[CardCode],[CardNumber],[LicensePlate],[Price],[Time],[Type],[Photo],[CardTypeName],[VehicleTypeName]) Values(@TenantId,@CardId,@CardCode,@CardNumber,@LicensePlate,@Price,@Time,@Type,@Photo,@CardTypeName,@VehicleTypeName)";
+                "INSERT INTO dbo.Park_History([TenantId],[CardId],[LicensePlate],[Price],[Time],[Type],[Photo],[CreationTime],[IsDeleted]) Values(@TenantId,@CardId,@LicensePlate,@Price,@Time,@Type,@Photo,@CreationTime,@IsDeleted); SELECT SCOPE_IDENTITY();";
+            const string getLastIdQuery = "SELECT TOP 1 Id FROM dbo.Park_History ORDER BY Id DESC;";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
+
+            var lastID = 0;
+            
+            using (var command = new SqlCommand(getLastIdQuery, _conn))
+            {
+                lastID = Convert.ToInt32(command.ExecuteScalar());
+            }
+            
             _cmd = new SqlCommand();
             _cmd.Connection = _conn;
             _cmd.CommandText = _strHistoryData;
 
-            _cmd.Parameters.Add("@Id", DbType.Int32).Value = _id;
+            _cmd.Parameters.Add("@Id", DbType.Int32).Value = lastID + 1;
             if (tenantId != null)
             {
                 _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = tenantId;
@@ -159,24 +168,19 @@ namespace ParkingLib
                 _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = DBNull.Value;
             }
             _cmd.Parameters.Add("@CardId", DbType.Int32).Value = _cardId;
-            _cmd.Parameters.Add("@CardCode", DbType.String).Value = string.IsNullOrEmpty(_cardCode) ? "" : _cardCode;
-            _cmd.Parameters.Add("@CardNumber", DbType.String).Value =
-                string.IsNullOrEmpty(_cardNumber) ? "" : _cardNumber;
             _cmd.Parameters.Add("@LicensePlate", DbType.String).Value =
                 string.IsNullOrEmpty(_licensePlate) ? "" : _licensePlate;
             _cmd.Parameters.Add("@Price", DbType.Double).Value = _price;
             _cmd.Parameters.Add("@Time", DbType.DateTime).Value = _time;
             _cmd.Parameters.Add("@Type", DbType.Int32).Value = _type;
             _cmd.Parameters.Add("@Photo", DbType.String).Value = string.IsNullOrEmpty(_photo) ? "" : _photo;
-            _cmd.Parameters.Add("@CardTypeName", DbType.String).Value =
-                string.IsNullOrEmpty(_cardTypeName) ? "" : _cardTypeName;
-            _cmd.Parameters.Add("@VehicleTypeName", DbType.String).Value =
-                string.IsNullOrEmpty(_vehicleTypeName) ? "" : _vehicleTypeName;
+            _cmd.Parameters.Add("@CreationTime", DbType.DateTime).Value = _time;
+            _cmd.Parameters.Add("@IsDeleted", DbType.Int32).Value = 0;
 
             _cmd.ExecuteNonQuery();
-            var _cmdID = new SqlCommand(" SELECT last_insert_rowid() AS Id FROM dbo.Park_History", _conn);
-            var temp = _cmdID.ExecuteScalar();
-            _id = Convert.ToInt32(temp);
+            
+            var insertedHistoryId = Convert.ToInt32(_cmd.ExecuteScalar());
+            _id = Convert.ToInt32(insertedHistoryId);
 
             _conn.Close();
         }
