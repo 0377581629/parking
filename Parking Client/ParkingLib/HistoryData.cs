@@ -3,6 +3,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace ParkingLib
@@ -11,51 +12,51 @@ namespace ParkingLib
     {
         #region Structures
 
-        private Int32 _id = 0;
+        private int _id = 0;
 
         [DisplayName("Id")]
         [JsonProperty("Id", NullValueHandling = NullValueHandling.Ignore)]
-        public Int32 Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
         }
 
-        private Int32 _cardId = 0;
+        private int _cardId = 0;
 
         [DisplayName("CardId")]
         [JsonProperty("CardId", NullValueHandling = NullValueHandling.Ignore)]
-        public Int32 CardId
+        public int CardId
         {
             get { return _cardId; }
             set { _cardId = value; }
         }
 
-        private String _cardCode = String.Empty;
+        private string _cardCode = String.Empty;
 
         [DisplayName("CardCode")]
         [JsonProperty("CardCode", NullValueHandling = NullValueHandling.Ignore)]
-        public String CardCode
+        public string CardCode
         {
             get { return _cardCode; }
             set { _cardCode = value; }
         }
 
-        private String _cardNumber = String.Empty;
+        private string _cardNumber = string.Empty;
 
         [DisplayName("CardNumber")]
         [JsonProperty("CardNumber", NullValueHandling = NullValueHandling.Ignore)]
-        public String CardNumber
+        public string CardNumber
         {
             get { return _cardNumber; }
             set { _cardNumber = value; }
         }
 
-        private String _licensePlate = String.Empty;
+        private string _licensePlate = string.Empty;
 
         [DisplayName("LicensePlate")]
         [JsonProperty("LicensePlate", NullValueHandling = NullValueHandling.Ignore)]
-        public String LicensePlate
+        public string LicensePlate
         {
             get { return _licensePlate; }
             set { _licensePlate = value; }
@@ -91,31 +92,31 @@ namespace ParkingLib
             set { _type = value; }
         }
 
-        private String _photo = String.Empty;
+        private string _photo = string.Empty;
 
         [DisplayName("Photo")]
         [JsonProperty("Photo", NullValueHandling = NullValueHandling.Ignore)]
-        public String Photo
+        public string Photo
         {
             get { return _photo; }
             set { _photo = value; }
         }
 
-        private String _cardTypeName = String.Empty;
+        private string _cardTypeName = string.Empty;
 
         [DisplayName("CardTypeName")]
         [JsonProperty("CardTypeName", NullValueHandling = NullValueHandling.Ignore)]
-        public String CardTypeName
+        public string CardTypeName
         {
             get { return _cardTypeName; }
             set { _cardTypeName = value; }
         }
 
-        private String _vehicleTypeName = String.Empty;
+        private string _vehicleTypeName = string.Empty;
 
         [DisplayName("VehicleTypeName")]
         [JsonProperty("VehicleTypeName", NullValueHandling = NullValueHandling.Ignore)]
-        public String VehicleTypeName
+        public string VehicleTypeName
         {
             get { return _vehicleTypeName; }
             set { _vehicleTypeName = value; }
@@ -144,21 +145,13 @@ namespace ParkingLib
             
             var _strHistoryData =
                 "INSERT INTO dbo.Park_History([TenantId],[CardId],[LicensePlate],[Price],[Time],[Type],[Photo],[CreationTime],[IsDeleted]) Values(@TenantId,@CardId,@LicensePlate,@Price,@Time,@Type,@Photo,@CreationTime,@IsDeleted); SELECT SCOPE_IDENTITY();";
-            const string getLastIdQuery = "SELECT TOP 1 Id FROM dbo.Park_History ORDER BY Id DESC;";
+            
             if (_conn.State == ConnectionState.Closed) _conn.Open();
 
-            var lastID = 0;
-            
-            using (var command = new SqlCommand(getLastIdQuery, _conn))
-            {
-                lastID = Convert.ToInt32(command.ExecuteScalar());
-            }
-            
             _cmd = new SqlCommand();
             _cmd.Connection = _conn;
             _cmd.CommandText = _strHistoryData;
 
-            _cmd.Parameters.Add("@Id", DbType.Int32).Value = lastID + 1;
             if (tenantId != null)
             {
                 _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = tenantId;
@@ -176,21 +169,18 @@ namespace ParkingLib
             _cmd.Parameters.Add("@Photo", DbType.String).Value = string.IsNullOrEmpty(_photo) ? "" : _photo;
             _cmd.Parameters.Add("@CreationTime", DbType.DateTime).Value = _time;
             _cmd.Parameters.Add("@IsDeleted", DbType.Int32).Value = 0;
-
-            _cmd.ExecuteNonQuery();
             
-            var insertedHistoryId = Convert.ToInt32(_cmd.ExecuteScalar());
-            _id = Convert.ToInt32(insertedHistoryId);
-
+            _id = Convert.ToInt32(_cmd.ExecuteScalar());
+            
             _conn.Close();
         }
 
         public List<HistoryData> Gets()
         {
-            DataTable dt = new DataTable();
-            DataSet ds = new DataSet();
-            List<HistoryData> lstHistoryData = new List<HistoryData>();
-            var tenantId = GlobalConfig.TenantId;
+            var dt = new DataTable();
+            var ds = new DataSet();
+            var lstHistoryData = new List<HistoryData>();
+            const string tenantId = GlobalConfig.TenantId;
 
             var historyDataQuery = "";
             if(tenantId !=null)
@@ -213,9 +203,9 @@ namespace ParkingLib
                 }
             }
 
-            for (int i = 0; i < dt.Rows.Count; i++)
+            for (var i = 0; i < dt.Rows.Count; i++)
             {
-                DataRow dr = dt.Rows[i];
+                var dr = dt.Rows[i];
                 var historyData = new HistoryData();
                 historyData.Id = Convert.ToInt32(dr["Id"]);
                 historyData.CardId = Convert.ToInt32(dr["CardId"]);

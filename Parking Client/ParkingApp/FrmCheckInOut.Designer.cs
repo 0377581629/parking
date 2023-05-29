@@ -66,8 +66,7 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.picIn);
             this.groupBox3.Location = new System.Drawing.Point(23, 71);
             this.groupBox3.Name = "groupBox3";
@@ -89,8 +88,7 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.picOut);
             this.groupBox4.Location = new System.Drawing.Point(783, 71);
             this.groupBox4.Name = "groupBox4";
@@ -160,7 +158,7 @@
             this.richNoiDungCanhBao.ReadOnly = true;
             this.richNoiDungCanhBao.Size = new System.Drawing.Size(442, 30);
             this.richNoiDungCanhBao.TabIndex = 16;
-            this.richNoiDungCanhBao.Text = "Khách";
+            this.richNoiDungCanhBao.Text = "";
             // 
             // label5
             // 
@@ -181,7 +179,7 @@
             this.richRecognitionLicensePlate.ReadOnly = true;
             this.richRecognitionLicensePlate.Size = new System.Drawing.Size(208, 30);
             this.richRecognitionLicensePlate.TabIndex = 14;
-            this.richRecognitionLicensePlate.Text = "17N40569";
+            this.richRecognitionLicensePlate.Text = "";
             // 
             // label4
             // 
@@ -231,7 +229,7 @@
             this.txtThoiGianRa.Name = "txtThoiGianRa";
             this.txtThoiGianRa.Size = new System.Drawing.Size(208, 23);
             this.txtThoiGianRa.TabIndex = 10;
-            this.txtThoiGianRa.Text = "07/01/2020 07h30";
+            this.txtThoiGianRa.Text = "";
             // 
             // txtThoiGianVao
             // 
@@ -245,7 +243,7 @@
             this.txtThoiGianVao.Name = "txtThoiGianVao";
             this.txtThoiGianVao.Size = new System.Drawing.Size(208, 23);
             this.txtThoiGianVao.TabIndex = 9;
-            this.txtThoiGianVao.Text = "07/01/2020 07h30";
+            this.txtThoiGianVao.Text = "";
             // 
             // txtMaThe
             // 
@@ -258,7 +256,7 @@
             this.txtMaThe.ReadOnly = true;
             this.txtMaThe.Size = new System.Drawing.Size(442, 30);
             this.txtMaThe.TabIndex = 5;
-            this.txtMaThe.Text = "0123456789";
+            this.txtMaThe.Text = "";
             this.txtMaThe.TextChanged += new System.EventHandler(this.txtMaThe_TextChanged);
             // 
             // label1
@@ -281,7 +279,7 @@
             this.richCardLicensePlate.ReadOnly = true;
             this.richCardLicensePlate.Size = new System.Drawing.Size(208, 30);
             this.richCardLicensePlate.TabIndex = 2;
-            this.richCardLicensePlate.Text = "17N40569";
+            this.richCardLicensePlate.Text = "";
             // 
             // btnClose
             // 
@@ -378,7 +376,6 @@
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCaptureOut)).EndInit();
             this.ResumeLayout(false);
-
         }
 
         #endregion

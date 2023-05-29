@@ -16,6 +16,8 @@ namespace ParkingApp
 {
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
+        private readonly Helper _helperDll = new Helper();
+        
         private readonly string _rtspCameraIn;
         private readonly string _rtspCameraOut;
         private readonly double _timeWaiting;
@@ -213,18 +215,27 @@ namespace ParkingApp
         }
 
         private string _cardNumber = string.Empty;
+        private int _vKeyNameIsEnterCount = 0;
         private string _handleCardReader = string.Empty;
 
         private void OnKeyPressed(object sender, RawInputEventArg e)
         {
-            _handleCardReader = e.KeyPressEvent.Source.ToString();
+            _handleCardReader = e.KeyPressEvent.Source;
             _cardNumber += e.KeyPressEvent.VKeyName;
 
             if (e.KeyPressEvent.VKeyName == "ENTER")
             {
-                var currentCardNumber = FormatCardNumber(_cardNumber);
-                txtMaThe.Text = currentCardNumber;
-                _cardNumber = string.Empty;
+                if (_vKeyNameIsEnterCount == 0)
+                {
+                    _vKeyNameIsEnterCount += 1;
+                }
+                else
+                {
+                    var currentCardNumber = FormatCardNumber(_cardNumber);
+                    txtMaThe.Text = currentCardNumber;
+                    _cardNumber = string.Empty;
+                    _vKeyNameIsEnterCount = 0;
+                }
             }
         }
 
@@ -371,15 +382,14 @@ namespace ParkingApp
 
                 if (studentInfo != null)
                 {
-                    // var avatar = Image.FromFile($"{GlobalConfig.ParkingServerHost}{studentInfo.Avatar}");
-                    var avatar = Image.FromFile(_pathCaptureIn);
+                    var avatarUrl = studentInfo.Avatar;
                     var fullName = studentInfo.Name;
                     var gender = studentInfo.Gender ? "Nam" : "Nữ";
                     var mes = " Sinh viên: " + fullName + " - " + studentInfo.Code +
                               "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) +
                               " - Giới tính: " + gender;
 
-                    picRegistry.Image = avatar;
+                    picRegistry.Image = _helperDll.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
                     richNoiDungCanhBao.Text = mes;
                     richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                     richRecognitionLicensePlate.Text = "";

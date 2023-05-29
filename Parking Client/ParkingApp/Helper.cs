@@ -2,10 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ParkingApp
 {
@@ -82,9 +86,9 @@ namespace ParkingApp
                 var lstHistories = new HistoryData().Gets().Where(o => o.CardNumber == cardNumber);
                 if (lstHistories.Any())
                 {
-                    var lstHistoryIn = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.IN)
+                    var lstHistoryIn = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.IN)
                         .OrderByDescending(x => x.Time).ToList();
-                    var lstLogOuts = lstHistories.Where(x => x.Type == (int) Helper.HistoryDataStatus.OUT)
+                    var lstLogOuts = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.OUT)
                         .OrderByDescending(x => x.Time).ToList();
 
                     if (lstLogOuts.Count > lstHistoryIn.Count)
@@ -100,7 +104,7 @@ namespace ParkingApp
 
             return new HistoryData();
         }
-        
+
         /// <summary>
         /// Chuẩn hóa chuỗi sang tiếng việt không dấu
         /// </summary>
@@ -129,8 +133,6 @@ namespace ParkingApp
                         var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
                         history.StudentData = lstStudents.FirstOrDefault(o =>
                             studentCard != null && o.Id == studentCard.StudentId);
-                        // history.HistoryDate = DateTime.ParseExact(history.HistoryDateStr, "dd/MM/yyyy HH:mm:ss",
-                        //     System.Globalization.CultureInfo.InvariantCulture);
                     }
 
                     foreach (var itm in lstHistoryData)
@@ -146,6 +148,41 @@ namespace ParkingApp
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public Image LoadImageFromUrl(string imageUrl, int pictureBoxWith, int pictureBoxHeight)
+        {
+            try
+            {
+                var request = WebRequest.Create(imageUrl);
+                using (var response = request.GetResponse())
+                using (var stream = response.GetResponseStream())
+                {
+                    var image = Image.FromStream(stream);
+                    var resizedImage = ResizeImage(image, pictureBoxWith, pictureBoxHeight);
+                    return resizedImage;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                MessageBox.Show("Không thể tải ảnh: " + ex.Message);
+                return null;
+            }
+        }
+
+        private Image ResizeImage(Image image, int width, int height)
+        {
+            var resizedImage = new Bitmap(width, height);
+            using (var graphics = Graphics.FromImage(resizedImage))
+            {
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.DrawImage(image, 0, 0, width, height);
+            }
+
+            return resizedImage;
         }
 
         public enum HistoryDataStatus

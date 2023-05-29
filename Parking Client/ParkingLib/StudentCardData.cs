@@ -62,7 +62,7 @@ namespace ParkingLib
             var ds = new DataSet();
             var lstStudentCardData = new List<StudentCardData>();
 
-            var tenantId = GlobalConfig.TenantId;
+            const string tenantId = GlobalConfig.TenantId;
             var studentCardDataQuery = "";
             if (tenantId != null)
             {

@@ -121,7 +121,7 @@ namespace ParkingLib
             var dt = new DataTable();
             var ds = new DataSet();
             var lstStudentData = new List<StudentData>();
-            var tenantId = GlobalConfig.TenantId;
+            const string tenantId = GlobalConfig.TenantId;
             var studentDataQuery = "";
             if (tenantId != null)
             {
