@@ -16,9 +16,9 @@
     <text name="FP_NewPassword">Mật khẩu mới</text>
     <text name="FP_UpdatePassword">Cập nhật mật khẩu</text>
     <text name="FP_UpdateUserInfo">Cập nhật thông tin</text>
-    <text name="FP_Order">Đơn hàng</text>
-    <text name="FP_YourOrder">Đơn hàng của bạn</text>
-    <text name="FP_OrderCode">Mã đơn hàng</text>
+    <text name="FP_Order">Lịch sử nạp tiền</text>
+    <text name="FP_YourOrder">Lịch sử nạp tiền của bạn</text>
+    <text name="FP_OrderCode">Mã</text>
     <text name="FP_OrderCardNumber">Số thẻ</text>
     <text name="FP_OrderAmount">Số tiền</text>
     <text name="FP_OrderStatus">Trạng thái</text>
@@ -29,10 +29,10 @@
     <text name="FB_CheckoutForCard">Nạp tiền vào thẻ xe của bạn</text>
     <text name="FB_AlreadyHaveAccount">Bạn đã có tài khoản chưa</text>
     <text name="FB_ClickHereToLogin">Click vào đây để đăng nhập</text>
-    <text name="FB_OrderDetail">Chi tiết đơn hàng</text>
+    <text name="FB_OrderDetail">Chi tiết lịch sử nạp tiền</text>
     <text name="FP_Amount">Số tiền ( VND )</text>
-    <text name="FP_ConfirmOrder">Xác nhận đơn hàng</text>
-    <text name="FP_CreateOrderSuccessful">Xác nhận đơn hàng thành công, nhấn vào thanh toán để hoàn thành đơn hàng</text>
+    <text name="FP_ConfirmOrder">Xác nhận nạp tiền</text>
+    <text name="FP_CreateOrderSuccessful">Xác nhận nạp tiền thành công, nhấn vào thanh toán để hoàn thành nạp tiền</text>
     <text name="FP_Connect247">Liên hệ 24/7</text>
     <text name="FP_Office">Thông tin liên hệ</text>
     <text name="FP_ViewInMap">Xem trên bản đồ</text>
@@ -56,10 +56,10 @@
     <text name="UserContactsHeaderInfo">Danh mục liên hệ của khách hàng</text>
     <text name="UserContactName">Tên khách hàng</text>
     
-    <text name="OrderMenu">Danh mục đơn hàng</text>
-    <text name="Order">Đơn hàng</text>
-    <text name="OrderCode">Mã đơn hàng</text>
-    <text name="OrderHeaderInfo">Danh mục đơn hàng</text>
+    <text name="OrderMenu">Danh mục nạp tiền</text>
+    <text name="Order">Lịch sử nạp tiền</text>
+    <text name="OrderCode">Mã</text>
+    <text name="OrderHeaderInfo">Danh mục lịch sử nạp tiền</text>
     <text name="VnpTransactionNo">Mã giao dịch tại hệ thống VNPAY</text>
     <text name="OrderStatus_Success">Thành công</text>
     <text name="OrderStatus_Fail">Thất bại</text>
@@ -113,8 +113,8 @@
     
     <text name="PhoneToSendMessage">Số điện thoại nhận tin nhắn thông báo kết quả</text>
     
-    <text name="ConfigurePark">Cấu hình bãi gửi xe</text>
-    <text name="ConfigureParks">Cấu hình bãi gửi xe</text>
+    <text name="ConfigurePark">Cấu hình Glexim_Parking</text>
+    <text name="ConfigureParks">Cấu hình Glexim_Parking</text>
     <text name="DecreasePercent">Phần trăm giảm trừ</text>
     <text name="ApplyDecreasePercent">Áp dụng cấu hình giảm trừ</text>
 

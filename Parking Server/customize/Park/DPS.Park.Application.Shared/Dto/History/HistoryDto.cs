@@ -14,7 +14,7 @@ namespace DPS.Park.Application.Shared.Dto.History
         
         public string LicensePlate { get; set; }
         
-        public double Price { get; set; }
+        public double? Price { get; set; }
         
         public DateTime Time { get; set; }
         

@@ -48,9 +48,6 @@ namespace Zero.Web.Areas.Park.Controllers
                     PhoneToSendMessage =
                         await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                             .PhoneToSendMessage),
-                    TotalSlotCount =
-                        await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
-                            .TotalSlotCount),
                     BalanceToSendEmail = 
                         await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
                             .BalanceToSendEmail)

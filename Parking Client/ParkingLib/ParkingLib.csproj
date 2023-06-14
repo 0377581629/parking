@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardData.cs" />
+    <Compile Include="FareData.cs" />
     <Compile Include="GlobalConfig.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

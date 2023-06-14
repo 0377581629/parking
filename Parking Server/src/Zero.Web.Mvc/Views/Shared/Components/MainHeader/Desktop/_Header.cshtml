@@ -39,11 +39,14 @@
                                                     </a>
                                                 </li>
                                             }
-                                            <li>
-                                                <a href="@FrontPagePrefix.Account">
-                                                    <i class="fi fi-rs-user mr-10"></i>@L("FP_AccountInfo")
-                                                </a>
-                                            </li>
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="@FrontPagePrefix.Account">
+                                                        <i class="fi fi-rs-user mr-10"></i>@L("FP_AccountInfo")
+                                                    </a>
+                                                </li>
+                                            }
                                             <li>
                                                 <a href="/Account/Logout?returnUrl=/trang-chu">
                                                     <i class="fi fi-rs-sign-out mr-10"></i>@L("Logout")

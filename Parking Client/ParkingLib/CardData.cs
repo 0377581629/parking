@@ -50,6 +50,16 @@ namespace ParkingLib
             get { return _isActive; }
             set { _isActive = value; }
         }
+        
+        private int _cardTypeId = 0;
+
+        [DisplayName("CardTypeId")]
+        [JsonProperty("CardTypeId", NullValueHandling = NullValueHandling.Ignore)]
+        public int CardTypeId
+        {
+            get { return _cardTypeId; }
+            set { _cardTypeId = value; }
+        }
 
         private string _cardType = string.Empty;
 
@@ -59,6 +69,16 @@ namespace ParkingLib
         {
             get { return _cardType; }
             set { _cardType = value; }
+        }
+        
+        private int _vehicleTypeId = 0;
+
+        [DisplayName("VehicleTypeId")]
+        [JsonProperty("VehicleTypeId", NullValueHandling = NullValueHandling.Ignore)]
+        public int VehicleTypeId
+        {
+            get { return _vehicleTypeId; }
+            set { _vehicleTypeId = value; }
         }
 
         private string _vehicleType = string.Empty;
@@ -121,7 +141,7 @@ namespace ParkingLib
             else
             {
                 cardDataQuery =
-                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Name as CardType,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id WHERE card.TenantId IS NULL";
+                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Id as CardTypeId,cardType.Name as CardType,vehicleType.Id as VehicleTypeId,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id WHERE card.TenantId IS NULL";
             }
 
             if (_conn.State == ConnectionState.Closed) _conn.Open();
@@ -142,7 +162,9 @@ namespace ParkingLib
                 cardData.Code = Convert.ToString(dr["Code"]);
                 cardData.CardNumber = Convert.ToString(dr["CardNumber"]);
                 cardData.IsActive = Convert.ToBoolean(dr["IsActive"]);
+                cardData.CardTypeId = Convert.ToInt32(dr["CardTypeId"]);
                 cardData.CardType = Convert.ToString(dr["CardType"]);
+                cardData.VehicleTypeId = Convert.ToInt32(dr["VehicleTypeId"]);
                 cardData.VehicleType = Convert.ToString(dr["VehicleType"]);
                 cardData.Balance = Convert.ToInt32(dr["Balance"]);
                 cardData.LicensePlate = Convert.ToString(dr["LicensePlate"]);
@@ -152,6 +174,20 @@ namespace ParkingLib
 
             _conn.Close();
             return lstCardData;
+        }
+
+        public void UpdateBalance(int cardId, double? balance)
+        {
+            var _strTheXe = "UPDATE dbo.Park_Card_Card card SET card.Balance = @balance WHERE (Id = @cardId)";
+            if (_conn.State == ConnectionState.Closed) _conn.Open();
+            var _cmd = new SqlCommand();
+            _cmd.Connection = _conn;
+            _cmd.CommandText = _strTheXe;
+            _cmd.Parameters.Add("@cardId", DbType.Int32).Value = cardId;
+            _cmd.Parameters.Add("@balance", DbType.Double).Value = balance;
+                
+            _cmd.ExecuteNonQuery();
+            _conn.Close();
         }
 
         #endregion

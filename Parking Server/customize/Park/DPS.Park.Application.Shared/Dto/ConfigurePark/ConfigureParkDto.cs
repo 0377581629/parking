@@ -9,8 +9,6 @@
         public int? DecreasePercent { get; set; }
         
         public string PhoneToSendMessage { get; set; }
-        
-        public int TotalSlotCount { get; set; }
 
         public int BalanceToSendEmail { get; set; }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Windows.Forms;
+using MetroFramework;
 using Capture = Emgu.CV.Capture;
 
 namespace ParkingApp
@@ -17,7 +18,7 @@ namespace ParkingApp
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
         private readonly Helper _helperDll = new Helper();
-        
+
         private readonly string _rtspCameraIn;
         private readonly string _rtspCameraOut;
         private readonly double _timeWaiting;
@@ -153,7 +154,7 @@ namespace ParkingApp
         {
             _captureIn.Retrieve(_frameIn);
             _frameInCopy = _frameIn;
-            var bitmap = (Bitmap) _frameInCopy.Bitmap.Clone();
+            var bitmap = (Bitmap)_frameInCopy.Bitmap.Clone();
             picCaptureIn.Image = bitmap;
 
             if (_takeSnapshotIn)
@@ -181,7 +182,7 @@ namespace ParkingApp
         {
             _captureOut.Retrieve(_frameOut);
             _frameOutCopy = _frameOut;
-            var bitmap = (Bitmap) _frameOutCopy.Bitmap.Clone();
+            var bitmap = (Bitmap)_frameOutCopy.Bitmap.Clone();
             lock (_lockObject) // (bitmap)
                 picCaptureOut.Image = bitmap;
 
@@ -294,7 +295,9 @@ namespace ParkingApp
                     break;
                 case EnumCheckInOut.SET_HISTORY:
                 {
-                    var lstCards = new CardData().Gets();
+                    var cardData = new CardData();
+
+                    var lstCards = cardData.Gets();
                     var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
 
                     if (card != null)
@@ -305,13 +308,33 @@ namespace ParkingApp
                             CardNumber = _cardNumberNow,
                             LicensePlate = card.LicensePlate,
                             Time = DateTime.Now,
-                            Type = _isIn ? (int) Helper.HistoryDataStatus.IN : (int) Helper.HistoryDataStatus.OUT,
+                            Type = _isIn ? (int)Helper.HistoryDataStatus.IN : (int)Helper.HistoryDataStatus.OUT,
                             Photo = _imageInUrl,
                             CardTypeName = card.CardType,
                             VehicleTypeName = card.VehicleType,
                             StudentData = _studentSelected,
                         };
-                        historyData.Price = historyData.Type == (int) Helper.HistoryDataStatus.IN ? 0 : 1;
+
+                        if (!_isIn)
+                        {
+                            var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
+                                card.VehicleTypeId);
+                            var priceData = listPriceData.FirstOrDefault();
+                            historyData.Price = priceData?.Price ?? 0;
+
+                            if (card.Balance > historyData.Price)
+                            {
+                                //Update card balance
+                                cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
+                            }
+                            else
+                            {
+                                MetroMessageBox.Show(this,
+                                    $"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng", "Cảnh báo",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
+                            }
+                        }
 
                         // Save history
                         historyData.Add();
@@ -322,7 +345,7 @@ namespace ParkingApp
                             // OpenBarie();
                         }
                     }
-                }
+                } 
                     break;
             }
         }
@@ -335,7 +358,7 @@ namespace ParkingApp
 
         private async void txtMaThe_TextChanged(object sender, EventArgs e)
         {
-            var txt = (RichTextBox) sender;
+            var txt = (RichTextBox)sender;
             if (txt.Text.Length > 0)
             {
                 //Do what you have to do
@@ -406,11 +429,11 @@ namespace ParkingApp
                     // }
                     // var responseString = await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
                     // richRecognitionLicensePlate.Text = responseString;
-                    
+
                     // Add image to web app
                     await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
 
-                    _studentSelected = (StudentData) studentInfo.Clone();
+                    _studentSelected = (StudentData)studentInfo.Clone();
                 }
                 else
                 {
@@ -427,7 +450,7 @@ namespace ParkingApp
                     var historyInLasted = _helper.GetHistoryInLasted(txtMaThe.Text.Trim());
                     if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
                     {
-                        picIn.Image = (Bitmap) Image.FromFile(historyInLasted.Photo);
+                        picIn.Image = (Bitmap)Image.FromFile(historyInLasted.Photo);
                         txtThoiGianVao.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 
@@ -444,7 +467,7 @@ namespace ParkingApp
 
         private void picIn_DoubleClick(object sender, EventArgs e)
         {
-            var obj = (PictureBox) sender;
+            var obj = (PictureBox)sender;
             if (obj != null)
             {
                 var img = new Bitmap(obj.Image);
@@ -455,7 +478,7 @@ namespace ParkingApp
 
         private void picOut_DoubleClick(object sender, EventArgs e)
         {
-            var obj = (PictureBox) sender;
+            var obj = (PictureBox)sender;
             if (obj != null)
             {
                 var img = new Bitmap(obj.Image);

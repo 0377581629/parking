@@ -46,9 +46,6 @@ namespace DPS.Park.Application.Services.ConfigurePark
                     AppSettings.ParkSettings.PhoneToSendMessage,
                     input.PhoneToSendMessage.ToLowerInvariant());
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
-                    AppSettings.ParkSettings.TotalSlotCount,
-                    input.TotalSlotCount.ToString().ToLowerInvariant());
-                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
                     AppSettings.ParkSettings.BalanceToSendEmail,
                     input.BalanceToSendEmail.ToString().ToLowerInvariant());
             }
@@ -68,8 +65,6 @@ namespace DPS.Park.Application.Services.ConfigurePark
                     input.DecreasePercent.ToString().ToLowerInvariant());
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.PhoneToSendMessage,
                     input.PhoneToSendMessage.ToLowerInvariant());
-                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.TotalSlotCount,
-                    input.TotalSlotCount.ToString().ToLowerInvariant());
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.BalanceToSendEmail,
                     input.BalanceToSendEmail.ToString().ToLowerInvariant());
             }

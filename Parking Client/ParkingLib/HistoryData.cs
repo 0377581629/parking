@@ -62,11 +62,11 @@ namespace ParkingLib
             set { _licensePlate = value; }
         }
 
-        private double _price = 0;
+        private double? _price = 0;
 
         [DisplayName("Price")]
         [JsonProperty("Price", NullValueHandling = NullValueHandling.Ignore)]
-        public double Price
+        public double? Price
         {
             get { return _price; }
             set { _price = value; }
@@ -142,10 +142,10 @@ namespace ParkingLib
         public void Add()
         {
             const string tenantId = GlobalConfig.TenantId;
-            
+
             var _strHistoryData =
                 "INSERT INTO dbo.Park_History([TenantId],[CardId],[LicensePlate],[Price],[Time],[Type],[Photo],[CreationTime],[IsDeleted]) Values(@TenantId,@CardId,@LicensePlate,@Price,@Time,@Type,@Photo,@CreationTime,@IsDeleted); SELECT SCOPE_IDENTITY();";
-            
+
             if (_conn.State == ConnectionState.Closed) _conn.Open();
 
             _cmd = new SqlCommand();
@@ -160,18 +160,22 @@ namespace ParkingLib
             {
                 _cmd.Parameters.Add("@TenantId", DbType.Int32).Value = DBNull.Value;
             }
+
             _cmd.Parameters.Add("@CardId", DbType.Int32).Value = _cardId;
             _cmd.Parameters.Add("@LicensePlate", DbType.String).Value =
                 string.IsNullOrEmpty(_licensePlate) ? "" : _licensePlate;
-            _cmd.Parameters.Add("@Price", DbType.Double).Value = _price;
+            if (_price != null)
+            {
+                _cmd.Parameters.Add("@Price", DbType.Double).Value = _price;
+            }
             _cmd.Parameters.Add("@Time", DbType.DateTime).Value = _time;
             _cmd.Parameters.Add("@Type", DbType.Int32).Value = _type;
             _cmd.Parameters.Add("@Photo", DbType.String).Value = string.IsNullOrEmpty(_photo) ? "" : _photo;
             _cmd.Parameters.Add("@CreationTime", DbType.DateTime).Value = _time;
             _cmd.Parameters.Add("@IsDeleted", DbType.Int32).Value = 0;
-            
+
             _id = Convert.ToInt32(_cmd.ExecuteScalar());
-            
+
             _conn.Close();
         }
 
@@ -183,7 +187,7 @@ namespace ParkingLib
             const string tenantId = GlobalConfig.TenantId;
 
             var historyDataQuery = "";
-            if(tenantId !=null)
+            if (tenantId != null)
             {
                 historyDataQuery =
                     $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId = {tenantId}";
@@ -193,6 +197,7 @@ namespace ParkingLib
                 historyDataQuery =
                     $"SELECT history.Id, history.CardId, card.Code as CardCode,card.CardNumber as CardNumber,history.LicensePlate,history.Price,history.Time,history.Type,history.Photo, cardType.Name as CardTypeName,vehicleType.Name as VehicleTypeName FROM dbo.Park_History history JOIN dbo.Park_Card_Card card ON card.Id = history.CardId JOIN dbo.Park_Card_CardType cardType ON cardType.Id = card.CardTypeId JOIN dbo.Park_Vehicle_VehicleType vehicleType ON vehicleType.Id = card.VehicleTypeId WHERE history.TenantId IS NULL";
             }
+
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             using (var da = new SqlDataAdapter(historyDataQuery, _conn))
             {
@@ -212,7 +217,11 @@ namespace ParkingLib
                 historyData.CardCode = Convert.ToString(dr["CardCode"]);
                 historyData.CardNumber = Convert.ToString(dr["CardNumber"]);
                 historyData.LicensePlate = Convert.ToString(dr["LicensePlate"]);
-                historyData.Price = Convert.ToDouble(dr["Price"]);
+                if (dr["Price"] != null)
+                {
+                    historyData.Price = Convert.ToDouble(dr["Price"]);
+                }
+
                 historyData.Time = Convert.ToDateTime(dr["Time"]);
                 historyData.Type = Convert.ToInt32(dr["Type"]);
                 historyData.Photo = Convert.ToString(dr["Photo"]);

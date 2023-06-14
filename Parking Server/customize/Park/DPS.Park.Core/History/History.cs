@@ -20,7 +20,9 @@ namespace DPS.Park.Core.History
         public Card.Card Card { get; set; }
         
         public string LicensePlate { get; set; }
-        public double Price { get; set; }
+        
+        [CanBeNull]
+        public double? Price { get; set; }
         
         public DateTime Time { get; set; }
         

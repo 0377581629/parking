@@ -171,7 +171,6 @@
             public const string DecreasePercent = "App.ParkSettings.DecreasePercent";
             
             public const string PhoneToSendMessage = "App.ParkSettings.PhoneToSendMessage";
-            public const string TotalSlotCount = "App.ParkSettings.TotalSlotCount";
             public const string BalanceToSendEmail = "App.ParkSettings.BalanceToSendEmail";
             
             public const string Name = "App.ParkSettings.Name";
