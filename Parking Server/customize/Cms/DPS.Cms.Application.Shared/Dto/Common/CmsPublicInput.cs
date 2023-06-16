@@ -22,5 +22,15 @@ namespace DPS.Cms.Application.Shared.Dto.Common
         public List<int> ImageBlockGroupIds { get; set; }
         
         public List<int> MenuGroupIds { get; set; }
+        
+        #region Post
+        
+        public int? PostId { get; set; }
+        
+        public string PostSlug { get; set; }
+        
+        public string PostSlugWithCode { get; set; }
+        
+        #endregion
     }
 }

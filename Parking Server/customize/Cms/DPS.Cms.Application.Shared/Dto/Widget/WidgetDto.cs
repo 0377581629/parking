@@ -1,4 +1,5 @@
-﻿using Zero.Customize.Dto.Base;
+﻿using Zero.Customize.Base;
+using Zero.Customize.Dto.Base;
 
 namespace DPS.Cms.Application.Shared.Dto.Widget
 {

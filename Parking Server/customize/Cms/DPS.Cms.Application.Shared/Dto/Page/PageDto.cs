@@ -1,17 +1,12 @@
-﻿using Zero.Customize.Dto.Base;
+﻿using Zero.Customize.Base;
+using Zero.Customize.Dto.Base;
 
 namespace DPS.Cms.Application.Shared.Dto.Page
 {
 	public class PageDto : SimpleEntityDto
 	{
-		#region Theme + Layout
-		
-		public int? PageThemeId { get; set; }
-        
-		public string PageThemeCode { get; set; }
-        
-		public string PageThemeName { get; set; }
-        
+		#region Layout
+
 		public int PageLayoutId { get; set; }
         
 		public string PageLayoutName { get; set; }

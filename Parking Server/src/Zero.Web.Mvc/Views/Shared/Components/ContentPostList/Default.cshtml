@@ -1,0 +1,88 @@
+﻿@model Zero.Web.Models.FrontPages.PageWidgetViewModel
+
+<input type="hidden" id="PostsCurrentPage" value="@Model.PageWidget.PostsCurrentPage"/>
+<input type="hidden" id="PostsTotalPage" value="@Model.PageWidget.PostsTotalPage"/>
+<input type="hidden" id="PostsSkipCount" value="@Model.PageWidget.PostsSkipCount"/>
+<input type="hidden" id="PostsTotalCount" value="@Model.PageWidget.PostsCount"/>
+<input type="hidden" id="PostsFiltering" value="@Model.PageWidget.PostsFiltering"/>
+<input type="hidden" id="PostsSorting" value="@Model.PageWidget.PostsSorting"/>
+<input type="hidden" id="PostsMaxResultCount" value="@Model.PageWidget.PostsMaxResultCount"/>
+<input type="hidden" id="PostCategoryId" value="@Model.PageWidget.PostCategoryId"/>
+
+<div class="container mb-80 mt-50">
+    <div class="row">
+        <div class="col-lg-8 mb-40">
+            <h1 class="heading-2 mb-10">Tin tức &amp; Sự kiện</h1>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.PageWidget.ListPosts != null && Model.PageWidget.ListPosts.Any())
+        {
+            <div class="loop-grid loop-list pr-30 mb-50">
+                @foreach (var post in Model.PageWidget.ListPosts)
+                {
+                    <article class="wow fadeIn animated hover-up mb-30 animated animated" style="visibility: visible;">
+                        <div class="post-thumb" style="background-image: url(@post.Image)">
+                        </div>
+                        <div class="entry-content-2 pl-50">
+                            <h3 class="post-title mb-20">
+                                <a href="@post.Url">@post.Name</a>
+                            </h3>
+                            <p class="post-exerpt mb-40">@post.Summary</p>
+                            <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
+                                <div>
+                                    <span class="post-on">@post.CreationTime.ToShortDateString()</span>
+                                </div>
+                                <a href="@post.Url" class="text-brand font-heading font-weight-bold">Chi tiết<i class="fi-rs-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+
+        @if (Model.PageWidget.PostsCount > Model.PageWidget.PostsMaxResultCount)
+        {
+            <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center">
+                        @{
+                            var currentPage = Model.PageWidget.PostsCurrentPage;
+                            if (currentPage + 1 > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link changeListingPostsPage" href="#" data-page="@(currentPage)">
+                                        <i class="fi-rs-arrow-small-left"></i>
+                                    </a>
+                                </li>
+                            }
+                            for (var i = 0; i < Model.PageWidget.PostsTotalPage; i++)
+                            {
+                                if (i == Model.PageWidget.PostsCurrentPage)
+                                {
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">@(i + 1)</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li>
+                                        <a href="#" class="page-link changeListingPostsPage" data-page="@(i + 1)">@(i + 1)</a>
+                                    </li>
+                                }
+                            }
+                            if (currentPage + 1 < Model.PageWidget.PostsTotalPage)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link changeListingPostsPage" href="#" data-page="@(currentPage + 2)">
+                                        <i class="fi-rs-arrow-small-right"></i>
+                                    </a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </nav>
+            </div>
+        }
+    </div>
+</div>

@@ -11,16 +11,10 @@
                     @L("GeneralInfo")
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#PageThemeTab" data-toggle="tab" role="tab">@L("PageTheme")</a>
-            </li>
         </ul>
         <div class="tab-content pt-20" id="TabContentWrapper">
             <div class="tab-pane active" id="GeneralInfo" role="tabpanel">
                 @await Html.PartialAsync("Components/_GeneralTab", Model)
-            </div>
-            <div class="tab-pane" id="PageThemeTab" role="tabpanel">
-                @await Html.PartialAsync("Components/_PageThemeTab", Model)
             </div>
         </div>
     </div>

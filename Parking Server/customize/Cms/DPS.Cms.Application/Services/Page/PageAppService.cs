@@ -46,17 +46,12 @@ namespace DPS.Cms.Application.Services.Page
 
             var query = from o in _pageRepository.GetAll()
                     .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
-                    .WhereIf(input is { PageThemeId: { } }, o=>o.PageLayout.PageThemeId == input.PageThemeId)
                     .WhereIf(id.HasValue, e => e.Id == id.Value)
                 select new PageDto
                 {
                     Id = o.Id,
                     
-                    #region Theme + Layout
-                    
-                    PageThemeId = o.PageLayout.PageThemeId,
-                    PageThemeCode = o.PageLayout.PageTheme != null ? o.PageLayout.PageTheme.Code : "",
-                    PageThemeName = o.PageLayout.PageTheme != null ? o.PageLayout.PageTheme.Name : "",
+                    #region Layout
                     
                     PageLayoutId = o.PageLayoutId,
                     PageLayoutName = o.PageLayout.Name,

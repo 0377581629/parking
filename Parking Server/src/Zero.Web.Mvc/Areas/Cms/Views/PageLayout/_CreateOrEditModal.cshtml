@@ -13,21 +13,7 @@
             <input type="hidden" name="code" value="@Model.PageLayout.Code"/>
             <div id="GeneralInfo" class="tab-pane active">
                 <div class="row">
-                    <div class="col-3">
-                        <div class="form-group">
-                            <label>
-                                @L("PageTheme")
-                            </label>
-                            <select id="PageLayout_PageThemeId" name="pageThemeId" class="form-control">
-                                @if (Model.IsEditMode)
-                                {
-                                    <option value="@Model.PageLayout.PageThemeId" selected>@Model.PageLayout.PageThemeName</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
+                    <div class="col-9">
                         <div class="form-group">
                             <label>
                                 @L("Name") <span class="text-danger">*</span>

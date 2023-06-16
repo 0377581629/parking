@@ -1,5 +1,4 @@
-﻿@using Zero.Web.Areas.Cms.Models.Post
-@model Zero.Web.Areas.Cms.Models.Post.CreateOrEditPostViewModel
+﻿@model Zero.Web.Areas.Cms.Models.Post.CreateOrEditPostViewModel
 
 @{
     ViewBag.CurrentPageName = AppPageNames.Cms.Post;
@@ -37,7 +36,7 @@
             <input type="hidden" name="code" value="@Model.Post.Code"/>
 
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <div class="card card-custom overflow-hidden">
                         <div class="card-body">
                             <div class="row">
@@ -58,9 +57,9 @@
                                 <div class="col-9">
                                     <div class="form-group">
                                         <label>
-                                            @L("Title") <span class="text-danger">(*)</span>
+                                            @L("Name") <span class="text-danger">(*)</span>
                                         </label>
-                                        <input class="form-control" id="Title" value="@Model.Post.Title" type="text" name="title" required/>
+                                        <input class="form-control" id="Name" value="@Model.Post.Name" type="text" name="name" required/>
                                     </div>
                                     <div class="form-group">
                                         <label for="Summary">
@@ -70,73 +69,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="Description">@L("Content")</label>
-                                        <textarea class="form-control" id="Description" value="@Model.Post.Description" type="text" name="description">@Model.Post.Description</textarea>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="form-group">
-                                        <label>
-                                            @L("Author")
-                                        </label>
-                                        <input class="form-control" id="Author" value="@Model.Post.Author" type="text" name="author"/>
-                                    </div>
-                                </div>
-                                <div class="col-8">
-                                    <div class="form-group">
-                                        <label>
-                                            @L("Tags")
-                                        </label>
-                                        <select id="TagsSelector" name="TagsId" multiple class="form-control">
-                                            @if (Model.Post != null && Model.Post.ListTags != null && Model.Post.ListTags.Count > 0)
-                                            {
-                                                foreach (var tags in Model.Post.ListTags)
-                                                {
-                                                    <option selected="selected" value="@tags.TagId">@tags.TagName</option>
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card card-custom overflow-hidden">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>
-                                            @L("CategoryMain") <span class="text-danger">(*)</span>
-                                        </label>
-                                        <select id="CategoryId" name="categoryId" class="form-control requiredSelect2">
-                                            @if (Model.IsEditMode)
-                                            {
-                                                <option value="@Model.Post.CategoryId">@Model.Post.CategoryName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>
-                                            @L("CategorySub")
-                                        </label>
-                                        <div class="form-control mScrollBar" style="height: 200px !important;">
-                                            <div class="category-tree">
-                                                @await Html.PartialAsync("Components/_CategoryTree", new CategoryTreeItemModel(Model.Categories, null, Model.Post?.ListCategories?.Select(o => o.CategoryId).ToList()))
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </form>

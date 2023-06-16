@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Abp.Application.Services.Dto;
-using DPS.Cms.Application.Shared.Dto.ImageBlock;
 using DPS.Cms.Application.Shared.Dto.ImageBlockGroup;
-using DPS.Cms.Application.Shared.Dto.Menu;
 using DPS.Cms.Application.Shared.Dto.MenuGroup;
-using Zero.Authorization.Users.Dto;
+using DPS.Cms.Application.Shared.Dto.Post;
 
 namespace DPS.Cms.Application.Shared.Dto.Page
 {
@@ -65,6 +64,35 @@ namespace DPS.Cms.Application.Shared.Dto.Page
 
 		public List<MenuGroupDto> ListMenuGroup { get; set; }
 		
+		#endregion
+		
+		#region Post
+
+		public List<PostDto> ListPosts { get; set; }
+
+		#region Post Listing Filter
+		
+		public string PostsSorting { get; set; }
+
+		public string PostsFiltering { get; set; }
+
+		public int PostsSkipCount { get; set; }
+
+		public int PostsMaxResultCount { get; set; }
+
+		public int PostsCount { get; set; }
+
+		public int? PostCategoryId { get; set; }
+		
+		public int PostsTotalPage =>
+			PostsMaxResultCount <= 0 ? 0 : (int)Math.Ceiling((double)PostsCount / PostsMaxResultCount);
+
+		public int PostsCurrentPage => PostsMaxResultCount <= 0
+			? 0
+			: (int)Math.Ceiling((double)PostsSkipCount / PostsMaxResultCount);
+
+		#endregion
+
 		#endregion
 	}
 }

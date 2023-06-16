@@ -45,11 +45,6 @@ namespace Zero.Authorization
             imageBlock.CreateChildPermission(CmsPermissions.ImageBlock_Edit, L("Edit"));
             imageBlock.CreateChildPermission(CmsPermissions.ImageBlock_Delete, L("Delete"));
             
-            var pageTheme = cmsSettings.CreateChildPermission(CmsPermissions.PageTheme, L("PageThemes"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            pageTheme.CreateChildPermission(CmsPermissions.PageTheme_Create, L("Create"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            pageTheme.CreateChildPermission(CmsPermissions.PageTheme_Edit, L("Edit"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            pageTheme.CreateChildPermission(CmsPermissions.PageTheme_Delete, L("Delete"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            
             var pageLayout = cmsSettings.CreateChildPermission(CmsPermissions.PageLayout, L("PageLayouts"));
             pageLayout.CreateChildPermission(CmsPermissions.PageLayout_Create, L("Create"));
             pageLayout.CreateChildPermission(CmsPermissions.PageLayout_Edit, L("Edit"));
@@ -64,12 +59,7 @@ namespace Zero.Authorization
             widget.CreateChildPermission(CmsPermissions.Widget_Create, L("Create"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             widget.CreateChildPermission(CmsPermissions.Widget_Edit, L("Edit"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             widget.CreateChildPermission(CmsPermissions.Widget_Delete, L("Delete"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
-            
-            var tags = cmsSettings.CreateChildPermission(CmsPermissions.Tags, L("Tags"));
-            tags.CreateChildPermission(CmsPermissions.Tags_Create, L("Create"));
-            tags.CreateChildPermission(CmsPermissions.Tags_Edit, L("Edit"));
-            tags.CreateChildPermission(CmsPermissions.Tags_Delete, L("Delete"));
-            
+
             var menuGroup = cmsSettings.CreateChildPermission(CmsPermissions.MenuGroup, L("MenuGroup"));
             menuGroup.CreateChildPermission(CmsPermissions.MenuGroup_Create, L("Create"));
             menuGroup.CreateChildPermission(CmsPermissions.MenuGroup_Edit, L("Edit"));
@@ -79,11 +69,6 @@ namespace Zero.Authorization
             menu.CreateChildPermission(CmsPermissions.Menu_Create, L("Create"));
             menu.CreateChildPermission(CmsPermissions.Menu_Edit, L("Edit"));
             menu.CreateChildPermission(CmsPermissions.Menu_Delete, L("Delete"));
-            
-            var category = cmsSettings.CreateChildPermission(CmsPermissions.Category, L("Category"));
-            category.CreateChildPermission(CmsPermissions.Category_Create, L("Create"));
-            category.CreateChildPermission(CmsPermissions.Category_Edit, L("Edit"));
-            category.CreateChildPermission(CmsPermissions.Category_Delete, L("Delete"));
             
             var post = cmsSettings.CreateChildPermission(CmsPermissions.Post, L("Post"));
             post.CreateChildPermission(CmsPermissions.Post_Publish, L("Publish"));

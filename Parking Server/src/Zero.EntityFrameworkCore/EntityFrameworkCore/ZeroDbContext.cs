@@ -61,7 +61,6 @@ namespace Zero.EntityFrameworkCore
         public virtual DbSet<ImageBlockGroup> ImageBlockGroups { get; set; }
         public virtual DbSet<ImageBlock> ImageBlocks { get; set; }
 
-        public virtual DbSet<PageTheme> PageThemes { get; set; }
         public virtual DbSet<PageLayout> PageLayouts { get; set; }
         public virtual DbSet<PageLayoutBlock> PageLayoutBlocks { get; set; }
 
@@ -75,17 +74,7 @@ namespace Zero.EntityFrameworkCore
 
         public virtual DbSet<Menu> Menus { get; set; }
 
-        public virtual DbSet<WidgetPageTheme> WidgetPageThemes { get; set; }
-
-        public virtual DbSet<Category> Categories { get; set; }
-
         public virtual DbSet<Post> Posts { get; set; }
-
-        public virtual DbSet<PostCategoryDetail> PostCategoryDetails { get; set; }
-
-        public virtual DbSet<PostTagDetail> PostTagDetails { get; set; }
-
-        public virtual DbSet<Tags> Tags { get; set; }
 
         #endregion
 

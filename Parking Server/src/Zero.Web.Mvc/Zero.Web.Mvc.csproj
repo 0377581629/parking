@@ -145,6 +145,23 @@
     <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.js" />
     <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.min.js" />
     <_ContentIncludedByDefault Remove="Views\Shared\ContentCheckout\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Post\Components\_CategoryTree.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Tags\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Tags\_CreateOrEditModal.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\PageTheme\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\PageTheme\_CreateOrEditModal.cshtml" />
   </ItemGroup>
 
 </Project>

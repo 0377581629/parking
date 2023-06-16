@@ -29,9 +29,5 @@ namespace DPS.Cms.Application.Shared.Dto.Widget
         public int ContentCount { get; set; }
         
         public bool AsyncLoad { get; set; }
-        
-        [CanBeNull] public List<int?> PageThemesIds { get; set; }
-        
-        public List<WidgetPageThemeDto> PageThemes { get; set; }
     }
 }

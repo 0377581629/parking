@@ -25,15 +25,10 @@
             scriptUrl: _scriptUrl + '_CreateOrEditModal.js',
             modalClass: 'CreateOrEditPageLayoutModal'
         });
-
-
-        let pageThemeId = $('#PageThemeIdSelector');
-        baseHelper.SimpleSelector(pageThemeId, app.localize('NoneSelect'), "/Cms/GetPagedPageThemes")
         
         let getFilter = function () {
             return {
                 filter: _$PageLayoutsTableFilter.val(),
-                pageThemeId: pageThemeId.val()
             };
         };
 
@@ -100,16 +95,11 @@
                 },
                 {
                     targets: 2,
-                    data: "pageLayout.pageThemeName",
-                    name: "pageThemeName"
-                },
-                {
-                    targets: 3,
                     data: "pageLayout.name",
                     name: "name"
                 },
                 {
-                    targets: 4,
+                    targets: 3,
                     data: "pageLayout.isActive",
                     name: "isActive",
                     class: "text-center",

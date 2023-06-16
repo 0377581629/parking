@@ -25,14 +25,10 @@
             scriptUrl: _scriptUrl + '_CreateOrEditModal.js',
             modalClass: 'CreateOrEditPageModal'
         });
-
-        let pageThemeId = $('#PageThemeIdSelector');
-        baseHelper.SimpleSelector(pageThemeId, app.localize('NoneSelect'), "/Cms/GetPagedPageThemes")
         
         let getFilter = function () {
             return {
                 filter: _$PagesTableFilter.val(),
-                pageThemeId: pageThemeId.val()
             };
         };
 
@@ -114,16 +110,11 @@
                 },
                 {
                     targets: 5,
-                    data: "page.pageThemeName",
-                    name: "pageThemeName"
-                },
-                {
-                    targets: 6,
                     data: "page.pageLayoutName",
                     name: "pageLayoutName"
                 },
                 {
-                    targets: 7,
+                    targets: 6,
                     data: "page.isHomePage",
                     name: "isHomePage",
                     class: "text-center",
@@ -133,7 +124,7 @@
                     }
                 },
                 {
-                    targets: 8,
+                    targets: 7,
                     data: "page.publish",
                     name: "publish",
                     class: "text-center",
@@ -143,7 +134,7 @@
                     }
                 },
                 {
-                    targets: 9,
+                    targets: 8,
                     data: "page.isActive",
                     name: "isActive",
                     class: "text-center",

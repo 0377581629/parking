@@ -5,10 +5,6 @@
 @inject ICompositeViewEngine CompositeViewEngine
 @{
     Layout = "_Layout.cshtml";
-    if (Model.Page is {PageThemeId: { } } && CompositeViewEngine.GetView("", $"~/Views/Home/_Layout_{Model.Page.PageThemeCode}.cshtml", false).Success)
-    {
-        Layout = $"_Layout_{Model.Page.PageThemeCode}.cshtml";
-    }
 }
 @section Styles {
     @if (Model is { IsValid: true })

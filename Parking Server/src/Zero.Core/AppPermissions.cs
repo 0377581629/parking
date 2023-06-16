@@ -143,31 +143,16 @@
         public const string PageLayout_Edit = "Cms.PageLayout.Edit";
         public const string PageLayout_Delete = "Cms.PageLayout.Delete";
         
-        public const string PageTheme = "Cms.PageTheme";
-        public const string PageTheme_Create = "Cms.PageTheme.Create";
-        public const string PageTheme_Edit = "Cms.PageTheme.Edit";
-        public const string PageTheme_Delete = "Cms.PageTheme.Delete";
-        
         public const string Widget = "Cms.Widget";
         public const string Widget_Create = "Cms.Widget.Create";
         public const string Widget_Edit = "Cms.Widget.Edit";
         public const string Widget_Delete = "Cms.Widget.Delete";
-        
-        public const string Category = "Cms.Category";
-        public const string Category_Create = "Cms.Category.Create";
-        public const string Category_Edit = "Cms.Category.Edit";
-        public const string Category_Delete = "Cms.Category.Delete";
         
         public const string Post = "Cms.Post";
         public const string Post_Publish = "Cms.Post.Publish";
         public const string Post_Create = "Cms.Post.Create";
         public const string Post_Edit = "Cms.Post.Edit";
         public const string Post_Delete = "Cms.Post.Delete";
-        
-        public const string Tags = "Cms.Tags";
-        public const string Tags_Create = "Cms.Tags.Create";
-        public const string Tags_Edit = "Cms.Tags.Edit";
-        public const string Tags_Delete = "Cms.Tags.Delete";
         
         public const string MenuGroup = "Cms.MenuGroup";
         public const string MenuGroup_Create = "Cms.MenuGroup.Create";

@@ -208,10 +208,6 @@
     <text name="ImageBlocksHeaderInfo">Danh sách quảng cáo</text>
     <text name="TargetUrl">Đường dẫn đích</text>
 
-    <text name="PageTheme">Chủ đề giao diện</text>
-    <text name="PageThemes">Chủ đề giao diện</text>
-    <text name="PageThemesHeaderInfo">Danh sách chủ đề giao diện</text>
-
     <text name="PageLayout">Khung giao diện</text>
     <text name="PageLayouts">Khung giao diện</text>
     <text name="PageLayoutsHeaderInfo">Danh sách khung giao diện</text>

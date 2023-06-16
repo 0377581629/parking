@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
@@ -9,9 +12,9 @@ using DPS.Cms.Application.Shared.Dto.ImageBlock;
 using DPS.Cms.Application.Shared.Dto.Menu;
 using DPS.Cms.Application.Shared.Dto.Page;
 using DPS.Cms.Application.Shared.Dto.PageLayout;
+using DPS.Cms.Application.Shared.Dto.Post;
 using DPS.Cms.Application.Shared.Interfaces.Common;
 using DPS.Cms.Core.Advertisement;
-using DPS.Cms.Core.Menu;
 using DPS.Cms.Core.Page;
 using DPS.Cms.Core.Shared;
 using Microsoft.EntityFrameworkCore;
@@ -23,19 +26,22 @@ namespace DPS.Cms.Application.Services.Common
     public class CmsPublicAppService : ZeroAppServiceBase, ICmsPublicAppService
     {
         #region Constructor
-        
+
         private readonly IRepository<Core.Page.Page> _pageRepository;
         private readonly IRepository<PageWidget> _pageWidgetRepository;
         private readonly IRepository<PageWidgetDetail> _pageWidgetDetailRepository;
         private readonly IRepository<ImageBlock> _imageBlockRepository;
         private readonly IRepository<Core.Menu.Menu> _menuRepository;
         private readonly IRepository<PageLayoutBlock> _pageLayoutBlockRepository;
+        private readonly IRepository<Core.Post.Post> _postRepository;
+
         public CmsPublicAppService(IRepository<Core.Page.Page> pageRepository,
             IRepository<PageWidget> pageWidgetRepository,
             IRepository<PageWidgetDetail> pageWidgetDetailRepository,
-            IRepository<ImageBlock> imageBlockRepository, 
+            IRepository<ImageBlock> imageBlockRepository,
             IRepository<PageLayoutBlock> pageLayoutBlockRepository,
-            IRepository<Core.Menu.Menu> menuRepository)
+            IRepository<Core.Menu.Menu> menuRepository,
+            IRepository<Core.Post.Post> postRepository)
         {
             _pageRepository = pageRepository;
             _pageWidgetRepository = pageWidgetRepository;
@@ -43,6 +49,7 @@ namespace DPS.Cms.Application.Services.Common
             _imageBlockRepository = imageBlockRepository;
             _pageLayoutBlockRepository = pageLayoutBlockRepository;
             _menuRepository = menuRepository;
+            _postRepository = postRepository;
         }
 
         #endregion
@@ -52,25 +59,22 @@ namespace DPS.Cms.Application.Services.Common
         private IQueryable<PageDto> PageQuery(GetPageInput input)
         {
             var query = from o in _pageRepository.GetAll()
-                    .Where(o => !o.IsDeleted && o.Publish && o.IsActive && o.TenantId == AbpSession.TenantId)
-                    .WhereIf(input != null && !string.IsNullOrEmpty(input.PageSlug), e => e.Slug.ToLower() == input.PageSlug.ToLower())
-                    .WhereIf(input is { PageId: { } }, o=>o.Id == input.PageId)
+                    .Where(o => !o.IsDeleted && o.Publish && o.TenantId == AbpSession.TenantId)
+                    .WhereIf(input != null && !string.IsNullOrEmpty(input.PageSlug),
+                        e => e.Slug.ToLower() == input.PageSlug.ToLower())
+                    .WhereIf(input is { PageId: { } }, o => o.Id == input.PageId)
                     .WhereIf(input is { HomePage: { } }, e => e.IsHomePage == input.HomePage)
                 select new PageDto
                 {
                     Id = o.Id,
-                    
+
                     #region Theme + Layout
-                    
-                    PageThemeId = o.PageLayout.PageThemeId,
-                    PageThemeCode = o.PageLayout.PageTheme != null ? o.PageLayout.PageTheme.Code : "",
-                    PageThemeName = o.PageLayout.PageTheme != null ? o.PageLayout.PageTheme.Name : "",
-                    
+
                     PageLayoutId = o.PageLayoutId,
                     PageLayoutName = o.PageLayout.Name,
-                    
+
                     #endregion
-                    
+
                     Numbering = o.Numbering,
                     Code = o.Code,
                     Name = o.Name,
@@ -104,24 +108,24 @@ namespace DPS.Cms.Application.Services.Common
 
             return query;
         }
-        
+
         public async Task<PageDto> GetHomePage()
         {
-            return await PageQuery(new GetPageInput{HomePage = true}).FirstOrDefaultAsync();
+            return await PageQuery(new GetPageInput { HomePage = true }).FirstOrDefaultAsync();
         }
 
         public async Task<PageDto> GetPageById(GetPageInput input)
         {
             if (!input.PageId.HasValue)
                 return null;
-            return await PageQuery(new GetPageInput{PageId = input.PageId}).FirstOrDefaultAsync();
+            return await PageQuery(new GetPageInput { PageId = input.PageId }).FirstOrDefaultAsync();
         }
 
         public async Task<PageDto> GetPageBySlug(GetPageInput input)
         {
             if (string.IsNullOrEmpty(input.PageSlug))
                 return null;
-            return await PageQuery(new GetPageInput{PageSlug = input.PageSlug}).FirstOrDefaultAsync();
+            return await PageQuery(new GetPageInput { PageSlug = input.PageSlug }).FirstOrDefaultAsync();
         }
 
         private IQueryable<PageWidgetDto> PageWidgetByPageQuery(int pageId)
@@ -160,11 +164,7 @@ namespace DPS.Cms.Application.Services.Common
                 {
                     Id = o.Id,
                     PageId = o.PageId,
-                    
-                    PageThemeId = o.Page.PageLayout.PageThemeId,
-                    PageThemeCode = o.Page.PageLayout.PageTheme != null ? o.Page.PageLayout.PageTheme.Code : "",
-                    PageThemeName = o.Page.PageLayout.PageTheme != null ? o.Page.PageLayout.PageTheme.Name : "",
-                    
+
                     PageBlockColumnId = o.PageBlockColumnId,
 
                     WidgetId = o.WidgetId,
@@ -254,34 +254,34 @@ namespace DPS.Cms.Application.Services.Common
                     switch (res.WidgetContentType)
                     {
                         case (int)CmsEnums.WidgetContentType.Service:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServiceType:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServiceCategory:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServiceArticle:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServiceVendor:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServiceBrand:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ServicePropertyGroup:
-                           
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ReviewPost:
-                            
+
                             break;
                         case (int)CmsEnums.WidgetContentType.ImageBlock:
-                           
+
                             break;
                         case (int)CmsEnums.WidgetContentType.MenuGroup:
-                            
+
                             break;
                     }
                 }
@@ -445,7 +445,7 @@ namespace DPS.Cms.Application.Services.Common
         {
             return await MenuQuery(input).ToListAsync();
         }
-        
+
         public async Task<List<MenuDto>> GetDefaultMenus()
         {
             return await _menuRepository.GetAll()
@@ -510,6 +510,67 @@ namespace DPS.Cms.Application.Services.Common
                     SubBlocks = GetChildren(blocks, o.Id)
                 })
                 .ToList();
+        }
+
+        #endregion
+
+        #region Post
+
+        private async Task<IQueryable<PostDto>> PostQuery(CmsPublicInput input)
+        {
+            var query = from o in _postRepository.GetAll()
+                    .Where(o => !o.IsDeleted && o.TenantId == AbpSession.TenantId)
+                    .WhereIf(input != null && !string.IsNullOrEmpty(input.PostSlugWithCode),
+                        o => o.Slug.ToLower() + "-" + o.Code.ToLower() == input.PostSlugWithCode.ToLower())
+                    .WhereIf(input != null && !string.IsNullOrEmpty(input.PostSlug),
+                        o => o.Slug.ToLower() == input.PostSlug.ToLower())
+                select new PostDto
+                {
+                    Id = o.Id,
+
+                    Code = o.Code,
+                    Name = o.Name,
+                    Note = o.Note,
+                    Order = o.Order,
+
+                    About = o.About,
+                    Summary = o.Summary,
+                    Slug = o.Slug,
+                    Url = o.Url,
+                    Image = o.Image,
+
+                    CreationTime = o.CreationTime,
+                    LastModificationTime = o.LastModificationTime,
+                };
+
+            return query;
+        }
+
+        public async Task<PagedResultDto<PostDto>> GetPagedPosts(CmsPublicInput input)
+        {
+            try
+            {
+                var objQuery = await PostQuery(input);
+                var pagedAndFilteredObj = objQuery.OrderBy(input.Sorting ?? "id desc").PageBy(input);
+                var totalCount = await objQuery.CountAsync();
+                var res = await pagedAndFilteredObj.ToListAsync();
+
+                return new PagedResultDto<PostDto>(
+                    totalCount,
+                    res
+                );
+            }
+            catch (Exception e)
+            {
+                Logger.Error($"GetPagedPost - {e.Message}");
+                return new PagedResultDto<PostDto>(0, new List<PostDto>());
+            }
+        }
+
+        public async Task<PostDto> GetPost(CmsPublicInput input)
+        {
+            var obj = await (await PostQuery(input)).FirstOrDefaultAsync();
+            return obj;
         }
 
         #endregion

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using DPS.Cms.Application.Shared.Dto.Common;
 using DPS.Cms.Application.Shared.Dto.ImageBlock;
 using DPS.Cms.Application.Shared.Dto.Menu;
 using DPS.Cms.Application.Shared.Dto.Page;
 using DPS.Cms.Application.Shared.Dto.PageLayout;
+using DPS.Cms.Application.Shared.Dto.Post;
 
 namespace DPS.Cms.Application.Shared.Interfaces.Common
 {
@@ -35,6 +37,14 @@ namespace DPS.Cms.Application.Shared.Interfaces.Common
         Task<List<MenuDto>> GetMenusByGroupIds(CmsPublicInput input);
         
         Task<List<MenuDto>> GetDefaultMenus();
+        
+        #endregion
+        
+        #region Post
+
+        Task<PagedResultDto<PostDto>> GetPagedPosts(CmsPublicInput input);
+
+        Task<PostDto> GetPost(CmsPublicInput input);
         
         #endregion
     }

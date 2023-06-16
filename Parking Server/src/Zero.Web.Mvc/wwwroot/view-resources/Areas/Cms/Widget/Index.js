@@ -26,14 +26,10 @@
             scriptUrl: _scriptUrl + '_CreateOrEditModal.js',
             modalClass: 'CreateOrEditWidgetModal'
         });
-
-        let pageThemeId = $('#PageThemeIdSelector');
-        baseHelper.SimpleSelector(pageThemeId, app.localize('NoneSelect'), "/Cms/GetPagedPageThemes")
         
         let getFilter = function () {
             return {
                 filter: _$WidgetsTableFilter.val(),
-                pageThemeId: pageThemeId.val()
             };
         };
 

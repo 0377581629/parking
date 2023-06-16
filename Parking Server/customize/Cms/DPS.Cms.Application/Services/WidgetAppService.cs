@@ -21,13 +21,10 @@ namespace DPS.Cms.Application.Services
     public class WidgetAppService : ZeroAppServiceBase, IWidgetAppService
     {
         private readonly IRepository<Widget> _widgetRepository;
-        private readonly IRepository<WidgetPageTheme> _widgetPageThemeRepository;
 
-        public WidgetAppService(IRepository<Widget> widgetRepository,
-            IRepository<WidgetPageTheme> widgetPageThemeRepository)
+        public WidgetAppService(IRepository<Widget> widgetRepository)
         {
             _widgetRepository = widgetRepository;
-            _widgetPageThemeRepository = widgetPageThemeRepository;
         }
 
         private async Task<IQueryable<WidgetDto>> WidgetQuery(QueryInput queryInput)
@@ -35,16 +32,7 @@ namespace DPS.Cms.Application.Services
             var input = queryInput.Input;
             var id = queryInput.Id;
 
-            var lstWidgetIdsFilterByPageTheme = new List<int>();
-            if (input is {PageThemeId: { }})
-            {
-                lstWidgetIdsFilterByPageTheme = await _widgetPageThemeRepository.GetAll()
-                    .Where(o => o.PageThemeId == input.PageThemeId)
-                    .Select(o => o.WidgetId).ToListAsync();
-            }
-
             var query = from o in _widgetRepository.GetAll()
-                    .WhereIf(input is {PageThemeId: { }}, e => lstWidgetIdsFilterByPageTheme.Contains(e.Id))
                     .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
                         e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
                     .WhereIf(id.HasValue, e => e.Id == id.Value)
@@ -71,24 +59,6 @@ namespace DPS.Cms.Application.Services
                     ContentType = o.ContentType,
                     ContentCount = o.ContentCount,
                     AsyncLoad = o.AsyncLoad,
-                };
-
-            return query;
-        }
-
-        private IQueryable<WidgetPageThemeDto> WidgetPageThemeQuery(int widgetId)
-        {
-            var query = from o in _widgetPageThemeRepository.GetAll().Where(o => o.WidgetId == widgetId)
-                select new WidgetPageThemeDto
-                {
-                    Id = o.Id,
-                    WidgetId = o.WidgetId,
-                    WidgetCode = o.Widget.Code,
-                    WidgetName = o.Widget.Name,
-
-                    PageThemeId = o.PageThemeId,
-                    PageThemeCode = o.PageTheme.Code,
-                    PageThemeName = o.PageTheme.Name
                 };
 
             return query;
@@ -145,13 +115,6 @@ namespace DPS.Cms.Application.Services
                 Widget = ObjectMapper.Map<CreateOrEditWidgetDto>(obj)
             };
 
-            if (obj != null)
-            {
-                output.Widget.PageThemes = await WidgetPageThemeQuery(obj.Id).ToListAsync();
-                if (output.Widget.PageThemes.Any())
-                    output.Widget.PageThemesIds = output.Widget.PageThemes.Select(o => (int?) o.PageThemeId).ToList();
-            }
-
             return output;
         }
 
@@ -168,11 +131,6 @@ namespace DPS.Cms.Application.Services
         public async Task CreateOrEdit(CreateOrEditWidgetDto input)
         {
             input.Code = input.Code.Replace(" ", "");
-            input.PageThemesIds ??= new List<int?>();
-            if (input.PageThemesIds.Any())
-            {
-                input.PageThemesIds = input.PageThemesIds.Distinct().ToList();
-            }
 
             await ValidateDataInput(input);
             if (input.Id == null)
@@ -201,21 +159,6 @@ namespace DPS.Cms.Application.Services
                     }
                 }
             }
-
-            #region PageThemes
-
-            if (input.PageThemesIds != null && input.PageThemesIds.Any())
-            {
-                var lstNewPageThemes = input.PageThemesIds.Where(o => o.HasValue).Select(pageThemeId =>
-                    new WidgetPageTheme()
-                    {
-                        WidgetId = obj.Id,
-                        PageThemeId = pageThemeId.Value,
-                    }).ToList();
-                await _widgetPageThemeRepository.GetDbContext().BulkInsertAsync(lstNewPageThemes);
-            }
-
-            #endregion
         }
 
         [AbpAuthorize(CmsPermissions.Widget_Edit)]
@@ -240,22 +183,6 @@ namespace DPS.Cms.Application.Services
                         }
                     }
                 }
-
-                #region PageThemes
-
-                await _widgetPageThemeRepository.DeleteAsync(o => o.WidgetId == obj.Id);
-                if (input.PageThemesIds != null && input.PageThemesIds.Any())
-                {
-                    var lstNewPageThemes = input.PageThemesIds.Where(o => o.HasValue).Select(pageThemeId =>
-                        new WidgetPageTheme()
-                        {
-                            WidgetId = obj.Id,
-                            PageThemeId = pageThemeId.Value,
-                        }).ToList();
-                    await _widgetPageThemeRepository.GetDbContext().BulkInsertAsync(lstNewPageThemes);
-                }
-
-                #endregion
 
                 await _widgetRepository.UpdateAsync(obj);
             }

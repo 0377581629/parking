@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Zero.Customize.Base;
 using Zero.Customize.Dto.Base;
 
 namespace DPS.Cms.Application.Shared.Dto.PageLayout

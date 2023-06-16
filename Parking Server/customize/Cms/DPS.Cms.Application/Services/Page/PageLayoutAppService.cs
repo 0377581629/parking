@@ -42,7 +42,6 @@ namespace DPS.Cms.Application.Services.Page
 
             var query = from o in _pageLayoutRepository.GetAll()
                     .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
-                    .WhereIf(input is { PageThemeId: { } }, o=>o.PageThemeId == input.PageThemeId)
                     .WhereIf(id.HasValue, e => e.Id == id.Value)
                 select new PageLayoutDto
                 {
@@ -54,10 +53,6 @@ namespace DPS.Cms.Application.Services.Page
                     Order = o.Order,
                     IsDefault = o.IsDefault,
                     IsActive = o.IsActive,
-                    
-                    PageThemeId = o.PageThemeId,
-                    PageThemeCode = o.PageTheme != null ? o.PageTheme.Code : "",
-                    PageThemeName = o.PageTheme != null ? o.PageTheme.Name : ""
                 };
 
             return query;

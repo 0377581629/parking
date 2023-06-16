@@ -55,15 +55,9 @@
 
             public const string PageLayout = "Cms.PageLayout";
 
-            public const string PageTheme = "Cms.PageTheme";
-
-            public const string Tags = "Cms.Tags";
-
             public const string MenuGroup = "Cms.MenuGroup";
 
             public const string Menu = "Cms.Menu";
-
-            public const string Category = "Cms.Category";
 
             public const string Post = "Cms.Post";
         }

@@ -46,7 +46,6 @@ namespace Zero.Web.Areas.Cms.Controllers
 					{
 						Code = StringHelper.ShortIdentity(),
 						IsActive = true,
-						PageThemesIds = new List<int?>()
 					}
 				};
 			}

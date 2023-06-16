@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zero.EntityFrameworkCore;
 
 namespace Zero.Migrations
 {
     [DbContext(typeof(ZeroDbContext))]
-    partial class ZeroDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230616190248_Update_Post_and_Category_and_Tag")]
+    partial class Update_Post_and_Category_and_Tag
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1774,10 +1776,15 @@ namespace Zero.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PageThemeId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PageThemeId");
 
                     b.ToTable("Cms_Page_Layout");
                 });
@@ -1859,6 +1866,63 @@ namespace Zero.Migrations
                     b.HasIndex("ParentLayoutBlockId");
 
                     b.ToTable("Cms_Page_Layout_Block");
+                });
+
+            modelBuilder.Entity("DPS.Cms.Core.Page.PageTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasMaxLength(95)
+                        .HasColumnType("nvarchar(95)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Numbering")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cms_Page_Theme");
                 });
 
             modelBuilder.Entity("DPS.Cms.Core.Page.PageWidget", b =>
@@ -2091,6 +2155,28 @@ namespace Zero.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cms_Widget");
+                });
+
+            modelBuilder.Entity("DPS.Cms.Core.Widget.WidgetPageTheme", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("PageThemeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WidgetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PageThemeId");
+
+                    b.HasIndex("WidgetId");
+
+                    b.ToTable("Cms_Widget_PageTheme");
                 });
 
             modelBuilder.Entity("DPS.Park.Core.Card.Card", b =>
@@ -3854,6 +3940,15 @@ namespace Zero.Migrations
                     b.Navigation("PageLayout");
                 });
 
+            modelBuilder.Entity("DPS.Cms.Core.Page.PageLayout", b =>
+                {
+                    b.HasOne("DPS.Cms.Core.Page.PageTheme", "PageTheme")
+                        .WithMany()
+                        .HasForeignKey("PageThemeId");
+
+                    b.Navigation("PageTheme");
+                });
+
             modelBuilder.Entity("DPS.Cms.Core.Page.PageLayoutBlock", b =>
                 {
                     b.HasOne("DPS.Cms.Core.Page.PageLayout", "PageLayout")
@@ -3911,6 +4006,25 @@ namespace Zero.Migrations
                     b.Navigation("MenuGroup");
 
                     b.Navigation("PageWidget");
+                });
+
+            modelBuilder.Entity("DPS.Cms.Core.Widget.WidgetPageTheme", b =>
+                {
+                    b.HasOne("DPS.Cms.Core.Page.PageTheme", "PageTheme")
+                        .WithMany()
+                        .HasForeignKey("PageThemeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DPS.Cms.Core.Widget.Widget", "Widget")
+                        .WithMany()
+                        .HasForeignKey("WidgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PageTheme");
+
+                    b.Navigation("Widget");
                 });
 
             modelBuilder.Entity("DPS.Park.Core.Card.Card", b =>

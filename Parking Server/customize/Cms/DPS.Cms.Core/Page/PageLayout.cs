@@ -9,11 +9,5 @@ namespace DPS.Cms.Core.Page
     public class PageLayout : SimpleFullAuditedEntity, IMayHaveTenant
     {
         public int? TenantId { get; set; }
-        
-        public int? PageThemeId { get; set; }
-        
-        [ForeignKey("PageThemeId")]
-        [CanBeNull]
-        public PageTheme PageTheme { get; set; }
     }
 }

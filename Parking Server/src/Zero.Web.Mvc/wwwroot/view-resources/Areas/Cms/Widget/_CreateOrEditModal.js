@@ -15,82 +15,11 @@
         let jsPlainText;
         let cssPlainText;
 
-        let _$PageThemesTable;
-        let _$PageThemesTableFilter;
-        let _$refreshButton;
-        let pageThemeTable;
-
-        let selectedPageThemesIds = [];
-
         this.init = function (modalManager) {
             _modalManager = modalManager;
             modal = _modalManager.getModal();
             _modalManager.initControl();
-
-            _$PageThemesTable = modal.find('#PageThemesTable');
-            _$PageThemesTableFilter = modal.find('#PageThemesTableFilter');
-            _$refreshButton = modal.find('#PageThemesTableFilterBtn');
-
-            pageThemeTable = _$PageThemesTable.DataTable({
-                paging: true,
-                serverSide: true,
-                processing: true,
-                deferLoad: 0,
-                listAction: {
-                    ajaxFunction: _CmsService.getPagedPageThemes,
-                    inputFilter: function () {
-                        return {
-                            filter: _$PageThemesTableFilter.val(),
-                        };
-                    }
-                },
-                columnDefs: [
-                    {
-                        targets: 0,
-                        width: 40,
-                        class: "text-center p-0",
-                        data: "id",
-                        name: "id",
-                        orderable: false,
-                        render: function (id) {
-                            let checked = false;
-                            if (selectedPageThemesIds.length > 0) {
-                                selectedPageThemesIds.forEach(function (value, index) {
-                                    if (parseInt(value) === parseInt(id))
-                                        checked = true;
-                                });
-                            }
-                            return baseHelper.ShowCheckBox(id, 'pageThemeChecker', checked);
-                        }
-                    },
-                    {
-                        targets: 1,
-                        data: "name",
-                        name: "name"
-                    }
-                ]
-            });
-
-            if (_$refreshButton) {
-                _$refreshButton.on('click', function () {
-                    pageThemeTable.ajax.reload();
-                })
-            }
-
-            let selectedPageThemes = modal.find('#SelectedPageThemesIds');
-            if (selectedPageThemes.val() !== undefined && selectedPageThemes.val().length > 0)
-                selectedPageThemesIds = selectedPageThemes.val().split(',');
-
-            _$PageThemesTable.on('change', '.pageThemeChecker', function () {
-                let customId = $(this).attr('customId');
-                if ($(this).prop('checked'))
-                    selectedPageThemesIds.push(customId);
-                else
-                    selectedPageThemesIds = jQuery.grep(selectedPageThemesIds, function (value) {
-                        return value !== customId;
-                    });
-            });
-
+            
             contentType = modal.find('#ContentType');
             contentCount = modal.find('#Widget_ContentCount');
             contentType.on('change', function () {
@@ -136,7 +65,6 @@
             }
 
             const Widget = _$WidgetInformationForm.serializeFormToObject();
-            Widget.pageThemesIds = selectedPageThemesIds;
             Widget.jsPlain = jsPlainText.getValue();
             Widget.cssPlain = cssPlainText.getValue();
             

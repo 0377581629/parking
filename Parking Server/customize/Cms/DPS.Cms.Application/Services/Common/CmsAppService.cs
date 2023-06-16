@@ -6,20 +6,15 @@ using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
-using DPS.Cms.Application.Manager;
-using DPS.Cms.Application.Shared.Dto.Category;
 using DPS.Cms.Application.Shared.Dto.ImageBlockGroup;
 using DPS.Cms.Application.Shared.Dto.Common;
 using DPS.Cms.Application.Shared.Dto.MenuGroup;
 using DPS.Cms.Application.Shared.Dto.PageLayout;
-using DPS.Cms.Application.Shared.Dto.PageTheme;
-using DPS.Cms.Application.Shared.Dto.Tags;
 using DPS.Cms.Application.Shared.Dto.Widget;
 using DPS.Cms.Application.Shared.Interfaces.Common;
 using DPS.Cms.Core.Advertisement;
 using DPS.Cms.Core.Menu;
 using DPS.Cms.Core.Page;
-using DPS.Cms.Core.Post;
 using DPS.Cms.Core.Widget;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -34,30 +29,18 @@ namespace DPS.Cms.Application.Services.Common
 
         private readonly IRepository<ImageBlockGroup> _imageBlockGroupRepository;
         private readonly IRepository<Widget> _widgetRepository;
-        private readonly IRepository<PageTheme> _pageThemeRepository;
         private readonly IRepository<PageLayout> _pageLayoutRepository;
-        private readonly IRepository<Tags> _tagsRepository;
         private readonly IRepository<MenuGroup> _menuGroupRepository;
-        private readonly CategoryManager _categoryManager;
-        private readonly IRepository<Category> _categoryRepository;
 
         public CmsAppService(IRepository<ImageBlockGroup> imageBlockGroupRepository, 
             IRepository<Widget> widgetRepository, 
             IRepository<PageLayout> pageLayoutRepository,
-            IRepository<Tags> tagsRepository,
-            IRepository<MenuGroup> menuGroupRepository, 
-            IRepository<PageTheme> pageThemeRepository, 
-            CategoryManager categoryManager,
-            IRepository<Category> categoryRepository)
+            IRepository<MenuGroup> menuGroupRepository)
         {
             _imageBlockGroupRepository = imageBlockGroupRepository;
             _widgetRepository = widgetRepository;
             _pageLayoutRepository = pageLayoutRepository;
-            _tagsRepository = tagsRepository;
             _menuGroupRepository = menuGroupRepository;
-            _pageThemeRepository = pageThemeRepository;
-            _categoryManager = categoryManager;
-            _categoryRepository = categoryRepository;
         }
 
         #endregion
@@ -207,54 +190,6 @@ namespace DPS.Cms.Application.Services.Common
         
         #endregion
         
-        #region Page Theme
-        
-        private IQueryable<PageThemeDto> PageThemeQuery(CmsInput input = null)
-        {
-            var query = from o in _pageThemeRepository.GetAll()
-                    .Where(o => !o.IsDeleted && o.IsActive)
-                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
-                select new PageThemeDto
-                {
-                    Id = o.Id,
-                    Numbering = o.Numbering,
-                    Code = o.Code,
-                    Name = o.Name,
-                    Note = o.Note,
-                    Order = o.Order,
-                    IsDefault = o.IsDefault,
-                    IsActive = o.IsActive
-                };
-            return query;
-        }
-
-        public async Task<List<PageThemeDto>> GetAllPageTheme()
-        {
-            var query = PageThemeQuery();
-            return await query.OrderBy(o => o.Order).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllPageThemeDropDown(int? current = default)
-        {
-            var res = await GetAllPageTheme();
-            return res.Select(o => new SelectListItem(o.Name, o.Id.ToString(), o.Id == current)).ToList();
-        }
-
-        public async Task<PagedResultDto<PageThemeDto>> GetPagedPageThemes(CmsInput input)
-        {
-            var objQuery = PageThemeQuery(input);
-            var pagedAndFilteredObj = objQuery.OrderBy(input.Sorting ?? "name asc").PageBy(input);
-            var totalCount = await objQuery.CountAsync();
-            var res = await pagedAndFilteredObj.ToListAsync();
-
-            return new PagedResultDto<PageThemeDto>(
-                totalCount,
-                res
-            );
-        }
-        
-        #endregion
-        
         #region Page Layout
         
         private IQueryable<PageLayoutDto> PageLayoutQuery(CmsInput input = null)
@@ -272,10 +207,6 @@ namespace DPS.Cms.Application.Services.Common
                     Order = o.Order,
                     IsDefault = o.IsDefault,
                     IsActive = o.IsActive,
-                    
-                    PageThemeId = o.PageThemeId,
-                    PageThemeCode = o.PageTheme != null ? o.PageTheme.Code : "",
-                    PageThemeName = o.PageTheme != null ? o.PageTheme.Name : ""
                 };
             return query;
         }
@@ -305,101 +236,6 @@ namespace DPS.Cms.Application.Services.Common
             );
         }
         
-        #endregion
-        
-        #region Category
-        
-        private IQueryable<CategoryDto> CategoryQuery(CmsInput input = null)
-        {
-            var query = from o in _categoryRepository.GetAll()
-                    .Where(o => !o.IsDeleted)
-                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
-                select new CategoryDto
-                {
-                    Id = o.Id,
-                    Numbering = o.Numbering,
-                    Code = o.Code,
-                    Name = o.Name,
-                    Note = o.Note,
-                    Order = o.Order,
-                    IsDefault = o.IsDefault,
-                    IsActive = o.IsActive
-                };
-            return query;
-        }
-
-        public async Task<List<CategoryDto>> GetAllCategory()
-        {
-            return await _categoryManager.GetAllCategory();
-        }
-
-        public async Task<List<SelectListItem>> GetCategory()
-        {
-             var res = await _categoryManager.GetAllCategory();
-                       return res.Select(o =>
-                           new SelectListItem(o.Name, o.Id.ToString())).ToList();
-        }
-        
-        public async Task<PagedResultDto<CategoryDto>> GetPagedCategories(CmsInput input)
-        {
-            var objQuery = CategoryQuery(input);
-            var pagedAndFilteredObj = objQuery.OrderBy(input.Sorting ?? "name asc").PageBy(input);
-            var totalCount = await objQuery.CountAsync();
-            var res = await pagedAndFilteredObj.ToListAsync();
-
-            return new PagedResultDto<CategoryDto>(
-                totalCount,
-                res
-            );
-        }
-        #endregion
-        
-        #region Tags
-
-        private IQueryable<TagsDto> TagsQuery(CmsInput input = null)
-        {
-            var query = from o in _tagsRepository.GetAll()
-                    .Where(o => !o.IsDeleted && o.IsActive)
-                    .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter), e => EF.Functions.Like(e.Name, $"%{input.Filter}%"))
-                select new TagsDto
-                {
-                    Id = o.Id,
-                    Numbering = o.Numbering,
-                    Code = o.Code,
-                    Name = o.Name,
-                    Note = o.Note,
-                    Order = o.Order,
-                    IsDefault = o.IsDefault,
-                    IsActive = o.IsActive
-                };
-            return query;
-        }
-
-        public async Task<List<TagsDto>> GetAllTags()
-        {
-            var query = TagsQuery();
-            return await query.OrderBy(o => o.Order).ToListAsync();
-        }
-
-        public async Task<List<SelectListItem>> GetAllTagsDropDown(int? current = default)
-        {
-            var res = await GetAllTags();
-            return res.Select(o => new SelectListItem(o.Name, o.Id.ToString(), o.Id == current)).ToList();
-        }
-
-        public async Task<PagedResultDto<TagsDto>> GetPagedTags(CmsInput input)
-        {
-            var objQuery = TagsQuery(input);
-            var pagedAndFilteredObj = objQuery.OrderBy(input.Sorting ?? "name asc").PageBy(input);
-            var totalCount = await objQuery.CountAsync();
-            var res = await pagedAndFilteredObj.ToListAsync();
-
-            return new PagedResultDto<TagsDto>(
-                totalCount,
-                res
-            );
-        }
-
         #endregion
     }
 }

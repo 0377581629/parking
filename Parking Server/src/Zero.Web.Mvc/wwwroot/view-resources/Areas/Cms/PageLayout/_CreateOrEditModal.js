@@ -7,17 +7,11 @@
         let _$PageLayoutInformationForm = null;
 
         let modal;
-        let pageThemeId;
         
         this.init = function (modalManager) {
             _modalManager = modalManager;
             modal = _modalManager.getModal();
             _modalManager.initControl();
-            
-            pageThemeId = modal.find('#PageLayout_PageThemeId');
-            if (pageThemeId) {
-                baseHelper.SimpleSelector(pageThemeId, app.localize('NoneSelect'), "/Cms/GetPagedPageThemes")
-            }
             
             _$PageLayoutInformationForm = _modalManager.getModal().find('form[name=PageLayoutInformationsForm]');
             _$PageLayoutInformationForm.validate();

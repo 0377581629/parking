@@ -90,31 +90,6 @@
                     data: "post.name",
                     name: "name"
                 },
-                {
-                    targets: 3,
-                    width: 250,
-                    data: "post.categoryName",
-                    name: "categoryName"
-                },
-                {
-                    targets: 4,
-                    data: "post.name",
-                    name: "name",
-                },
-                {
-                    width: 60,
-                    targets: 5,
-                    class: "text-right",
-                    data: "post.commentCount",
-                    name: "commentCount",
-                },
-                {
-                    width: 60,
-                    targets: 6,
-                    class: "text-right",
-                    data: "post.viewCount",
-                    name: "viewCount",
-                }
             ]
         });
 

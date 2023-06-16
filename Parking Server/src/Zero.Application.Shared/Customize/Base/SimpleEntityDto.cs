@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 
-namespace Zero.Customize.Dto.Base
+namespace Zero.Customize.Base
 {
-	public class SimpleEntityDto : EntityDto
+	public class SimpleEntityDto : FullAuditedEntityDto
 	{
 		public string Numbering { get; set; }
 		

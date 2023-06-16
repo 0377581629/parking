@@ -46,13 +46,6 @@ namespace Zero.Web.Areas.App.Startup
                             )
                         )
                         .AddItem(new MenuItemDefinition(
-                                AppPageNames.Cms.PageTheme,
-                                L("PageThemes"),
-                                url: $"{ZeroConst.CmsAreas}/PageTheme",
-                                permissionDependency: new SimplePermissionDependency(CmsPermissions.PageTheme)
-                            )
-                        )
-                        .AddItem(new MenuItemDefinition(
                                 AppPageNames.Cms.PageLayout,
                                 L("PageLayouts"),
                                 url: $"{ZeroConst.CmsAreas}/PageLayout",
@@ -74,13 +67,6 @@ namespace Zero.Web.Areas.App.Startup
                             )
                         )
                         .AddItem(new MenuItemDefinition(
-                                AppPageNames.Cms.Tags,
-                                L("Tags"),
-                                url: $"{ZeroConst.CmsAreas}/Tags",
-                                permissionDependency: new SimplePermissionDependency(CmsPermissions.Tags)
-                            )
-                        )
-                        .AddItem(new MenuItemDefinition(
                                 AppPageNames.Cms.MenuGroup,
                                 L("MenuGroups"),
                                 url: $"{ZeroConst.CmsAreas}/MenuGroup",
@@ -92,13 +78,6 @@ namespace Zero.Web.Areas.App.Startup
                                 L("Menus"),
                                 url: $"{ZeroConst.CmsAreas}/Menu",
                                 permissionDependency: new SimplePermissionDependency(CmsPermissions.Menu)
-                            )
-                        )
-                        .AddItem(new MenuItemDefinition(
-                                AppPageNames.Cms.Category,
-                                L("Categories"),
-                                url: $"{ZeroConst.CmsAreas}/Category",
-                                permissionDependency: new SimplePermissionDependency(CmsPermissions.Category)
                             )
                         )
                         .AddItem(new MenuItemDefinition(
