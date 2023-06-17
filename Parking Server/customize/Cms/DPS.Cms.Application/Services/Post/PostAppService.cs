@@ -50,6 +50,9 @@ namespace DPS.Cms.Application.Services.Post
                     Slug = o.Slug,
                     Url = o.Url,
                     Image = o.Image,
+                    Title = o.Title,
+                    Description = o.Description,
+                    CreationTime = o.CreationTime
                 };
 
             return query;
@@ -124,6 +127,7 @@ namespace DPS.Cms.Application.Services.Post
         public async Task CreateOrEdit(CreateOrEditPostDto input)
         {
             input.Code = input.Code.Replace(" ", "");
+            input.Url = $"{FrontPagePrefix.PostDetail}{input.Slug}-{input.Code}";
             await ValidateDataInput(input);
             if (input.Id == null)
             {

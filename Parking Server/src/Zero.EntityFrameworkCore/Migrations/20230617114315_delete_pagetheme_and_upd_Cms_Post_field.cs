@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Zero.Migrations
 {
-    public partial class delete_pagetheme : Migration
+    public partial class delete_pagetheme_and_upd_Cms_Post_field : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,10 +24,30 @@ namespace Zero.Migrations
             migrationBuilder.DropColumn(
                 name: "PageThemeId",
                 table: "Cms_Page_Layout");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Description",
+                table: "Cms_Post",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Title",
+                table: "Cms_Post",
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "Description",
+                table: "Cms_Post");
+
+            migrationBuilder.DropColumn(
+                name: "Title",
+                table: "Cms_Post");
+
             migrationBuilder.AddColumn<int>(
                 name: "PageThemeId",
                 table: "Cms_Page_Layout",

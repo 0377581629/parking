@@ -68,6 +68,7 @@ namespace DPS.Cms.Application.Shared.Dto.Page
 		
 		#region Post
 
+		public PostDto Post { get; set; }
 		public List<PostDto> ListPosts { get; set; }
 
 		#region Post Listing Filter

@@ -10,8 +10,8 @@ using Zero.EntityFrameworkCore;
 namespace Zero.Migrations
 {
     [DbContext(typeof(ZeroDbContext))]
-    [Migration("20230616192819_delete_pagetheme")]
-    partial class delete_pagetheme
+    [Migration("20230617114315_delete_pagetheme_and_upd_Cms_Post_field")]
+    partial class delete_pagetheme_and_upd_Cms_Post_field
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1953,6 +1953,9 @@ namespace Zero.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -1993,6 +1996,9 @@ namespace Zero.Migrations
 
                     b.Property<int?>("TenantId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");

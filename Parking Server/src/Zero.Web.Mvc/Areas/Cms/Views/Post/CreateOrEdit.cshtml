@@ -59,13 +59,48 @@
                                         <label>
                                             @L("Name") <span class="text-danger">(*)</span>
                                         </label>
-                                        <input class="form-control" id="Name" value="@Model.Post.Name" type="text" name="name" required/>
+                                        <input class="form-control make-slug" id="Name" value="@Model.Post.Name" type="text" name="name" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            @L("Title") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <input class="form-control" id="Title" value="@Model.Post.Title" type="text" name="title" required/>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>
+                                            @L("Slug") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">@FrontPagePrefix.PostDetail</span>
+                                            </div>
+                                            <input class="form-control slug-input" id="Post_Slug" data-target="Name" value="@Model.Post.Slug" type="text" name="slug" required/>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text">-@Model.Post.Code.ToLower()</span>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="Summary">
                                             @L("Summary") <span class="text-danger">(*)</span>
                                         </label>
                                         <textarea class="form-control" id="Summary" rows="7" value="@Model.Post.Summary" type="text" name="summary" required>@Model.Post.Summary</textarea>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="About">
+                                            @L("About") <span class="text-danger">(*)</span>
+                                        </label>
+                                        <textarea class="form-control" id="About" rows="6" value="@Model.Post.About" type="text" name="about" required>@Model.Post.About</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label>@L("Description")</label>
+                                        <textarea class="form-control frSimpleEditor" id="Description" name="description" initEditor="false">@Html.Raw(Model.Post.Description)</textarea>
                                     </div>
                                 </div>
                             </div>

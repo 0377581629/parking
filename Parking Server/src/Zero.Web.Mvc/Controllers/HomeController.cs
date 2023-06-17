@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Abp.Extensions;
 using Abp.Runtime.Session;
 using DPS.Cms.Application.Shared.Dto.Common;
@@ -103,6 +104,29 @@ namespace Zero.Web.Controllers
             ViewBag.MetaTitle = !page.TitleDefault ? page.Title : GlobalConfig.AppName;
             ViewBag.MetaDesciption = !page.DescriptionDefault ? page.Description : GlobalConfig.AppDescription;
             ViewBag.MetaAuthor = !page.AuthorDefault ? page.Author : GlobalConfig.AppAuthor;
+
+            return View("Index", pageViewModel);
+        }
+        
+        public async Task<ActionResult> PostDetail(string slug)
+        {
+            var page = await _cmsPublicAppService.GetPageBySlug(new GetPageInput {PageSlug = "bai-viet"});
+
+            var pageViewModel = new PageViewModel
+            {
+                Page = page,
+                Widgets = await _cmsPublicAppService.GetPageWidgets(new CmsInput
+                {
+                    PageId = page?.Id,
+                    PageSlug = slug
+                }),
+                Blocks = await _cmsPublicAppService.GetPageLayoutBlocks(new CmsInput
+                {
+                    PageLayoutId = page?.PageLayoutId
+                })
+            };
+            
+            ViewBag.PostSlugWithCode = Url.PageLink().Split('/').Last();
 
             return View("Index", pageViewModel);
         }

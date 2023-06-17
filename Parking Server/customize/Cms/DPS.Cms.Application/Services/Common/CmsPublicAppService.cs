@@ -541,6 +541,9 @@ namespace DPS.Cms.Application.Services.Common
 
                     CreationTime = o.CreationTime,
                     LastModificationTime = o.LastModificationTime,
+                    
+                    Title = o.Title,
+                    Description = o.Description
                 };
 
             return query;
