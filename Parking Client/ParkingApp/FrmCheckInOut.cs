@@ -3,6 +3,7 @@ using Emgu.CV.CvEnum;
 using ParkingLib;
 using RawInput_dll;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -11,10 +12,16 @@ using System.Net.Http;
 using System.Threading;
 using System.Windows.Forms;
 using MetroFramework;
+using Newtonsoft.Json;
 using Capture = Emgu.CV.Capture;
 
 namespace ParkingApp
 {
+    public class RecognitionLicensePlateResponse
+    {
+        public List<string> LicensePlates { get; set; }
+    }
+
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
         private readonly Helper _helperDll = new Helper();
@@ -194,11 +201,12 @@ namespace ParkingApp
                     Directory.CreateDirectory(pathCache);
                 }
 
-                var path = pathCache + "\\" + Guid.NewGuid() + ".jpg";
+                _currentImgFileName = $"{Guid.NewGuid()}.jpg";
+                var path = $"{pathCache}\\{_currentImgFileName}";
                 // Save the image
                 _frameOutCopy.Save(path);
-
                 _pathCaptureOut = path;
+                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
                 // Set the bool to false again to make sure we only take one snapshot
                 _takeSnapshotOut = !_takeSnapshotOut;
             }
@@ -418,17 +426,18 @@ namespace ParkingApp
                     richRecognitionLicensePlate.Text = "";
 
                     // License plate detection and recognition
-                    // byte[] imageBytes = { };
-                    // if (_handleCardReader == _cardReaderIn)
-                    // {
-                    //     imageBytes = File.ReadAllBytes(_pathCaptureIn);
-                    // }
-                    // else if (_handleCardReader == _cardReaderOut)
-                    // {
-                    //     imageBytes = File.ReadAllBytes(_pathCaptureOut);
-                    // }
-                    // var responseString = await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                    // richRecognitionLicensePlate.Text = responseString;
+                    byte[] imageBytes = { };
+                    if (_handleCardReader == _cardReaderIn)
+                    {
+                        imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                    }
+                    else if (_handleCardReader == _cardReaderOut)
+                    {
+                        imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                    }
+                    var responseString = await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+                    var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+                    richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
 
                     // Add image to web app
                     await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
