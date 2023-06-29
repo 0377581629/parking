@@ -1,5 +1,6 @@
 @using Zero
 @using Zero.Web.Areas.App.Models.Common.Modals
+@using DPS.Park.Core.Shared
 @model Zero.Web.Areas.Park.Models.Fare.CreateOrEditFareViewModel
 
 @await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit")) : L("Create")))
@@ -15,7 +16,7 @@
             <input type="hidden" name="language" id="Entity_Language" value=""/>
 
             <div class="row">
-                <div class="col-4">
+                <div class="col-6">
                     <div class="form-group">
                         <label>@L("VehicleType")</label>
                         <select id="VehicleTypeId" style="width:100%;" name="vehicleTypeId" class="form-control">
@@ -26,7 +27,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="form-group">
                         <label>@L("CardType")</label>
                         <select id="CardTypeId" style="width:100%;" name="cardTypeId" class="form-control">
@@ -37,7 +38,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                     <div class="form-group">
                         <label for="Fare_Price">
                             @L("Price")
@@ -47,14 +48,8 @@
                 </div>
                 <div class="col-6">
                     <div class="form-group">
-                        <label>@L("Start")</label>
-                        @Html.DropDownList("dayOfWeekStart", DateTimeHelper.ListDayOfWeek(Model.Fare.DayOfWeekStart), new {@class="form-control kt-select2-non-search"})
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="form-group">
-                        <label>@L("End")</label>
-                        @Html.DropDownList("dayOfWeekEnd", DateTimeHelper.ListDayOfWeek(Model.Fare.DayOfWeekEnd), new {@class="form-control kt-select2-non-search"})
+                        <label>@L("Type")</label>
+                        @Html.DropDownList("type", ParkHelper.ListFareType(Model.Fare.Type,LocalizationManager.GetSource(ZeroConst.LocalizationSourceName)), new {@class="form-control kt-select2-non-search"})
                     </div>
                 </div>
             </div>

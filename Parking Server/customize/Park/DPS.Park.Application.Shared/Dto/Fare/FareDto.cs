@@ -17,8 +17,6 @@ namespace DPS.Park.Application.Shared.Dto.Fare
 
         public double Price { get; set; }
         
-        public int DayOfWeekStart { get; set; }
-        
-        public int DayOfWeekEnd { get; set; }
+        public int Type { get; set; }
     }
 }

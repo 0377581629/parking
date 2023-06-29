@@ -325,10 +325,34 @@ namespace ParkingApp
 
                         if (!_isIn)
                         {
+                            var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
+                            if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
+                            {
+                                MetroMessageBox.Show(this,
+                                    $"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
+                            }
+
+                            #region Get Price
+
                             var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
                                 card.VehicleTypeId);
-                            var priceData = listPriceData.FirstOrDefault();
-                            historyData.Price = priceData?.Price ?? 0;
+                            var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.Day);
+                            var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.Night);
+                            if (dayFareData == null || nightFareData == null)
+                            {
+                                MetroMessageBox.Show(this,
+                                    $"Chưa cấu hình đủ giá ngày và đêm", "Cảnh báo",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
+                            }
+
+                            historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
+                                dayFareData.Price, nightFareData.Price);
+
+                            #endregion
+
 
                             if (card.Balance > historyData.Price)
                             {
@@ -353,7 +377,7 @@ namespace ParkingApp
                             // OpenBarie();
                         }
                     }
-                } 
+                }
                     break;
             }
         }
@@ -435,7 +459,9 @@ namespace ParkingApp
                     {
                         imageBytes = File.ReadAllBytes(_pathCaptureOut);
                     }
-                    var responseString = await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+
+                    var responseString =
+                        await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
                     var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
                     richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
 
@@ -532,5 +558,11 @@ namespace ParkingApp
     {
         SET_HISTORY,
         CONNECT_DEVICE,
+    }
+
+    public enum FareType
+    {
+        Day = 1,
+        Night = 2,
     }
 }

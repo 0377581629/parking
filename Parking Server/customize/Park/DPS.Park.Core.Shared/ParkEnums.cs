@@ -78,5 +78,14 @@ namespace DPS.Park.Core.Shared
             [StringValue("OrderStatus_Waiting")] 
             Waiting = 3,
         }
+        
+        public enum FareType
+        {
+            [StringValue("FareType_Day")]
+            Day = 1,
+
+            [StringValue("FareType_Night")] 
+            Night = 2,
+        }
     }
 }

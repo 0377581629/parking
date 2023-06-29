@@ -142,8 +142,7 @@ namespace DPS.Park.Application.Services.Common
                     VehicleTypeName = obj.VehicleType.Name,
 
                     Price = obj.Price,
-                    DayOfWeekStart = obj.DayOfWeekStart,
-                    DayOfWeekEnd = obj.DayOfWeekEnd
+                    Type = obj.Type
                 };
             return query;
         }

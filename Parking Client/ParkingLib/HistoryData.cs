@@ -221,7 +221,6 @@ namespace ParkingLib
                 {
                     historyData.Price = Convert.ToDouble(dr["Price"]);
                 }
-
                 historyData.Time = Convert.ToDateTime(dr["Time"]);
                 historyData.Type = Convert.ToInt32(dr["Type"]);
                 historyData.Photo = Convert.ToString(dr["Photo"]);

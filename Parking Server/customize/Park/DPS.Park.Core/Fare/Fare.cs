@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
 using DPS.Park.Core.Card;
@@ -27,8 +26,6 @@ namespace DPS.Park.Core.Fare
         
         public double Price { get; set; }
         
-        public int DayOfWeekStart { get; set; }
-        
-        public int DayOfWeekEnd { get; set; }
+        public int Type { get; set; }
     }
 }

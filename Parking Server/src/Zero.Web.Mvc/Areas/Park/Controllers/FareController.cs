@@ -4,6 +4,7 @@ using Abp.Application.Services.Dto;
 using Abp.AspNetCore.Mvc.Authorization;
 using DPS.Park.Application.Shared.Dto.Fare;
 using DPS.Park.Application.Shared.Interface.Fare;
+using DPS.Park.Core.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Zero.Authorization;
 using Zero.Web.Areas.Park.Models.Fare;
@@ -46,8 +47,7 @@ namespace Zero.Web.Areas.Park.Controllers
                 {
                     Fare = new CreateOrEditFareDto
                     {
-                        DayOfWeekStart = (int)DayOfWeek.Monday,
-                        DayOfWeekEnd = (int)DayOfWeek.Friday
+                        Type = (int)ParkEnums.FareType.Day
                     }
                 };
             }
@@ -55,6 +55,7 @@ namespace Zero.Web.Areas.Park.Controllers
             var viewModel = new CreateOrEditFareViewModel
             {
                 Fare = getFareForEditOutput.Fare,
+                ListFareType = ParkHelper.ListFareType(0, LocalizationSource)
             };
 
             return PartialView("_CreateOrEditModal", viewModel);

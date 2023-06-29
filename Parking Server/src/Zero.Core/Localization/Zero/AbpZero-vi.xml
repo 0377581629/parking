@@ -143,6 +143,8 @@
     <text name="FareHeaderInfo">Danh mục giá vé</text>
     <text name="StartDate">Ngày bắt đầu</text>
     <text name="EndDate">Ngày kết thúc</text>
+    <text name="FareType_Day">Vé ngày</text>
+    <text name="FareType_Night">Vé đêm</text>
 
     <text name="Card">Thẻ xe</text>
     <text name="CardHeaderInfo">Danh mục thẻ xe</text>

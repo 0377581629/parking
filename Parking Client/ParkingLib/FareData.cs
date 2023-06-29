@@ -30,6 +30,16 @@ namespace ParkingLib
             get { return _price; }
             set { _price = value; }
         }
+        
+        private int _type = 0;
+
+        [DisplayName("Type")]
+        [JsonProperty("Type", NullValueHandling = NullValueHandling.Ignore)]
+        public int Type
+        {
+            get { return _type; }
+            set { _type = value; }
+        }
 
         public FareData()
         {
@@ -79,6 +89,7 @@ namespace ParkingLib
                 var fareData = new FareData();
                 fareData.Id = Convert.ToInt32(dr["Id"]);
                 fareData.Price = Convert.ToDouble(dr["Price"]);
+                fareData.Type = Convert.ToInt32(dr["Type"]);
 
                 lstFareData.Add(fareData);
             }

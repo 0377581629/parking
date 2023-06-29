@@ -56,6 +56,13 @@ namespace DPS.Park.Core.Shared
                 select new SelectListItem(lang.GetString(orderStatus.GetStringValue()),
                     ((int) orderStatus).ToString(), currentOrderStatus == (int) orderStatus)).ToList();
         }
+        
+        public static List<SelectListItem> ListFareType(int currentFareType, ILocalizationSource lang)
+        {
+            return (from fareType in (ParkEnums.FareType[]) Enum.GetValues(typeof(ParkEnums.FareType))
+                select new SelectListItem(lang.GetString(fareType.GetStringValue()),
+                    ((int) fareType).ToString(), currentFareType == (int) fareType)).ToList();
+        }
 
         #endregion
     }

@@ -86,14 +86,14 @@ namespace ParkingApp
                 var lstHistories = new HistoryData().Gets().Where(o => o.CardNumber == cardNumber);
                 if (lstHistories.Any())
                 {
-                    var lstHistoryIn = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.IN)
+                    var lstHistoryIns = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.IN)
                         .OrderByDescending(x => x.Time).ToList();
-                    var lstLogOuts = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.OUT)
+                    var lstHistoryOuts = lstHistories.Where(x => x.Type == (int)Helper.HistoryDataStatus.OUT)
                         .OrderByDescending(x => x.Time).ToList();
 
-                    if (lstLogOuts.Count > lstHistoryIn.Count)
+                    if (lstHistoryOuts.Count < lstHistoryIns.Count)
                     {
-                        return lstHistoryIn[0];
+                        return lstHistoryIns[0];
                     }
                 }
             }
@@ -183,6 +183,58 @@ namespace ParkingApp
             }
 
             return resizedImage;
+        }
+
+        public double CalculatePrice(DateTime inTime, DateTime outTime, double dayPrice, double nightPrice)
+        {
+            double res = 0;
+            if (inTime.Date == outTime.Date)
+            {
+                if (outTime.Hour < 18)
+                {
+                    res = dayPrice;
+                }
+                else if (outTime.Hour > 18)
+                {
+                    res = nightPrice;
+                }
+            }
+            else
+            {
+                var dayCount = outTime.DayOfYear - inTime.DayOfYear;
+                if (inTime.Hour < 18)
+                {
+                    if (outTime.Hour < 9)
+                    {
+                        res = dayCount * dayPrice + dayCount * nightPrice;
+                    }
+                    else if (9 <= outTime.Hour && outTime.Hour < 18)
+                    {
+                        res = (dayCount + 1) * dayPrice + dayCount * nightPrice;
+                    }
+                    else if (outTime.Hour >= 18)
+                    {
+                        res = (dayCount + 1) * dayPrice + (dayCount + 1) * nightPrice;
+                    }
+                }
+                else if (inTime.Hour > 18)
+                {
+                    if (outTime.Hour < 9)
+                    {
+                        res = (dayCount - 1) * dayPrice + dayCount * nightPrice;
+                    }
+                    else if (9 <= outTime.Hour && outTime.Hour < 18)
+                    {
+                        res = dayCount * dayPrice + dayCount * nightPrice;
+                    }
+                    else if (outTime.Hour >= 18)
+                    {
+                        res = dayCount * dayPrice + (dayCount + 1) * nightPrice;
+                    }
+                }
+            }
+
+            return res;
         }
 
         public enum HistoryDataStatus

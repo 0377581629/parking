@@ -104,21 +104,16 @@
                 {
                     targets: 5,
                     width: 80,
-                    data: "fare.dayOfWeekStart",
-                    name: "dayOfWeekStart",
+                    data: "fare.type",
+                    name: "type",
                     class: "text-center",
-                    render: function (dayOfWeekStart) {
-                        return moment().day(dayOfWeekStart).format('dddd');
-                    }
-                },
-                {
-                    targets: 6,
-                    width: 80,
-                    data: "fare.dayOfWeekEnd",
-                    name: "dayOfWeekEnd",
-                    class: "text-center",
-                    render: function (dayOfWeekEnd) {
-                        return moment().day(dayOfWeekEnd).format('dddd');
+                    render: function (type) {
+                        switch (type) {
+                            case 1:
+                                return app.localize("FareType_Day")
+                            case 2:
+                                return app.localize("FareType_Night")
+                        }
                     }
                 }
             ]
