@@ -28,26 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmCheckInOut));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.picIn = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.picOut = new System.Windows.Forms.PictureBox();
-            this.btnOpen = new MetroFramework.Controls.MetroTile();
+            this.btnOpenBarie = new MetroFramework.Controls.MetroTile();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.richNoiDungCanhBao = new System.Windows.Forms.RichTextBox();
+            this.checkInOutContent = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.richRecognitionLicensePlate = new System.Windows.Forms.RichTextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.picRegistry = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtThoiGianRa = new System.Windows.Forms.RichTextBox();
-            this.txtThoiGianVao = new System.Windows.Forms.RichTextBox();
-            this.txtMaThe = new System.Windows.Forms.RichTextBox();
+            this.txtOutTime = new System.Windows.Forms.RichTextBox();
+            this.txtInTime = new System.Windows.Forms.RichTextBox();
+            this.txtCardCode = new System.Windows.Forms.RichTextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.richCardLicensePlate = new System.Windows.Forms.RichTextBox();
-            this.btnClose = new MetroFramework.Controls.MetroTile();
+            this.btnCloseBarie = new MetroFramework.Controls.MetroTile();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.picCaptureIn = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
@@ -109,36 +108,36 @@
             this.picOut.TabStop = false;
             this.picOut.DoubleClick += new System.EventHandler(this.picOut_DoubleClick);
             // 
-            // btnOpen
+            // btnOpenBarie
             // 
-            this.btnOpen.ActiveControl = null;
-            this.btnOpen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOpen.Location = new System.Drawing.Point(1443, 668);
-            this.btnOpen.Name = "btnOpen";
-            this.btnOpen.Size = new System.Drawing.Size(90, 87);
-            this.btnOpen.Style = MetroFramework.MetroColorStyle.Red;
-            this.btnOpen.TabIndex = 4;
-            this.btnOpen.Text = "MỞ (F2)";
-            this.btnOpen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnOpen.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.btnOpen.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.btnOpen.UseSelectable = true;
-            this.btnOpen.Click += new System.EventHandler(this.btnOpen_Click);
+            this.btnOpenBarie.ActiveControl = null;
+            this.btnOpenBarie.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenBarie.Location = new System.Drawing.Point(1443, 668);
+            this.btnOpenBarie.Name = "btnOpenBarie";
+            this.btnOpenBarie.Size = new System.Drawing.Size(90, 87);
+            this.btnOpenBarie.Style = MetroFramework.MetroColorStyle.Red;
+            this.btnOpenBarie.TabIndex = 4;
+            this.btnOpenBarie.Text = "MỞ (F1)";
+            this.btnOpenBarie.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnOpenBarie.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.btnOpenBarie.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.btnOpenBarie.UseSelectable = true;
+            this.btnOpenBarie.Click += new System.EventHandler(this.BtnOpenBarieClick);
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.groupBox1.Controls.Add(this.richNoiDungCanhBao);
+            this.groupBox1.Controls.Add(this.checkInOutContent);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.richRecognitionLicensePlate);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.picRegistry);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.txtThoiGianRa);
-            this.groupBox1.Controls.Add(this.txtThoiGianVao);
-            this.groupBox1.Controls.Add(this.txtMaThe);
+            this.groupBox1.Controls.Add(this.txtOutTime);
+            this.groupBox1.Controls.Add(this.txtInTime);
+            this.groupBox1.Controls.Add(this.txtCardCode);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.richCardLicensePlate);
             this.groupBox1.Location = new System.Drawing.Point(783, 668);
@@ -148,17 +147,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "THÔNG TIN: ";
             // 
-            // richNoiDungCanhBao
+            // checkInOutContent
             // 
-            this.richNoiDungCanhBao.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richNoiDungCanhBao.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
-            this.richNoiDungCanhBao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.richNoiDungCanhBao.Location = new System.Drawing.Point(195, 10);
-            this.richNoiDungCanhBao.Name = "richNoiDungCanhBao";
-            this.richNoiDungCanhBao.ReadOnly = true;
-            this.richNoiDungCanhBao.Size = new System.Drawing.Size(442, 30);
-            this.richNoiDungCanhBao.TabIndex = 16;
-            this.richNoiDungCanhBao.Text = "";
+            this.checkInOutContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.checkInOutContent.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Bold);
+            this.checkInOutContent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.checkInOutContent.Location = new System.Drawing.Point(195, 10);
+            this.checkInOutContent.Name = "checkInOutContent";
+            this.checkInOutContent.ReadOnly = true;
+            this.checkInOutContent.Size = new System.Drawing.Size(442, 30);
+            this.checkInOutContent.TabIndex = 16;
+            this.checkInOutContent.Text = "";
             // 
             // label5
             // 
@@ -217,47 +216,47 @@
             this.label2.TabIndex = 11;
             this.label2.Text = "Thời gian vào:";
             // 
-            // txtThoiGianRa
+            // txtOutTime
             // 
-            this.txtThoiGianRa.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtThoiGianRa.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtThoiGianRa.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtThoiGianRa.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtThoiGianRa.ForeColor = System.Drawing.Color.Green;
-            this.txtThoiGianRa.Location = new System.Drawing.Point(429, 159);
-            this.txtThoiGianRa.Multiline = false;
-            this.txtThoiGianRa.Name = "txtThoiGianRa";
-            this.txtThoiGianRa.Size = new System.Drawing.Size(208, 23);
-            this.txtThoiGianRa.TabIndex = 10;
-            this.txtThoiGianRa.Text = "";
+            this.txtOutTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtOutTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtOutTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtOutTime.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOutTime.ForeColor = System.Drawing.Color.Green;
+            this.txtOutTime.Location = new System.Drawing.Point(429, 159);
+            this.txtOutTime.Multiline = false;
+            this.txtOutTime.Name = "txtOutTime";
+            this.txtOutTime.Size = new System.Drawing.Size(208, 23);
+            this.txtOutTime.TabIndex = 10;
+            this.txtOutTime.Text = "";
             // 
-            // txtThoiGianVao
+            // txtInTime
             // 
-            this.txtThoiGianVao.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.txtThoiGianVao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.txtThoiGianVao.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtThoiGianVao.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtThoiGianVao.ForeColor = System.Drawing.Color.Green;
-            this.txtThoiGianVao.Location = new System.Drawing.Point(195, 159);
-            this.txtThoiGianVao.Multiline = false;
-            this.txtThoiGianVao.Name = "txtThoiGianVao";
-            this.txtThoiGianVao.Size = new System.Drawing.Size(208, 23);
-            this.txtThoiGianVao.TabIndex = 9;
-            this.txtThoiGianVao.Text = "";
+            this.txtInTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtInTime.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.txtInTime.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtInTime.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInTime.ForeColor = System.Drawing.Color.Green;
+            this.txtInTime.Location = new System.Drawing.Point(195, 159);
+            this.txtInTime.Multiline = false;
+            this.txtInTime.Name = "txtInTime";
+            this.txtInTime.Size = new System.Drawing.Size(208, 23);
+            this.txtInTime.TabIndex = 9;
+            this.txtInTime.Text = "";
             // 
-            // txtMaThe
+            // txtCardCode
             // 
-            this.txtMaThe.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txtMaThe.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtMaThe.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.txtMaThe.Location = new System.Drawing.Point(195, 108);
-            this.txtMaThe.Multiline = false;
-            this.txtMaThe.Name = "txtMaThe";
-            this.txtMaThe.ReadOnly = true;
-            this.txtMaThe.Size = new System.Drawing.Size(442, 30);
-            this.txtMaThe.TabIndex = 5;
-            this.txtMaThe.Text = "";
-            this.txtMaThe.TextChanged += new System.EventHandler(this.txtMaThe_TextChanged);
+            this.txtCardCode.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtCardCode.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtCardCode.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtCardCode.Location = new System.Drawing.Point(195, 108);
+            this.txtCardCode.Multiline = false;
+            this.txtCardCode.Name = "txtCardCode";
+            this.txtCardCode.ReadOnly = true;
+            this.txtCardCode.Size = new System.Drawing.Size(442, 30);
+            this.txtCardCode.TabIndex = 5;
+            this.txtCardCode.Text = "";
+            this.txtCardCode.TextChanged += new System.EventHandler(this.txtCardCode_TextChanged);
             // 
             // label1
             // 
@@ -281,21 +280,21 @@
             this.richCardLicensePlate.TabIndex = 2;
             this.richCardLicensePlate.Text = "";
             // 
-            // btnClose
+            // btnCloseBarie
             // 
-            this.btnClose.ActiveControl = null;
-            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClose.Location = new System.Drawing.Point(1443, 778);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(90, 87);
-            this.btnClose.Style = MetroFramework.MetroColorStyle.Green;
-            this.btnClose.TabIndex = 7;
-            this.btnClose.Text = "ĐÓNG (F6)";
-            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.btnClose.Theme = MetroFramework.MetroThemeStyle.Dark;
-            this.btnClose.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
-            this.btnClose.UseSelectable = true;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            this.btnCloseBarie.ActiveControl = null;
+            this.btnCloseBarie.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCloseBarie.Location = new System.Drawing.Point(1443, 778);
+            this.btnCloseBarie.Name = "btnCloseBarie";
+            this.btnCloseBarie.Size = new System.Drawing.Size(90, 87);
+            this.btnCloseBarie.Style = MetroFramework.MetroColorStyle.Green;
+            this.btnCloseBarie.TabIndex = 7;
+            this.btnCloseBarie.Text = "ĐÓNG (F2)";
+            this.btnCloseBarie.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.btnCloseBarie.Theme = MetroFramework.MetroThemeStyle.Dark;
+            this.btnCloseBarie.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
+            this.btnCloseBarie.UseSelectable = true;
+            this.btnCloseBarie.Click += new System.EventHandler(this.BtnOpenBarieClick);
             // 
             // groupBox2
             // 
@@ -348,9 +347,9 @@
             this.ClientSize = new System.Drawing.Size(1556, 884);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnCloseBarie);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnOpen);
+            this.Controls.Add(this.btnOpenBarie);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -382,16 +381,16 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.PictureBox picIn;
         private System.Windows.Forms.PictureBox picOut;
-        private MetroFramework.Controls.MetroTile btnOpen;
+        private MetroFramework.Controls.MetroTile btnOpenBarie;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox txtThoiGianRa;
-        private System.Windows.Forms.RichTextBox txtThoiGianVao;
-        private System.Windows.Forms.RichTextBox txtMaThe;
+        private System.Windows.Forms.RichTextBox txtOutTime;
+        private System.Windows.Forms.RichTextBox txtInTime;
+        private System.Windows.Forms.RichTextBox txtCardCode;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox richCardLicensePlate;
-        private MetroFramework.Controls.MetroTile btnClose;
+        private MetroFramework.Controls.MetroTile btnCloseBarie;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.PictureBox picCaptureIn;
         private System.Windows.Forms.GroupBox groupBox5;
@@ -399,7 +398,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox richRecognitionLicensePlate;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox richNoiDungCanhBao;
+        private System.Windows.Forms.RichTextBox checkInOutContent;
         private System.Windows.Forms.PictureBox picRegistry;
     }
 }

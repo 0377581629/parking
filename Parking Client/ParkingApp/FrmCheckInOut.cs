@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MetroFramework;
 using Newtonsoft.Json;
@@ -241,7 +242,7 @@ namespace ParkingApp
                 else
                 {
                     var currentCardNumber = FormatCardNumber(_cardNumber);
-                    txtMaThe.Text = currentCardNumber;
+                    txtCardCode.Text = currentCardNumber;
                     _cardNumber = string.Empty;
                     _vKeyNameIsEnterCount = 0;
                 }
@@ -303,8 +304,9 @@ namespace ParkingApp
                     break;
                 case EnumCheckInOut.SET_HISTORY:
                 {
+                    if(string.IsNullOrEmpty(_cardNumberNow)) break;
+                    
                     var cardData = new CardData();
-
                     var lstCards = cardData.Gets();
                     var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
 
@@ -338,8 +340,8 @@ namespace ParkingApp
 
                             var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
                                 card.VehicleTypeId);
-                            var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.Day);
-                            var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.Night);
+                            var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.DAY);
+                            var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.NIGHT);
                             if (dayFareData == null || nightFareData == null)
                             {
                                 MetroMessageBox.Show(this,
@@ -388,7 +390,7 @@ namespace ParkingApp
             _rawInput.KeyPressed -= OnKeyPressed;
         }
 
-        private async void txtMaThe_TextChanged(object sender, EventArgs e)
+        private async void txtCardCode_TextChanged(object sender, EventArgs e)
         {
             var txt = (RichTextBox)sender;
             if (txt.Text.Length > 0)
@@ -405,7 +407,7 @@ namespace ParkingApp
 
                 Thread.Sleep(500);
                 // Có ảnh & Mã code đúng định dạng
-                if (txtMaThe.Text.Length < 10) return;
+                if (txtCardCode.Text.Length < 10) return;
                 if (_handleCardReader == _cardReaderIn)
                 {
                     picIn.Image = Image.FromFile(_pathCaptureIn);
@@ -417,12 +419,12 @@ namespace ParkingApp
 
                 if (_handleCardReader == _cardReaderIn)
                 {
-                    txtThoiGianVao.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    txtInTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     _isIn = true;
                 }
                 else if (_handleCardReader == _cardReaderOut)
                 {
-                    txtThoiGianRa.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                    txtOutTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     _isIn = false;
                 }
 
@@ -431,7 +433,7 @@ namespace ParkingApp
                 var lstCards = new CardData().Gets();
                 var lstStudentCard = new StudentCardData().Gets();
 
-                var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(txtMaThe.Text.Trim()));
+                var card = lstCards.FirstOrDefault(o => o.CardNumber.Contains(txtCardCode.Text.Trim()));
                 var studentCard = lstStudentCard.FirstOrDefault(o => card != null && o.CardId == card.Id);
                 var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
 
@@ -445,34 +447,50 @@ namespace ParkingApp
                               " - Giới tính: " + gender;
 
                     picRegistry.Image = _helperDll.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
-                    richNoiDungCanhBao.Text = mes;
+                    checkInOutContent.Text = mes;
                     richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                     richRecognitionLicensePlate.Text = "";
 
                     // License plate detection and recognition
-                    byte[] imageBytes = { };
+                    byte[] imageBytes;
                     if (_handleCardReader == _cardReaderIn)
                     {
                         imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                        var responseString =
+                            await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+                        var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+                        if (responseObject.LicensePlates.Any())
+                        {
+                            richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
+                        }
+                        else
+                        {
+                            richRecognitionLicensePlate.Text = "Không xác định được biển số";
+                            return;
+                        }
                     }
                     else if (_handleCardReader == _cardReaderOut)
                     {
                         imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                        var responseString =
+                            await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+                        var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+                        if (responseObject.LicensePlates.Any())
+                        {
+                            richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
+                        }
+                        else
+                        {
+                            richRecognitionLicensePlate.Text = "Không xác định được biển số";
+                            return;
+                        }
                     }
-
-                    var responseString =
-                        await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                    var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
-                    richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
-
-                    // Add image to web app
-                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
 
                     _studentSelected = (StudentData)studentInfo.Clone();
                 }
                 else
                 {
-                    richNoiDungCanhBao.Text = "Khách";
+                    checkInOutContent.Text = "Khách";
 
                     _studentSelected = new StudentData();
                 }
@@ -482,18 +500,18 @@ namespace ParkingApp
                 {
                     #region Get Last In
 
-                    var historyInLasted = _helper.GetHistoryInLasted(txtMaThe.Text.Trim());
+                    var historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
                     if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
                     {
                         picIn.Image = (Bitmap)Image.FromFile(historyInLasted.Photo);
-                        txtThoiGianVao.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
+                        txtInTime.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 
                     #endregion
                 }
 
                 // --------------------
-                _cardNumberNow = txtMaThe.Text.Trim();
+                _cardNumberNow = txtCardCode.Text.Trim();
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
                 _xuLy = EnumCheckInOut.SET_HISTORY;
                 WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
@@ -524,19 +542,17 @@ namespace ParkingApp
 
         private void FrmCheckInOut_KeyDown(object sender, KeyEventArgs e)
         {
-            if (ModifierKeys == Keys.F1)
+            if (ModifierKeys == Keys.Escape)
             {
-                txtMaThe.Focus();
+                Close();
             }
-            else if (e.Control && e.KeyCode == Keys.F)
+            else if (e.KeyCode == Keys.F1)
             {
-                //MessageBox.Show("Mở !");
-                btnOpen.PerformClick();
+                btnOpenBarie.PerformClick();
             }
-            else if (e.Control && e.KeyCode == Keys.F6)
+            else if (e.KeyCode == Keys.F2)
             {
-                //MessageBox.Show("Đóng !");
-                btnClose.PerformClick();
+                btnCloseBarie.PerformClick();
             }
         }
 
@@ -545,11 +561,11 @@ namespace ParkingApp
             MessageBox.Show("Đóng !");
         }
 
-        private void btnOpen_Click(object sender, EventArgs e)
+        private void BtnOpenBarieClick(object sender, EventArgs e)
         {
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
+        private void BtnCloseBarieClick(object sender, EventArgs e)
         {
         }
     }
@@ -562,7 +578,7 @@ namespace ParkingApp
 
     public enum FareType
     {
-        Day = 1,
-        Night = 2,
+        DAY = 1,
+        NIGHT = 2,
     }
 }
