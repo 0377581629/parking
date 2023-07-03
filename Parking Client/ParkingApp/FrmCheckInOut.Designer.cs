@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.picIn = new System.Windows.Forms.PictureBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -51,6 +52,7 @@
             this.picCaptureIn = new System.Windows.Forms.PictureBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.picCaptureOut = new System.Windows.Forms.PictureBox();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIn)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -65,7 +67,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBox3.Controls.Add(this.picIn);
             this.groupBox3.Location = new System.Drawing.Point(23, 71);
             this.groupBox3.Name = "groupBox3";
@@ -83,11 +86,12 @@
             this.picIn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picIn.TabIndex = 0;
             this.picIn.TabStop = false;
-            this.picIn.DoubleClick += new System.EventHandler(this.picIn_DoubleClick);
+            this.picIn.DoubleClick += new System.EventHandler(this.PicIn_DoubleClick);
             // 
             // groupBox4
             // 
-            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox4.Controls.Add(this.picOut);
             this.groupBox4.Location = new System.Drawing.Point(783, 71);
             this.groupBox4.Name = "groupBox4";
@@ -106,7 +110,7 @@
             this.picOut.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picOut.TabIndex = 2;
             this.picOut.TabStop = false;
-            this.picOut.DoubleClick += new System.EventHandler(this.picOut_DoubleClick);
+            this.picOut.DoubleClick += new System.EventHandler(this.PicOut_DoubleClick);
             // 
             // btnOpenBarie
             // 
@@ -294,7 +298,7 @@
             this.btnCloseBarie.Theme = MetroFramework.MetroThemeStyle.Dark;
             this.btnCloseBarie.TileTextFontWeight = MetroFramework.MetroTileTextWeight.Bold;
             this.btnCloseBarie.UseSelectable = true;
-            this.btnCloseBarie.Click += new System.EventHandler(this.BtnOpenBarieClick);
+            this.btnCloseBarie.Click += new System.EventHandler(this.BtnCloseBarieClick);
             // 
             // groupBox2
             // 
@@ -360,8 +364,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmCheckInOut_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FrmCheckInOut_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmCheckInOut_KeyPress);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picIn)).EndInit();
             this.groupBox4.ResumeLayout(false);
@@ -374,6 +376,7 @@
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picCaptureOut)).EndInit();
             this.ResumeLayout(false);
+
         }
 
         #endregion
@@ -400,6 +403,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox checkInOutContent;
         private System.Windows.Forms.PictureBox picRegistry;
+        private System.IO.Ports.SerialPort serialPort1;
     }
 }
 

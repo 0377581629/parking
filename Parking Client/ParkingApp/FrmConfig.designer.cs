@@ -38,6 +38,8 @@
             this.txtCardReaderIn = new MetroFramework.Controls.MetroTextBox();
             this.txtCardReaderOut = new MetroFramework.Controls.MetroTextBox();
             this.metroLabel3 = new MetroFramework.Controls.MetroLabel();
+            this.metroLabel4 = new MetroFramework.Controls.MetroLabel();
+            this.txtBariePortName = new MetroFramework.Controls.MetroTextBox();
             this.SuspendLayout();
             // 
             // txtRtspIn
@@ -148,9 +150,9 @@
             this.metroLabel1.AutoSize = true;
             this.metroLabel1.Location = new System.Drawing.Point(32, 169);
             this.metroLabel1.Name = "metroLabel1";
-            this.metroLabel1.Size = new System.Drawing.Size(121, 19);
+            this.metroLabel1.Size = new System.Drawing.Size(108, 19);
             this.metroLabel1.TabIndex = 32;
-            this.metroLabel1.Text = "Code thẻ quẹt vào:";
+            this.metroLabel1.Text = "Đầu đọc thẻ vào:";
             // 
             // txtCardReaderIn
             // 
@@ -173,7 +175,7 @@
             this.txtCardReaderIn.MaxLength = 32767;
             this.txtCardReaderIn.Name = "txtCardReaderIn";
             this.txtCardReaderIn.PasswordChar = '\0';
-            this.txtCardReaderIn.PromptText = "Code thẻ vào!";
+            this.txtCardReaderIn.PromptText = "Đầu đọc thẻ vào!";
             this.txtCardReaderIn.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtCardReaderIn.SelectedText = "";
             this.txtCardReaderIn.SelectionLength = 0;
@@ -183,7 +185,7 @@
             this.txtCardReaderIn.TabIndex = 33;
             this.txtCardReaderIn.TabStop = false;
             this.txtCardReaderIn.UseSelectable = true;
-            this.txtCardReaderIn.WaterMark = "Code thẻ vào!";
+            this.txtCardReaderIn.WaterMark = "Đầu đọc thẻ vào!";
             this.txtCardReaderIn.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtCardReaderIn.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCardReaderIn.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtTimerUpload_KeyPress);
@@ -209,7 +211,7 @@
             this.txtCardReaderOut.MaxLength = 32767;
             this.txtCardReaderOut.Name = "txtCardReaderOut";
             this.txtCardReaderOut.PasswordChar = '\0';
-            this.txtCardReaderOut.PromptText = "Code thẻ ra!";
+            this.txtCardReaderOut.PromptText = "Đầu đọc thẻ ra!";
             this.txtCardReaderOut.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.txtCardReaderOut.SelectedText = "";
             this.txtCardReaderOut.SelectionLength = 0;
@@ -219,7 +221,7 @@
             this.txtCardReaderOut.TabIndex = 35;
             this.txtCardReaderOut.TabStop = false;
             this.txtCardReaderOut.UseSelectable = true;
-            this.txtCardReaderOut.WaterMark = "Code thẻ ra!";
+            this.txtCardReaderOut.WaterMark = "Đầu đọc thẻ ra!";
             this.txtCardReaderOut.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
             this.txtCardReaderOut.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
@@ -228,15 +230,61 @@
             this.metroLabel3.AutoSize = true;
             this.metroLabel3.Location = new System.Drawing.Point(32, 212);
             this.metroLabel3.Name = "metroLabel3";
-            this.metroLabel3.Size = new System.Drawing.Size(112, 19);
+            this.metroLabel3.Size = new System.Drawing.Size(96, 19);
             this.metroLabel3.TabIndex = 34;
-            this.metroLabel3.Text = "Code thẻ quẹt ra:";
+            this.metroLabel3.Text = "Đầu đọc thẻ ra";
+            // 
+            // metroLabel4
+            // 
+            this.metroLabel4.AutoSize = true;
+            this.metroLabel4.Location = new System.Drawing.Point(34, 261);
+            this.metroLabel4.Name = "metroLabel4";
+            this.metroLabel4.Size = new System.Drawing.Size(121, 19);
+            this.metroLabel4.TabIndex = 36;
+            this.metroLabel4.Text = "Cổng kết nối barie:";
+            // 
+            // txtBariePortName
+            // 
+            // 
+            // 
+            // 
+            this.txtBariePortName.CustomButton.Image = null;
+            this.txtBariePortName.CustomButton.Location = new System.Drawing.Point(150, 1);
+            this.txtBariePortName.CustomButton.Margin = new System.Windows.Forms.Padding(5);
+            this.txtBariePortName.CustomButton.Name = "";
+            this.txtBariePortName.CustomButton.Size = new System.Drawing.Size(27, 27);
+            this.txtBariePortName.CustomButton.Style = MetroFramework.MetroColorStyle.Blue;
+            this.txtBariePortName.CustomButton.TabIndex = 1;
+            this.txtBariePortName.CustomButton.Theme = MetroFramework.MetroThemeStyle.Light;
+            this.txtBariePortName.CustomButton.UseSelectable = true;
+            this.txtBariePortName.CustomButton.Visible = false;
+            this.txtBariePortName.Lines = new string[0];
+            this.txtBariePortName.Location = new System.Drawing.Point(166, 251);
+            this.txtBariePortName.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.txtBariePortName.MaxLength = 32767;
+            this.txtBariePortName.Name = "txtBariePortName";
+            this.txtBariePortName.PasswordChar = '\0';
+            this.txtBariePortName.PromptText = "Cổng kết nối barie!";
+            this.txtBariePortName.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.txtBariePortName.SelectedText = "";
+            this.txtBariePortName.SelectionLength = 0;
+            this.txtBariePortName.SelectionStart = 0;
+            this.txtBariePortName.ShortcutsEnabled = true;
+            this.txtBariePortName.Size = new System.Drawing.Size(178, 29);
+            this.txtBariePortName.TabIndex = 37;
+            this.txtBariePortName.TabStop = false;
+            this.txtBariePortName.UseSelectable = true;
+            this.txtBariePortName.WaterMark = "Cổng kết nối barie!";
+            this.txtBariePortName.WaterMarkColor = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(109)))), ((int)(((byte)(109)))));
+            this.txtBariePortName.WaterMarkFont = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             // 
             // FrmConfig
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(537, 306);
+            this.Controls.Add(this.txtBariePortName);
+            this.Controls.Add(this.metroLabel4);
             this.Controls.Add(this.txtCardReaderOut);
             this.Controls.Add(this.metroLabel3);
             this.Controls.Add(this.txtCardReaderIn);
@@ -255,8 +303,11 @@
             this.Load += new System.EventHandler(this.FrmConfig_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
+
+        private MetroFramework.Controls.MetroTextBox txtBariePortName;
+
+        private MetroFramework.Controls.MetroLabel metroLabel4;
 
         #endregion
 

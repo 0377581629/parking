@@ -15,12 +15,13 @@ namespace ParkingApp
         private readonly string _cardReaderIn;
         private readonly string _cardReaderOut;
         private readonly double _timeWaiting;
+        private readonly string _bariePortName;
 
         public FrmConfig()
         {
             InitializeComponent();
             Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut,
-                ref _timeWaiting);
+                ref _timeWaiting, ref _bariePortName);
         }
 
         private void FrmConfig_Load(object sender, EventArgs e)
@@ -29,14 +30,15 @@ namespace ParkingApp
             txtRtspOut.Text = _rtspCameraOut;
             txtCardReaderIn.Text = _cardReaderIn;
             txtCardReaderOut.Text = _cardReaderOut;
+            txtBariePortName.Text = _bariePortName;
         }
 
         private void BtnLoad_Click(object sender, EventArgs e)
         {
             Helper.SetConfig(txtRtspIn.Text.Trim(), txtRtspOut.Text.Trim(), txtCardReaderIn.Text.Trim(),
-                txtCardReaderOut.Text.Trim(), _timeWaiting.ToString(CultureInfo.InvariantCulture));
+                txtCardReaderOut.Text.Trim(), _timeWaiting.ToString(CultureInfo.InvariantCulture), txtBariePortName.Text.Trim());
 
-            MetroMessageBox.Show(this, "Cấu hình thành công !", "Thông báo");
+            MessageBox.Show("Cấu hình thành công !", "Thông báo");
 
             DialogResult = DialogResult.OK;
         }

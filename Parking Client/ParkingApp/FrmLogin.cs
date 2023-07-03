@@ -62,7 +62,7 @@ namespace ParkingApp
         {
             if (string.IsNullOrEmpty(txtUser.Text.Trim()) || string.IsNullOrEmpty(txtPass.Text.Trim()))
             {
-                MetroMessageBox.Show(this, "Thông tin đăng nhập không được bỏ trống !", "Cảnh báo");
+                MessageBox.Show("Thông tin đăng nhập không được bỏ trống !", "Cảnh báo");
                 return;
             }
 

@@ -19,7 +19,7 @@ namespace ParkingApp
         /// Lấy thông tin cấu hình trong file config
         /// </summary>
         public static void GetConfig(ref string rtspCameraIn, ref string rtspCameraOut, ref string cardReaderIn,
-            ref string cardReaderOut, ref double timeWaiting)
+            ref string cardReaderOut, ref double timeWaiting, ref string bariePortName)
         {
             if (ConfigurationManager.AppSettings.AllKeys.Contains("RtspCameraIn"))
             {
@@ -50,13 +50,19 @@ namespace ParkingApp
                 // Key exists
                 timeWaiting = double.Parse(ConfigurationManager.AppSettings["TimeWaiting"]);
             }
+            
+            if (ConfigurationManager.AppSettings.AllKeys.Contains("BariePortName"))
+            {
+                // Key exists
+                bariePortName = ConfigurationManager.AppSettings["BariePortName"];
+            }
         }
 
         /// <summary>
         /// Lưu thông tin cấu hình trong file config
         /// </summary>
         public static void SetConfig(string rtspCameraIn, string rtspCameraOut, string cardReaderIn,
-            string cardReaderOut, string timeWaiting)
+            string cardReaderOut, string timeWaiting, string bariePortName)
         {
             var cf = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
@@ -74,6 +80,9 @@ namespace ParkingApp
 
             cf.AppSettings.Settings.Remove("TimeWaiting");
             cf.AppSettings.Settings.Add("TimeWaiting", timeWaiting);
+            
+            cf.AppSettings.Settings.Remove("BariePortName");
+            cf.AppSettings.Settings.Add("BariePortName", bariePortName);
 
             cf.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");

@@ -8,21 +8,13 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MetroFramework;
 using Newtonsoft.Json;
 using Capture = Emgu.CV.Capture;
 
 namespace ParkingApp
 {
-    public class RecognitionLicensePlateResponse
-    {
-        public List<string> LicensePlates { get; set; }
-    }
-
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
         private readonly Helper _helperDll = new Helper();
@@ -30,8 +22,7 @@ namespace ParkingApp
         private readonly string _rtspCameraIn;
         private readonly string _rtspCameraOut;
         private readonly double _timeWaiting;
-        private string _ipBarie;
-        private int _portBarie;
+        private readonly string _bariePortName;
 
         //
         private Capture _captureIn;
@@ -72,20 +63,24 @@ namespace ParkingApp
         {
             InitializeComponent();
             Helper.GetConfig(ref _rtspCameraIn, ref _rtspCameraOut, ref _cardReaderIn, ref _cardReaderOut,
-                ref _timeWaiting);
+                ref _timeWaiting, ref _bariePortName);
             //
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             _rawInput = new RawInput(Handle, CAPTURE_ONLY_IN_FOREGROUND);
             _rawInput.AddMessageFilter(); // Adding a message filter will cause keypresses to be handled
             Win32.DeviceAudit(); // Writes a file DeviceAudit.txt to the current directory
             _rawInput.KeyPressed += OnKeyPressed;
+            _rawInput.KeyPressed += FrmCheckInOut_KeyPress;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            const string strTitle = "Đang kết nối thiết bị !";
+            const string connectBarieTitle = "Đang kết nối barie !";
+            WaitWindow.WaitWindow.Show(WaitingConnectBarie, connectBarieTitle);
+
+            const string connectCameraTitle = "Đang kết nối camera !";
             _xuLy = EnumCheckInOut.CONNECT_DEVICE;
-            WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
+            WaitWindow.WaitWindow.Show(WaitingConnectCamera, connectCameraTitle);
         }
 
         #region Proccess Camera
@@ -154,7 +149,7 @@ namespace ParkingApp
             }
             catch (NullReferenceException e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show($"{e.Message}", "Không kết nối được với camera", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -270,29 +265,50 @@ namespace ParkingApp
 
         #endregion
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Alt | Keys.F))
-            {
-                // Alt+F pressed
-                MessageBox.Show("Đóng !");
-                return true;
-            }
+        #region Proccess Barie
 
-            return base.ProcessCmdKey(ref msg, keyData);
+        private void ConnectBarie()
+        {
+            serialPort1.PortName = _bariePortName;
+
+            try
+            {
+                serialPort1.Open();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"{ex.Message}", "Không kết nối được với barie", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
-        private void WaitingSyncData(object sender, WaitWindow.WaitWindowEventArgs e)
+        #endregion
+
+        #region Connect Device
+
+        private void WaitingConnectCamera(object sender, WaitWindow.WaitWindowEventArgs e)
         {
-            var stt = "Quá trình xử lý dữ liệu hoàn tất !";
+            var stt = "Quá trình kết nối camera hoàn tất !";
             var thread = new Thread(Doing);
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
             thread.Join();
             if (stt == "")
-                stt = "Quá trình xử lý dữ liệu hoàn tất !";
+                stt = "Quá trình kết nối camera hoàn tất !";
             e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
         }
+
+        private void WaitingConnectBarie(object sender, WaitWindow.WaitWindowEventArgs e)
+        {
+            var stt = "Quá trình kết nối barie hoàn tất !";
+
+            ConnectBarie();
+
+            if (stt == "")
+                stt = "Quá trình kết nối barie hoàn tất !";
+            e.Result = e.Arguments.Count > 0 ? e.Arguments[0].ToString() : stt;
+        }
+
+        #endregion
 
         private void Doing()
         {
@@ -303,83 +319,76 @@ namespace ParkingApp
                     StartStopCamera();
                     break;
                 case EnumCheckInOut.SET_HISTORY:
-                {
-                    if(string.IsNullOrEmpty(_cardNumberNow)) break;
-                    
-                    var cardData = new CardData();
-                    var lstCards = cardData.Gets();
-                    var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
-
-                    if (card != null)
                     {
-                        var historyData = new HistoryData
+                        if (string.IsNullOrEmpty(_cardNumberNow)) break;
+
+                        var cardData = new CardData();
+                        var lstCards = cardData.Gets();
+                        var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
+
+                        if (card != null)
                         {
-                            CardId = card.Id,
-                            CardNumber = _cardNumberNow,
-                            LicensePlate = card.LicensePlate,
-                            Time = DateTime.Now,
-                            Type = _isIn ? (int)Helper.HistoryDataStatus.IN : (int)Helper.HistoryDataStatus.OUT,
-                            Photo = _imageInUrl,
-                            CardTypeName = card.CardType,
-                            VehicleTypeName = card.VehicleType,
-                            StudentData = _studentSelected,
-                        };
-
-                        if (!_isIn)
-                        {
-                            var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
-                            if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
+                            var historyData = new HistoryData
                             {
-                                MetroMessageBox.Show(this,
-                                    $"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                break;
+                                CardId = card.Id,
+                                CardNumber = _cardNumberNow,
+                                LicensePlate = card.LicensePlate,
+                                Time = DateTime.Now,
+                                Type = _isIn ? (int)Helper.HistoryDataStatus.IN : (int)Helper.HistoryDataStatus.OUT,
+                                Photo = _imageInUrl,
+                                CardTypeName = card.CardType,
+                                VehicleTypeName = card.VehicleType,
+                                StudentData = _studentSelected,
+                            };
+
+                            if (!_isIn)
+                            {
+                                var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
+                                if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
+                                {
+                                    MessageBox.Show($"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    break;
+                                }
+
+                                #region Get Price
+
+                                var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
+                                    card.VehicleTypeId);
+                                var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.DAY);
+                                var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.NIGHT);
+                                if (dayFareData == null || nightFareData == null)
+                                {
+                                    MessageBox.Show($"Chưa cấu hình đủ giá ngày và đêm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    break;
+                                }
+
+                                historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
+                                    dayFareData.Price, nightFareData.Price);
+
+                                #endregion
+
+                                if (card.Balance > historyData.Price)
+                                {
+                                    //Update card balance
+                                    cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    break;
+                                }
                             }
 
-                            #region Get Price
-
-                            var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
-                                card.VehicleTypeId);
-                            var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.DAY);
-                            var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.NIGHT);
-                            if (dayFareData == null || nightFareData == null)
+                            // Save history
+                            historyData.Add();
+                            var historyId = historyData.Id;
+                            _cardNumberNow = string.Empty;
+                            if (historyId > 0)
                             {
-                                MetroMessageBox.Show(this,
-                                    $"Chưa cấu hình đủ giá ngày và đêm", "Cảnh báo",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                break;
+                                btnOpenBarie.PerformClick();
                             }
-
-                            historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
-                                dayFareData.Price, nightFareData.Price);
-
-                            #endregion
-
-
-                            if (card.Balance > historyData.Price)
-                            {
-                                //Update card balance
-                                cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
-                            }
-                            else
-                            {
-                                MetroMessageBox.Show(this,
-                                    $"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng", "Cảnh báo",
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                break;
-                            }
-                        }
-
-                        // Save history
-                        historyData.Add();
-                        var historyId = historyData.Id;
-                        _cardNumberNow = string.Empty;
-                        if (historyId > 0 && !string.IsNullOrEmpty(historyData.CardNumber))
-                        {
-                            // OpenBarie();
                         }
                     }
-                }
                     break;
             }
         }
@@ -514,11 +523,11 @@ namespace ParkingApp
                 _cardNumberNow = txtCardCode.Text.Trim();
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
                 _xuLy = EnumCheckInOut.SET_HISTORY;
-                WaitWindow.WaitWindow.Show(WaitingSyncData, strTitle);
+                WaitWindow.WaitWindow.Show(WaitingConnectCamera, strTitle);
             }
         }
 
-        private void picIn_DoubleClick(object sender, EventArgs e)
+        private void PicIn_DoubleClick(object sender, EventArgs e)
         {
             var obj = (PictureBox)sender;
             if (obj != null)
@@ -529,7 +538,7 @@ namespace ParkingApp
             }
         }
 
-        private void picOut_DoubleClick(object sender, EventArgs e)
+        private void PicOut_DoubleClick(object sender, EventArgs e)
         {
             var obj = (PictureBox)sender;
             if (obj != null)
@@ -538,36 +547,40 @@ namespace ParkingApp
                 var frm = new FrmZoom(img);
                 frm.ShowDialog();
             }
-        }
-
-        private void FrmCheckInOut_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (ModifierKeys == Keys.Escape)
-            {
-                Close();
-            }
-            else if (e.KeyCode == Keys.F1)
-            {
-                btnOpenBarie.PerformClick();
-            }
-            else if (e.KeyCode == Keys.F2)
-            {
-                btnCloseBarie.PerformClick();
-            }
-        }
-
-        private void FrmCheckInOut_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            MessageBox.Show("Đóng !");
         }
 
         private void BtnOpenBarieClick(object sender, EventArgs e)
         {
+            serialPort1.Write("2");
         }
 
         private void BtnCloseBarieClick(object sender, EventArgs e)
         {
+            serialPort1.Write("1");
         }
+
+        private void FrmCheckInOut_KeyPress(object sender, RawInputEventArg e)
+        {
+            var _handleKeyPress = e.KeyPressEvent.VKeyName;
+
+            if (string.Equals(_handleKeyPress, "ESCAPE", StringComparison.InvariantCultureIgnoreCase))
+            {
+                Close();
+            }
+            else if (string.Equals(_handleKeyPress, "F1", StringComparison.InvariantCultureIgnoreCase))
+            {
+                btnOpenBarie.PerformClick();
+            }
+            else if (string.Equals(_handleKeyPress, "F2", StringComparison.InvariantCultureIgnoreCase))
+            {
+                btnCloseBarie.PerformClick();
+            }
+        }
+    }
+
+    public class RecognitionLicensePlateResponse
+    {
+        public List<string> LicensePlates { get; set; }
     }
 
     internal enum EnumCheckInOut
