@@ -158,7 +158,8 @@ namespace ParkingApp
             _captureIn.Retrieve(_frameIn);
             _frameInCopy = _frameIn;
             var bitmap = (Bitmap)_frameInCopy.Bitmap.Clone();
-            picCaptureIn.Image = bitmap;
+            lock (_lockObject) // (bitmap)
+                picCaptureIn.Image = bitmap;
 
             if (_takeSnapshotIn)
             {
@@ -385,7 +386,17 @@ namespace ParkingApp
                             _cardNumberNow = string.Empty;
                             if (historyId > 0)
                             {
-                                btnOpenBarie.PerformClick();
+                                if (btnOpenBarie.InvokeRequired)
+                                {
+                                    btnOpenBarie.Invoke((MethodInvoker)delegate
+                                    {
+                                        btnOpenBarie.PerformClick();
+                                    });
+                                }
+                                else
+                                {
+                                    btnOpenBarie.PerformClick();
+                                }
                             }
                         }
                     }

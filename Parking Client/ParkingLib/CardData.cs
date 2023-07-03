@@ -178,7 +178,7 @@ namespace ParkingLib
 
         public void UpdateBalance(int cardId, double? balance)
         {
-            var _strTheXe = "UPDATE dbo.Park_Card_Card card SET card.Balance = @balance WHERE (Id = @cardId)";
+            var _strTheXe = "UPDATE dbo.Park_Card_Card SET Balance = @balance WHERE Id = @cardId";
             if (_conn.State == ConnectionState.Closed) _conn.Open();
             var _cmd = new SqlCommand();
             _cmd.Connection = _conn;
