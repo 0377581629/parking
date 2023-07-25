@@ -274,7 +274,7 @@ namespace Zero.Customize
             {
                 var parkingAmountOfDay = await _historyRepository.CountAsync(o => !o.IsDeleted &&
                     o.TenantId == AbpSession.TenantId &&
-                    o.CreationTime.DayOfYear == firstDayOfThisWeekInYear + day - 1);
+                    o.Time.DayOfYear == firstDayOfThisWeekInYear + day - 1);
 
                 res.Add(new WeeklyParkingAmountOutput()
                 {

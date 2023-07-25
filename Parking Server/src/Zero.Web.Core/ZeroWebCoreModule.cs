@@ -138,7 +138,7 @@ namespace Zero.Web
             var emailStudentOutOfMoneyBackGroundJobService = IocManager.Resolve<IEmailStudentOutOfMoneyBackGroundJob>();
             RecurringJob.RemoveIfExists("Send Email For Student Out Of Money");
             RecurringJob.AddOrUpdate("Send Email For Student Out Of Money",
-                () => emailStudentOutOfMoneyBackGroundJobService.SendEmailStudentOutOfMoney(), Cron.Daily(6));
+                () => emailStudentOutOfMoneyBackGroundJobService.SendEmailAndSmsStudentOutOfMoney(), Cron.Daily(6));
         }
 
         private void SetAppFolders()

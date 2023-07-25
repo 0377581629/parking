@@ -24,6 +24,23 @@
             </tr>
         }
     }
+    
+    @if (Model.GrantedDashboardWidgets != null && Model.GrantedDashboardWidgets.Any())
+        {
+            foreach (var wg in Model.GrantedDashboardWidgets)
+            {
+                <tr>
+                    <td class="text-center w-40px">
+                        <label class="checkbox checkbox-outline" style="display:inline-block">
+                            <input type="checkbox" class="dashboardWidgetChecker" widgetId="@wg.Id" value="true" @((Model.GrantedDashboardWidgets != null && Model.GrantedDashboardWidgets.Any(o=>o.Id == wg.Id))?"checked":"")/>
+                            <span class="mr-0"></span>
+                        </label>
+                    </td>
+                    <td>@wg.Name</td>
+                    <td>@wg.Description</td>
+                </tr>
+            }
+        }
     </tbody>
     </thead>
 </table>
