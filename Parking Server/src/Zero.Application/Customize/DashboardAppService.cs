@@ -286,6 +286,31 @@ namespace Zero.Customize
             return res;
         }
 
+        public async Task<List<WeeklyParkingRevenueOutput>> GetParkingRevenueByWeek()
+        {
+            var today = DateTime.Today;
+            var dayOffWeek = (int) today.DayOfWeek;
+            var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
+            var res = new List<WeeklyParkingRevenueOutput>();
+
+            for (var day = 1; day <= dayOffWeek; day++)
+            {
+                var historiesOfDay = await _historyRepository.GetAll().Where(o => !o.IsDeleted &&
+                    o.TenantId == AbpSession.TenantId &&
+                    o.Time.DayOfYear == firstDayOfThisWeekInYear + day - 1).ToListAsync();
+
+                var parkingRevenueOfDay = historiesOfDay.Select(o => o.Price).Sum();
+
+                res.Add(new WeeklyParkingRevenueOutput()
+                {
+                    Day = day != 6 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
+                    Revenue = parkingRevenueOfDay ?? 0
+                });
+            }
+
+            return res;
+        }
+
         #endregion
     }
 }

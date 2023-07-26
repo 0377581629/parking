@@ -2,7 +2,7 @@
 
 namespace DPS.Park.Application.Shared.BackgroundJobs
 {
-    public interface IEmailStudentOutOfMoneyBackGroundJob: IDomainService
+    public interface IEmailAndSmsStudentOutOfMoneyBackGroundJob: IDomainService
     {
         void SendEmailAndSmsStudentOutOfMoney();
     }

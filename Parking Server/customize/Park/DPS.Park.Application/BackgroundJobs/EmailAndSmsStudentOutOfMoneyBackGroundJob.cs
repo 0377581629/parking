@@ -17,7 +17,7 @@ using Zero.Net.Sms;
 
 namespace DPS.Park.Application.BackgroundJobs
 {
-    public class EmailAndSmsStudentOutOfMoneyBackGroundJob : ZeroDomainServiceBase, IEmailStudentOutOfMoneyBackGroundJob
+    public class EmailAndSmsStudentOutOfMoneyBackGroundJob : ZeroDomainServiceBase, IEmailAndSmsStudentOutOfMoneyBackGroundJob
     {
         private readonly IUnitOfWorkManager _unitOfWorkManager;
         private readonly IAbpSession _abpSession;
