@@ -167,9 +167,6 @@
         
         public static class ParkSettings 
         {
-            public const string ApplyDecreasePercent = "App.ParkSettings.ApplyDecreasePercent";
-            public const string DecreasePercent = "App.ParkSettings.DecreasePercent";
-            
             public const string PhoneToSendMessage = "App.ParkSettings.PhoneToSendMessage";
             public const string BalanceToSendEmail = "App.ParkSettings.BalanceToSendEmail";
             

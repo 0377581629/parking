@@ -3,22 +3,6 @@
         let _configureParksService = abp.services.app.configurePark;
         let configureParkSettingsForm = $('#ConfigureParkSettingsForm');
 
-        let ApplyDecreasePercent = $('#ApplyDecreasePercent');
-
-        function toggleDecreasePercentConfigurePark() {
-            if (ApplyDecreasePercent.is(':checked')) {
-                $('#DecreasePercentConfigurePark').slideDown('fast');
-            } else {
-                $('#DecreasePercentConfigurePark').slideUp('fast');
-            }
-        }
-
-        ApplyDecreasePercent.change(function () {
-            toggleDecreasePercentConfigurePark();
-        });
-
-        toggleDecreasePercentConfigurePark();
-
         $('#SaveButton').click(function () {
             let configurePark = configureParkSettingsForm.serializeFormToObject();
 

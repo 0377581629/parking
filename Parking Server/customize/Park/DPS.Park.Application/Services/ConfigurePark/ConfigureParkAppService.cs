@@ -37,12 +37,6 @@ namespace DPS.Park.Application.Services.ConfigurePark
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
                     AppSettings.ParkSettings.Email, input.Email);
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
-                    AppSettings.ParkSettings.ApplyDecreasePercent,
-                    input.ApplyDecreasePercent.ToString().ToLowerInvariant());
-                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
-                    AppSettings.ParkSettings.DecreasePercent,
-                    input.DecreasePercent.ToString().ToLowerInvariant());
-                await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
                     AppSettings.ParkSettings.PhoneToSendMessage,
                     input.PhoneToSendMessage.ToLowerInvariant());
                 await _settingManager.ChangeSettingForTenantAsync(AbpSession.GetTenantId(),
@@ -59,10 +53,6 @@ namespace DPS.Park.Application.Services.ConfigurePark
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.SubAddress2,
                     input.SubAddress2);
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.Email, input.Email);
-                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.ApplyDecreasePercent,
-                    input.ApplyDecreasePercent.ToString().ToLowerInvariant());
-                await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.DecreasePercent,
-                    input.DecreasePercent.ToString().ToLowerInvariant());
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.PhoneToSendMessage,
                     input.PhoneToSendMessage.ToLowerInvariant());
                 await _settingManager.ChangeSettingForApplicationAsync(AppSettings.ParkSettings.BalanceToSendEmail,
@@ -82,9 +72,11 @@ namespace DPS.Park.Application.Services.ConfigurePark
                         AbpSession.GetTenantId()),
                     Hotline = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Hotline,
                         AbpSession.GetTenantId()),
-                    SubAddress1 = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Address,
+                    Address = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Address,
                         AbpSession.GetTenantId()),
-                    SubAddress2 = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Address,
+                    SubAddress1 = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.SubAddress1,
+                        AbpSession.GetTenantId()),
+                    SubAddress2 = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.SubAddress2,
                         AbpSession.GetTenantId()),
                     Email = await _settingManager.GetSettingValueForTenantAsync(AppSettings.ParkSettings.Email,
                         AbpSession.GetTenantId()),

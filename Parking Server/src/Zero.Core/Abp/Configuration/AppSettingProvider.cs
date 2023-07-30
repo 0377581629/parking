@@ -202,12 +202,6 @@ namespace Zero.Configuration
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
 
                 // Park Settings
-                new(AppSettings.ParkSettings.ApplyDecreasePercent,
-                    GetFromAppSettings(AppSettings.ParkSettings.ApplyDecreasePercent, "true"),
-                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
-                new(AppSettings.ParkSettings.DecreasePercent,
-                    GetFromAppSettings(AppSettings.ParkSettings.DecreasePercent, "0"),
-                    scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),
                 new(AppSettings.ParkSettings.PhoneToSendMessage,
                     GetFromAppSettings(AppSettings.ParkSettings.PhoneToSendMessage, ""),
                     scopes: SettingScopes.Application | SettingScopes.Tenant, isVisibleToClients: true),

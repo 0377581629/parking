@@ -39,12 +39,6 @@ namespace Zero.Web.Areas.Park.Controllers
                         .SubAddress2),
                     Email = await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                         .Email),
-                    ApplyDecreasePercent =
-                        await _settingManager.GetSettingValueAsync<bool>(AppSettings.ParkSettings
-                            .ApplyDecreasePercent),
-                    DecreasePercent =
-                        await _settingManager.GetSettingValueAsync<int>(AppSettings.ParkSettings
-                            .DecreasePercent),
                     PhoneToSendMessage =
                         await _settingManager.GetSettingValueAsync(AppSettings.ParkSettings
                             .PhoneToSendMessage),

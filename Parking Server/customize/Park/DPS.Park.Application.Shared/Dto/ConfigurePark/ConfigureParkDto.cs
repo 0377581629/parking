@@ -3,11 +3,6 @@
     public class ConfigureParkDto
     {
         #region AdminPage
-
-        public bool ApplyDecreasePercent { get; set; }
-        
-        public int? DecreasePercent { get; set; }
-        
         public string PhoneToSendMessage { get; set; }
 
         public int BalanceToSendEmail { get; set; }
