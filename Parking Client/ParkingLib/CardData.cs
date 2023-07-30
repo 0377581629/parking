@@ -136,12 +136,12 @@ namespace ParkingLib
             if (tenantId != null)
             {
                 cardDataQuery =
-                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Id as CardTypeId,cardType.Name as CardType,vehicleType.Id as VehicleTypeId,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id WHERE card.TenantId = {tenantId}";
+                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Id as CardTypeId,cardType.Name as CardType,vehicleType.Id as VehicleTypeId,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.VehicleTypeId = vehicleType.Id WHERE card.TenantId = {tenantId}";
             }
             else
             {
                 cardDataQuery =
-                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Id as CardTypeId,cardType.Name as CardType,vehicleType.Id as VehicleTypeId,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.CardTypeId = vehicleType.Id WHERE card.TenantId IS NULL";
+                    $"SELECT card.Id,card.Code,card.CardNumber,card.IsActive,cardType.Id as CardTypeId,cardType.Name as CardType,vehicleType.Id as VehicleTypeId,vehicleType.Name as VehicleType,card.Balance,card.LicensePlate FROM dbo.Park_Card_Card card LEFT JOIN dbo.Park_Card_CardType cardType ON card.CardTypeId = cardType.Id LEFT JOIN dbo.Park_Vehicle_VehicleType vehicleType ON card.VehicleTypeId = vehicleType.Id WHERE card.TenantId IS NULL";
             }
 
             if (_conn.State == ConnectionState.Closed) _conn.Open();
