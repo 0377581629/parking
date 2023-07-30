@@ -110,8 +110,8 @@
                 </div>
                 <div class="col-12">
                     <div class="form-group">
-                        <label>@L("UserName")</label>
-                        <select id="UserId" style="width:100%;" name="userId" class="form-control">
+                        <label>@L("UserName")</label> <span class="text-danger">*</span>
+                        <select id="UserId" style="width:100%;" name="userId" class="form-control requiredSelect2">
                             @if (!string.IsNullOrEmpty(Model.Student.UserName) && Model.Student.UserId > 0)
                             {
                                 <option value="@Model.Student.UserId" selected="selected">@Model.Student.UserName - @Model.Student.UserEmail</option>

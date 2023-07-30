@@ -35,7 +35,6 @@
             this.btnConfig = new MetroFramework.Controls.MetroTile();
             this.btnSupervise = new MetroFramework.Controls.MetroTile();
             this.btnHistory = new MetroFramework.Controls.MetroTile();
-            this.btnTestModelAI = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,7 +43,7 @@
             this.lbDay.AutoSize = true;
             this.lbDay.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDay.ForeColor = System.Drawing.Color.Maroon;
-            this.lbDay.Location = new System.Drawing.Point(242, 329);
+            this.lbDay.Location = new System.Drawing.Point(397, 94);
             this.lbDay.Name = "lbDay";
             this.lbDay.Size = new System.Drawing.Size(116, 25);
             this.lbDay.TabIndex = 66;
@@ -55,7 +54,7 @@
             this.lbDayOfWeek.AutoSize = true;
             this.lbDayOfWeek.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDayOfWeek.ForeColor = System.Drawing.Color.Maroon;
-            this.lbDayOfWeek.Location = new System.Drawing.Point(252, 295);
+            this.lbDayOfWeek.Location = new System.Drawing.Point(407, 60);
             this.lbDayOfWeek.Name = "lbDayOfWeek";
             this.lbDayOfWeek.Size = new System.Drawing.Size(98, 25);
             this.lbDayOfWeek.TabIndex = 67;
@@ -65,7 +64,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::ParkingApp.Properties.Resources.soict_logo;
-            this.pictureBox1.Location = new System.Drawing.Point(23, 26);
+            this.pictureBox1.Location = new System.Drawing.Point(24, 26);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(288, 116);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -124,24 +123,11 @@
             this.btnHistory.UseTileImage = true;
             this.btnHistory.Click += new System.EventHandler(this.BtnHistory_Click);
             // 
-            // btnTestModelAI
-            // 
-            this.btnTestModelAI.BackColor = System.Drawing.SystemColors.Control;
-            this.btnTestModelAI.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestModelAI.Location = new System.Drawing.Point(317, 41);
-            this.btnTestModelAI.Name = "btnTestModelAI";
-            this.btnTestModelAI.Size = new System.Drawing.Size(284, 101);
-            this.btnTestModelAI.TabIndex = 68;
-            this.btnTestModelAI.Text = "Test Model AI";
-            this.btnTestModelAI.UseVisualStyleBackColor = false;
-            this.btnTestModelAI.Click += new System.EventHandler(this.BtnTestModelAI_click);
-            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(625, 409);
-            this.Controls.Add(this.btnTestModelAI);
             this.Controls.Add(this.lbDayOfWeek);
             this.Controls.Add(this.lbDay);
             this.Controls.Add(this.pictureBox1);
@@ -156,7 +142,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -167,6 +152,5 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label lbDay;
         private System.Windows.Forms.Label lbDayOfWeek;
-        private System.Windows.Forms.Button btnTestModelAI;
     }
 }

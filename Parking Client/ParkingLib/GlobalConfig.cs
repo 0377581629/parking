@@ -4,7 +4,7 @@
     {
         #region Common
         
-        public const string TenantId = null;
+        public const string TenantId = "1";
 
         public const string DateTimePickerFormat = "dd/MM/yyyy";
 

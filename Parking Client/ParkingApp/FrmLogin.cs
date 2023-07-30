@@ -33,7 +33,7 @@ namespace ParkingApp
             var passwordQuery = "";
             if (tenantId != null)
             {
-               passwordQuery = $"SELECT Password FROM dbo.AbpUsers WHERE UserName = {userName} AND TenantId = {tenantId}"; // shouldn't use, should throw it into a stored procedure to authenticate
+               passwordQuery = $"SELECT Password FROM dbo.AbpUsers WHERE UserName = '{userName}' AND TenantId = {tenantId}"; // shouldn't use, should throw it into a stored procedure to authenticate
             }
             else
             {

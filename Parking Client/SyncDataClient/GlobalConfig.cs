@@ -23,7 +23,7 @@
 
         #region License plate detection and recognization
 
-        public const string PythonUploadImageUrl = "http://localhost:5000/upload";
+        public const string PythonUploadImageUrl = "http://gleximpark.azurewebsites.net/upload";
 
         #endregion
     }
