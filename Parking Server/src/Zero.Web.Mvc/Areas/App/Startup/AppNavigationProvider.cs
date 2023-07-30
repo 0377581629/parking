@@ -20,6 +20,7 @@ namespace Zero.Web.Areas.App.Startup
                         AppPageNames.Common.Dashboard,
                         L("Dashboard"),
                         icon: "la la-dashboard",
+                        url: $"{MenuName}/Dashboard",
                         permissionDependency: new SimplePermissionDependency(AppPermissions.Dashboard)
                     )
                 )

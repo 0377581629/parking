@@ -30,5 +30,7 @@ namespace Zero.Customize.Interfaces
         Task DeletePage(DeletePageInput input);
 
         Task<List<WeeklyParkingAmountOutput>> GetParkingAmountByWeek();
+
+        Task<List<WeeklyParkingRevenueOutput>> GetParkingRevenueByWeek();
     }
 }
