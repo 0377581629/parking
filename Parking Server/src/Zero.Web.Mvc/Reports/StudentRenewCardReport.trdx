@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report Width="10.906in" Name="Report1" ShowSnapGrid="True" xmlns="http://schemas.telerik.com/reporting/2021/1.0">
+<Report Width="10.906in" Name="Report1" ShowSnapGrid="True" SnapGridSize="0.1cm" xmlns="http://schemas.telerik.com/reporting/2021/1.0">
   <DataSources>
     <JsonDataSource Name="jsonDataSource1">
       <Source>
@@ -25,12 +25,45 @@
     </PageHeaderSection>
     <DetailSection Height="3.3in" Name="detailSection1">
       <Items>
-        <Table DataSourceName="jsonDataSource1" Width="10.882in" Height="1.323in" Left="0.013in" Top="0.302in" Name="table1">
+        <TextBox Width="2.567in" Height="0.2in" Left="7.4in" Top="1.902in" Value="=&quot;Hà Nội, Ngày &quot; + Now().ToString(&quot;dd&quot;) +&quot; Tháng &quot; + Now().ToString(&quot;MM&quot;)+&quot; Năm &quot;+ Now().ToString(&quot;yyyy&quot;)" Name="textBox3">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <Font Bold="False" Italic="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="2.567in" Height="0.2in" Left="7.4in" Top="2.102in" Value="Quản lý bãi gửi xe" Name="textBox2">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <Font Bold="True" />
+          </Style>
+        </TextBox>
+        <Table DataSourceName="jsonDataSource1" Width="27.624cm" Height="3cm" Left="0.049cm" Top="0.449cm" Name="table2">
           <Body>
             <Cells>
+              <TableCell RowIndex="0" ColumnIndex="0" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= RowNumber()" Name="textBox26" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <Font Size="9pt" Bold="False" />
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
               <TableCell RowIndex="0" ColumnIndex="1" RowSpan="1" ColumnSpan="1">
                 <ReportItem>
-                  <TextBox Width="1.13in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.studentCode" Name="textBox34" StyleName="">
+                  <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.studentCode" Name="textBox27" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+              <TableCell RowIndex="0" ColumnIndex="2" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.studentName" Format="{0:N0}" Name="textBox18" StyleName="">
                     <Style TextAlign="Center" VerticalAlign="Middle">
                       <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
                       <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
@@ -41,30 +74,7 @@
               </TableCell>
               <TableCell RowIndex="0" ColumnIndex="3" RowSpan="1" ColumnSpan="1">
                 <ReportItem>
-                  <TextBox Width="1.211in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.cardNumber" Name="textBox5" StyleName="">
-                    <Style TextAlign="Center" VerticalAlign="Middle">
-                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
-                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
-                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
-                    </Style>
-                  </TextBox>
-                </ReportItem>
-              </TableCell>
-              <TableCell RowIndex="0" ColumnIndex="0" RowSpan="1" ColumnSpan="1">
-                <ReportItem>
-                  <TextBox Width="0.359in" Height="0.762in" Left="0in" Top="0in" Value="= RowNumber()" Name="textBox4" StyleName="">
-                    <Style TextAlign="Center" VerticalAlign="Middle">
-                      <Font Size="9pt" Bold="False" />
-                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
-                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
-                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
-                    </Style>
-                  </TextBox>
-                </ReportItem>
-              </TableCell>
-              <TableCell RowIndex="0" ColumnIndex="2" RowSpan="1" ColumnSpan="1">
-                <ReportItem>
-                  <TextBox Width="2.497in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.studentName" Format="{0:N0}" Name="textBox7" StyleName="">
+                  <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.cardNumber" Name="textBox24" StyleName="">
                     <Style TextAlign="Center" VerticalAlign="Middle">
                       <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
                       <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
@@ -75,7 +85,7 @@
               </TableCell>
               <TableCell RowIndex="0" ColumnIndex="4" RowSpan="1" ColumnSpan="1">
                 <ReportItem>
-                  <TextBox Width="1.3in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.cardType" Name="textBox6" StyleName="">
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.cardType" Name="textBox20" StyleName="">
                     <Style TextAlign="Center" VerticalAlign="Middle">
                       <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
                       <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
@@ -84,18 +94,9 @@
                   </TextBox>
                 </ReportItem>
               </TableCell>
-              <TableCell RowIndex="0" ColumnIndex="7" RowSpan="1" ColumnSpan="1">
-                <ReportItem>
-                  <TextBox Width="1.417in" Height="0.762in" Left="0in" Top="0in" Name="textBox10" StyleName="">
-                    <Style VerticalAlign="Middle">
-                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
-                    </Style>
-                  </TextBox>
-                </ReportItem>
-              </TableCell>
               <TableCell RowIndex="0" ColumnIndex="5" RowSpan="1" ColumnSpan="1">
                 <ReportItem>
-                  <TextBox Width="1.208in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.vehicleType" Name="textBox14" StyleName="">
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.vehicleType" Name="textBox31" StyleName="">
                     <Style TextAlign="Center" VerticalAlign="Middle">
                       <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
                     </Style>
@@ -104,7 +105,16 @@
               </TableCell>
               <TableCell RowIndex="0" ColumnIndex="6" RowSpan="1" ColumnSpan="1">
                 <ReportItem>
-                  <TextBox Width="1.76in" Height="0.762in" Left="0in" Top="0in" Value="= Fields.renewCardTime" Name="textBox16" StyleName="">
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.renewCardTime" Name="textBox33" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+              <TableCell RowIndex="0" ColumnIndex="7" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Name="textBox37" StyleName="">
                     <Style TextAlign="Center" VerticalAlign="Middle">
                       <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
                     </Style>
@@ -113,34 +123,31 @@
               </TableCell>
             </Cells>
             <Columns>
-              <Column Width="0.359in" />
-              <Column Width="1.13in" />
-              <Column Width="2.497in" />
-              <Column Width="1.211in" />
-              <Column Width="1.3in" />
-              <Column Width="1.208in" />
-              <Column Width="1.76in" />
-              <Column Width="1.417in" />
+              <Column Width="2.912cm" />
+              <Column Width="4.354cm" />
+              <Column Width="4.354cm" />
+              <Column Width="4.354cm" />
+              <Column Width="2.912cm" />
+              <Column Width="2.912cm" />
+              <Column Width="2.912cm" />
+              <Column Width="2.912cm" />
             </Columns>
             <Rows>
-              <Row Height="0.762in" />
+              <Row Height="1.5cm" />
             </Rows>
           </Body>
           <Corner />
-          <Style>
-            <Font Name="Times New Roman" Size="11pt" />
-          </Style>
           <RowGroups>
-            <TableGroup Name="detailTableGroup">
+            <TableGroup Name="detailTableGroup1">
               <Groupings>
-                <Grouping Expression="= Fields.id" />
+                <Grouping />
               </Groupings>
             </TableGroup>
           </RowGroups>
           <ColumnGroups>
-            <TableGroup Name="group2">
+            <TableGroup Name="group7">
               <ReportItem>
-                <TextBox Width="0.359in" Height="0.561in" Left="0in" Top="0in" Value="TT" Name="textBox23" StyleName="">
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="TT" Name="textBox17" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -150,9 +157,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group1">
+            <TableGroup Name="tableGroup">
               <ReportItem>
-                <TextBox Width="1.13in" Height="0.561in" Left="0in" Top="0in" Value="Mã sinh viên" Name="textBox29" StyleName="">
+                <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Mã sinh viên" Name="textBox28" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -162,9 +169,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group3">
+            <TableGroup Name="tableGroup1">
               <ReportItem>
-                <TextBox Width="2.497in" Height="0.561in" Left="0in" Top="0in" Value="Tên sinh viên" Name="textBox13" StyleName="">
+                <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Tên sinh viên" Name="textBox22" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -174,9 +181,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group4">
+            <TableGroup Name="tableGroup2">
               <ReportItem>
-                <TextBox Width="1.211in" Height="0.561in" Left="0in" Top="0in" Value="Số thẻ" Name="textBox9" StyleName="">
+                <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Số thẻ" Name="textBox36" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -186,9 +193,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group9">
+            <TableGroup Name="group8">
               <ReportItem>
-                <TextBox Width="1.3in" Height="0.561in" Left="0in" Top="0in" Value="Loại thẻ" Name="textBox11" StyleName="">
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Loại thẻ" Name="textBox25" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -198,9 +205,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group5">
+            <TableGroup Name="group10">
               <ReportItem>
-                <TextBox Width="1.208in" Height="0.561in" Left="0in" Top="0in" Value="Loại xe" Name="textBox8" StyleName="">
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Loại xe" Name="textBox30" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -208,9 +215,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group6">
+            <TableGroup Name="group11">
               <ReportItem>
-                <TextBox Width="1.76in" Height="0.561in" Left="0in" Top="0in" Value="Thời gian" Name="textBox15" StyleName="">
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Thời gian" Name="textBox32" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -218,9 +225,9 @@
                 </TextBox>
               </ReportItem>
             </TableGroup>
-            <TableGroup Name="group">
+            <TableGroup Name="group12">
               <ReportItem>
-                <TextBox Width="1.417in" Height="0.561in" Left="0in" Top="0in" Value="Ghi chú" Name="textBox12" StyleName="">
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Ghi chú" Name="textBox38" StyleName="">
                   <Style TextAlign="Center" VerticalAlign="Middle">
                     <Font Bold="True" />
                     <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
@@ -235,16 +242,6 @@
             <Binding Path="DataSource.Source" Expression="= Parameters.ReportData.Value" />
           </Bindings>
         </Table>
-        <TextBox Width="2.567in" Height="0.2in" Left="7.4in" Top="1.902in" Value="=&quot;Hà Nội, Ngày &quot; + Now().ToString(&quot;dd&quot;) +&quot; Tháng &quot; + Now().ToString(&quot;MM&quot;)+&quot; Năm &quot;+ Now().ToString(&quot;yyyy&quot;)" Name="textBox3">
-          <Style TextAlign="Center" VerticalAlign="Middle">
-            <Font Bold="False" Italic="True" />
-          </Style>
-        </TextBox>
-        <TextBox Width="2.567in" Height="0.2in" Left="7.4in" Top="2.102in" Value="Quản lý bãi gửi xe" Name="textBox2">
-          <Style TextAlign="Center" VerticalAlign="Middle">
-            <Font Bold="True" />
-          </Style>
-        </TextBox>
       </Items>
     </DetailSection>
     <PageFooterSection Height="0.318in" Name="pageFooterSection1">

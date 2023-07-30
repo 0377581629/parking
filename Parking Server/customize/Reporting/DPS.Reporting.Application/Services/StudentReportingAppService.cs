@@ -60,7 +60,7 @@ namespace DPS.Reporting.Application.Services
             foreach (var card in cards)
             {
                 var cardStudent = cardStudents.FirstOrDefault(o => o.CardId == card.Id);
-                var student = students.FirstOrDefault(o => cardStudent != null && o.Id == cardStudent.CardId);
+                var student = students.FirstOrDefault(o => cardStudent != null && o.Id == cardStudent.StudentId);
                 res.Add(new StudentRenewCardReportingOutput()
                 {
                     StudentCode = student != null ? student.Code : "",
