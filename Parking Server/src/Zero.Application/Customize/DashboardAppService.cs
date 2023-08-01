@@ -7,7 +7,9 @@ using Abp.Authorization;
 using Abp.Configuration;
 using Abp.Domain.Repositories;
 using Abp.UI;
+using DPS.Park.Core.Card;
 using DPS.Park.Core.History;
+using DPS.Park.Core.Vehicle;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Zero;
@@ -30,11 +32,15 @@ namespace Zero.Customize
         private readonly ISettingStore _settingStore;
 
         private readonly IRepository<History> _historyRepository;
+        private readonly IRepository<Card> _cardRepository;
+        private readonly IRepository<CardType> _cardTypeRepository;
+        private readonly IRepository<VehicleType> _vehicleTypeRepository;
 
         public DashboardAppService(IRepository<DashboardWidget> dashboardWidgetRepository,
             IRepository<EditionDashboardWidget> editionDashboardWidgetRepository,
             IRepository<RoleDashboardWidget> roleDashboardWidgetRepository, IZeroAppService zeroAppService,
-            ISettingStore settingStore, IRepository<History> historyRepository)
+            ISettingStore settingStore, IRepository<History> historyRepository, IRepository<Card> cardRepository,
+            IRepository<CardType> cardTypeRepository, IRepository<VehicleType> vehicleTypeRepository)
         {
             _dashboardWidgetRepository = dashboardWidgetRepository;
             _editionDashboardWidgetRepository = editionDashboardWidgetRepository;
@@ -42,6 +48,9 @@ namespace Zero.Customize
             _zeroAppService = zeroAppService;
             _settingStore = settingStore;
             _historyRepository = historyRepository;
+            _cardRepository = cardRepository;
+            _cardTypeRepository = cardTypeRepository;
+            _vehicleTypeRepository = vehicleTypeRepository;
         }
 
         #region Default
@@ -159,7 +168,7 @@ namespace Zero.Customize
             dashboard.Pages.Add(page);
             await SaveSetting(dashboards);
 
-            return new AddNewPageOutput {PageId = page.Id};
+            return new AddNewPageOutput { PageId = page.Id };
         }
 
         public async Task DeletePage(DeletePageInput input)
@@ -210,7 +219,7 @@ namespace Zero.Customize
                 return 0;
             }
 
-            return (byte) widgets.Max(w => w.PositionY + w.Height);
+            return (byte)widgets.Max(w => w.PositionY + w.Height);
         }
 
         private async Task<List<Dto.Dashboard.Config.Dashboard>> GetDashboardFromSettings()
@@ -266,7 +275,7 @@ namespace Zero.Customize
         public async Task<List<WeeklyParkingAmountOutput>> GetParkingAmountByWeek()
         {
             var today = DateTime.Today;
-            var dayOffWeek = (int) today.DayOfWeek;
+            var dayOffWeek = (int)today.DayOfWeek;
             var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
             var res = new List<WeeklyParkingAmountOutput>();
 
@@ -289,7 +298,7 @@ namespace Zero.Customize
         public async Task<List<WeeklyParkingRevenueOutput>> GetParkingRevenueByWeek()
         {
             var today = DateTime.Today;
-            var dayOffWeek = (int) today.DayOfWeek;
+            var dayOffWeek = (int)today.DayOfWeek;
             var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
             var res = new List<WeeklyParkingRevenueOutput>();
 
@@ -304,8 +313,76 @@ namespace Zero.Customize
                 res.Add(new WeeklyParkingRevenueOutput()
                 {
                     Day = day != 6 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
-                    Revenue = parkingRevenueOfDay ?? 0
+                    ParkingRevenue = parkingRevenueOfDay ?? 0
                 });
+            }
+
+            return res;
+        }
+
+        private IQueryable<RatioByCardTypeOutput> CurrentCardTypeQuery()
+        {
+            var query = from o in _cardTypeRepository.GetAll()
+                    .Where(o => o.TenantId == AbpSession.TenantId && !o.IsDeleted)
+                join card in _cardRepository.GetAll()
+                    on o.Id equals card.CardTypeId
+                select new
+                {
+                    CardTypeId = o.Id,
+                    CardTypeName = o.Name,
+                };
+            var res = query.GroupBy(e => new { e.CardTypeId, e.CardTypeName }).Select(
+                e => new RatioByCardTypeOutput
+                {
+                    Count = e.Count(),
+                    CardTypeName = e.Key.CardTypeName
+                });
+            return res;
+        }
+
+        public async Task<List<RatioByCardTypeOutput>> GetRatioByCardType()
+        {
+            var res = CurrentCardTypeQuery().ToList();
+            var totalCard = await _cardRepository.CountAsync(o => o.TenantId == AbpSession.TenantId && !o.IsDeleted);
+
+            foreach (var item in res)
+            {
+                item.Ratio = item.Count / totalCard * 100;
+                item.CardTypeName = item.CardTypeName;
+            }
+
+            return res;
+        }
+
+        private IQueryable<RatioByVehicleTypeOutput> CurrentVehicleTypeQuery()
+        {
+            var query = from o in _vehicleTypeRepository.GetAll()
+                    .Where(o => o.TenantId == AbpSession.TenantId && !o.IsDeleted)
+                join card in _cardRepository.GetAll()
+                    on o.Id equals card.VehicleTypeId
+                select new
+                {
+                    VehicleTypeId = o.Id,
+                    VehicleTypeName = o.Name,
+                };
+            var res = query.GroupBy(e => new { e.VehicleTypeId, e.VehicleTypeName }).Select(
+                e => new RatioByVehicleTypeOutput()
+                {
+                    Count = e.Count(),
+                    VehicleTypeName = e.Key.VehicleTypeName
+                });
+            return res;
+        }
+
+        public async Task<List<RatioByVehicleTypeOutput>> GetRatioByVehicleType()
+        {
+            var res = CurrentVehicleTypeQuery().ToList();
+            var totalCard = await _cardRepository.CountAsync(o => o.TenantId == AbpSession.TenantId && !o.IsDeleted);
+
+            foreach (var item in res)
+            {
+                item.Ratio = item.Count / totalCard * 100;
+                item.VehicleTypeName = item.VehicleTypeName;
             }
 
             return res;

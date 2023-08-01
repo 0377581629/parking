@@ -32,5 +32,9 @@ namespace Zero.Customize.Interfaces
         Task<List<WeeklyParkingAmountOutput>> GetParkingAmountByWeek();
 
         Task<List<WeeklyParkingRevenueOutput>> GetParkingRevenueByWeek();
+
+        Task<List<RatioByCardTypeOutput>> GetRatioByCardType();
+
+        Task<List<RatioByVehicleTypeOutput>> GetRatioByVehicleType();
     }
 }

@@ -4,6 +4,6 @@
     {
         public string Day { get; set; }
         
-        public double? Revenue { get; set; }
+        public double? ParkingRevenue { get; set; }
     }
 }

@@ -17,7 +17,7 @@
         #region Upload History Image
 
         public const string UploadImageToServerUrl = "App/FilesManager/Upload";
-        public const string HistoryImageFolderName = "HistoryImage";
+        public const string HistoryImageFolderName = "Host/HistoryImage";
 
         #endregion
 

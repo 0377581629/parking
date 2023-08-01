@@ -10,7 +10,7 @@ namespace SyncDataClient
 {
     public static class Sync
     {
-        private static string GetAccessTokenAsync()
+        private static async Task<string> GetAccessTokenAsync()
         {
             var client = new HttpClient();
 
@@ -38,7 +38,7 @@ namespace SyncDataClient
 
         public static async Task<bool> UploadImageToServer(string imgPath, string fileName)
         {
-            var accessToken = GetAccessTokenAsync();
+            var accessToken = await GetAccessTokenAsync();
             using (var client = new HttpClient())
             {
                 client.SetBearerToken(accessToken);

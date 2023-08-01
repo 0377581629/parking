@@ -74,7 +74,7 @@ namespace DPS.Park.Application.BackgroundJobs
 
                 if (student == null) continue;
 
-                if (emailTemplate != null)
+                if (emailTemplate != null && !string.IsNullOrEmpty(student.Email))
                 {
                     var mailBody = new StringBuilder();
                     mailBody.Append(emailTemplate.Content);

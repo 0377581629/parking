@@ -31,7 +31,7 @@ namespace ParkingApp
         private bool _captureInProgress;
         private bool _takeSnapshotIn;
         private string _pathCaptureIn = string.Empty;
-        private string _imageInUrl = string.Empty;
+        private string _imageUrl = string.Empty;
         private string _currentImgFileName = string.Empty;
 
         private Capture _captureOut;
@@ -149,7 +149,8 @@ namespace ParkingApp
             }
             catch (NullReferenceException e)
             {
-                MessageBox.Show($"{e.Message}", "Không kết nối được với camera", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"{e.Message}", "Không kết nối được với camera", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
         }
 
@@ -158,8 +159,7 @@ namespace ParkingApp
             _captureIn.Retrieve(_frameIn);
             _frameInCopy = _frameIn;
             var bitmap = (Bitmap)_frameInCopy.Bitmap.Clone();
-            lock (_lockObject) // (bitmap)
-                picCaptureIn.Image = bitmap;
+            picCaptureIn.Image = bitmap;
 
             if (_takeSnapshotIn)
             {
@@ -174,7 +174,7 @@ namespace ParkingApp
                 // Save the image
                 _frameInCopy.Save(path);
                 _pathCaptureIn = path;
-                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
+                _imageUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
                 // Set the bool to false again to make sure we only take one snapshot
                 _takeSnapshotIn = !_takeSnapshotIn;
             }
@@ -187,8 +187,11 @@ namespace ParkingApp
             _captureOut.Retrieve(_frameOut);
             _frameOutCopy = _frameOut;
             var bitmap = (Bitmap)_frameOutCopy.Bitmap.Clone();
-            lock (_lockObject) // (bitmap)
+            lock (_lockObject)
+            {
+                picCaptureOut.Image?.Dispose();
                 picCaptureOut.Image = bitmap;
+            }
 
             if (_takeSnapshotOut)
             {
@@ -203,7 +206,7 @@ namespace ParkingApp
                 // Save the image
                 _frameOutCopy.Save(path);
                 _pathCaptureOut = path;
-                _imageInUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
+                _imageUrl = $"{GlobalConfig.ParkingServerHost}{GlobalConfig.ImageStorageFolder}{_currentImgFileName}";
                 // Set the bool to false again to make sure we only take one snapshot
                 _takeSnapshotOut = !_takeSnapshotOut;
             }
@@ -278,7 +281,8 @@ namespace ParkingApp
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"{ex.Message}", "Không kết nối được với barie", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"{ex.Message}", "Không kết nối được với barie", MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
             }
         }
 
@@ -320,86 +324,86 @@ namespace ParkingApp
                     StartStopCamera();
                     break;
                 case EnumCheckInOut.SET_HISTORY:
+                {
+                    if (string.IsNullOrEmpty(_cardNumberNow)) break;
+
+                    var cardData = new CardData();
+                    var lstCards = cardData.Gets();
+                    var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
+
+                    if (card != null)
                     {
-                        if (string.IsNullOrEmpty(_cardNumberNow)) break;
-
-                        var cardData = new CardData();
-                        var lstCards = cardData.Gets();
-                        var card = lstCards.FirstOrDefault(o => o.CardNumber == _cardNumberNow);
-
-                        if (card != null)
+                        var historyData = new HistoryData
                         {
-                            var historyData = new HistoryData
+                            CardId = card.Id,
+                            CardNumber = _cardNumberNow,
+                            LicensePlate = card.LicensePlate,
+                            Time = DateTime.Now,
+                            Type = _isIn ? (int)Helper.HistoryDataStatus.IN : (int)Helper.HistoryDataStatus.OUT,
+                            Photo = _imageUrl,
+                            CardTypeName = card.CardType,
+                            VehicleTypeName = card.VehicleType,
+                            StudentData = _studentSelected,
+                        };
+
+                        if (!_isIn)
+                        {
+                            var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
+                            if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
                             {
-                                CardId = card.Id,
-                                CardNumber = _cardNumberNow,
-                                LicensePlate = card.LicensePlate,
-                                Time = DateTime.Now,
-                                Type = _isIn ? (int)Helper.HistoryDataStatus.IN : (int)Helper.HistoryDataStatus.OUT,
-                                Photo = _imageInUrl,
-                                CardTypeName = card.CardType,
-                                VehicleTypeName = card.VehicleType,
-                                StudentData = _studentSelected,
-                            };
-
-                            if (!_isIn)
-                            {
-                                var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
-                                if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
-                                {
-                                    MessageBox.Show($"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    break;
-                                }
-
-                                #region Get Price
-
-                                var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
-                                    card.VehicleTypeId);
-                                var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.DAY);
-                                var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.NIGHT);
-                                if (dayFareData == null || nightFareData == null)
-                                {
-                                    MessageBox.Show($"Chưa cấu hình đủ giá ngày và đêm", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    break;
-                                }
-
-                                historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
-                                    dayFareData.Price, nightFareData.Price);
-
-                                #endregion
-
-                                if (card.Balance > historyData.Price)
-                                {
-                                    //Update card balance
-                                    cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
-                                }
-                                else
-                                {
-                                    MessageBox.Show($"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    break;
-                                }
+                                MessageBox.Show($"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
                             }
 
-                            // Save history
-                            historyData.Add();
-                            var historyId = historyData.Id;
-                            _cardNumberNow = string.Empty;
-                            if (historyId > 0)
+                            #region Get Price
+
+                            var listPriceData = new FareData().GetFaresByCardTypeAndVehicleType(card.CardTypeId,
+                                card.VehicleTypeId);
+                            var dayFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.DAY);
+                            var nightFareData = listPriceData.FirstOrDefault(o => o.Type == (int)FareType.NIGHT);
+                            if (dayFareData == null || nightFareData == null)
                             {
-                                if (btnOpenBarie.InvokeRequired)
-                                {
-                                    btnOpenBarie.Invoke((MethodInvoker)delegate
-                                    {
-                                        btnOpenBarie.PerformClick();
-                                    });
-                                }
-                                else
-                                {
-                                    btnOpenBarie.PerformClick();
-                                }
+                                MessageBox.Show($"Chưa cấu hình đủ giá ngày và đêm", "Cảnh báo", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                                break;
+                            }
+
+                            historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
+                                dayFareData.Price, nightFareData.Price);
+
+                            #endregion
+
+                            if (card.Balance > historyData.Price)
+                            {
+                                //Update card balance
+                                cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
+                            }
+                            else
+                            {
+                                MessageBox.Show($"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng",
+                                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                break;
+                            }
+                        }
+
+                        // Save history
+                        historyData.Add();
+                        var historyId = historyData.Id;
+                        _cardNumberNow = string.Empty;
+                        if (historyId > 0)
+                        {
+                            if (btnOpenBarie.InvokeRequired)
+                            {
+                                btnOpenBarie.Invoke((MethodInvoker)delegate { btnOpenBarie.PerformClick(); });
+                            }
+                            else
+                            {
+                                btnOpenBarie.PerformClick();
                             }
                         }
                     }
+                }
                     break;
             }
         }
@@ -430,10 +434,12 @@ namespace ParkingApp
                 if (txtCardCode.Text.Length < 10) return;
                 if (_handleCardReader == _cardReaderIn)
                 {
+                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
                     picIn.Image = Image.FromFile(_pathCaptureIn);
                 }
                 else if (_handleCardReader == _cardReaderOut)
                 {
+                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
                     picOut.Image = Image.FromFile(_pathCaptureOut);
                 }
 
@@ -478,7 +484,8 @@ namespace ParkingApp
                         imageBytes = File.ReadAllBytes(_pathCaptureIn);
                         var responseString =
                             await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                        var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+                        var responseObject =
+                            JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
                         if (responseObject.LicensePlates.Any())
                         {
                             richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
@@ -494,7 +501,8 @@ namespace ParkingApp
                         imageBytes = File.ReadAllBytes(_pathCaptureOut);
                         var responseString =
                             await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                        var responseObject = JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+                        var responseObject =
+                            JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
                         if (responseObject.LicensePlates.Any())
                         {
                             richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
@@ -521,9 +529,9 @@ namespace ParkingApp
                     #region Get Last In
 
                     var historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
-                    if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
+                    if (!string.IsNullOrEmpty(historyInLasted.Photo))
                     {
-                        picIn.Image = (Bitmap)Image.FromFile(historyInLasted.Photo);
+                        picIn.Image = _helperDll.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width, picCaptureIn.Height);
                         txtInTime.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 

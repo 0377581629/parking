@@ -175,7 +175,7 @@ namespace ParkingApp
             catch (Exception ex)
             {
                 // Xử lý lỗi nếu có
-                MessageBox.Show("Không thể tải ảnh: " + ex.Message);
+                MessageBox.Show("Không thể tải ảnh đại diện : " + ex.Message);
                 return null;
             }
         }
@@ -203,7 +203,7 @@ namespace ParkingApp
                 {
                     res = dayPrice;
                 }
-                else if (outTime.Hour > 18)
+                else if (outTime.Hour >= 18)
                 {
                     res = nightPrice;
                 }
