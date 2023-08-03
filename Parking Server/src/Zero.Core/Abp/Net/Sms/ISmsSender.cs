@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Zero.Net.Sms
+namespace Zero.Abp.Net.Sms
 {
     public interface ISmsSender
     {

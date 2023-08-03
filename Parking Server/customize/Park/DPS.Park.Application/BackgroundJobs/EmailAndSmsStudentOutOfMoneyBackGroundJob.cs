@@ -11,6 +11,7 @@ using DPS.Park.Application.Shared.BackgroundJobs;
 using DPS.Park.Core.Card;
 using DPS.Park.Core.Student;
 using Zero;
+using Zero.Abp.Net.Sms;
 using Zero.Configuration;
 using Zero.Customize;
 using Zero.Net.Sms;
@@ -94,7 +95,7 @@ namespace DPS.Park.Application.BackgroundJobs
                 if (!string.IsNullOrEmpty(student.PhoneNumber))
                 {
                     var message =
-                        $"Thẻ gửi xe có số {cardOutOfMoney.CardNumber} của bạn còn dưới {balanceToSend} đồng, vui lòng nạp thêm ";
+                        $"Chào em {student.Name}, MSSV {student.Code}, hiện nay thẻ xe có số thẻ là {cardOutOfMoney.CardNumber} của em đã sắp hết chỉ còn {cardOutOfMoney.Balance.ToString()} đồng. Chúng tôi thông báo để em có thể biết trước và chủ động nạp thêm.";
                     _smsSender.SendAsync(student.PhoneNumber, message);
                 }
             }

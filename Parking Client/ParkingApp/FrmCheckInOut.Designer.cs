@@ -53,6 +53,8 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.picCaptureOut = new System.Windows.Forms.PictureBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.txtFare = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picIn)).BeginInit();
             this.groupBox4.SuspendLayout();
@@ -132,6 +134,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.txtFare);
             this.groupBox1.Controls.Add(this.checkInOutContent);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.richRecognitionLicensePlate);
@@ -257,7 +261,7 @@
             this.txtCardCode.Multiline = false;
             this.txtCardCode.Name = "txtCardCode";
             this.txtCardCode.ReadOnly = true;
-            this.txtCardCode.Size = new System.Drawing.Size(442, 30);
+            this.txtCardCode.Size = new System.Drawing.Size(208, 30);
             this.txtCardCode.TabIndex = 5;
             this.txtCardCode.Text = "";
             this.txtCardCode.TextChanged += new System.EventHandler(this.txtCardCode_TextChanged);
@@ -344,6 +348,29 @@
             this.picCaptureOut.TabIndex = 8;
             this.picCaptureOut.TabStop = false;
             // 
+            // txtFare
+            // 
+            this.txtFare.BackColor = System.Drawing.SystemColors.Control;
+            this.txtFare.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.txtFare.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtFare.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.txtFare.Location = new System.Drawing.Point(429, 108);
+            this.txtFare.Multiline = false;
+            this.txtFare.Name = "txtFare";
+            this.txtFare.ReadOnly = true;
+            this.txtFare.Size = new System.Drawing.Size(208, 30);
+            this.txtFare.TabIndex = 17;
+            this.txtFare.Text = "";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(426, 92);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 13);
+            this.label6.TabIndex = 18;
+            this.label6.Text = "Giá:";
+            // 
             // FrmCheckInOut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 13F);
@@ -404,6 +431,8 @@
         private System.Windows.Forms.RichTextBox checkInOutContent;
         private System.Windows.Forms.PictureBox picRegistry;
         private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RichTextBox txtFare;
     }
 }
 

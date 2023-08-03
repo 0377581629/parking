@@ -17,14 +17,15 @@ namespace ParkingApp
 {
     public partial class FrmCheckInOut : MetroFramework.Forms.MetroForm
     {
-        private readonly Helper _helperDll = new Helper();
+        #region Variable initialization and declaration
+
+        private readonly Helper _helper = new Helper();
 
         private readonly string _rtspCameraIn;
         private readonly string _rtspCameraOut;
         private readonly double _timeWaiting;
         private readonly string _bariePortName;
 
-        //
         private Capture _captureIn;
         private readonly Mat _frameIn = new Mat();
         private Mat _frameInCopy = new Mat();
@@ -33,31 +34,26 @@ namespace ParkingApp
         private string _pathCaptureIn = string.Empty;
         private string _imageUrl = string.Empty;
         private string _currentImgFileName = string.Empty;
-
         private Capture _captureOut;
         private readonly Mat _frameOut = new Mat();
         private Mat _frameOutCopy = new Mat();
         private bool _captureOutProgress;
         private bool _takeSnapshotOut;
-
         private string _pathCaptureOut = string.Empty;
 
-        // Now
         private string _cardNumberNow = string.Empty;
         private bool _isIn;
 
         private StudentData _studentSelected = new StudentData();
 
-        //
         private EnumCheckInOut _xuLy;
 
-        private readonly Helper _helper = new Helper();
-
-        //
         private readonly RawInput _rawInput;
         private const bool CAPTURE_ONLY_IN_FOREGROUND = true;
         private readonly string _cardReaderIn;
         private readonly string _cardReaderOut;
+
+        #endregion
 
         public FrmCheckInOut()
         {
@@ -372,22 +368,33 @@ namespace ParkingApp
                             historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
                                 dayFareData.Price, nightFareData.Price);
 
+                            txtFare.Text = historyData.Price.ToString();
+
                             #endregion
 
-                            if (card.Balance > historyData.Price)
+                            #region Update Card Balance
+
+                            if (historyData.StudentData.Id != 0)
                             {
-                                //Update card balance
-                                cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
+                                if (card.Balance > historyData.Price)
+                                {
+                                    //Update card balance
+                                    cardData.UpdateBalance(card.Id, card.Balance - historyData.Price);
+                                }
+                                else
+                                {
+                                    MessageBox.Show(
+                                        $"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng",
+                                        "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    break;
+                                }
                             }
-                            else
-                            {
-                                MessageBox.Show($"Tài khoản của bạn còn {card.Balance}, vui lòng nạp thêm để sử dụng",
-                                    "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                break;
-                            }
+
+                            #endregion
                         }
 
-                        // Save history
+                        #region Save history and open barie
+
                         historyData.Add();
                         var historyId = historyData.Id;
                         _cardNumberNow = string.Empty;
@@ -397,11 +404,9 @@ namespace ParkingApp
                             {
                                 btnOpenBarie.Invoke((MethodInvoker)delegate { btnOpenBarie.PerformClick(); });
                             }
-                            else
-                            {
-                                btnOpenBarie.PerformClick();
-                            }
                         }
+
+                        #endregion
                     }
                 }
                     break;
@@ -419,7 +424,6 @@ namespace ParkingApp
             var txt = (RichTextBox)sender;
             if (txt.Text.Length > 0)
             {
-                //Do what you have to do
                 if (_handleCardReader == _cardReaderIn)
                 {
                     _takeSnapshotIn = !_takeSnapshotIn;
@@ -429,32 +433,26 @@ namespace ParkingApp
                     _takeSnapshotOut = !_takeSnapshotOut;
                 }
 
-                Thread.Sleep(500);
-                // Có ảnh & Mã code đúng định dạng
+                // Thread.Sleep(500);
+                
                 if (txtCardCode.Text.Length < 10) return;
                 if (_handleCardReader == _cardReaderIn)
                 {
                     await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
                     picIn.Image = Image.FromFile(_pathCaptureIn);
-                }
-                else if (_handleCardReader == _cardReaderOut)
-                {
-                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
-                    picOut.Image = Image.FromFile(_pathCaptureOut);
-                }
-
-                if (_handleCardReader == _cardReaderIn)
-                {
                     txtInTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     _isIn = true;
                 }
                 else if (_handleCardReader == _cardReaderOut)
                 {
+                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
+                    picOut.Image = Image.FromFile(_pathCaptureOut);
                     txtOutTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     _isIn = false;
                 }
 
-                //
+                #region Get Student Info
+
                 var lstStudents = new StudentData().Gets();
                 var lstCards = new CardData().Gets();
                 var lstStudentCard = new StudentCardData().Gets();
@@ -463,8 +461,12 @@ namespace ParkingApp
                 var studentCard = lstStudentCard.FirstOrDefault(o => card != null && o.CardId == card.Id);
                 var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
 
+                #endregion
+                
                 if (studentInfo != null)
                 {
+                    #region Update UI
+
                     var avatarUrl = studentInfo.Avatar;
                     var fullName = studentInfo.Name;
                     var gender = studentInfo.Gender ? "Nam" : "Nữ";
@@ -472,47 +474,28 @@ namespace ParkingApp
                               "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) +
                               " - Giới tính: " + gender;
 
-                    picRegistry.Image = _helperDll.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
+                    picRegistry.Image = _helper.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
                     checkInOutContent.Text = mes;
                     richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                     richRecognitionLicensePlate.Text = "";
 
-                    // License plate detection and recognition
+                    #endregion
+
+                    #region License plate detection and recognition
+
                     byte[] imageBytes;
                     if (_handleCardReader == _cardReaderIn)
                     {
                         imageBytes = File.ReadAllBytes(_pathCaptureIn);
-                        var responseString =
-                            await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                        var responseObject =
-                            JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
-                        if (responseObject.LicensePlates.Any())
-                        {
-                            richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
-                        }
-                        else
-                        {
-                            richRecognitionLicensePlate.Text = "Không xác định được biển số";
-                            return;
-                        }
+                        RecognitionLicensePlate(imageBytes);
                     }
                     else if (_handleCardReader == _cardReaderOut)
                     {
                         imageBytes = File.ReadAllBytes(_pathCaptureOut);
-                        var responseString =
-                            await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
-                        var responseObject =
-                            JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
-                        if (responseObject.LicensePlates.Any())
-                        {
-                            richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
-                        }
-                        else
-                        {
-                            richRecognitionLicensePlate.Text = "Không xác định được biển số";
-                            return;
-                        }
+                        RecognitionLicensePlate(imageBytes);
                     }
+
+                    #endregion
 
                     _studentSelected = (StudentData)studentInfo.Clone();
                 }
@@ -520,10 +503,25 @@ namespace ParkingApp
                 {
                     checkInOutContent.Text = "Khách";
 
+                    #region License plate detection and recognition
+
+                    byte[] imageBytes;
+                    if (_handleCardReader == _cardReaderIn)
+                    {
+                        imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                        RecognitionLicensePlate(imageBytes);
+                    }
+                    else if (_handleCardReader == _cardReaderOut)
+                    {
+                        imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                        RecognitionLicensePlate(imageBytes);
+                    }
+
+                    #endregion
+
                     _studentSelected = new StudentData();
                 }
 
-                // --------------------
                 if (!_isIn)
                 {
                     #region Get Last In
@@ -531,18 +529,34 @@ namespace ParkingApp
                     var historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
                     if (!string.IsNullOrEmpty(historyInLasted.Photo))
                     {
-                        picIn.Image = _helperDll.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width, picCaptureIn.Height);
+                        picIn.Image = _helper.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width,
+                            picCaptureIn.Height);
                         txtInTime.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 
                     #endregion
                 }
 
-                // --------------------
                 _cardNumberNow = txtCardCode.Text.Trim();
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
                 _xuLy = EnumCheckInOut.SET_HISTORY;
                 WaitWindow.WaitWindow.Show(WaitingConnectCamera, strTitle);
+            }
+        }
+
+        private async void RecognitionLicensePlate(byte[] imageBytes)
+        {
+            var responseString =
+                await SyncDataClient.Sync.RecognitionLicensePlate(imageBytes, _currentImgFileName);
+            var responseObject =
+                JsonConvert.DeserializeObject<RecognitionLicensePlateResponse>(responseString);
+            if (responseObject.LicensePlates.Any())
+            {
+                richRecognitionLicensePlate.Text = responseObject.LicensePlates[0];
+            }
+            else
+            {
+                richRecognitionLicensePlate.Text = "Không xác định được biển số";
             }
         }
 

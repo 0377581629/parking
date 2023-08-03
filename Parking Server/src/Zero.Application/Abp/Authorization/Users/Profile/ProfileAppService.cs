@@ -16,6 +16,7 @@ using Abp.UI;
 using Abp.Zero.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Zero.Abp.Authorization.Users.Profile.Dto;
+using Zero.Abp.Net.Sms;
 using Zero.Authentication.TwoFactor.Google;
 using Zero.Authorization.Users.Dto;
 using Zero.Authorization.Users.Profile.Cache;

@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Zero.Abp.Net.Sms;
 using Zero.Authentication.TwoFactor;
 using Zero.Authentication.TwoFactor.Google;
 using Zero.Authorization;

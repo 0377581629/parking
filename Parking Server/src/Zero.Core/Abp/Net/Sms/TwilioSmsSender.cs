@@ -1,10 +1,11 @@
 ﻿using System.Threading.Tasks;
 using Abp.Dependency;
-using Zero.Identity;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+using Zero.Net.Sms;
 
-namespace Zero.Net.Sms
+namespace Zero.Abp.Net.Sms
 {
     public class TwilioSmsSender : ISmsSender, ITransientDependency
     {
@@ -18,12 +19,15 @@ namespace Zero.Net.Sms
         public async Task SendAsync(string number, string message)
         {
             TwilioClient.Init(_twilioSmsSenderConfiguration.AccountSid, _twilioSmsSenderConfiguration.AuthToken);
+            
+            var messageOptions = new CreateMessageOptions(
+                new PhoneNumber(number))
+            {
+                From = new PhoneNumber(_twilioSmsSenderConfiguration.SenderNumber),
+                Body = message
+            };
 
-            MessageResource resource = await MessageResource.CreateAsync(
-                body: message,
-                @from: new Twilio.Types.PhoneNumber(_twilioSmsSenderConfiguration.SenderNumber),
-                to: new Twilio.Types.PhoneNumber(number)
-            );
+            await MessageResource.CreateAsync(messageOptions);
         }
     }
 }
