@@ -1,7 +1,4 @@
-﻿using MetroFramework;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -11,7 +8,7 @@ namespace ParkingApp
 {
     public partial class FrmLogin : MetroFramework.Forms.MetroForm
     {
-        private SqlConnection _conn = ParkingLib.Helper.OpenConnection();
+        private readonly SqlConnection _conn = ParkingLib.Helper.OpenConnection();
 
         public FrmLogin()
         {

@@ -87,7 +87,7 @@ namespace ParkingApp
             {
                 dgvHistory.Rows[i].Selected = false;
             }
-            // Sau khi load lại trả lại vị trí của scroll trước khi reload
+            // Return scroll position before load
             if (scrollPosition > 0)
             {
                 dgvHistory.FirstDisplayedScrollingRowIndex = scrollPosition;

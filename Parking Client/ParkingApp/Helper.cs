@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -15,52 +14,40 @@ namespace ParkingApp
 {
     class Helper
     {
-        /// <summary>
-        /// Lấy thông tin cấu hình trong file config
-        /// </summary>
         public static void GetConfig(ref string rtspCameraIn, ref string rtspCameraOut, ref string cardReaderIn,
             ref string cardReaderOut, ref double timeWaiting, ref string bariePortName)
         {
             if (ConfigurationManager.AppSettings.AllKeys.Contains("RtspCameraIn"))
             {
-                // Key exists
                 rtspCameraIn = ConfigurationManager.AppSettings["RtspCameraIn"];
             }
 
             if (ConfigurationManager.AppSettings.AllKeys.Contains("RtspCameraOut"))
             {
-                // Key exists
                 rtspCameraOut = ConfigurationManager.AppSettings["RtspCameraOut"];
             }
 
             if (ConfigurationManager.AppSettings.AllKeys.Contains("CardReaderIn"))
             {
-                // Key exists
                 cardReaderIn = ConfigurationManager.AppSettings["CardReaderIn"];
             }
 
             if (ConfigurationManager.AppSettings.AllKeys.Contains("CardReaderOut"))
             {
-                // Key exists
                 cardReaderOut = ConfigurationManager.AppSettings["CardReaderOut"];
             }
 
             if (ConfigurationManager.AppSettings.AllKeys.Contains("TimeWaiting"))
             {
-                // Key exists
                 timeWaiting = double.Parse(ConfigurationManager.AppSettings["TimeWaiting"]);
             }
             
             if (ConfigurationManager.AppSettings.AllKeys.Contains("BariePortName"))
             {
-                // Key exists
                 bariePortName = ConfigurationManager.AppSettings["BariePortName"];
             }
         }
 
-        /// <summary>
-        /// Lưu thông tin cấu hình trong file config
-        /// </summary>
         public static void SetConfig(string rtspCameraIn, string rtspCameraOut, string cardReaderIn,
             string cardReaderOut, string timeWaiting, string bariePortName)
         {
@@ -114,11 +101,6 @@ namespace ParkingApp
             return new HistoryData();
         }
 
-        /// <summary>
-        /// Chuẩn hóa chuỗi sang tiếng việt không dấu
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
         public static string ConvertNoUnicode(string s)
         {
             var regex = new Regex("\\p{IsCombiningDiacriticalMarks}+");

@@ -113,12 +113,6 @@
     <Compile Include="FrmMain.designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmTestModelAI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmTestModelAI.Designer.cs">
-      <DependentUpon>FrmTestModelAI.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmZoom.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,9 +142,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FrmTestModelAI.resx">
-      <DependentUpon>FrmTestModelAI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmZoom.resx">
       <DependentUpon>FrmZoom.cs</DependentUpon>

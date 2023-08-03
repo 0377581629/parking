@@ -6,7 +6,7 @@ namespace ParkingLib
 {
     public class Helper
     {
-        //Kết nối CSDL
+        //Connect database
         public static SqlConnection OpenConnection()
         {
             var connectionString = ConfigurationManager.AppSettings["connectionStringSqlServer"];

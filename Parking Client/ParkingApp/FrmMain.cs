@@ -98,16 +98,5 @@ namespace ParkingApp
         {
             Application.Exit();
         }
-
-        private void BtnTestModelAI_click(object sender, EventArgs e)
-        {
-            var frmTestModelAi = new FrmTestModelAi();
-            var result = frmTestModelAi.ShowDialog();
-
-            if (result == DialogResult.OK)
-            {
-                frmTestModelAi.Close();
-            }
-        }
     }
 }
