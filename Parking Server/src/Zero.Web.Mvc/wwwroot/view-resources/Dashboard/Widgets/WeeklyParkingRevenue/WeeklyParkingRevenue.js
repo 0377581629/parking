@@ -8,7 +8,7 @@ $(function () {
             _$totalParkingRevenueByWeek += value.parkingRevenue;
         });
         let totalParkingRevenueByWeekStr = baseHelper.ShowNumber(_$totalParkingRevenueByWeek, 0);
-        $('#TotalParkingRevenueByWeek').text(totalParkingRevenueByWeekStr + " " + app.localize('Vehicle'));
+        $('#TotalParkingRevenueByWeek').text(totalParkingRevenueByWeekStr + " " + app.localize('VNDcurrency'));
         chartAreaParkingRevenue(data)
     });
 

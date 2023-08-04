@@ -99,10 +99,13 @@
     <text name="TotalParkingRevenue">Tổng doanh thu</text>
     <text name="WeeklyParkingRevenue">Doanh thu theo tuần</text>
     <text name="TotalParkingRevenueByWeek">Tổng doanh thu trong tuần</text>
+    <text name="TotalParkingRevenueByDay">Doanh thu hàng ngày</text>
     <text name="RatioByCardTypeChart">Biểu đồ tỷ lệ các loại thẻ</text>
     <text name="RatioByVehicleTypeChart">Biểu đồ tỷ lệ các loại xe</text>
     <text name="RatioByCardType">Tỷ lệ các loại thẻ</text>
     <text name="RatioByVehicleType">Tỷ lệ các loại xe</text>
+    <text name="ParkingTurn">Lượt gửi xe</text>
+    <text name="VNDcurrency">Đồng</text>
     
     <text name="EmailTemplateType_StudentOutOfMoney">Thông báo học sinh hết tiền trong thẻ xe</text>
     <text name="BalanceToSendEmail">Số dư để gửi email thông báo cần nạp tiền</text>
