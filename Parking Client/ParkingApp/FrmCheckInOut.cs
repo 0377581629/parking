@@ -53,6 +53,8 @@ namespace ParkingApp
         private readonly string _cardReaderIn;
         private readonly string _cardReaderOut;
 
+        private HistoryData historyInLasted = new HistoryData();
+
         #endregion
 
         public FrmCheckInOut()
@@ -183,11 +185,8 @@ namespace ParkingApp
             _captureOut.Retrieve(_frameOut);
             _frameOutCopy = _frameOut;
             var bitmap = (Bitmap)_frameOutCopy.Bitmap.Clone();
-            lock (_lockObject)
-            {
-                picCaptureOut.Image?.Dispose();
-                picCaptureOut.Image = bitmap;
-            }
+
+            picCaptureOut.Invoke(new Action(() => { picCaptureOut.Image = bitmap; }));
 
             if (_takeSnapshotOut)
             {
@@ -344,7 +343,6 @@ namespace ParkingApp
 
                         if (!_isIn)
                         {
-                            var historyInLasted = _helper.GetHistoryInLasted(_cardNumberNow);
                             if (!string.IsNullOrEmpty(historyInLasted.Photo) && File.Exists(historyInLasted.Photo))
                             {
                                 MessageBox.Show($"Thẻ này chưa được sử dụng để vào bãi", "Cảnh báo",
@@ -368,7 +366,7 @@ namespace ParkingApp
                             historyData.Price = _helper.CalculatePrice(historyInLasted.Time, historyData.Time,
                                 dayFareData.Price, nightFareData.Price);
 
-                            txtFare.Text = historyData.Price.ToString();
+                            txtFare.Invoke(new Action(() => { txtFare.Text = historyData.Price.ToString(); }));
 
                             #endregion
 
@@ -400,10 +398,7 @@ namespace ParkingApp
                         _cardNumberNow = string.Empty;
                         if (historyId > 0)
                         {
-                            if (btnOpenBarie.InvokeRequired)
-                            {
-                                btnOpenBarie.Invoke((MethodInvoker)delegate { btnOpenBarie.PerformClick(); });
-                            }
+                            btnOpenBarie.Invoke(new Action(() => { btnOpenBarie.PerformClick(); }));
                         }
 
                         #endregion
@@ -433,22 +428,30 @@ namespace ParkingApp
                     _takeSnapshotOut = !_takeSnapshotOut;
                 }
 
-                // Thread.Sleep(500);
-                
+                Thread.Sleep(500);
                 if (txtCardCode.Text.Length < 10) return;
+
                 if (_handleCardReader == _cardReaderIn)
                 {
-                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
-                    picIn.Image = Image.FromFile(_pathCaptureIn);
-                    txtInTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                    _isIn = true;
+                    while (!string.IsNullOrEmpty(_pathCaptureIn))
+                    {
+                        await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
+                        picIn.Image = Image.FromFile(_pathCaptureIn);
+                        txtInTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                        _isIn = true;
+                        break;
+                    }
                 }
                 else if (_handleCardReader == _cardReaderOut)
                 {
-                    await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
-                    picOut.Image = Image.FromFile(_pathCaptureOut);
-                    txtOutTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                    _isIn = false;
+                    while (!string.IsNullOrEmpty(_pathCaptureOut))
+                    {
+                        await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
+                        picOut.Image = Image.FromFile(_pathCaptureOut);
+                        txtOutTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
+                        _isIn = false;
+                        break;
+                    }
                 }
 
                 #region Get Student Info
@@ -462,7 +465,7 @@ namespace ParkingApp
                 var studentInfo = lstStudents.FirstOrDefault(o => studentCard != null && o.Id == studentCard.StudentId);
 
                 #endregion
-                
+
                 if (studentInfo != null)
                 {
                     #region Update UI
@@ -486,13 +489,21 @@ namespace ParkingApp
                     byte[] imageBytes;
                     if (_handleCardReader == _cardReaderIn)
                     {
-                        imageBytes = File.ReadAllBytes(_pathCaptureIn);
-                        RecognitionLicensePlate(imageBytes);
+                        while (!string.IsNullOrEmpty(_pathCaptureIn))
+                        {
+                            imageBytes = File.ReadAllBytes(_pathCaptureIn);
+                            RecognitionLicensePlate(imageBytes);
+                            break;
+                        }
                     }
                     else if (_handleCardReader == _cardReaderOut)
                     {
-                        imageBytes = File.ReadAllBytes(_pathCaptureOut);
-                        RecognitionLicensePlate(imageBytes);
+                        while (!string.IsNullOrEmpty(_pathCaptureOut))
+                        {
+                            imageBytes = File.ReadAllBytes(_pathCaptureOut);
+                            RecognitionLicensePlate(imageBytes);
+                            break;
+                        }
                     }
 
                     #endregion
@@ -526,7 +537,7 @@ namespace ParkingApp
                 {
                     #region Get Last In
 
-                    var historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
+                    historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
                     if (!string.IsNullOrEmpty(historyInLasted.Photo))
                     {
                         picIn.Image = _helper.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width,
@@ -563,7 +574,7 @@ namespace ParkingApp
         private void PicIn_DoubleClick(object sender, EventArgs e)
         {
             var obj = (PictureBox)sender;
-            if (obj != null)
+            if (obj?.Image != null)
             {
                 var img = new Bitmap(obj.Image);
                 var frm = new FrmZoom(img);
@@ -574,7 +585,7 @@ namespace ParkingApp
         private void PicOut_DoubleClick(object sender, EventArgs e)
         {
             var obj = (PictureBox)sender;
-            if (obj != null)
+            if (obj?.Image != null)
             {
                 var img = new Bitmap(obj.Image);
                 var frm = new FrmZoom(img);
