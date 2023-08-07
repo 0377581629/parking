@@ -178,8 +178,6 @@ namespace ParkingApp
             }
         }
 
-        private readonly object _lockObject = new object();
-
         private void ProcessFrameOut(object sender, EventArgs arg)
         {
             _captureOut.Retrieve(_frameOut);
@@ -416,6 +414,7 @@ namespace ParkingApp
 
         private async void txtCardCode_TextChanged(object sender, EventArgs e)
         {
+            _cardNumberNow = txtCardCode.Text.Trim();
             var txt = (RichTextBox)sender;
             if (txt.Text.Length > 0)
             {
@@ -547,8 +546,7 @@ namespace ParkingApp
 
                     #endregion
                 }
-
-                _cardNumberNow = txtCardCode.Text.Trim();
+                
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
                 _xuLy = EnumCheckInOut.SET_HISTORY;
                 WaitWindow.WaitWindow.Show(WaitingConnectCamera, strTitle);
