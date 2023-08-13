@@ -421,13 +421,15 @@ namespace ParkingApp
                 if (_handleCardReader == _cardReaderIn)
                 {
                     _takeSnapshotIn = !_takeSnapshotIn;
+                    _isIn = true;
                 }
                 else if (_handleCardReader == _cardReaderOut)
                 {
                     _takeSnapshotOut = !_takeSnapshotOut;
+                    _isIn = false;
                 }
 
-                Thread.Sleep(500);
+                Thread.Sleep(1000);
                 if (txtCardCode.Text.Length < 10) return;
 
                 if (_handleCardReader == _cardReaderIn)
@@ -437,7 +439,6 @@ namespace ParkingApp
                         await SyncDataClient.Sync.UploadImageToServer(_pathCaptureIn, _currentImgFileName);
                         picIn.Image = Image.FromFile(_pathCaptureIn);
                         txtInTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                        _isIn = true;
                         break;
                     }
                 }
@@ -448,7 +449,6 @@ namespace ParkingApp
                         await SyncDataClient.Sync.UploadImageToServer(_pathCaptureOut, _currentImgFileName);
                         picOut.Image = Image.FromFile(_pathCaptureOut);
                         txtOutTime.Text = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
-                        _isIn = false;
                         break;
                     }
                 }
@@ -476,7 +476,7 @@ namespace ParkingApp
                               "\n Ngày sinh: " + studentInfo.Dob.ToString(CultureInfo.InvariantCulture) +
                               " - Giới tính: " + gender;
 
-                    picRegistry.Image = _helper.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
+                    picRegistry.Image = await _helper.LoadImageFromUrl(avatarUrl, picRegistry.Width, picRegistry.Height);
                     checkInOutContent.Text = mes;
                     richCardLicensePlate.Text = card != null ? card.LicensePlate : "";
                     richRecognitionLicensePlate.Text = "";
@@ -539,14 +539,14 @@ namespace ParkingApp
                     historyInLasted = _helper.GetHistoryInLasted(txtCardCode.Text.Trim());
                     if (!string.IsNullOrEmpty(historyInLasted.Photo))
                     {
-                        picIn.Image = _helper.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width,
+                        picIn.Image = await _helper.LoadImageFromUrl(historyInLasted.Photo, picCaptureIn.Width,
                             picCaptureIn.Height);
                         txtInTime.Text = historyInLasted.Time.ToString(CultureInfo.InvariantCulture);
                     }
 
                     #endregion
                 }
-                
+
                 const string strTitle = "Đang tiến hành tải dữ liệu !";
                 _xuLy = EnumCheckInOut.SET_HISTORY;
                 WaitWindow.WaitWindow.Show(WaitingConnectCamera, strTitle);

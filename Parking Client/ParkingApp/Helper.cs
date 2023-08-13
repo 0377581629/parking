@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ParkingApp
@@ -137,7 +138,7 @@ namespace ParkingApp
             }
         }
 
-        public Image LoadImageFromUrl(string imageUrl, int pictureBoxWith, int pictureBoxHeight)
+        public async Task<Image> LoadImageFromUrl(string imageUrl, int pictureBoxWith, int pictureBoxHeight)
         {
             try
             {
