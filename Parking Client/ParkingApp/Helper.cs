@@ -121,16 +121,12 @@ namespace ParkingApp
                 {
                     foreach (var history in lstHistoryData)
                     {
-                        var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
-                        history.StudentData = lstStudents.FirstOrDefault(o =>
-                            studentCard != null && o.Id == studentCard.StudentId);
-                    }
-
-                    foreach (var itm in lstHistoryData)
-                    {
-                        if (fromDate <= itm.Time && toDate >= itm.Time)
+                        if (fromDate.Date <= history.Time.Date && toDate.Date >= history.Time.Date)
                         {
-                            lstHistoryDatas.Add(itm);
+                            var studentCard = lstStudentCards.FirstOrDefault(o => o.CardId == history.CardId);
+                            history.StudentData = lstStudents.FirstOrDefault(o =>
+                                studentCard != null && o.Id == studentCard.StudentId);
+                            lstHistoryDatas.Add(history);
                         }
                     }
                 }

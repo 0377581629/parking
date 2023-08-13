@@ -9,6 +9,7 @@ using Abp.Domain.Repositories;
 using Abp.UI;
 using DPS.Park.Core.Card;
 using DPS.Park.Core.History;
+using DPS.Park.Core.Shared;
 using DPS.Park.Core.Vehicle;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -276,18 +277,22 @@ namespace Zero.Customize
         {
             var today = DateTime.Today;
             var dayOffWeek = (int)today.DayOfWeek;
+            if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dayOffWeek = 7;
+            }
             var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
             var res = new List<WeeklyParkingAmountOutput>();
 
             for (var day = 1; day <= dayOffWeek; day++)
             {
                 var parkingAmountOfDay = await _historyRepository.CountAsync(o => !o.IsDeleted &&
-                    o.TenantId == AbpSession.TenantId &&
+                    o.TenantId == AbpSession.TenantId && o.Type == (int)ParkEnums.HistoryType.In &&
                     o.Time.DayOfYear == firstDayOfThisWeekInYear + day - 1);
 
                 res.Add(new WeeklyParkingAmountOutput()
                 {
-                    Day = day != 6 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
+                    Day = day != 7 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
                     ParkingAmount = parkingAmountOfDay
                 });
             }
@@ -299,6 +304,10 @@ namespace Zero.Customize
         {
             var today = DateTime.Today;
             var dayOffWeek = (int)today.DayOfWeek;
+            if (today.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dayOffWeek = 7;
+            }
             var firstDayOfThisWeekInYear = today.DayOfYear - dayOffWeek + 1;
             var res = new List<WeeklyParkingRevenueOutput>();
 
@@ -312,7 +321,7 @@ namespace Zero.Customize
 
                 res.Add(new WeeklyParkingRevenueOutput()
                 {
-                    Day = day != 6 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
+                    Day = day != 7 ? $"{L("DayOfWeek")} {day + 1}" : L("Sunday"),
                     ParkingRevenue = parkingRevenueOfDay ?? 0
                 });
             }
