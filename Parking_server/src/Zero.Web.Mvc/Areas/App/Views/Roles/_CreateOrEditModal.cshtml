@@ -1,0 +1,69 @@
+﻿@using Abp.Extensions
+@using Zero.Authorization
+@using Zero.Web.Areas.App.Models.Common.Modals
+@using Zero.Web.Areas.App.Models.Roles
+@using Abp.Authorization.Roles
+@model CreateOrEditRoleModalViewModel
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("EditRole") + ": " + Model.Role.DisplayName) : L("CreateNewRole")))
+
+<div class="modal-body">
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#RoleInformationsTab" class="nav-link active" data-toggle="tab" role="tab">
+                @L("RoleProperties")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#PermissionsTab" class="nav-link" data-toggle="tab" role="tab">
+                @L("Permissions")
+            </a>
+        </li>
+        <li class="nav-item dashboardWidgetGroup @(Model.GrantedPermissionNames.Contains(AppPermissions.Dashboard) ? "" : "hidden")">
+            <a href="#DashboardWidgetTab" class="nav-link" data-toggle="tab" role="tab">
+                @L("DashboardWidget")
+            </a>
+        </li>
+    </ul>
+
+
+    <div class="tab-content pt-20">
+        <div class="tab-pane active" id="RoleInformationsTab" role="tabpanel">
+            <form name="RoleInformationsForm" role="form" novalidate class="form-validation">
+
+                @if (Model.IsEditMode)
+                {
+                    <input type="hidden" name="Id" value="@Model.Role.Id"/>
+                }
+
+                <div class="form-group">
+                    <label for="RoleName">@L("RoleName")</label>
+                    <input id="RoleName" class="form-control@(Model.Role.DisplayName.IsNullOrEmpty() ? "" : " edited")" type="text" name="DisplayName" value="@Model.Role.DisplayName" required maxlength="@AbpRoleBase.MaxDisplayNameLength">
+                </div>
+
+                <div class="checkbox-list">
+                    <label class="checkbox checkbox-outline">
+                        <input id="EditRole_IsDefault" type="checkbox" name="IsDefault" value="true" @Html.Raw(Model.Role.IsDefault ? "checked=\"checked\"" : "")>
+                        <span></span>
+                        @L("Default")
+                    </label>
+                    <small class="form-text text-muted">@L("DefaultRole_Description")</small>
+                </div>
+
+            </form>
+        </div>
+        <div class="tab-pane" id="PermissionsTab" role="tabpanel">
+            @await Html.PartialAsync("~/Areas/App/Views/Common/_PermissionTree.cshtml", Model)
+        </div>
+        <div class="tab-pane dashboardWidgetGroup @(Model.GrantedPermissionNames.Contains(AppPermissions.Dashboard) ? "" : "hidden")" id="DashboardWidgetTab" role="tabpanel">
+            @await Html.PartialAsync("Components/_DashboardWidgetTab", Model)
+        </div>
+    </div>
+
+    <div class="alert alert-warning" style="margin-top: 30px;">
+        <em>@L("Note_RefreshPageForPermissionChanges")</em>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

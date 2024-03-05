@@ -1,0 +1,114 @@
+﻿@model Zero.Web.Areas.Park.Models.ConfigurePark.ConfigureParkViewModel
+@{
+    ViewBag.CurrentPageName = AppPageNames.Park.ConfigurePark;
+}
+
+@section Scripts
+{
+    <script abp-src="@ZeroConst.ScriptPathPark/ConfigurePark/Index.js" asp-append-version="true"></script>
+}
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <abp-page-subheader title="@L("ConfigureParks")">
+        <button id="SaveButton" class="btn btn-primary blue">
+            <i class="fa fa-save"></i> @L("Update")
+        </button>
+    </abp-page-subheader>
+
+    <div class="@(await GetContainerClass())">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form id="ConfigureParkSettingsForm">
+                    <h5>@L("FrontPage")</h5>
+                    <div class="row" id="FP_NameConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Name">
+                                    @L("FP_Name")
+                                </label>
+                                <input class="form-control" id="FP_Name" value="@Model.ConfigurePark.Name" type="text" name="name"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="FP_HotlineConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Hotline">
+                                    @L("FP_Hotline")
+                                </label>
+                                <input class="form-control" id="FP_Hotline" value="@Model.ConfigurePark.Hotline" type="text" name="hotline"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="FP_AddressConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Address">
+                                    @L("FP_Address")
+                                </label>
+                                <input class="form-control" id="FP_Address" value="@Model.ConfigurePark.Address" type="text" name="address"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="FP_SubAddress1ConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_SubAddress1">
+                                    @L("FP_SubAddress1")
+                                </label>
+                                <input class="form-control" id="FP_SubAddress1" value="@Model.ConfigurePark.SubAddress1" type="text" name="subAddress1"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="FP_SubAddress2ConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_SubAddress2">
+                                    @L("FP_SubAddress2")
+                                </label>
+                                <input class="form-control" id="FP_SubAddress2" value="@Model.ConfigurePark.SubAddress2" type="text" name="subAddress2"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="FP_EmailConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="FP_Email">
+                                    @L("FP_Email")
+                                </label>
+                                <input class="form-control" id="FP_Email" value="@Model.ConfigurePark.Email" type="text" name="email"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="col-12 mb-20 bottom-separate"></div>
+
+                    <h5>@L("BackPage")</h5>
+                    <div class="row" id="PhoneToSendMessageConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="PhoneToSendMessage">
+                                    @L("PhoneToSendMessage")
+                                </label>
+                                <input class="form-control" id="PhoneToSendMessage" value="@Model.ConfigurePark.PhoneToSendMessage" type="text" name="phoneToSendMessage"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="BalanceToSendEmailConfigurePark">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label for="BalanceToSendEmail">
+                                    @L("BalanceToSendEmail")
+                                </label>
+                                <input class="form-control" id="BalanceToSendEmail" value="@Model.ConfigurePark.BalanceToSendEmail" type="number" required name="balanceToSendEmail"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

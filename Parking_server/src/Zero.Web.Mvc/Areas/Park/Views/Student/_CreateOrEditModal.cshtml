@@ -1,0 +1,28 @@
+@model Zero.Web.Areas.Park.Models.Student.CreateOrEditStudentViewModel
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit")) : L("Create")))
+
+<div class="modal-body">
+    <ul class="nav nav-pills nav-fill" role="tablist">
+        <li class="nav-item">
+            <a href="#GeneralTab" class="nav-link active" data-toggle="tab" role="tab">
+                @L("GeneralInfo")
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#CardTab" data-toggle="tab" role="tab" class="nav-link">
+                @L("Card")
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content pt-15">
+        <div class="tab-pane pt-5 active" id="GeneralTab">
+            @await Html.PartialAsync("Components/_GeneralInfoTab", Model)
+        </div>
+        <div class="tab-pane pt-5" id="CardTab">
+            @await Html.PartialAsync("Components/_CardTab", Model)
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

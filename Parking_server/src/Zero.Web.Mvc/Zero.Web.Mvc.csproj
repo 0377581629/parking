@@ -1,0 +1,167 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props"></Import>
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>Zero.Web.Mvc</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Zero.Web.Mvc</PackageId>
+    <UserSecretsId>MyCompanyName-Zero-894FDFC1-6482-4A56-926A-3C46C9FE0329</UserSecretsId>
+    <RootNamespace>Zero.Web</RootNamespace>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Data\**" />
+    <Content Remove="App_Data\**" />
+    <EmbeddedResource Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\swagger\ui\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="wwwroot\swagger\ui\index.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="wwwroot\Plugins\.gitkeep" />
+    <None Update="Dockerfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="wwwroot\**\*;Areas\**\*;Views\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\3rds\MinioSDK\MinioSDK.csproj" />
+    <ProjectReference Include="..\Zero.Web.Core\Zero.Web.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="6.3.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="5.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="5.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="5.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Twitter" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Threading.AccessControl" Version="5.0.0" />
+  </ItemGroup>
+
+  <!-- Report -->
+
+  <ItemGroup>
+    <Reference Include="Telerik.Reporting, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Data.Schema, Version=0.0.0.0, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.Data.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.JsonSerialization, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.JsonSerialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.AspNetCore, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.Services.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.WebServiceDataSource, Version=15.0.21.120, Culture=neutral, PublicKeyToken=a9d7983dfcc261be">
+      <HintPath>..\..\3rds\Telerik\Reporting\Telerik.Reporting.WebServiceDataSource.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- End Report -->
+
+  <ItemGroup>
+    <Folder Include="Areas\Reporting\Models" />
+    <Folder Include="Reports" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\Contract\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\Contract\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\Customer\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\Customer\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\WorkFlowFrame\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\WorkFlowFrame\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\WorkingFile\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\WorkingFile\_ConfigDynamicPropertyModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Isa\WorkingFile\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Supporter\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Supporter\_CreateOrEditModal.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\0f12a20164574515c59275fac4de58441e2e61fd.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\1f98f59a548568ba4530e8b9d094c6551dc74fb0.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\826f10b7be8140c418d720653d3f520b3fc60ace.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\85809b10ee6d73b5456380193ae7da3c3a1b2f4f.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\a164a4621a50cb4310429493f2d172c25f84fc81.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\c40916a2245214350b83617c54f354a31760d17d.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\e0407925409a889a223b3f2acf0de61791a38dab.mp4" />
+    <_ContentIncludedByDefault Remove="wwwroot\uploads\Host\1\Video\e65eeaa976fd49e9fcd8563e599b5f8f513893be.mp4" />
+    <_ContentIncludedByDefault Remove="Views\FrontPage\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_Header.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_Menus.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Shared\Components\MainHeader\Mobile\_MenusItem.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\CheckBoxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\CheckBoxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\ComboBoxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\ComboBoxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateTimeInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\DateTimeInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\GroupInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\GroupInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\IInputTypeProvider.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\IInputTypeProvider.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiLineStringInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiLineStringInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiSelectComboboxInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\MultiSelectComboboxInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\RadioInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\RadioInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\SingleLineStringInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\SingleLineStringInputType.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\App\Views\Common\IInputTypes\IInputTypes\TimeInputType.min.js" />
+    <_ContentIncludedByDefault Remove="Views\Shared\ContentCheckout\Default.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Post\Components\_CategoryTree.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Category\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\Tags\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Tags\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\Tags\_CreateOrEditModal.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\Index.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\Index.min.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\_CreateOrEditModal.js" />
+    <_ContentIncludedByDefault Remove="wwwroot\view-resources\Areas\Cms\PageTheme\_CreateOrEditModal.min.js" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\PageTheme\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Areas\Cms\Views\PageTheme\_CreateOrEditModal.cshtml" />
+  </ItemGroup>
+
+</Project>

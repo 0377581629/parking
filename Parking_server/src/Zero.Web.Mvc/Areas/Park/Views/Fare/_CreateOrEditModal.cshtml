@@ -1,0 +1,60 @@
+@using Zero
+@using Zero.Web.Areas.App.Models.Common.Modals
+@using DPS.Park.Core.Shared
+@model Zero.Web.Areas.Park.Models.Fare.CreateOrEditFareViewModel
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? (L("Edit")) : L("Create")))
+
+<div class="modal-body">
+    <div id="FareInformationsTab">
+        <form name="FareInformationsForm" role="form" novalidate class="form-validation">
+
+            @if (Model.IsEditMode)
+            {
+                <input type="hidden" name="id" value="@Model.Fare.Id"/>
+            }
+            <input type="hidden" name="language" id="Entity_Language" value=""/>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("VehicleType")</label>
+                        <select id="VehicleTypeId" style="width:100%;" name="vehicleTypeId" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.Fare.VehicleTypeName) && Model.Fare.VehicleTypeId > 0)
+                            {
+                                <option value="@Model.Fare.VehicleTypeId" selected="selected">@Model.Fare.VehicleTypeName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("CardType")</label>
+                        <select id="CardTypeId" style="width:100%;" name="cardTypeId" class="form-control">
+                            @if (!string.IsNullOrEmpty(Model.Fare.CardTypeName) && Model.Fare.CardTypeId > 0)
+                            {
+                                <option value="@Model.Fare.CardTypeId" selected="selected">@Model.Fare.CardTypeName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="Fare_Price">
+                            @L("Price")
+                        </label>
+                        <input class="form-control number" id="Fare_Price" value="@Model.Fare.Price" type="text" name="price"/>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label>@L("Type")</label>
+                        @Html.DropDownList("type", ParkHelper.ListFareType(Model.Fare.Type,LocalizationManager.GetSource(ZeroConst.LocalizationSourceName)), new {@class="form-control kt-select2-non-search"})
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

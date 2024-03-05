@@ -1,0 +1,96 @@
+﻿@using Abp.AspNetZeroCore.Timing
+@using Abp.Web.Security.AntiForgery
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Zero.Web.Session
+@using CultureHelper = Zero.Localization.CultureHelper
+@using Zero
+@using Zero.Url
+@using System.Globalization
+@inject AppTimes AppTimes
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@inject IWebUrlService WebUrlService
+@inject IPerRequestSessionCache SessionCache
+@{
+    Layout = null;
+    AbpAntiForgeryManager.SetCookie(Context);
+    var loginInfo = await SessionCache.GetCurrentLoginInformationsAsync();
+}
+<!DOCTYPE html>
+<html lang="en" @(CultureHelper.IsRtl ? "dir=\"rtl\"" : "")>
+<head>
+    <meta charset="utf-8">
+    <title>@(ViewBag.Title != null ? ViewBag.Title : string.IsNullOrEmpty(loginInfo?.Tenant?.WebTitle) ? GlobalConfig.AppName : loginInfo?.Tenant?.WebTitle)</title>
+
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <meta content="@(ViewBag.MetaDescription != null ? ViewBag.MetaDescription : GlobalConfig.AppName)" name="description"/>
+    <meta content="@(ViewBag.MetaAuthor != null ? ViewBag.MetaAuthor : GlobalConfig.AppAuthor)" name="author"/>
+    <meta content="@(ViewBag.MetaKeywords != null ? ViewBag.MetaKeywords : GlobalConfig.AppKeyword)" name="keywords"/>
+
+    <meta property="og:site_name" content="OCOP">
+
+    <meta property="og:title" content="@(ViewBag.MetaTitle != null ? ViewBag.MetaTitle : GlobalConfig.AppName)"/>
+    <meta property="og:description" content="@(ViewBag.MetaDescription != null ? ViewBag.MetaDescription : GlobalConfig.AppName)"/>
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="@(ViewBag.MetaUrl != null ? ViewBag.MetaUrl : $" {Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}{Context.Request.QueryString}")">
+    @if (ViewBag.MetaImage != null)
+    {
+        <meta property="og:image" content="@ViewBag.MetaImage"/>
+    }
+    <link rel="shortcut icon" href="@GlobalConfig.AppFaviconName">
+
+    <link rel="stylesheet" href="~/view-resources/Views/_Bundles/frontend-libs@(CultureHelper.IsRtl ? " - rtl" : "").min.css" asp-append-version="true"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/Ecommerce/css/main.css"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="/Ecommerce/css/extent.css"/>
+    <link rel="shortcut icon" type="image/x-icon" href="Common/Images/logo_hust.png">
+
+    @await RenderSectionAsync("Styles", false)
+
+    <script type="text/javascript">
+        @* This is used to get the application's root path from javascript.
+        It's useful if you're running application in a virtual directory under IIS. *@
+        var abp = abp || {}; abp.appPath = '@ApplicationPath';
+    </script>
+</head>
+<body>
+<div class="site-wrapper" id="top">
+    @RenderBody()
+</div>
+
+<script src="/view-resources/Views/_Bundles/frontend-libs.min.js"></script>
+
+<script type="text/javascript">
+    abp.localization.defaultSourceName = '@LocalizationSourceName';
+    abp.security.antiForgery.tokenCookieName = "XSRF-TOKEN";
+    abp.security.antiForgery.tokenHeaderName = "X-XSRF-TOKEN";
+</script>
+
+<script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+<script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+
+<script type="text/javascript">
+    abp.localization.currentCulture = $.extend({}, abp.localization.currentCulture, { displayNameEnglish: '@CultureInfo.CurrentUICulture.EnglishName' });
+    moment.locale('@(GetMomentLocale())'); //Localizing moment.js
+    
+    jQuery(document).ready(function () {
+        if (window.CurrentPage) {
+            CurrentPage.init();
+        }
+        abp.multiTenancy.tenantIdCookieName = 'abp.tenantid';
+    });
+    
+</script>
+
+<script src="/view-resources/Views/_Bundles/common-scripts.min.js"></script>
+<script src="/js/InitAfterFP.js"></script>
+<script src="/Ecommerce/js/main.js?v=5.2"></script>
+<script src="/Ecommerce/js/shop.js?v=5.2"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/localization/messages_@(CultureInfo.CurrentUICulture.Name).js"></script>
+<script>
+    app.supportsTenancyNameInUrl = @(WebUrlService.SupportsTenancyNameInUrl.ToString().ToLower());
+</script>
+@await RenderSectionAsync("Scripts", false)
+</body>
+
+</html>

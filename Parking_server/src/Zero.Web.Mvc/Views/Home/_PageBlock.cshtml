@@ -1,0 +1,252 @@
+﻿@using DPS.Cms.Application.Shared.Dto.PageLayout
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Zero.Customize
+@using Zero.Web.Models.FrontPages
+@inject Microsoft.AspNetCore.Mvc.ViewComponents.IViewComponentSelector Selector
+@model Zero.Web.Models.FrontPages.PageBlockWidgetViewModel
+@{
+    var block = Model.Block;
+
+    switch (block.ColumnCount)
+    {
+        case 1:
+        {
+            var blockColumnUniqueId = block.Col1UniqueId;
+            if (!string.IsNullOrEmpty(block.Col1Id) || !string.IsNullOrEmpty(block.Col1Class))
+            {
+                <div @(!string.IsNullOrEmpty(block.Col1Id) ? Html.Raw("id='" + block.Col1Id + "'" ):"") @(!string.IsNullOrEmpty(block.Col1Class) ? Html.Raw("class='" + block.Col1Class + "'") : "")>
+                    @if (block.SubBlocks != null && block.SubBlocks.Any())
+                    {
+                        var subBlocks = block.SubBlocks.Where(o => o.ParentColumnUniqueId == blockColumnUniqueId).ToList();
+                        if (subBlocks.Any())
+                        {
+                            foreach (var subBlock in  subBlocks)
+                            {
+                                @await Html.PartialAsync("_PageBlock.cshtml", new PageBlockWidgetViewModel(subBlock, Model.Widgets))
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (Model.Widgets != null && Model.Widgets.Any())
+                        {
+                            var widgetsByCol = Model.Widgets.Where(o => o.PageBlockColumnId == block.Col1UniqueId).ToList();
+                            if (widgetsByCol.Any())
+                            {
+                                foreach (var wg in widgetsByCol.Where(wg => Selector.SelectComponent(wg.WidgetActionName) != null))
+                                {
+                                    @await Component.InvokeAsync(wg.WidgetActionName, new {pageWidgetId = wg.Id})
+                                }
+                            }
+                        }
+                    }
+                </div>
+            }
+            else
+            {
+                if (block.SubBlocks != null && block.SubBlocks.Any())
+                {
+                    var subBlocks = block.SubBlocks.Where(o => o.ParentColumnUniqueId == blockColumnUniqueId).ToList();
+                    if (subBlocks.Any())
+                    {
+                        foreach (var subBlock in  subBlocks)
+                        {
+                            @await Html.PartialAsync("_PageBlock.cshtml", new PageBlockWidgetViewModel(subBlock, Model.Widgets))
+                        }
+                    }
+                }
+                else
+                {
+                    if (Model.Widgets != null && Model.Widgets.Any())
+                    {
+                        var widgetsByCol = Model.Widgets.Where(o => o.PageBlockColumnId == block.Col1UniqueId).ToList();
+                        if (widgetsByCol.Any())
+                        {
+                            foreach (var wg in widgetsByCol.Where(wg => Selector.SelectComponent(wg.WidgetActionName) != null))
+                            {
+                                @await Component.InvokeAsync(wg.WidgetActionName, new {pageWidgetId = wg.Id})
+                            }
+                        }
+                    }
+                }
+            }
+            break;
+        }
+        case > 1:
+        {
+            if (block.WrapInRow)
+            {
+                <div class="row">
+                    @for (var i = 0; i < block.ColumnCount; i++)
+                    {
+                        var blockColumnUniqueId = StringHelper.Identity();
+                        var subBlocks = new List<PageLayoutBlockDto>();
+                        var columnId = StringHelper.Identity();
+                        var columnClass = (12 / (block.ColumnCount <= 0 ? 1 : block.ColumnCount)).ToString();
+                        switch (i)
+                        {
+                            case 0:
+                            {
+                                if (!string.IsNullOrEmpty(block.Col1Id))
+                                    columnId = block.Col1Id;
+                                if (!string.IsNullOrEmpty(block.Col1UniqueId))
+                                    blockColumnUniqueId = block.Col1UniqueId;
+                                if (!string.IsNullOrEmpty(block.Col1Class))
+                                    columnClass = block.Col1Class;
+                                if (block.SubBlocks != null && block.SubBlocks.Any())
+                                    subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col1UniqueId).ToList();
+                                break;
+                            }
+                            case 1:
+                            {
+                                if (!string.IsNullOrEmpty(block.Col2Id))
+                                    columnId = block.Col2Id;
+                                if (!string.IsNullOrEmpty(block.Col2UniqueId))
+                                    blockColumnUniqueId = block.Col2UniqueId;
+                                if (!string.IsNullOrEmpty(block.Col2Class))
+                                    columnClass = block.Col2Class;
+                                if (block.SubBlocks != null && block.SubBlocks.Any())
+                                    subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col2UniqueId).ToList();
+                                break;
+                            }
+                            case 2:
+                            {
+                                if (!string.IsNullOrEmpty(block.Col3Id))
+                                    columnId = block.Col3Id;
+                                if (!string.IsNullOrEmpty(block.Col3UniqueId))
+                                    blockColumnUniqueId = block.Col3UniqueId;
+                                if (!string.IsNullOrEmpty(block.Col3Class))
+                                    columnClass = block.Col3Class;
+                                if (block.SubBlocks != null && block.SubBlocks.Any())
+                                    subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col3UniqueId).ToList();
+                                break;
+                            }
+                            case 3:
+                            {
+                                if (!string.IsNullOrEmpty(block.Col4Id))
+                                    columnId = block.Col4Id;
+                                if (!string.IsNullOrEmpty(block.Col4UniqueId))
+                                    blockColumnUniqueId = block.Col4UniqueId;
+                                if (!string.IsNullOrEmpty(block.Col4Class))
+                                    columnClass = block.Col4Class;
+                                if (block.SubBlocks != null && block.SubBlocks.Any())
+                                    subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col4UniqueId).ToList();
+                                break;
+                            }
+                        }
+
+                        <div id="@columnId" class="@columnClass">
+                            @if (subBlocks.Any())
+                            {
+                                foreach (var subBlock in  subBlocks)
+                                {
+                                    @await Html.PartialAsync("_PageBlock.cshtml", new PageBlockWidgetViewModel(subBlock, Model.Widgets))
+                                }
+                            }
+                            else
+                            {
+                                if (Model.Widgets != null && Model.Widgets.Any())
+                                {
+                                    var widgetsByCol = Model.Widgets.Where(o => o.PageBlockColumnId == blockColumnUniqueId).ToList();
+                                    if (widgetsByCol.Any())
+                                    {
+                                        foreach (var wg in widgetsByCol.Where(wg => Selector.SelectComponent(wg.WidgetActionName) != null))
+                                        {
+                                            @await Component.InvokeAsync(wg.WidgetActionName, new {pageWidgetId = wg.Id})
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                for (var i = 0; i < block.ColumnCount; i++)
+                {
+                    var blockColumnUniqueId = StringHelper.Identity();
+                    var subBlocks = new List<PageLayoutBlockDto>();
+                    var columnId = StringHelper.Identity();
+                    var columnClass = (12 / (block.ColumnCount <= 0 ? 1 : block.ColumnCount)).ToString();
+                    switch (i)
+                    {
+                        case 0:
+                        {
+                            if (!string.IsNullOrEmpty(block.Col1Id))
+                                columnId = block.Col1Id;
+                            if (!string.IsNullOrEmpty(block.Col1UniqueId))
+                                blockColumnUniqueId = block.Col1UniqueId;
+                            if (!string.IsNullOrEmpty(block.Col1Class))
+                                columnClass = block.Col1Class;
+                            if (block.SubBlocks != null && block.SubBlocks.Any())
+                                subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col1UniqueId).ToList();
+                            break;
+                        }
+                        case 1:
+                        {
+                            if (!string.IsNullOrEmpty(block.Col2Id))
+                                columnId = block.Col2Id;
+                            if (!string.IsNullOrEmpty(block.Col2UniqueId))
+                                blockColumnUniqueId = block.Col2UniqueId;
+                            if (!string.IsNullOrEmpty(block.Col2Class))
+                                columnClass = block.Col2Class;
+                            if (block.SubBlocks != null && block.SubBlocks.Any())
+                                subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col2UniqueId).ToList();
+                            break;
+                        }
+                        case 2:
+                        {
+                            if (!string.IsNullOrEmpty(block.Col3Id))
+                                columnId = block.Col3Id;
+                            if (!string.IsNullOrEmpty(block.Col3UniqueId))
+                                blockColumnUniqueId = block.Col3UniqueId;
+                            if (!string.IsNullOrEmpty(block.Col3Class))
+                                columnClass = block.Col3Class;
+                            if (block.SubBlocks != null && block.SubBlocks.Any())
+                                subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col3UniqueId).ToList();
+                            break;
+                        }
+                        case 3:
+                        {
+                            if (!string.IsNullOrEmpty(block.Col4Id))
+                                columnId = block.Col4Id;
+                            if (!string.IsNullOrEmpty(block.Col4UniqueId))
+                                blockColumnUniqueId = block.Col4UniqueId;
+                            if (!string.IsNullOrEmpty(block.Col4Class))
+                                columnClass = block.Col4Class;
+                            if (block.SubBlocks != null && block.SubBlocks.Any())
+                                subBlocks = block.SubBlocks.Where(o => !string.IsNullOrEmpty(o.ParentColumnUniqueId) && o.ParentColumnUniqueId == block.Col4UniqueId).ToList();
+                            break;
+                        }
+                    }
+
+                    <div id="@columnId" class="@columnClass">
+                        @if (subBlocks.Any())
+                        {
+                            foreach (var subBlock in  subBlocks)
+                            {
+                                @await Html.PartialAsync("_PageBlock.cshtml", new PageBlockWidgetViewModel(subBlock, Model.Widgets))
+                            }
+                        }
+                        else
+                        {
+                            if (Model.Widgets != null && Model.Widgets.Any())
+                            {
+                                var widgetsByCol = Model.Widgets.Where(o => o.PageBlockColumnId == blockColumnUniqueId).ToList();
+                                if (widgetsByCol.Any())
+                                {
+                                    foreach (var wg in widgetsByCol.Where(wg => Selector.SelectComponent(wg.WidgetActionName) != null))
+                                    {
+                                        @await Component.InvokeAsync(wg.WidgetActionName, new {pageWidgetId = wg.Id})
+                                    }
+                                }
+                            }
+                        }
+                    </div>
+                }
+            }
+            break;
+        }
+    }
+}

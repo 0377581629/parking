@@ -1,0 +1,32 @@
+﻿@model Zero.Web.Areas.Cms.Models.Menu.CreateOrEditMenuViewModel
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(Model.IsEditMode ? L("Edit") : L("Create")))
+
+<div class="modal-body">
+    <div id="MenuInformationsTab">
+        <form name="MenuInformationsForm" role="form" novalidate class="form-validation">
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.ParentId)
+            <div class="row mb-10">
+                <input type="hidden" name="code" value="@Model.Code" />
+                <input type="hidden" name="menuGroupId" value="@Model.MenuGroupId" />
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>
+                            @L("Name") <span class="text-danger">*</span>
+                        </label>
+                        <input id="Name" class="form-control" type="text" name="name" value="@Model.Name" required maxlength="@ZeroConst.MaxStrLength">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>@L("Url")</label>
+                        <input id="Url" class="form-control" type="text" name="url" value="@Model.Url">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@await Html.PartialAsync("~/Areas/App/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")

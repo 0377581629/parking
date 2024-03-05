@@ -1,0 +1,95 @@
+@model Zero.Web.Models.FrontPages.Contact.ContactViewModel
+
+<div class="page-content pt-50">
+    <section class="container mb-50 d-none d-md-block">
+        <div class="border-radius-15 overflow-hidden">
+            <div id="map-panes" class="leaflet-map"></div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <section class="mb-50">
+                    <div class="row mb-60">
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <h4 class="mb-15 text-brand">@L("FP_Office")</h4>
+                            @Model.ConfigurePark.Address
+                            <br/>
+                            <abbr title="Phone">Điện thoại:</abbr> @Model.ConfigurePark.Hotline<br>
+                            <abbr title="Email">Email:</abbr> @Model.ConfigurePark.Email<br>
+                            <a class="btn btn-sm font-weight-bold text-white mt-20 border-radius-5 btn-shadow-brand hover-up btnViewInMap" address="@Model.ConfigurePark.Address" marker-title="@L("FP_Office")" is-head="true">
+                                <i class="fi-rs-marker mr-5"></i>@L("FP_ViewInMap")
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <h4 class="mb-15 text-brand">@L("FP_SubAddress1")</h4>
+                            @Model.ConfigurePark.SubAddress1
+                            <br/>
+                            <abbr title="Phone">Điện thoại:</abbr> @Model.ConfigurePark.Hotline<br>
+                            <abbr title="Email">Email:</abbr> @Model.ConfigurePark.Email<br>
+                            <a class="btn btn-sm font-weight-bold text-white mt-20 border-radius-5 btn-shadow-brand hover-up btnViewInMap" address="@Model.ConfigurePark.SubAddress1" marker-title="@L("FP_SubAddress1")">
+                                <i class="fi-rs-marker mr-5"></i>@L("FP_ViewInMap")
+                            </a>
+                        </div>
+                        <div class="col-md-4 mb-4 mb-md-0">
+                            <h4 class="mb-15 text-brand">@L("FP_SubAddress2")</h4>
+                            @Model.ConfigurePark.SubAddress2
+                            <br/>
+                            <abbr title="Phone">Điện thoại:</abbr> @Model.ConfigurePark.Hotline<br>
+                            <abbr title="Email">Email:</abbr> @Model.ConfigurePark.Email<br>
+                            <a class="btn btn-sm font-weight-bold text-white mt-20 border-radius-5 btn-shadow-brand hover-up btnViewInMap" address="@Model.ConfigurePark.SubAddress2" marker-title="@L("FP_SubAddress2")">
+                                <i class="fi-rs-marker mr-5"></i>@L("FP_ViewInMap")
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-8">
+                            <div class="contact-from-area padding-20-row-col">
+                                <h2 class="mb-10">Thông tin của bạn</h2>
+                                <p class="text-muted mb-30 font-sm">Để lại thông tin yêu cầu hỗ trợ của bạn, chúng tôi sẽ liên lạc lại với bạn sớm nhất *</p>
+                                <form class="contact-form-style mt-30" id="contact-form" action="#" method="post">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input class="form-control" id="UserContact_Name" type="text" placeholder="@L("FP_YourName") *" required/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input class="form-control" id="UserContact_Email" type="text" placeholder="@L("FP_YourEmail")" required/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input class="form-control" id="UserContact_Phone" type="text" placeholder="@L("Phone")" required/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <input class="form-control" id="UserContact_Title" type="text" placeholder="@L("Title")"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12">
+                                            <div class="textarea-style mb-30">
+                                                <div class="form-group">
+                                                    <textarea id="UserContact_Content" name="message" placeholder="@L("FP_YourMessage")"></textarea>
+                                                </div>
+                                            </div>
+                                            <button type="button" value="submit" id="ContactSubmit" class="submit submit-auto-width">
+                                                @L("FP_SendMessage")
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                                <p class="form-messege"></p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 pl-50 d-lg-block d-none">
+                            <img class="border-radius-15 mt-50" src="/Ecommerce/imgs/page/contact-2.png" alt="">
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,250 @@
+﻿namespace Zero.Authorization
+{
+    /// <summary>
+    /// Defines string constants for application's permission names.
+    /// <see cref="AppAuthorizationProvider"/> for permission definitions.
+    /// </summary>
+    public static class AppPermissions
+    {
+        //COMMON PERMISSIONS (FOR BOTH OF TENANTS AND HOST)
+
+        public const string Pages = "Pages";
+
+        public const string Pages_DemoUiComponents = "Pages.DemoUiComponents";
+        public const string Pages_Administration = "Pages.Administration";
+
+        public const string Pages_Administration_Roles = "Pages.Administration.Roles";
+        public const string Pages_Administration_Roles_Create = "Pages.Administration.Roles.Create";
+        public const string Pages_Administration_Roles_Edit = "Pages.Administration.Roles.Edit";
+        public const string Pages_Administration_Roles_Delete = "Pages.Administration.Roles.Delete";
+
+        public const string Pages_Administration_Users = "Pages.Administration.Users";
+        public const string Pages_Administration_Users_Create = "Pages.Administration.Users.Create";
+        public const string Pages_Administration_Users_Edit = "Pages.Administration.Users.Edit";
+        public const string Pages_Administration_Users_Delete = "Pages.Administration.Users.Delete";
+        public const string Pages_Administration_Users_ChangePermissions = "Pages.Administration.Users.ChangePermissions";
+        public const string Pages_Administration_Users_Impersonation = "Pages.Administration.Users.Impersonation";
+        public const string Pages_Administration_Users_Unlock = "Pages.Administration.Users.Unlock";
+
+        public const string Pages_Administration_Languages = "Pages.Administration.Languages";
+        public const string Pages_Administration_Languages_Create = "Pages.Administration.Languages.Create";
+        public const string Pages_Administration_Languages_Edit = "Pages.Administration.Languages.Edit";
+        public const string Pages_Administration_Languages_Delete = "Pages.Administration.Languages.Delete";
+        public const string Pages_Administration_Languages_ChangeTexts = "Pages.Administration.Languages.ChangeTexts";
+
+        public const string Pages_Administration_AuditLogs = "Pages.Administration.AuditLogs";
+
+        public const string Pages_Administration_OrganizationUnits = "Pages.Administration.OrganizationUnits";
+        public const string Pages_Administration_OrganizationUnits_ManageOrganizationTree = "Pages.Administration.OrganizationUnits.ManageOrganizationTree";
+        public const string Pages_Administration_OrganizationUnits_ManageMembers = "Pages.Administration.OrganizationUnits.ManageMembers";
+        public const string Pages_Administration_OrganizationUnits_ManageRoles = "Pages.Administration.OrganizationUnits.ManageRoles";
+
+        public const string Pages_Administration_HangfireDashboard = "Pages.Administration.HangfireDashboard";
+
+        public const string Pages_Administration_UiCustomization = "Pages.Administration.UiCustomization";
+
+        public const string Pages_Administration_WebhookSubscription = "Pages.Administration.WebhookSubscription";
+        public const string Pages_Administration_WebhookSubscription_Create = "Pages.Administration.WebhookSubscription.Create";
+        public const string Pages_Administration_WebhookSubscription_Edit = "Pages.Administration.WebhookSubscription.Edit";
+        public const string Pages_Administration_WebhookSubscription_ChangeActivity = "Pages.Administration.WebhookSubscription.ChangeActivity";
+        public const string Pages_Administration_WebhookSubscription_Detail = "Pages.Administration.WebhookSubscription.Detail";
+        public const string Pages_Administration_Webhook_ListSendAttempts = "Pages.Administration.Webhook.ListSendAttempts";
+        public const string Pages_Administration_Webhook_ResendWebhook = "Pages.Administration.Webhook.ResendWebhook";
+
+        public const string Pages_Administration_DynamicProperties = "Pages.Administration.DynamicProperties";
+        public const string Pages_Administration_DynamicProperties_Create = "Pages.Administration.DynamicProperties.Create";
+        public const string Pages_Administration_DynamicProperties_Edit = "Pages.Administration.DynamicProperties.Edit";
+        public const string Pages_Administration_DynamicProperties_Delete = "Pages.Administration.DynamicProperties.Delete";
+
+        public const string Pages_Administration_DynamicPropertyValue = "Pages.Administration.DynamicPropertyValue";
+        public const string Pages_Administration_DynamicPropertyValue_Create = "Pages.Administration.DynamicPropertyValue.Create";
+        public const string Pages_Administration_DynamicPropertyValue_Edit = "Pages.Administration.DynamicPropertyValue.Edit";
+        public const string Pages_Administration_DynamicPropertyValue_Delete = "Pages.Administration.DynamicPropertyValue.Delete";
+
+        public const string Pages_Administration_DynamicEntityProperties = "Pages.Administration.DynamicEntityProperties";
+        public const string Pages_Administration_DynamicEntityProperties_Create = "Pages.Administration.DynamicEntityProperties.Create";
+        public const string Pages_Administration_DynamicEntityProperties_Edit = "Pages.Administration.DynamicEntityProperties.Edit";
+        public const string Pages_Administration_DynamicEntityProperties_Delete = "Pages.Administration.DynamicEntityProperties.Delete";
+
+        public const string Pages_Administration_DynamicEntityPropertyValue = "Pages.Administration.DynamicEntityPropertyValue";
+        public const string Pages_Administration_DynamicEntityPropertyValue_Create = "Pages.Administration.DynamicEntityPropertyValue.Create";
+        public const string Pages_Administration_DynamicEntityPropertyValue_Edit = "Pages.Administration.DynamicEntityPropertyValue.Edit";
+        public const string Pages_Administration_DynamicEntityPropertyValue_Delete = "Pages.Administration.DynamicEntityPropertyValue.Delete";
+        
+        //TENANT-SPECIFIC PERMISSIONS
+
+        public const string Pages_Tenant_Dashboard = "Pages.Tenant.Dashboard";
+
+        public const string Pages_Administration_Tenant_Settings = "Pages.Administration.Tenant.Settings";
+
+        public const string Pages_Administration_Tenant_SubscriptionManagement = "Pages.Administration.Tenant.SubscriptionManagement";
+
+        //HOST-SPECIFIC PERMISSIONS
+
+        public const string Pages_Editions = "Pages.Editions";
+        public const string Pages_Editions_Create = "Pages.Editions.Create";
+        public const string Pages_Editions_Edit = "Pages.Editions.Edit";
+        public const string Pages_Editions_Delete = "Pages.Editions.Delete";
+        public const string Pages_Editions_MoveTenantsToAnotherEdition = "Pages.Editions.MoveTenantsToAnotherEdition";
+
+        public const string Pages_Tenants = "Pages.Tenants";
+        public const string Pages_Tenants_Create = "Pages.Tenants.Create";
+        public const string Pages_Tenants_Edit = "Pages.Tenants.Edit";
+        public const string Pages_Tenants_ChangeFeatures = "Pages.Tenants.ChangeFeatures";
+        public const string Pages_Tenants_Delete = "Pages.Tenants.Delete";
+        public const string Pages_Tenants_Impersonation = "Pages.Tenants.Impersonation";
+
+        public const string Pages_Administration_Host_Maintenance = "Pages.Administration.Host.Maintenance";
+        public const string Pages_Administration_Host_Settings = "Pages.Administration.Host.Settings";
+        public const string Pages_Administration_Host_Dashboard = "Pages.Administration.Host.Dashboard";
+
+        #region Abp Customize
+        public const string Dashboard = "Pages.Dashboard";
+        
+        public const string DashboardWidget = "Pages.DashboardWidget";
+        public const string DashboardWidget_Create = "Pages.DashboardWidget.Create";
+        public const string DashboardWidget_Edit = "Pages.DashboardWidget.Edit";
+        public const string DashboardWidget_Delete = "Pages.DashboardWidget.Delete";
+        
+        public const string Pages_EmailTemplates = "Pages.EmailTemplates";
+        public const string Pages_EmailTemplates_Create = "Pages.EmailTemplates.Create";
+        public const string Pages_EmailTemplates_Edit = "Pages.EmailTemplates.Edit";
+        public const string Pages_EmailTemplates_Delete = "Pages.EmailTemplates.Delete";
+
+        public const string CurrencyRate = "Pages.CurrencyRate";
+        public const string CurrencyRate_Create = "Pages.CurrencyRate.Create";
+        public const string CurrencyRate_Edit = "Pages.CurrencyRate.Edit";
+        public const string CurrencyRate_Delete = "Pages.CurrencyRate.Delete";
+        
+        #endregion
+    }
+    
+    public static class CmsPermissions
+    {
+        public static string Settings = "Cms.Settings";
+        
+        public const string ImageBlockGroup = "Cms.ImageBlockGroup";
+        public const string ImageBlockGroup_Create = "Cms.ImageBlockGroup.Create";
+        public const string ImageBlockGroup_Edit = "Cms.ImageBlockGroup.Edit";
+        public const string ImageBlockGroup_Delete = "Cms.ImageBlockGroup.Delete";
+        
+        public const string ImageBlock = "Cms.ImageBlock";
+        public const string ImageBlock_Create = "Cms.ImageBlock.Create";
+        public const string ImageBlock_Edit = "Cms.ImageBlock.Edit";
+        public const string ImageBlock_Delete = "Cms.ImageBlock.Delete";
+        
+        public const string Page = "Cms.Page";
+        public const string Page_Create = "Cms.Page.Create";
+        public const string Page_Edit = "Cms.Page.Edit";
+        public const string Page_Delete = "Cms.Page.Delete";
+        
+        public const string PageLayout = "Cms.PageLayout";
+        public const string PageLayout_Create = "Cms.PageLayout.Create";
+        public const string PageLayout_Edit = "Cms.PageLayout.Edit";
+        public const string PageLayout_Delete = "Cms.PageLayout.Delete";
+        
+        public const string Widget = "Cms.Widget";
+        public const string Widget_Create = "Cms.Widget.Create";
+        public const string Widget_Edit = "Cms.Widget.Edit";
+        public const string Widget_Delete = "Cms.Widget.Delete";
+        
+        public const string Post = "Cms.Post";
+        public const string Post_Publish = "Cms.Post.Publish";
+        public const string Post_Create = "Cms.Post.Create";
+        public const string Post_Edit = "Cms.Post.Edit";
+        public const string Post_Delete = "Cms.Post.Delete";
+        
+        public const string MenuGroup = "Cms.MenuGroup";
+        public const string MenuGroup_Create = "Cms.MenuGroup.Create";
+        public const string MenuGroup_Edit = "Cms.MenuGroup.Edit";
+        public const string MenuGroup_Delete = "Cms.MenuGroup.Delete";
+        
+        public const string Menu = "Cms.Menu";
+        public const string Menu_Create = "Cms.Menu.Create";
+        public const string Menu_Edit = "Cms.Menu.Edit";
+        public const string Menu_Delete = "Cms.Menu.Delete";
+    }
+    
+    public static class ParkPermissions
+    {
+        public const string ConfigurePark = "Park.ConfigurePark";
+
+        public const string History = "Park.History";
+        public const string History_Create = "Park.History.Create";
+        public const string History_Edit = "Park.History.Edit";
+        public const string History_Delete = "Park.History.Delete";
+
+        #region CardMenu
+        public const string CardMenu = "Park.CardMenu";
+
+        public const string CardType = "Park.CardType";
+        public const string CardType_Create = "Park.CardType.Create";
+        public const string CardType_Edit = "Park.CardType.Edit";
+        public const string CardType_Delete = "Park.CardType.Delete";
+        
+        public const string Card = "Park.Card";
+        public const string Card_Create = "Park.Card.Create";
+        public const string Card_Edit = "Park.Card.Edit";
+        public const string Card_Delete = "Park.Card.Delete";
+
+        #endregion
+        
+        public const string VehicleType = "Park.VehicleType";
+        public const string VehicleType_Create = "Park.VehicleType.Create";
+        public const string VehicleType_Edit = "Park.VehicleType.Edit";
+        public const string VehicleType_Delete = "Park.VehicleType.Delete";
+        
+        public const string Fare = "Park.Fare";
+        public const string Fare_Create = "Park.Fare.Create";
+        public const string Fare_Edit = "Park.Fare.Edit";
+        public const string Fare_Delete = "Park.Fare.Delete";
+
+        #region Student
+
+        public const string StudentMenu = "Park.StudentMenu";
+        
+        public const string Student = "Park.Student";
+        public const string Student_Create = "Park.Student.Create";
+        public const string Student_Edit = "Park.Student.Edit";
+        public const string Student_Delete = "Park.Student.Delete";
+
+        #endregion
+
+        #region Order
+
+        public const string OrderMenu = "Park.OrderMenu";
+        
+        public const string Order = "Park.Order";
+        public const string Order_Create = "Park.Order.Create";
+        public const string Order_Edit = "Park.Order.Edit";
+        public const string Order_Delete = "Park.Order.Delete";
+
+        #endregion
+
+        #region Contact
+
+        public const string ContactMenu = "Park.ContactMenu";
+        
+        public const string UserContact = "Park.UserContact";
+        public const string UserContact_Create = "Park.UserContact.Create";
+        public const string UserContact_Edit = "Park.UserContact.Edit";
+        public const string UserContact_Delete = "Park.UserContact.Delete";
+
+        #endregion
+        
+    }
+
+    public static class ReportPermissions
+    {
+        public const string Reports = "Reports";
+
+        #region Student
+        
+        public const string StudentReports = "Reports.StudentReports";
+        public const string StudentRenewCardReport = "Reports.StudentRenewCardReport";
+
+        #endregion
+        
+        
+    }
+}

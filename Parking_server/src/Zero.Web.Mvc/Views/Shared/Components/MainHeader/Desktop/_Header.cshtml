@@ -1,0 +1,95 @@
+﻿@using Zero
+@using Zero.Authorization
+@model Zero.Web.Views.Shared.Components.MainHeader.HeaderViewModel
+
+<header class="header-area header-style-1 header-height-2">
+
+    <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+        <div class="container">
+            <div class="header-wrap">
+                <div class="logo logo-width-1">
+                    <a href="/">
+                        <img src="/Ecommerce/imgs/theme/logo_hust.png" alt="logo"/>
+                    </a>
+                </div>
+                <div class="header-right">
+                    <div class="search-style-2">
+                        <h1 style="text-align: center; color: #c02135">Đại Học Bách Khoa Hà Nội</h1>
+                    </div>
+                    <div class="header-action-right">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="#">
+                                    <img class="svgInject" alt="Nest" src="/Ecommerce/imgs/theme/icons/icon-user.svg"/>
+                                </a>
+                                <a href="#">
+                                    <span class="lable ml-0">
+                                        @(Model.LoginInformation?.User != null ? Model.GetShownLoginName : L("FP_Account"))
+                                    </span>
+                                </a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                    <ul>
+                                        @if (Model.LoginInformation?.User != null)
+                                        {
+                                            @if (IsGranted(AppPermissions.Dashboard))
+                                            {
+                                                <li>
+                                                    <a href="@(Model.AdminWebSiteRootAddress)App/Dashboard" style="">
+                                                        <i class="fi fi-rs-settings mr-10"></i>@L("FP_SystemManager")
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="@FrontPagePrefix.Account">
+                                                        <i class="fi fi-rs-user mr-10"></i>@L("FP_AccountInfo")
+                                                    </a>
+                                                </li>
+                                            }
+                                            <li>
+                                                <a href="/Account/Logout?returnUrl=/trang-chu">
+                                                    <i class="fi fi-rs-sign-out mr-10"></i>@L("Logout")
+                                                </a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a href="@FrontPagePrefix.Login">
+                                                    <i class="fi fi-rs-user mr-10"></i>@L("Login")
+                                                </a>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-bottom header-bottom-bg-color sticky-bar">
+        <div class="container">
+            <div class="header-wrap header-space-between position-relative">
+                <div class="logo logo-width-1 d-block d-lg-none">
+                    <a href="/">
+                        <img src="/Ecommerce/imgs/theme/logo.svg" alt="logo"/>
+                    </a>
+                </div>
+                <div class="header-nav d-none d-lg-flex">
+                    @await Html.PartialAsync("Components/MainHeader/Desktop/_Menus", Model.Menus)
+                </div>
+                <div class="hotline d-none d-lg-flex">
+                    <img src="/Ecommerce/imgs/theme/icons/icon-headphone.svg" alt="hotline"/>
+                    <p class="text-center">
+                        @Model.ConfigurePark.Hotline<span>@L("FP_Connect247")</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</header>
