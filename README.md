@@ -1,34 +1,34 @@
 # Webapp : Parking_server
 
-## Cài đặt và load thư viện
+## Setting and load library
 
-Trỏ terminal vào thư mục src/zero.web.mvc và sử dụng câu lệnh
+cd to src/zero.web.mvc and run 
 
 ```cmd
 npm install -g yarn
 yarn install
 ```
 
-## Tạo Database
+## Create Database
 
-Cấu hình đường dẫn đến database trong file appsetting.json
-Vào terminal, cd vào src/entityframeworkcore, chạy lệnh
+Config connection string to your database in file appsetting.json
+cd to src/entityframeworkcore and run
 
 ```cmd
 dotnet ef database update
 ```
 
-## Build giao diện
+## Build UI
 
-cd vào thư mục src/zero.web.mvc và sử dụng câu lệnh
+cd to src/zero.web.mvc and run
 
 ```cmd
 gulp buildDev
 ```
 
-## Chạy Project zero.web.mvc
+## Run Project zero.web.mvc to open web app
 
-cd vào thư mục src/zero.web.mvc và sử dụng câu lệnh
+cd to src/zero.web.mvc and run
 
 ```cmd
 dotnet run
@@ -36,21 +36,21 @@ dotnet run
 
 # Winform app : Parking_client
 
-Cấu hình đường dẫn đến database, kết nối barie, kết nối đầu đọc thẻ, kết nối camera trong file app.config sau đó chạy project
+Config connection string to database, connect barie, config card reader, config camera in file app.config and run project after that
 
-# Nhận diện biển số xe: License-plate-flask
+# License plate detection and recognition: License-plate-flask
 
-## Cài đặt virtualenv
+## Setting virtualenv
 
-Vào terminal mặc định trên máy tính, chạy lệnh
+Run this cmd in your computer
 
 ```cmd
 pip install virtualenv
 ```
 
-## Tạo môi trường ảo cho project
+## create virtual environment for project
 
-Vào terminal, cd vào project folder, chạy lệnh
+cd to project folder and run
 
 ```cmd
 python -m venv venv
@@ -58,15 +58,15 @@ cd venv/Script
 Activate.ps1
 ```
 
-## Install các thư viện cần thiết để chạy project
+## Install essential library to run project
 
-cd vào thư mục chứa project và chạy câu lệnh trong terminal
+cd to the folder contain project and run
 
 ```cmd
 pip install -r requirements.txt
 ```
 
-## Chạy Project
+## Run Project
 
 ```cmd
 py app.py
